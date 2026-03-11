@@ -1,221 +1,106 @@
-<!--
-TEMPLATE - Project Idea Pitch Issue
 
-How to use this template:
-
-1. One team member creates this Issue.
-2. The team fills in all sections together.
-3. Keep answers short and clear.
-4. Link this Issue in your Sprint Packet if the idea changes later.
-
-Purpose:
-- Help the instructor review project ideas early
-- Make sure the project is demoable, feasible, and well scoped
--->
 
 # Project Idea Pitch
 
-## Team
+# Team
 
 **Team Name**
-
-[Team name]
+FreeSewa Team
 
 **Members**
 
-- [Member 1]
-- [Member 2]
-- [Member 3]
-- [Member 4]
+* Swarnim
+* Sujan
+* Sujan T
+* Ram
+* mohan
 
-**Repository (if created)**
-
-[GitHub repository link]
-
+Repository (if created)
+[https://github.com/CapstoneDesign-Spring2026-UlsanCollege/freesewaa](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/freesewaa)
 
 ---
 
 # 1. Project Title
 
-[Short project title]
-
-Example:
-
-Campus Study Room Finder
+FreeSewa – Community Sharing Platform
 
 
----
 
 # 2. Problem
 
-Describe the **real problem** your project solves.
+Many people throw away usable items such as clothes, accessories, books, and even food when they buy new ones. At the same time, many needy people cannot afford these basic items. There is no simple platform that connects donors who want to give away items with people who need them. As a result, usable resources are wasted while others struggle to obtain them.
 
-Focus on a situation someone experiences.
-
-Example:
-
-> Students often struggle to find available study rooms on campus. Rooms may be empty but still marked as reserved.
-
-Your answer:
-
-[2-4 sentences]
-
-
----
 
 # 3. Target Users
 
-Who will use this system?
+The main users of the system will be:
 
-Examples:
+* People who want to donate second-hand items
+* Needy individuals who require clothes, food, or other essentials
+* Community volunteers who help distribute items
 
-- students
-- teachers
-- small businesses
-- mobile users
-
-Your users:
-
-[Describe the main users]
-
-
----
 
 # 4. What the System Will Do
 
-Explain **what the system will allow users to do**.
-
-Example:
-
-> Users can see available study rooms and reserve them for a time slot.
-
-Your description:
-
-[2-4 sentences]
-
+The system will allow users to donate items they no longer need and make them available for others who require them. Donors can post items such as clothes, food, books, or accessories. Users in need can browse available items and request them. This platform will help reduce waste and support people who need essential items.
 
 ---
 
 # 5. Core Features (First Version)
 
-List **3-5 key features**.
+* User registration and login
+* Post items for donation (clothes, food, accessories, etc.)
+* Browse available donated items
+* Request or claim available items
+* Simple dashboard showing donated and requested items
 
-These should be realistic to build in one semester.
-
-Example:
-
-- View available rooms
-- Reserve a room
-- Cancel reservation
-- Show room schedule
-
-Your features:
-
-- [Feature 1]
-- [Feature 2]
-- [Feature 3]
-- [Feature 4]
-- [Feature 5]
-
----
 
 # 6. Demo Scenario
 
-Describe **exactly what will happen during your demo**.
+Step 1
+User opens the FreeSewa website.
 
-Example:
+Step 2
+A donor logs in and posts a donation item (e.g., clothes or food).
 
-Step 1  
-User opens the website.
+Step 3
+Another user browses available donations.
 
-Step 2  
-User views available study rooms.
-
-Step 3  
-User reserves a room.
-
-Step 4  
-Reservation appears on the schedule.
-
-Your demo:
-
-Step 1:
-Step 2:
-Step 3:
-Step 4:
+Step 4
+The user requests the item and it is marked as claimed in the system.
 
 
----
 
 # 7. Minimum Viable Product (MVP)
 
-Describe the **smallest version of your system that still works**.
-
-Your MVP should:
-
-- demonstrate the core idea
-- be easy to demo
-- be achievable early in the semester
-
-Your MVP:
-
-[Describe the smallest working version]
+The MVP will be a simple website where users can register, log in, and post items they want to donate. Other users can browse the available items and request them. The system will store item information and show which items are available or already claimed.
 
 
----
 
 # 8. Technology Plan
 
-List the tools you expect to use.
+| Area     | Tool                  |
+| -------- | --------------------- |
+| Frontend | HTML, CSS, JavaScript |
+| Backend  | Node.js / Express     |
+| Database | MySQL                 |
+| Hosting  | GitHub / Local Server |
 
-| Area | Tool |
-| --- | --- |
-| Frontend | |
-| Backend | |
-| Database | |
-| Hosting | |
 
----
 
 # 9. Risks or Unknowns
 
-List anything that might make the project difficult.
+* Managing user authentication and security
+* Handling multiple requests for the same item
+* Designing a simple but clear user interface
 
-Examples:
-
-- new technology
-- unclear requirements
-- integration challenges
-
-Your risks:
-
-- [Risk 1]
-- [Risk 2]
-- [Risk 3]
-
----
 
 # 10. Scope Check
 
-Confirm that your project is:
+* [x] Demoable
+* [x] Feasible
+* [x] Well scoped
 
-- [ ] Demoable  
-- [ ] Feasible  
-- [ ] Well scoped  
+Explanation:
+The project focuses on a simple donation platform with basic features that can be built within one semester and demonstrated easily.
 
-If any of these are uncertain, explain:
-
-[short explanation]
-
-
----
-
-# Instructor Review (leave blank)
-
-Comments:
-
-[instructor feedback]
-
-Suggested changes:
-
-[instructor suggestions]
