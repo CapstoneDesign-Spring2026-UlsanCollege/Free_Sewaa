@@ -26,11 +26,11 @@ Our project idea may improve or change during the semester, but it should always
 
 | Name | Role Rotation (first week) |
 | --- | --- |
-|Tamang Sujan | |
-|Pathak Ram | |
-|Shrestha Sujan | |
-|Karki Jung Swarnim | |
-|Khadka Mohan | |
+|Tamang Sujan |Scribe |
+|Pathak Ram |Project Manager (PM) |
+|Shrestha Sujan |QA Lead |
+|Karki Jung Swarnim |Demo Driver |
+|Khadka Mohan |Technical Lead |
 
 ---
 
@@ -134,6 +134,7 @@ Examples:
 | Hosting | Github |
 
 ---
+
 
 
 
