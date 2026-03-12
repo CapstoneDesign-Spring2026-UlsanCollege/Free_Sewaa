@@ -13,7 +13,7 @@ Free Sewaa Team
 - Karki Swarnim Jung
 
 ### Repository
-[Add your GitHub repository link here]
+https://github.com/CapstoneDesign-Spring2026-UlsanCollege/freesewaa
 
 ---
 
