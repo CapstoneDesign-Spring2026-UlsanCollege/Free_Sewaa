@@ -4,11 +4,11 @@ This document explains what our team is going to build and why it is important.
 
 Our project idea may improve or change during the semester, but it should always answer these three questions:
 
-What problem are we solving?
+1.What problem are we solving?
 
-What will our system do?
+2.What will our system do?
 
-What will we show in the final demo?
+3.What will we show in the final demo?
 
 ---
 
@@ -20,7 +20,7 @@ What will we show in the final demo?
 
 **Repository**
 
-[GitHub repository link]
+[https://github.com/CapstoneDesign-Spring2026-UlsanCollege/freesewaa](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/freesewaa]
 
 **Team Members**
 
@@ -53,13 +53,13 @@ Our project FREESEWA tries to solve this problem by creating a platform where pe
 
 The main users of this system are:
 
--Students
+- Students
 
--People living in the community
+- People living in the community
 
--People who want to give away items
+- People who want to give away items
 
--People who need items but cannot buy them
+- People who need items but cannot buy them
 
 These users can easily share or request items through the app.
 
@@ -75,15 +75,15 @@ This system will help reduce waste and help people who need useful items.
 
 # Core Features (First Version)
 
--Post an item for free
+- Post an item for free
 
--Browse available items
+- Browse available items
 
--Request an item
+- Request an item
 
--View item details (description, photo, location)
+- View item details (description, photo, location)
 
--Mark item as given or unavailable
+- Mark item as given or unavailable
 
 ---
 
@@ -108,15 +108,15 @@ This version will show the basic idea of the system and allow a simple demo.
 
 If we have more time, we want to add:
 
--User login system
+- User login system
 
--Image upload for items
+- Image upload for items
 
--Notifications when someone requests an item
+- Notifications when someone requests an item
 
--Search function for items
+- Search function for items
 
--Mobile friendly design
+- Mobile friendly design
 
 ---
 
@@ -134,5 +134,6 @@ Examples:
 | Hosting | Github |
 
 ---
+
 
 
