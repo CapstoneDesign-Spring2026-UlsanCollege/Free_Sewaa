@@ -1,6 +1,4 @@
 
-# CONTRIBUTING.md — Free Sewaa Project
-
 ## Introduction
 
 Thank you for your interest in contributing to the **Free Sewaa project**.
