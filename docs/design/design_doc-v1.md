@@ -1,58 +1,77 @@
-# DESIGN_DOC_V1.md
+# GUIDE - Design Doc v1
 
-## Project Overview
-This document provides the design specifications for the Free Sewaa project. The aim is to create a user-friendly application that helps users manage and share their sewing projects effectively.
+## Purpose
+Design Doc v1 is the **shared build reference** for Sprint 1.
 
-## User Personas
-1. **Beginner Sewist**  
-   - Age: 20-30  
-   - Goals: Learn sewing basics, seek inspiration, manage projects.  
-   - Pain Points: Lack of guidance, overwhelming features.
+It is not a long report. It is a short, useful planning document that helps your team agree on what you are building first.
 
-2. **Experienced Sewist**  
-   - Age: 30-50  
-   - Goals: Share projects, connect with others, teach beginners.  
-   - Pain Points: Limited community engagement, need for advanced tools.
+## What this doc should do
+A good Design Doc v1 should make these things clear:
+- what the product does
+- who it is for
+- what the MVP includes right now
+- how the main system fits together
+- what the main screens are
+- what Sprint 1 will build first
+- what is deliberately out of scope
 
-## User Flows
-1. **Registration/Login Flow**  
-   - User visits login page.  
-   - User enters credentials.  
-   - User lands on dashboard after login.
+## Required sections
+### 1) Project purpose
+One short paragraph.
 
-2. **Project Creation Flow**  
-   - User clicks on 'Create New Project'.  
-   - User fills in details (name, description, materials).  
-   - User clicks 'Save' and project is created.
+### 2) Target users
+Who uses it? Keep it concrete.
 
-## Wireframe Descriptions
-- **Homepage**: Features a navigation bar, project showcase, and user stats.
-- **Project Page**: Displays project details, edit options, and community feedback section.
+### 3) MVP scope
+What is included now? What is not included now?
 
-## Color Palette
-- **Primary Color**: #FF5722 (Sunset Orange)  
-- **Secondary Color**: #4CAF50 (Green)  
-- **Background Color**: #FFFFFF (White)  
-- **Text Color**: #212121 (Dark Gray)
+### 4) Architecture sketch
+Use your C4-lite diagram.
 
-## Typography
-- **Heading Font**: 'Roboto', sans-serif  
-- **Body Font**: 'Open Sans', sans-serif
+### 5) Wireframes
+Use your 3 low-fi screens.
 
-## Component Specifications
-1. **Header Component**  
-   - Properties: Logo, Navigation Links, User Profile.
+### 6) Sprint 1 plan
+List the first issues or work chunks.
 
-2. **Project Card Component**  
-   - Properties: Project Image, Project Title, Edit Button.
+### 7) Risks / assumptions
+Name the real risks early.
 
-## Technical Requirements
-- **Frontend**: React.js with Sass for styling.  
-- **Backend**: Node.js with Express.js framework.  
-- **Database**: MongoDB for storing user and project data.  
-- **Authentication**: JWT for secure authentication flow.
+## What good looks like
+A strong Design Doc v1 is:
+- short
+- specific
+- connected to actual Sprint 1 work
+- clear enough for a teammate to start building from it
 
+## What weak docs look like
+Weak docs are:
+- vague
+- full of future features
+- disconnected from the board
+- not linked to issues
+- written like a sales pitch instead of a build plan
 
-**Document Version**: 1.0  
-**Date Created**: 2026-03-25 01:53:24 UTC  
-**Author**: Rampathak12
+## Submission method
+Save this as:
+- `/docs/design-doc-v1.md`
+
+Then link it in:
+- the Weekly Sprint Packet
+- related Sprint 1 issues if useful
+
+## Quick checklist
+- [ ] project purpose is clear
+- [ ] target users are named
+- [ ] MVP scope is small and realistic
+- [ ] architecture sketch is included
+- [ ] 3 wireframes are included
+- [ ] Sprint 1 work is named clearly
+- [ ] risks / assumptions are honest
+- [ ] the doc is short enough to scan quickly
+
+## Final reminder
+Design Doc v1 is supposed to help your team build.
+
+If it only sounds impressive, it failed.
+ create doc v1 based on these
