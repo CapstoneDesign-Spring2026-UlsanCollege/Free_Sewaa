@@ -30,11 +30,10 @@ What will you show during the demo?
 
 Keep it short.
 
-Step 1: Open the Free Sewaa app and explain that it is a community donation platform for giving reusable items to people who need them.
-Step 2: Show the React frontend and the Post Item component integrated into the main app.
-Step 3: Show the current progress on item listing, request workflow, and UI improvements.
-Step 4: Show GitHub issues, pull requests, and the project board as sprint evidence.
-
+Step 1: Open the Free Sewaa application and briefly introduce it as a community donation platform that connects people who want to give away usable items with people who need them.  
+Step 2: Demonstrate the React frontend and show the Post Item component integrated into the main application.  
+Step 3: Present the current progress on item listing, request workflow, and ongoing user interface improvements.  
+Step 4: Show the team’s GitHub issues, pull requests, and project board as evidence of sprint progress and workflow.
 
 ---
 
@@ -43,9 +42,9 @@ Step 4: Show GitHub issues, pull requests, and the project board as sprint evide
 If the live demo fails, what will you show instead?
 
 - recorded demo
-- screenshots of the React app
+- screenshots of the React application
 - screenshots of the project board
-- GitHub issues, pull requests, and commits as evidence
+- GitHub issues, pull requests, and commits as supporting evidence
 
 ---
 
@@ -58,7 +57,7 @@ https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/14/views
 
 ## Sprint Goal
 
-Build a demoable Week 3 frontend MVP for Free Sewaa by setting up the React frontend, integrating the Post Item feature into the main app, improving project structure, and preparing the next item workflow features.
+Build a demoable Week 3 frontend MVP for Free Sewaa by establishing the React frontend, integrating the Post Item feature into the main application, improving project structure, and preparing the next core item workflow features.
 
 ---
 
@@ -82,7 +81,7 @@ List the important issues in each column.
 - React frontend setup
 - Project structure organized
 - Post Item component implemented
-- Integrated PostItem into main App
+- Integrated PostItem into the main App
 - Initial documentation completed
 
 ---
@@ -93,11 +92,11 @@ List the important issues in each column.
 
 What actually worked by the end of the sprint?
 
-- React frontend setup
-- Project structure organized
-- Post Item component implemented
-- Integrated PostItem into main App
-- Initial documentation completed
+- React frontend setup was completed
+- Project structure was organized and improved
+- The Post Item component was implemented
+- The PostItem component was integrated into the main App
+- Initial project documentation was completed
 
 ---
 
@@ -105,9 +104,9 @@ What actually worked by the end of the sprint?
 
 Problems encountered this week.
 
-- Item listing page is still incomplete
-- Request item workflow is not finished yet
-- UI improvements are still in progress
+- The item listing page is still incomplete
+- The request item workflow is not fully finished
+- User interface improvements are still in progress
 - Backend development has not started yet
 
 ---
@@ -116,9 +115,9 @@ Problems encountered this week.
 
 What will the team work on next week?
 
-- Complete item detail view
+- Complete the item detail view
 - Improve item posting form validation
-- Implement request and contact donor confirmation flow
+- Implement the request and contact donor confirmation flow
 
 ---
 
@@ -126,9 +125,9 @@ What will the team work on next week?
 
 Anything that might slow down the project.
 
-- Multiple frontend features are still incomplete
-- The project is still frontend-heavy
-- Live demo may fail, so backup evidence is important
+- Several frontend features are still incomplete
+- The project remains frontend-heavy at this stage
+- A live demo failure would require reliance on backup evidence
 
 ---
 
@@ -149,11 +148,10 @@ Evidence:
 
 Issue-driven GitHub workflow and sprint evidence tracking
 
-https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/22
-https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/13
-https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/23
-https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/24
-
+https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/22  
+https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/13  
+https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/23  
+https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/24  
 
 ---
 
@@ -164,7 +162,6 @@ Each team member must **add a comment on this Issue** with their receipts.
 Minimum:
 
 2-3 links
-
 
 Examples of receipts:
 
