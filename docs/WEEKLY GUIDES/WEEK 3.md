@@ -175,18 +175,3 @@ Examples of receipts:
 
 ---
 
-## Example Receipt Comment
-
-Each student should post a comment like this:
-
-```text
-Contribution Receipts
-
-PR:
-https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/24
-
-Issue completed:
-https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/20
-
-Review comment:
-https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/23
