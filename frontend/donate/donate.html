@@ -1,1 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Donate an Item — Free Sewaa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="donate.css" />
+  </head>
+  <body>
+    <div class="bg-noise"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
 
+    <main class="donate-page">
+      <div class="container">
+
+        <!-- Page Header -->
+        <header class="page-header">
+          <a href="../index.html" class="back-link">
+            <i data-lucide="arrow-left"></i>
+            Back to Home
+          </a>
+          <div class="header-inner">
+            <div class="page-copy">
+              <div class="section-badge">
+                <i data-lucide="gift"></i>
+                Donate an Item
+              </div>
+              <h1>Share What You No Longer Need</h1>
+              <p>
+                List an item you'd like to give away for free. Help someone in your community
+                find exactly what they need.
+              </p>
+            </div>
+          </div>
+        </header>
+
+        <!-- Donate Section -->
+        <section class="donate-section">
+          <div class="donate-grid">
+
+            <!-- Form Panel -->
+            <div class="form-panel glass-card">
+              <div class="panel-head">
+                <h2>Item Details</h2>
+                <p>Fill in the information about the item you want to donate.</p>
+              </div>
+
+              <form id="form" novalidate>
+                <div class="form-grid">
+
+                  <!-- Title -->
+                  <div class="field full">
+                    <label for="title">Item Title</label>
+                    <div class="input-wrap">
+                      <i data-lucide="tag"></i>
+                      <input
+                        type="text"
+                        id="title"
+                        placeholder="e.g. Lightly used winter jacket"
+                        maxlength="60"
+                        autocomplete="off"
+                      />
+                    </div>
+                    <div class="field-meta">
+                      <span class="error" id="titleError"></span>
+                      <span class="count" id="titleCount">0 / 60</span>
+                    </div>
+                  </div>
+
+                  <!-- Category -->
+                  <div class="field">
+                    <label for="category">Category</label>
+                    <div class="input-wrap">
+                      <i data-lucide="layers"></i>
+                      <select id="category">
+                        <option value="">Select category</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Books">Books</option>
+                        <option value="Toys">Toys</option>
+                        <option value="Kitchen">Kitchen</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div class="field-meta">
+                      <span class="error" id="categoryError"></span>
+                    </div>
+                  </div>
+
+                  <!-- Condition -->
+                  <div class="field">
+                    <label for="condition">Condition</label>
+                    <div class="input-wrap">
+                      <i data-lucide="star"></i>
+                      <select id="condition">
+                        <option value="">Select condition</option>
+                        <option value="New">New</option>
+                        <option value="Like New">Like New</option>
+                        <option value="Good">Good</option>
+                        <option value="Fair">Fair</option>
+                        <option value="Poor">Poor</option>
+                      </select>
+                    </div>
+                    <div class="field-meta">
+                      <span class="error" id="conditionError"></span>
+                    </div>
+                  </div>
+
+                  <!-- Description -->
+                  <div class="field full">
+                    <label for="desc">Description</label>
+                    <div class="textarea-wrap">
+                      <textarea
+                        id="desc"
+                        placeholder="Describe the item — its size, color, any wear or damage, and why you're giving it away."
+                        maxlength="220"
+                      ></textarea>
+                    </div>
+                    <div class="field-meta">
+                      <span class="error" id="descError"></span>
+                      <span class="count" id="descCount">0 / 220</span>
+                    </div>
+                  </div>
+
+                  <!-- Location -->
+                  <div class="field">
+                    <label for="location">Location</label>
+                    <div class="input-wrap">
+                      <i data-lucide="map-pin"></i>
+                      <input
+                        type="text"
+                        id="location"
+                        placeholder="e.g. Ulsan, South Korea"
+                        autocomplete="off"
+                      />
+                    </div>
+                    <div class="field-meta">
+                      <span class="error" id="locationError"></span>
+                    </div>
+                  </div>
+
+                  <!-- Emoji / Image -->
+                  <div class="field">
+                    <label for="image">Item Emoji</label>
+                    <div class="input-wrap">
+                      <i data-lucide="smile"></i>
+                      <input
+                        type="text"
+                        id="image"
+                        placeholder="e.g. 🧥"
+                        maxlength="4"
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+
+                </div><!-- /.form-grid -->
+
+                <div class="form-actions">
+                  <button type="reset" class="btn btn-outline ripple-btn">
+                    <i data-lucide="rotate-ccw"></i>
+                    Reset
+                  </button>
+                  <button type="submit" class="btn btn-primary ripple-btn">
+                    <i data-lucide="send"></i>
+                    Post Item
+                  </button>
+                </div>
+
+              </form>
+            </div><!-- /.form-panel -->
+
+            <!-- Preview Panel -->
+            <div class="preview-panel">
+
+              <div class="panel-head">
+                <h2>Live Preview</h2>
+                <p>This is how your listing will look to others.</p>
+              </div>
+
+              <div class="preview-card">
+                <div class="preview-media">
+                  <span class="preview-emoji" id="previewEmoji">📦</span>
+                  <span class="preview-badge" id="previewCondition">Condition</span>
+                </div>
+                <div class="preview-body">
+                  <div class="preview-topline">
+                    <span class="preview-category" id="previewCategory">Category</span>
+                    <span class="preview-time">Just now</span>
+                  </div>
+                  <h3 id="previewTitle">Your item title</h3>
+                  <p id="previewDesc">Your item description will appear here as you type.</p>
+                  <p class="preview-location">
+                    <i data-lucide="map-pin"></i>
+                    <span id="previewLocation">Location</span>
+                  </p>
+                  <div class="preview-actions">
+                    <button class="mini-btn primary">Request Item</button>
+                    <button class="mini-btn secondary">Save</button>
+                  </div>
+                </div>
+              </div><!-- /.preview-card -->
+
+              <div class="tips-card">
+                <h3>💡 Tips for a great listing</h3>
+                <ul>
+                  <li>Use a clear, descriptive title so people know what it is at a glance.</li>
+                  <li>Mention size, color, or brand where relevant.</li>
+                  <li>Be honest about any damage or wear.</li>
+                  <li>Add an emoji that represents the item.</li>
+                  <li>Include your neighbourhood or nearest landmark.</li>
+                </ul>
+              </div>
+
+            </div><!-- /.preview-panel -->
+
+          </div><!-- /.donate-grid -->
+        </section>
+
+      </div><!-- /.container -->
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast" role="status" aria-live="polite">
+      <div class="toast-icon">
+        <i data-lucide="check"></i>
+      </div>
+      <div class="toast-body">
+        <strong id="toastTitle"></strong>
+        <p id="toastMessage"></p>
+      </div>
+      <button class="toast-close" id="toastClose" aria-label="Close notification">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="donate.js"></script>
+  </body>
+</html>
