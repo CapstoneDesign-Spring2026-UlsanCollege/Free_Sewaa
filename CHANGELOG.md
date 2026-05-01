@@ -200,4 +200,4 @@ Initial project setup following capstone-team-startup-documents template. Establ
 ---
 
 *Generated for Capstone Design Studio (Spring 2026)*  
-*Last updated: May 2026*
+*Last updated: 2026-05-02*
