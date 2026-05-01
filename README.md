@@ -260,6 +260,8 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 - **Pull Requests:** https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls
 - **Issues:** https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues
 
+> Documentation updated May 2026 (test commit 2)
+
 ---
 
 ## 📋 Development Workflow
