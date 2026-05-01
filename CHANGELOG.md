@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
-- (None yet)
+- Add documentation update entry (test commit 1)
 
 ### Changed
 - (None yet)
