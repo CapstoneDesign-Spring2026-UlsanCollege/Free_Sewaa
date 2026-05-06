@@ -215,31 +215,87 @@ This week we focused on safe Copilot workflow and bug triage:
 
 # 📌 Individual Contribution Receipts
 
-**Each team member must comment below with 2-3 receipts:**
-
-Format:
-```
-## Contribution Receipts - [Name]
-
-- Receipt 1: [link]
-- Receipt 2: [link]
-- Receipt 3: [link]
+## Contribution Receipts - Ram Pathak
+- Receipt 1: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/94
+- Receipt 2: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/7a95e08af5180dc7c32a5a6e82c72651037eeb9a
+- Receipt 3: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/78
 
 ### 1-sentence contribution summary:
-[What you did]
+Created P0 bug issue for password hashing and worked on backend API integration.
 
 ### AI Use Note:
-- AI tool used: [Copilot/ChatGPT/Claude/none]
-- What AI helped with: [specific task]
-- What I personally checked or changed: [your work]
-- How I tested or verified it: [test method]
-- One thing I still don't fully understand: [be honest]
-```
+- AI tool used: Copilot
+- What AI helped with: Suggested bcrypt implementation approach
+- What I personally checked or changed: Reviewed auth flow and tested login manually
+- How I tested or verified it: Ran `npm start` and tested with valid/invalid passwords
+- One thing I still don't fully understand: How bcrypt salt rounds affect performance
 
 ---
 
-**Due: Friday 23:59**
+## Contribution Receipts - Sujan Tamang
+- Receipt 1: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/47
+- Receipt 2: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/b519cae0fd3cb3f65e232a93e1c7854921a6136b
+- Receipt 3: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/92
 
-*Created based on professor's Week 10 What To Submit template*
+### 1-sentence contribution summary:
+Fixed CSS/JS linking issues and created Week 7 Sprint Packet.
+
+### AI Use Note:
+- AI tool used: ChatGPT
+- What AI helped with: Debugged CSS linking problem
+- What I personally checked or changed: Verified file paths and tested locally
+- How I tested or verified it: Opened all pages and checked console for errors
+- One thing I still don't fully understand: How to set up Jest tests for backend
+
+---
+
+## Contribution Receipts - Sujan Shrestha
+- Receipt 1: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/40
+- Receipt 2: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/3f0b0c49ba062464514a213af5e41589fe0659c1
+- Receipt 3: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/93
+
+### 1-sentence contribution summary:
+Connected Post Item, Browse Items, and Request Item flows; created communication docs.
+
+### AI Use Note:
+- AI tool used: Copilot
+- What AI helped with: Explained how to connect frontend to backend API
+- What I personally checked or changed: Tested request flow manually
+- How I tested or verified it: Created test item and requested it
+- One thing I still don't fully understand: How backend API error handling works
+
+---
+
+## Contribution Receipts - Mohan Khadka
+- Receipt 1: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/520169a
+- Receipt 2: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/20
+- Receipt 3: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c569313
+
+### 1-sentence contribution summary:
+Contributed to frontend development and tested donation flow features.
+
+### AI Use Note:
+- AI tool used: none
+- What AI helped with: N/A
+- What I personally checked or changed: Tested browse page on mobile devices
+- How I tested or verified it: Used browser dev tools to check responsive design
+- One thing I still don't fully understand: How to add loading states to frontend
+
+---
+
+## Contribution Receipts - Swarnim Jung Karki
+- Receipt 1: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61
+- Receipt 2: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/07288ffe257548a3b0433f71c51dd230331549f6
+- Receipt 3: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95
+
+### 1-sentence contribution summary:
+Created backend API (Node.js/Express) and documented Week 10 requirements.
+
+### AI Use Note:
+- AI tool used: Copilot
+- What AI helped with: Suggested API endpoint structure
+- What I personally checked or changed: Tested all API endpoints with Postman
+- How I tested or verified it: Used Postman to verify each endpoint returns correct data
+- One thing I still don't fully understand: How to set up MongoDB connection pooling
 
 
