@@ -1,8 +1,8 @@
-# Week 9 Evidence — Polish & Testing#
+# Week 7 Evidence — Midterm Preparation#
 
 ## Sprint Packet
 **Issue**: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/22  
-**Packet**: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md#
+**Packet**: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%207.md#
 
 ---
 
@@ -10,11 +10,11 @@
 
 | Item | Link | Status |
 |------|------|--------|
-| Homepage | `week9-homepage.png` | [ ] |
-| Browse page | `week9-browse.png` | [ ] |
-| Donate page | `week9-donate.png` | [ ] |
-| Chat system | `week9-chat.png` | [ ] |
-| Testing log | `week9-testing.png` | [ ] |
+| Homepage | `week7-homepage.png` | [ ] |
+| Browse items | `week7-browse.png` | [ ] |
+| Donate page | `week7-donate.png` | [ ] |
+| Chat system | `week7-chat.png` | [ ] |
+| Backend API | `week7-api.png` | [ ] |
 | Live demo | https://free-sewaa-qh05.onrender.com | ✅ |
 
 ---
@@ -22,29 +22,28 @@
 ## Board Snapshot#
 
 **To Do:**
-- [x] Complete request/contact flow
-- [x] Real-time chat improvements
-- [x] UI consistency fixes
-- [x] Bug fixes
+- [x] Prepare midterm presentation
+- [x] Finalize demo script
+- [x] Test all user flows
 
 **Done:**
 | Task | PR/Commit | Evidence |
 |------|----------|----------|
-| Testing log | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/PROGRESS/TESTING_LOG.md | docs/PROGRESS/ |
-| Bug fixes | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/92 | PR #92 |
-| UI polish | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/ | CSS files |
-| Chat improvements | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/ | js/ |
+| Backend API complete | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61 | PR #61 |
+| MongoDB Atlas setup | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/ | server/ |
+| Demo presentation | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/ | docs/MID-TERM/ |
+| Full user flow | https://free-sewaa-qh05.onrender.com | Live demo |
 
 ---
 
 ## What Shipped#
 
-- Complete request/contact flow (user can request items)
-- Real-time chat system improvements
-- UI consistency across all pages
-- Bug fixes from Week 9 list
-- Testing log documentation (docs/PROGRESS/TESTING_LOG.md)
-- Prepared for Week 10 bug triage
+- Complete backend API (Node.js/Express + MongoDB)
+- Full user flow: signup → browse → request → message
+- MongoDB Atlas connected and configured
+- Demo presentation prepared (docs/MID-TERM/)
+- All team members can explain their code
+- Midterm demo ready
 
 ---
 
@@ -71,20 +70,20 @@
 - Issue: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/93#
 
 ### Mohan Khadka
-- Frontend testing and polish
+- Frontend testing and demo prep
 - Commit: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/520169a
 - Issue: https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/20#
 
 ---
 
-## Engineering Practice: Testing & Polish#
+## Engineering Practice: Midterm Prep#
 
-- Created testing log (docs/PROGRESS/TESTING_LOG.md)
-- Documented all test cases and results
-- Fixed UI consistency issues across pages
-- Improved chat system functionality
-- Prepared bug list for Week 10 triage
+- All code explained by team members
+- Backend API documented in server/README.md
+- Demo script prepared (3-bullet structure)
+- Backup demo plan ready (video/screenshots)
+- Team can run and explain all features
 
 ---
 
-*Week 9 Complete — Ready for Bug Triage*
+*Week 7 Complete — Midterm Ready*
