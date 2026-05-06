@@ -1,8 +1,10 @@
 # TEAM AGREEMENT — Capstone Design
 
-This document matches the [course startup template](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/capstone-team-startup-documents/blob/main/docs/TEAM_AGREEMENT.md) and is the team constitution for **Free Sewaa**. A detailed copy with the same policies lives in [`PROJECT/TEAM_AGREEMENT.md`](PROJECT/TEAM_AGREEMENT.md).
+This document serves as the team constitution for **Free Sewaa**.
 
-Updates require **team agreement** and a **committed change** in this repository.
+It defines how our team will collaborate, make decisions, communicate, and ensure that every member contributes to the project.
+
+This agreement may be updated during the semester if all team members agree and the change is recorded in the repository.
 
 ---
 
