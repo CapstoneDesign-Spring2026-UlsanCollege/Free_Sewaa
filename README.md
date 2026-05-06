@@ -38,11 +38,18 @@ Password:123456
 **Free Sewaa** is a community-based donation platform that enables people to give away usable items for free to those who need them. The mission is to reduce waste, support communities, and make helping others simple and accessible.
 
 ### Features
-- 🔐 User authentication (signup/login)
-- 📦 Browse available donation items
-- 🎁 Post items for donation
-- 📋 Request items
+- 🔐 User authentication (signup/login) with JWT
+- 📦 Browse available donation items with search and category filtering
+- 🎁 Post items for donation with image upload
+- 📋 Request items with contact donor flow
 - 💬 Direct messaging between users
+- 🏠 Premium UI design (Airbnb/Karrot inspired)
+- 📱 Responsive design (mobile/tablet/desktop)
+- 🔧 Backend API (Node.js/Express + MongoDB)
+- 🔎 Admin dashboard for management
+- 📊 User profile dashboard (My Items/My Requests)
+- 🔔 Password hashing with bcrypt (in progress)
+- ✅ Unit testing with Jest (in progress)
 
 ---
 
