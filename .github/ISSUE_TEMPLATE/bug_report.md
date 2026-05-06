@@ -1,31 +1,30 @@
----
-name: Bug Report
-about: Report something that isn't working correctly
-title: "[Bug] "
-labels: bug
-assignees: ''
+# Bug: [short name]
 
----
+## Severity
+P0 / P1 / P2 / P3
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+## What happened?
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '...'
-3. See error
+## Steps to reproduce
+1. 
+2. 
+3. 
 
-**Expected behavior**
-A clear description of what you expected to happen.
+## Expected result?
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+## Actual result?
 
-**Environment (please complete the following):**
-- OS: [e.g., macOS, Windows]
-- Browser: [e.g., Chrome, Firefox]
-- Node version: [e.g., 18.x]
+## Evidence
+- Screenshot: 
+- Error log: 
+- Demo/video: 
+- Related PR: 
 
-**Additional context**
-Add any other context about the problem here.
+## Owner
+
+## Definition of Done
+- [ ] Bug is reproduced
+- [ ] Cause is identified or documented
+- [ ] Fix is made OR next step is clear
+- [ ] Manual test completed
+- [ ] Evidence linked
