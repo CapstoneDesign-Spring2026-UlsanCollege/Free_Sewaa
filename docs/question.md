@@ -93,4 +93,12 @@ Brief summary of progress through Week 5:
 
 ---
 
-*Last Updated: Week 6*
+## Week 7 — Scribe notes (documentation)
+
+- Aligning weekly docs with the Sprint Packet Issue (demo link, board snapshot, sprint notes).
+- Keeping `docs/sprints` and `docs/question.md` traceable for instructor evidence (**if it isn’t linked, it didn’t happen**).
+- Next focus: finish individual contribution receipts on the Week 7 packet and keep deployment/demo links current.
+
+---
+
+*Last Updated: Week 7 (May 2026)*
