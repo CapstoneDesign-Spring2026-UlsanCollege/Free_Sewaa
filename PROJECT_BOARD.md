@@ -119,4 +119,30 @@ Full details: [BUG_ISSUES_TO_CREATE.md](BUG_ISSUES_TO_CREATE.md)
 
 ---
 
-*Last Updated: 2026-04-29*
+## Week 10 Special Requirements
+
+### Bug Triage (Required)
+- Create 2+ P0/P1 bug issues with severity labels
+- Document bugs found in main MVP flow
+- Assign owners to each bug
+- Link evidence (screenshots, logs, PRs)
+
+### Copilot Workflow (Required)
+- Use Issue-based AI workflow: Inspect → Plan → Small Change → Test → PR
+- Include AI Use Note in all AI-assisted PRs
+- Team must understand all code (no mystery code)
+
+### Submission Checklist
+- [ ] Weekly Sprint Packet Issue created
+- [ ] Demo evidence linked (live/video/screenshots)
+- [ ] Board snapshot included (To Do/Doing/Done/Blocked)
+- [ ] 2+ P0/P1 bug issues with evidence
+- [ ] AI Use + Code Ownership Check completed
+- [ ] Individual Contribution Receipts (2-3 per member)
+- [ ] Plan for Week 11 (MVP Verification)
+
+**Due: Friday 23:59**
+
+---
+
+*Last Updated: 2026-05-06*
