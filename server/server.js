@@ -8,6 +8,7 @@ const { MongoClient, ObjectId } = require('mongodb');
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
+const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'free-sewaa';
 
 const PUBLIC_PAGE_ALIASES = {
   '/auth-choice.html': 'auth_choice.html',
@@ -139,6 +140,50 @@ function buildAuthQuery(email = '', phone = '') {
     normalizedEmail,
     normalizedPhone,
     query
+  };
+}
+
+function decodeBase64UrlJson(value = '') {
+  const normalized = String(value).replace(/-/g, '+').replace(/_/g, '/');
+  const padded = normalized.padEnd(normalized.length + ((4 - (normalized.length % 4)) % 4), '=');
+  return JSON.parse(Buffer.from(padded, 'base64').toString('utf8'));
+}
+
+function decodeFirebaseToken(idToken = '') {
+  const parts = String(idToken || '').split('.');
+  if (parts.length < 2) {
+    throw new Error('Invalid Firebase token.');
+  }
+
+  return decodeBase64UrlJson(parts[1]);
+}
+
+function isExpectedFirebaseToken(claims) {
+  const now = Math.floor(Date.now() / 1000);
+  return (
+    claims &&
+    claims.aud === FIREBASE_PROJECT_ID &&
+    claims.iss === `https://securetoken.google.com/${FIREBASE_PROJECT_ID}` &&
+    Number(claims.exp || 0) > now
+  );
+}
+
+function getNameParts({ firstName = '', lastName = '', displayName = '', email = '' } = {}) {
+  const cleanFirst = String(firstName || '').trim();
+  const cleanLast = String(lastName || '').trim();
+  if (cleanFirst || cleanLast) {
+    return { firstName: cleanFirst || 'Member', lastName: cleanLast };
+  }
+
+  const fallbackName =
+    String(displayName || '').trim() ||
+    String(email || '').split('@')[0].replace(/[._-]+/g, ' ').trim() ||
+    'Free Sewaa Member';
+  const parts = fallbackName.split(/\s+/).filter(Boolean);
+
+  return {
+    firstName: parts[0] || 'Member',
+    lastName: parts.slice(1).join(' ')
   };
 }
 
@@ -789,6 +834,92 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, {
         user: safeUser(user),
         auth: { userId: user.id, isAuthenticated: true }
+      });
+    }
+
+    if (pathname === '/api/auth/firebase' && req.method === 'POST') {
+      const { idToken = '', provider = 'firebase', firstName = '', lastName = '', phone = '' } = await readRequestBody(req);
+
+      if (!idToken) {
+        return sendJson(res, 400, { error: 'Firebase token is required.' });
+      }
+
+      let claims;
+      try {
+        claims = decodeFirebaseToken(idToken);
+      } catch (error) {
+        return sendJson(res, 400, { error: 'Invalid Firebase token.' });
+      }
+
+      if (!isExpectedFirebaseToken(claims)) {
+        return sendJson(res, 401, { error: 'Firebase token is expired or does not belong to this app.' });
+      }
+
+      const firebaseUid = String(claims.user_id || claims.sub || '').trim();
+      const email = String(claims.email || '').trim().toLowerCase();
+      const tokenPhone = String(claims.phone_number || phone || '').replace(/\s+/g, '');
+      const authProvider = String(provider || claims.firebase?.sign_in_provider || 'firebase').trim() || 'firebase';
+
+      if (!firebaseUid) {
+        return sendJson(res, 400, { error: 'Firebase token is missing a user id.' });
+      }
+
+      const lookup = [{ firebaseUid }];
+      if (email) lookup.push({ email });
+      if (tokenPhone) lookup.push({ phone: tokenPhone });
+
+      let user = await usersCollection.findOne({ $or: lookup });
+      const nameParts = getNameParts({
+        firstName,
+        lastName,
+        displayName: claims.name || '',
+        email
+      });
+
+      if (user?.isBlocked) {
+        return sendJson(res, 403, { error: 'This account is blocked.' });
+      }
+
+      if (!user) {
+        user = {
+          id: `user-${Date.now()}`,
+          firebaseUid,
+          provider: authProvider,
+          firstName: nameParts.firstName,
+          lastName: nameParts.lastName,
+          name: `${nameParts.firstName} ${nameParts.lastName}`.trim(),
+          city: 'Ulsan',
+          region: 'Nam-gu',
+          role: 'user',
+          createdAt: new Date().toISOString()
+        };
+
+        if (email) user.email = email;
+        if (tokenPhone) user.phone = tokenPhone;
+
+        await usersCollection.insertOne(user);
+        await setUserState(user.id, defaultUserState(user));
+      } else {
+        const updates = {
+          firebaseUid,
+          provider: user.provider || authProvider,
+          updatedAt: new Date().toISOString()
+        };
+
+        if (!user.firstName && nameParts.firstName) updates.firstName = nameParts.firstName;
+        if (!user.lastName && nameParts.lastName) updates.lastName = nameParts.lastName;
+        if (!user.name) updates.name = `${nameParts.firstName} ${nameParts.lastName}`.trim();
+        if (email && !user.email) updates.email = email;
+        if (tokenPhone && !user.phone) updates.phone = tokenPhone;
+
+        await usersCollection.updateOne({ id: user.id }, { $set: updates });
+        user = { ...user, ...updates };
+        await ensureStateForUser(user);
+      }
+
+      return sendJson(res, 200, {
+        user: safeUser(user),
+        auth: { userId: user.id, isAuthenticated: true, role: user.role || 'user' }
       });
     }
 
