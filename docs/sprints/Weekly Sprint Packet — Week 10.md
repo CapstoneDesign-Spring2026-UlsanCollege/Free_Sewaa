@@ -92,13 +92,13 @@ If live demo fails:
 
 Week 10 is complete when:
 
-- [ ] 2+ P0/P1 bug issues created with severity labels
-- [ ] Bug reports include: title, severity, steps, expected/actual, evidence, owner
-- [ ] At least one bug has investigation or fix PR
-- [ ] Safe Copilot Workflow documented (Issue → Inspect → Plan → Small Change → Test → PR → AI Note)
-- [ ] AI Use + Code Ownership Check completed
-- [ ] Weekly Sprint Packet submitted by Friday 23:59
-- [ ] Each team member posts 2-3 contribution receipts in comments
+- [x] 2+ P0/P1 bug issues created with severity labels
+- [x] Bug reports include: title, severity, steps, expected/actual, evidence, owner
+- [x] At least one bug has investigation or fix PR
+- [x] Safe Copilot Workflow documented (Issue → Inspect → Plan → Small Change → Test → PR → AI Note)
+- [x] AI Use + Code Ownership Check completed
+- [x] Weekly Sprint Packet submitted by Friday 23:59
+- [x] Each team member posts 2-3 contribution receipts in comments
 
 ---
 
