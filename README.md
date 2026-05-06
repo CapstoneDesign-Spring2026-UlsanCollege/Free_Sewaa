@@ -299,3 +299,4 @@ This project is licensed under the MIT License.
 
 > To build a platform that connects communities, reduces waste, and helps people in need by making sharing simple and accessible.
 
+
