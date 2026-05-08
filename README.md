@@ -247,9 +247,13 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 | Document | Description |
 |----------|-------------|
 | [FINAL_SUBMISSION_INDEX.md](docs/PROJECT/FINAL_SUBMISSION_INDEX.md) | **Final submission index with all links** |
+| [WEEK10_STABILITY_PACKET.md](docs/PROJECT/WEEK10_STABILITY_PACKET.md) | Week 10 stability sprint packet |
+| [BUG_TRIAGE.md](docs/PROJECT/BUG_TRIAGE.md) | Bug triage with severity guide |
 | [TEST_CHECKLIST.md](docs/PROJECT/TEST_CHECKLIST.md) | MVP test checklist with evidence |
 | [MVP_STATUS.md](docs/PROJECT/MVP_STATUS.md) | MVP status (working/planned) |
 | [TEAM_CONTRIBUTIONS.md](docs/PROJECT/TEAM_CONTRIBUTIONS.md) | Team contribution receipts |
+| [.github/ISSUE_TEMPLATE/bug_report.md](.github/ISSUE_TEMPLATE/bug_report.md) | Bug report template |
+| [.github/pull_request_template.md](.github/pull_request_template.md) | Pull request template with AI note |
 | [PROJECT_IDEA_PITCH.md](docs/PROJECT/PROJECT_IDEA_PITCH.md) | Project concept and goals |
 | [USER_STORIES.md](docs/PROJECT/USER_STORIES.md) | User stories and flows |
 | [SYSTEM_ARCHITECTURE.md](docs/DESIGN/SYSTEM_ARCHITECTURE.md) | System architecture |
