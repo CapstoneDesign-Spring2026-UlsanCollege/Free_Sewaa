@@ -267,7 +267,17 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 | [BACKEND_PLAN.md](docs/DESIGN/BACKEND_PLAN.md) | Backend development plan |
 | [MONGODB_SETUP.md](docs/DESIGN/MONGODB_SETUP.md) | MongoDB Atlas setup guide |
 | [DEPLOYMENT.md](docs/DESIGN/DEPLOYMENT.md) | Deployment guide |
-| [Weekly Sprint Packets](docs/sprints/) | Weekly progress tracking |
+| [Weekly Sprint Packets](docs/sprints/) | Weekly progress tracking (Week 1-10) |
+| [Week 1 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%201.md) | Onboarding & setup |
+| [Week 2 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%202.md) | Reset week & planning |
+| [Week 3 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%203%20.md) | Frontend MVP |
+| [Week 4 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%204.md) | Browse & filtering |
+| [Week 5 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%205.md) | Premium UI redesign |
+| [Week 6 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%206.md) | Backend foundation |
+| [Week 7 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%207.md) | Midterm preparation |
+| [Week 8 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) | Midterm presentation |
+| [Week 9 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) | Polish & testing |
+| [Week 10 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) | Bug triage & AI workflow |
 | [AI_CODE_OWNERSHIP_AUDIT.md](docs/AI_CODE_OWNERSHIP_AUDIT.md) | AI use and team ownership |
 | [PROJECT_BOARD.md](PROJECT_BOARD.md) | Project board and task tracking |
 
