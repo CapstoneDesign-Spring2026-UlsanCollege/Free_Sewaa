@@ -1,5 +1,7 @@
 # Roadmap
 
+*Last updated: May 2026*
+
 ## 🎯 Project Vision
 
 Free Sewaa aims to be a community-driven platform that makes donating and receiving reusable items simple, accessible, and waste-free.
@@ -9,62 +11,62 @@ Free Sewaa aims to be a community-driven platform that makes donating and receiv
 ## 📍 Current Phase
 
 **Phase 1: Foundation** ✅ Complete
-- Frontend MVP
-- Backend API structure
-- Authentication flow
+- Frontend MVP ✅
+- Backend API structure ✅
+- Authentication flow ✅
 
 **Phase 2: Integration** ✅ Complete
-- Frontend-backend integration (API connected)
-- Demo-ready application
-- Backend API complete (Node.js/Express)
+- Frontend-backend integration (API connected) ✅
+- Demo-ready application ✅
+- Backend API complete (Node.js/Express) ✅
 
-**Phase 3: Production** 📋 In Progress
-- MongoDB Atlas connected (ready for production)
-- Unit tests implementation
-- Deployment optimization
+**Phase 3: Production** 🔄 In Progress
+- MongoDB Atlas connected (ready for production) 🔄
+- Unit tests implementation 📌
+- Deployment optimization 🔄
 
 ---
 
 ## 🗺️ Development Roadmap
 
-### Week 1-2: Setup ✅
-- [x] Repository setup
-- [x] Team organization
-- [x] Project planning
-- [x] Initial documentation
+### Week 1-2: Setup ✅ Done
+- [x] Repository setup ✅
+- [x] Team organization ✅
+- [x] Project planning ✅
+- [x] Initial documentation ✅
 
-### Week 3-4: Frontend MVP ✅
-- [x] Homepage
-- [x] Browse page
-- [x] Donate page
-- [x] Chat UI
-- [x] Premium styling
+### Week 3-4: Frontend MVP ✅ Done
+- [x] Homepage ✅
+- [x] Browse page ✅
+- [x] Donate page ✅
+- [x] Chat UI ✅
+- [x] Premium styling ✅
 
-### Week 5-6: Backend Foundation ✅
-- [x] Node.js/Express setup
-- [x] MongoDB models
-- [x] REST API endpoints
-- [x] MongoDB Atlas connection (ready, pending deployment)
+### Week 5-6: Backend Foundation ✅ Done
+- [x] Node.js/Express setup ✅
+- [x] MongoDB models ✅
+- [x] REST API endpoints ✅
+- [x] MongoDB Atlas connection (ready, pending deployment) 🔄
 
-### Week 7-8: Midterm Preparation ✅
-- [x] Working demo application
-- [x] Full user flow (sign up → browse → request → message)
-- [x] Backend API (Node.js/Express)
-- [x] MongoDB Atlas setup
-- [x] Demo presentation
+### Week 7-8: Midterm Preparation ✅ Done
+- [x] Working demo application ✅
+- [x] Full user flow (sign up → browse → request → message) ✅
+- [x] Backend API (Node.js/Express) ✅
+- [x] MongoDB Atlas setup ✅
+- [x] Demo presentation ✅
 
-### Week 9-10: Bug Triage & AI Workflow ✅
-- [x] P0/P1 bug issues created (#94-#101)
-- [x] Safe Copilot workflow documented
-- [x] Contribution receipts (5 team members)
-- [x] Code ownership check completed
-- [x] Week 10 Sprint Packet submitted
+### Week 9-10: Bug Triage & AI Workflow ✅ Done
+- [x] P0/P1 bug issues created (#94-#101) ✅
+- [x] Safe Copilot workflow documented ✅
+- [x] Contribution receipts (5 team members) ✅
+- [x] Code ownership check completed ✅
+- [x] Week 10 Sprint Packet submitted ✅
 
-### Week 11-12: MVP Verification & Launch
-- [ ] Week 11 MVP Verification demo
-- [ ] Final testing & bug fixes
-- [ ] Presentation prep
-- [ ] Week 12 Final presentation
+### Week 11-12: MVP Verification & Launch 🔄 In Progress
+- [ ] Week 11 MVP Verification demo 🔄
+- [ ] Final testing & bug fixes 🔄
+- [ ] Presentation prep 🔄
+- [ ] Week 12 Final presentation 📌
 
 ---
 
