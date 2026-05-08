@@ -215,6 +215,9 @@ async function ensureIndexes() {
   await notificationsCollection.createIndex({ read: 1 });
 }
 
+/**
+ * Seed demo user, admin, and sample data if they don't exist.
+ */
 async function ensureSeedData() {
   let existingUser = await usersCollection.findOne({ id: 'user-demo' });
 
@@ -485,10 +488,21 @@ async function ensureSeedData() {
   );
 }
 
+/**
+ * Get user application state by userId.
+ * @param {string} userId - The user ID.
+ * @returns {Object|null} User state object or null.
+ */
 async function getUserState(userId) {
   return statesCollection.findOne({ userId });
 }
 
+/**
+ * Set or update user application state.
+ * @param {string} userId - The user ID.
+ * @param {Object} state - The state object to save.
+ * @returns {Object} Result of the update operation.
+ */
 async function setUserState(userId, state) {
   await statesCollection.updateOne(
     { userId },
@@ -605,6 +619,10 @@ function getListingFlags(listing) {
   return flags;
 }
 
+/**
+ * Build admin dashboard data with users, listings, requests, and notifications.
+ * @returns {Object} Dashboard data with summary, users, listings, moderationQueue, activity.
+ */
 async function buildAdminDashboardData() {
   const [users, listings, requests, conversations, notifications, meta] = await Promise.all([
     usersCollection.find({}).toArray(),
