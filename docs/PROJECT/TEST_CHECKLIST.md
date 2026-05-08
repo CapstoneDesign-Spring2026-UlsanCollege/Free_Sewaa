@@ -1,6 +1,27 @@
-# TEST_CHECKLIST.md — Free Sewaa
+# Free Sewaa Test Checklist
 
-> Simple checklist to verify what works right now.
+## Week 10 Stability Checks
+
+- [ ] App runs locally
+- [ ] App runs on deployed link
+- [ ] User can sign up
+- [ ] User can log in
+- [ ] Admin can log in
+- [ ] Donor can post item
+- [ ] Item appears in browse page
+- [ ] User can request item
+- [ ] Request/status is saved
+- [ ] Admin can manage users/items
+- [ ] Invalid input shows clear error
+- [ ] Demo works twice in fresh browser
+- [ ] Screenshot/video evidence recorded
+
+## Test Evidence Links
+
+- Screenshot folder: *[To be added — docs/MID-TERM/]*
+- Backup video: *[To be recorded — Week 11]*
+- Related PR: [PR #78](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/78)
+- Related issue: [Issue #68](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/68)
 
 ---
 
