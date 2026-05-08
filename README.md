@@ -246,6 +246,10 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 
 | Document | Description |
 |----------|-------------|
+| [FINAL_SUBMISSION_INDEX.md](docs/PROJECT/FINAL_SUBMISSION_INDEX.md) | **Final submission index with all links** |
+| [TEST_CHECKLIST.md](docs/PROJECT/TEST_CHECKLIST.md) | MVP test checklist with evidence |
+| [MVP_STATUS.md](docs/PROJECT/MVP_STATUS.md) | MVP status (working/planned) |
+| [TEAM_CONTRIBUTIONS.md](docs/PROJECT/TEAM_CONTRIBUTIONS.md) | Team contribution receipts |
 | [PROJECT_IDEA_PITCH.md](docs/PROJECT/PROJECT_IDEA_PITCH.md) | Project concept and goals |
 | [USER_STORIES.md](docs/PROJECT/USER_STORIES.md) | User stories and flows |
 | [SYSTEM_ARCHITECTURE.md](docs/DESIGN/SYSTEM_ARCHITECTURE.md) | System architecture |
@@ -253,6 +257,8 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 | [MONGODB_SETUP.md](docs/DESIGN/MONGODB_SETUP.md) | MongoDB Atlas setup guide |
 | [DEPLOYMENT.md](docs/DESIGN/DEPLOYMENT.md) | Deployment guide |
 | [Weekly Sprint Packets](docs/sprints/) | Weekly progress tracking |
+| [AI_CODE_OWNERSHIP_AUDIT.md](docs/AI_CODE_OWNERSHIP_AUDIT.md) | AI use and team ownership |
+| [PROJECT_BOARD.md](PROJECT_BOARD.md) | Project board and task tracking |
 
 ---
 
