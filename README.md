@@ -6,6 +6,16 @@
 [![Status: In Progress](https://img.shields.io/badge/Status-In%20Progress-blue)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-6.0+-green.svg)](https://mongodb.com/)
+[![Last Commit](https://img.shields.io/github/last-commit/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main)
+[![Issues](https://img.shields.io/github/issues/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls)
+
+## 🎓 Capstone Info
+
+- **Course:** Capstone Design — Spring 2026, Ulsan College
+- **Team name:** Free Sewaa Team
+- **Sprint board:** https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/14
+- **Submission format:** Sprint Packet Issues submitted every Friday
 
 ---
 
@@ -17,19 +27,14 @@ This project is deployed from the GitHub `main` branch using Render.
 - Signup page: https://free-sewaa-qh05.onrender.com/signup.html
 - Admin login: https://free-sewaa-qh05.onrender.com/admin_login.html
 
-Admin demo account:
+⚠️ **Admin demo account (demo-only, never use real credentials in public repo):**
 
 ```text
 Email: admin@freesewaa.local
 Password: admin12345
 ```
 
-User demo account:
-
-```text
-Email: pathakram09555gmail.com
-Password:123456
-```
+> User demo account: See Quick Start below.
 
 ---
 
@@ -84,9 +89,11 @@ Open your browser and go to:
 - **Sign in:** http://localhost:3000/signin.html
 - **App:** http://localhost:3000/app.html
 
-**Demo Account:**
-- Email: `alisha@example.com`
-- Password: `demo123`
+**Demo Account (for presentation):**
+```text
+Email: pathakram09555@gmail.com
+Password: 123456
+```
 
 > **Tip:** Use this account for presentation demo.
 
@@ -170,7 +177,7 @@ POST /api/auth/signin
 Free_Sewaa/
 ├── .github/                    # GitHub templates & workflows
 │   ├── ISSUE_TEMPLATE/         # Issue templates
-│   ├── PULL_REQUEST_TEMPLATE.md
+│   ├── pull_request_template.md
 │   └── workflows/              # CI/CD workflows
 ├── docs/                       # Documentation
 │   ├── DESIGN/                 # Design documents
@@ -181,14 +188,14 @@ Free_Sewaa/
 ├── server/                     # Node.js backend
 │   ├── server.js               # Express server
 │   └── package.json            # Dependencies
-├── *.html                      # Frontend pages (18 pages)
+├── html/                       # Frontend pages (18 pages)
 │   ├── index.html              # Landing page
 │   ├── signin.html             # Sign in
 │   ├── signup.html             # Sign up
 │   ├── app.html                # Main app after login
 │   ├── browse.html             # Browse items
 │   ├── donate.html             # Post donation
-│   └── ... (14 more pages)
+│   └── ... (12 more pages)
 ├── css/                        # Stylesheets
 │   ├── style.css               # Landing page styles
 │   ├── theme.css               # App pages styles
@@ -264,9 +271,18 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 | [AI_CODE_OWNERSHIP_AUDIT.md](docs/AI_CODE_OWNERSHIP_AUDIT.md) | AI use and team ownership |
 | [PROJECT_BOARD.md](PROJECT_BOARD.md) | Project board and task tracking |
 
+> **Weekly Role Rotation:** Roles (Project Manager, Scribe, QA Lead, Demo Driver) rotate each sprint per class policy.
+
 ---
 
 ## 📋 Quick Reference
+
+- **Live site:** https://free-sewaa-qh05.onrender.com
+- **Signup page:** https://free-sewaa-qh05.onrender.com/signup.html
+- **Admin login:** https://free-sewaa-qh05.onrender.com/admin_login.html
+- **Demo account:** `pathakram09555@gmail.com` / `123456`
+- **Key commands:** `npm install`, `npm start`
+- **Key pages:** `html/index.html`, `html/app.html`, `html/browse.html`, `html/donate.html`
 
 ---
 
