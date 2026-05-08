@@ -80,16 +80,41 @@ Free Sewaa aims to be a community-driven platform that makes donating and receiv
 
 ---
 
-## 💡 Future Enhancements
+## 🎯 Before Final (MVP Stabilization)
 
-| Feature | Description |
-|---------|-------------|
-| Real-time notifications | Push notifications for requests |
-| Image storage | Cloudinary/S3 for item images |
-| Email verification | Verify user emails |
-| Rating system | Rate donors and receivers |
-| Donation tracking | Track impact (items donated, waste reduced) |
-| Mobile app | React Native or Flutter |
+> **Goal:** Make the core flow boringly reliable.
+
+| Priority | Task | Status | Owner |
+|----------|------|--------|--------|
+| 1 | Fix P0 bug: password hashing (bcrypt) | TO DO | Ram Pathak, Sujan Shrestha |
+| 2 | Add input validation to auth API | TO DO | Sujan Shrestha |
+| 3 | Write unit tests for backend APIs | TO DO | Ram Pathak |
+| 4 | Fix CI workflow to run tests | TO DO | Ram Pathak |
+| 5 | Stabilize core demo flow (login → post → browse → request) | IN PROGRESS | All |
+| 6 | Record backup demo video | IN PROGRESS | Swarnim Jung Karki |
+| 7 | Complete final documentation (index, receipts, tests) | IN PROGRESS | Swarnim Jung Karki |
+| 8 | Clean up and organize repo structure | TO DO | Sujan Tamang |
+| 9 | Add loading states to frontend | TO DO | Mohan Khadka |
+| 10 | Improve error messages | TO DO | Sujan Shrestha |
+
+---
+
+## 💡 After Final (Future Ideas - Not for Grading)
+
+> **Note:** These are post-class ideas. Not part of MVP.
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| Real-time notifications | Push notifications for requests | Medium |
+| Image storage | Cloudinary/S3 for item images | High |
+| Email verification | Verify user emails | Medium |
+| Rating system | Rate donors and recipients | Low |
+| Donation tracking | Track impact (items donated, waste reduced) | Medium |
+| Mobile app | React Native or Flutter | Low |
+| AI recommendations | Suggest items based on user needs | Low |
+| Location-based matching | Find items near the user | Medium |
+| Chat system | Real-time messaging between users | Low |
+| Public launch | Buy domain, deploy to production | High |
 
 ---
 
