@@ -1,30 +1,4 @@
 
-
-## Week 11 Demo Activity
-
-Teams will run their Weekly Progress Demos.
-
-During the demo, the professor will quickly check each team using this table:
-
-| Team   | Core flow shown? | Evidence linked? | Can explain?  | Track |
-| ------ | ---------------- | ---------------- | ------------- | ----- |
-| Team 1 | Yes / Not Yet    | Yes / Not Yet    | Yes / Not Yet | A/B/C |
-
----
-
-## Tracks
-
-### A. MVP Recovery
-App is unreliable or unexplained.
-
-### B. MVP Stabilization
-App mostly works, but bugs, documentation, or tests are weak.
-
-### C. MVP Plus
-App works, team understands it, and the project is ready for polish.
-
----
-
 ## Our Team Checklist
 
 Before the demo, make sure:
