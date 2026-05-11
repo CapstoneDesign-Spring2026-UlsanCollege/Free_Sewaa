@@ -1,12 +1,4 @@
-# Week 11 Weekly Progress Demo Guide
 
-## Important Demo Rule
-
-For demos, teams are only allowed to use the classroom computer.
-
-Teams are not allowed to use personal laptops for the demo.
-
----
 
 ## Week 11 Demo Activity
 
