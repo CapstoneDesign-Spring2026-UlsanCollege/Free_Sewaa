@@ -242,10 +242,10 @@
       status: listing.status || 'active'
     })) : base.listings;
 
-    const validIds = new Set(state.listings.map(item => item.id));
-    state.user.savedListingIds = (state.user.savedListingIds || []).filter(id => validIds.has(id));
-    state.user.requestedListingIds = (state.user.requestedListingIds || []).filter(id => validIds.has(id));
-    state.requests = Array.isArray(parsed.requests) ? parsed.requests.filter(item => validIds.has(item.listingId)) : base.requests;
+    const validIds = new Set(state.listings.map(item => String(item.id)));
+    state.user.savedListingIds = (state.user.savedListingIds || []).filter(id => validIds.has(String(id)));
+    state.user.requestedListingIds = (state.user.requestedListingIds || []).filter(id => validIds.has(String(id)));
+    state.requests = Array.isArray(parsed.requests) ? parsed.requests.filter(item => validIds.has(String(item.listingId))) : base.requests;
     if (!state.requests.length && state.user.requestedListingIds.length) {
       state.requests = state.user.requestedListingIds.map(id => ({
         id: `req-${id}`,
@@ -574,12 +574,12 @@
     const saveButton = event.target.closest('.modal-save-button');
     const requestButton = event.target.closest('.modal-request-button');
     if (saveButton) {
-      const id = Number(saveButton.dataset.id);
+      const id = saveButton.dataset.id;
       toggleSaveListing(id);
       renderListingModal(getListingById(id), 'accountListingContent');
     }
     if (requestButton) {
-      const id = Number(requestButton.dataset.id);
+      const id = requestButton.dataset.id;
       const conversationId = await requestListing(id);
       if (conversationId) {
         sessionStorage.setItem('freesewaa-open-conversation', conversationId);
@@ -728,8 +728,20 @@
     saveState();
   }
 
+  function idsMatch(left, right) {
+    return String(left) === String(right);
+  }
+
+  function listIncludesId(list, id) {
+    return (list || []).some(item => idsMatch(item, id));
+  }
+
+  function removeIdFromList(list, id) {
+    return (list || []).filter(item => !idsMatch(item, id));
+  }
+
   function getListingById(id) {
-    return appState.listings.find(listing => listing.id === id);
+    return appState.listings.find(listing => idsMatch(listing.id, id));
   }
 
   function getSavedCount() {
@@ -750,7 +762,7 @@
   }
 
   function getRequestRecord(listingId) {
-    return appState.requests.find(item => item.listingId === listingId);
+    return appState.requests.find(item => idsMatch(item.listingId, listingId));
   }
 
   function getRequestedListings() {
@@ -760,7 +772,7 @@
   }
 
   function getConversationByListingId(listingId) {
-    return appState.conversations.find(item => item.listingId === listingId);
+    return appState.conversations.find(item => idsMatch(item.listingId, listingId));
   }
 
   function normalizeRemoteConversation(conversation, messages = null) {
@@ -845,7 +857,7 @@
       request.status = status;
       if (note) request.note = note;
     }
-    if (!appState.user.requestedListingIds.includes(listingId)) {
+    if (!listIncludesId(appState.user.requestedListingIds, listingId)) {
       appState.user.requestedListingIds.unshift(listingId);
     }
     saveState();
@@ -853,8 +865,8 @@
   }
 
   function removeRequest(listingId) {
-    appState.requests = appState.requests.filter(item => item.listingId !== listingId);
-    appState.user.requestedListingIds = appState.user.requestedListingIds.filter(id => id !== listingId);
+    appState.requests = appState.requests.filter(item => !idsMatch(item.listingId, listingId));
+    appState.user.requestedListingIds = removeIdFromList(appState.user.requestedListingIds, listingId);
     addNotification(`You cancelled your request for ${getListingById(listingId)?.title || 'a listing'}.`);
     saveState();
   }
@@ -871,11 +883,11 @@
   function deleteListingById(listingId) {
     const listing = getListingById(listingId);
     if (!listing) return;
-    appState.listings = appState.listings.filter(item => item.id !== listingId);
-    appState.user.savedListingIds = appState.user.savedListingIds.filter(id => id !== listingId);
-    appState.user.requestedListingIds = appState.user.requestedListingIds.filter(id => id !== listingId);
-    appState.requests = appState.requests.filter(item => item.listingId !== listingId);
-    appState.conversations = appState.conversations.filter(item => item.listingId !== listingId);
+    appState.listings = appState.listings.filter(item => !idsMatch(item.id, listingId));
+    appState.user.savedListingIds = removeIdFromList(appState.user.savedListingIds, listingId);
+    appState.user.requestedListingIds = removeIdFromList(appState.user.requestedListingIds, listingId);
+    appState.requests = appState.requests.filter(item => !idsMatch(item.listingId, listingId));
+    appState.conversations = appState.conversations.filter(item => !idsMatch(item.listingId, listingId));
     addNotification(`You removed the listing ${listing.title}.`);
     saveState();
   }
@@ -901,7 +913,7 @@
     const savedIds = appState.user.savedListingIds;
     const listing = getListingById(id);
     if (!listing) return false;
-    const index = savedIds.indexOf(id);
+    const index = savedIds.findIndex(savedId => idsMatch(savedId, id));
     if (index >= 0) {
       savedIds.splice(index, 1);
       listing.saveCount = Math.max(0, listing.saveCount - 1);
@@ -913,7 +925,7 @@
       showToast('Saved to your items.', 'success');
     }
     saveState();
-    return savedIds.includes(id);
+    return listIncludesId(savedIds, id);
   }
 
   async function requestListing(id) {
@@ -965,8 +977,8 @@
   function renderListingModal(listing, containerId) {
     const container = document.getElementById(containerId);
     if (!container || !listing) return;
-    const isSaved = appState.user.savedListingIds.includes(listing.id);
-    const requested = appState.user.requestedListingIds.includes(listing.id);
+    const isSaved = listIncludesId(appState.user.savedListingIds, listing.id);
+    const requested = listIncludesId(appState.user.requestedListingIds, listing.id);
     container.innerHTML = `
       <div class="modal-listing-layout">
         <div class="modal-listing-image" style="background-image:url('${escapeHtml(listing.image)}')"></div>
@@ -1051,8 +1063,8 @@
     function renderListings() {
       const listings = getFilteredListings();
       listingGrid.innerHTML = listings.map(listing => {
-        const saved = appState.user.savedListingIds.includes(listing.id);
-        const requested = appState.user.requestedListingIds.includes(listing.id);
+        const saved = listIncludesId(appState.user.savedListingIds, listing.id);
+        const requested = listIncludesId(appState.user.requestedListingIds, listing.id);
         return `
           <article class="listing-card reveal-card app-listing-card is-visible">
             <div class="listing-card__media app-listing-media" style="background-image:url('${escapeHtml(listing.image)}')">
@@ -1138,7 +1150,7 @@
     listingGrid.addEventListener('click', async event => {
       const actionButton = event.target.closest('[data-action]');
       if (!actionButton) return;
-      const id = Number(actionButton.dataset.id);
+      const id = actionButton.dataset.id;
       const listing = getListingById(id);
       if (!listing) return;
       if (actionButton.dataset.action === 'preview') {
@@ -1165,13 +1177,13 @@
       const saveButton = event.target.closest('.modal-save-button');
       const requestButton = event.target.closest('.modal-request-button');
       if (saveButton) {
-        const id = Number(saveButton.dataset.id);
+        const id = saveButton.dataset.id;
         toggleSaveListing(id);
         renderListingModal(getListingById(id), 'listingModalContent');
         renderListings();
       }
       if (requestButton) {
-        const id = Number(requestButton.dataset.id);
+        const id = requestButton.dataset.id;
         const conversationId = await requestListing(id);
         renderListings();
         closeModals();
@@ -1760,13 +1772,13 @@
       const saveButton = event.target.closest('.modal-save-button');
       const requestButton = event.target.closest('.modal-request-button');
       if (saveButton) {
-        const id = Number(saveButton.dataset.id);
+        const id = saveButton.dataset.id;
         toggleSaveListing(id);
         const listing = getListingById(id);
         renderListingModal(listing, 'conversationListingContent');
       }
       if (requestButton) {
-        const id = Number(requestButton.dataset.id);
+        const id = requestButton.dataset.id;
         sessionStorage.setItem('freesewaa-open-conversation', activeConversationId);
         closeModals();
         window.location.href = 'browse.html';
@@ -1824,16 +1836,16 @@
       const previewButton = event.target.closest('[data-post-open]');
       const deleteButton = event.target.closest('[data-post-delete]');
       if (actionButton) {
-        markListingStatus(Number(actionButton.dataset.id), actionButton.dataset.postAction);
+        markListingStatus(actionButton.dataset.id, actionButton.dataset.postAction);
         showToast('Listing status updated.', 'success');
         render();
       }
       if (previewButton) {
-        renderListingModal(getListingById(Number(previewButton.dataset.postOpen)), 'accountListingContent');
+        renderListingModal(getListingById(previewButton.dataset.postOpen), 'accountListingContent');
         openModal('accountListingModal');
       }
       if (deleteButton) {
-        deleteListingById(Number(deleteButton.dataset.postDelete));
+        deleteListingById(deleteButton.dataset.postDelete);
         showToast('Listing deleted.', 'success');
         render();
       }
@@ -1864,11 +1876,11 @@
       const request = event.target.closest('[data-saved-request]');
       const remove = event.target.closest('[data-saved-remove]');
       if (preview) {
-        renderListingModal(getListingById(Number(preview.dataset.savedOpen)), 'accountListingContent');
+        renderListingModal(getListingById(preview.dataset.savedOpen), 'accountListingContent');
         openModal('accountListingModal');
       }
       if (request) {
-        const id = Number(request.dataset.savedRequest);
+        const id = request.dataset.savedRequest;
         const conversationId = await requestListing(id) || getConversationByListingId(id)?.id;
         if (conversationId) {
           sessionStorage.setItem('freesewaa-open-conversation', conversationId);
@@ -1876,7 +1888,7 @@
         }
       }
       if (remove) {
-        toggleSaveListing(Number(remove.dataset.savedRemove));
+        toggleSaveListing(remove.dataset.savedRemove);
         render();
       }
     });
@@ -1921,20 +1933,20 @@
       const setStatus = event.target.closest('[data-request-status]');
       const cancel = event.target.closest('[data-request-cancel]');
       if (msg) {
-        const listingId = Number(msg.dataset.requestMessage);
+        const listingId = msg.dataset.requestMessage;
         const conversation = createConversationForListing(listingId, 'Hi again — following up on my request.');
         sessionStorage.setItem('freesewaa-open-conversation', conversation.id);
         window.location.href = 'messages.html';
       }
       if (setStatus) {
-        const listingId = Number(setStatus.dataset.id);
+        const listingId = setStatus.dataset.id;
         const request = createOrUpdateRequest(listingId, setStatus.dataset.requestStatus);
         if (request.status === 'completed') addNotification(`You marked ${getListingById(listingId)?.title || 'a listing'} as received.`);
         render();
         showToast('Request updated.', 'success');
       }
       if (cancel) {
-        removeRequest(Number(cancel.dataset.requestCancel));
+        removeRequest(cancel.dataset.requestCancel);
         render();
         showToast('Request cancelled.', 'success');
       }
