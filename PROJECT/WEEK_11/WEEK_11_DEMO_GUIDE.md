@@ -24,6 +24,7 @@ Before the demo, make sure:
 | **Browse Items** | [free-sewaa-qh05.onrender.com/browse.html](https://free-sewaa-qh05.onrender.com/browse.html) |
 | **Donate** | [free-sewaa-qh05.onrender.com/donate.html](https://free-sewaa-qh05.onrender.com/donate.html) |
 | **App Dashboard** | [free-sewaa-qh05.onrender.com/app.html](https://free-sewaa-qh05.onrender.com/app.html) |
+| **Messages / Chat** | [free-sewaa-qh05.onrender.com/messages.html](https://free-sewaa-qh05.onrender.com/messages.html) |
 | **Admin Login** | [free-sewaa-qh05.onrender.com/admin_login.html](https://free-sewaa-qh05.onrender.com/admin_login.html) |
 
 ### Demo Accounts
@@ -59,5 +60,5 @@ Before the demo, make sure:
 3. **Browse** → View available donation items → [browse.html](https://free-sewaa-qh05.onrender.com/browse.html)
 4. **Donate** → Post a new item → [donate.html](https://free-sewaa-qh05.onrender.com/donate.html)
 5. **Dashboard** → View my items / requests → [app.html](https://free-sewaa-qh05.onrender.com/app.html)
-6. **Admin** → Manage users & items → [admin_login.html](https://free-sewaa-qh05.onrender.com/admin_login.html)
- 
+6. **Messages** → Live chat with donors/requesters, coordinate pickup → [messages.html](https://free-sewaa-qh05.onrender.com/messages.html)
+7. **Admin** → Manage users & items → [admin_login.html](https://free-sewaa-qh05.onrender.com/admin_login.html)
