@@ -560,6 +560,32 @@ function sendJson(res, statusCode, payload) {
   res.end(body);
 }
 
+function sendJavaScript(res, body) {
+  res.writeHead(200, {
+    'Content-Type': 'application/javascript; charset=utf-8',
+    'Cache-Control': 'no-store'
+  });
+  res.end(body);
+}
+
+function getFirebaseWebConfig() {
+  const projectId = process.env.FIREBASE_PROJECT_ID || 'free-sewaa';
+  const authDomain = process.env.FIREBASE_AUTH_DOMAIN || `${projectId}.firebaseapp.com`;
+
+  if (!process.env.FIREBASE_API_KEY) {
+    return null;
+  }
+
+  return {
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain,
+    projectId,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET || `${projectId}.appspot.com`,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || '',
+    appId: process.env.FIREBASE_APP_ID || ''
+  };
+}
+
 function sendFile(res, filePath) {
   const ext = path.extname(filePath).toLowerCase();
   const contentTypes = {
@@ -853,6 +879,14 @@ const server = http.createServer(async (req, res) => {
   try {
     if (pathname === '/api/health' && req.method === 'GET') {
       return sendJson(res, 200, { ok: true, service: 'freesewaa-backend-mongodb' });
+    }
+
+    if (pathname === '/firebase-config.js' && req.method === 'GET') {
+      const config = getFirebaseWebConfig();
+      return sendJavaScript(
+        res,
+        `(function () {\n  window.FREESEWAA_FIREBASE_CONFIG = ${JSON.stringify(config)};\n})();\n`
+      );
     }
 
     if (pathname === '/api/auth/google-demo' && req.method === 'POST') {
