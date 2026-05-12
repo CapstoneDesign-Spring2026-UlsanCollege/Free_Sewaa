@@ -120,6 +120,17 @@ function getUserId(req, url) {
   );
 }
 
+function getUserDisplayName(user) {
+  if (!user) return 'Free Sewaa Member';
+  return (
+    user.name ||
+    [user.firstName, user.lastName].filter(Boolean).join(' ').trim() ||
+    user.email ||
+    user.phone ||
+    'Free Sewaa Member'
+  );
+}
+
 function normalizeDoc(doc) {
   if (!doc) return null;
   const clone = { ...doc };
@@ -544,7 +555,7 @@ function sendJson(res, statusCode, payload) {
     'Content-Type': 'application/json; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, x-user-id'
+    'Access-Control-Allow-Headers': 'Content-Type, x-user-id, Authorization'
   });
   res.end(body);
 }
@@ -834,7 +845,7 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, x-user-id'
+      'Access-Control-Allow-Headers': 'Content-Type, x-user-id, Authorization'
     });
     return res.end();
   }
@@ -1334,39 +1345,87 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 404, { error: 'Listing not found.' });
       }
 
+      if (listing.ownerId === userId) {
+        return sendJson(res, 400, { error: 'You cannot request your own listing.' });
+      }
+
       const existing = await requestsCollection.findOne({ listingId, requesterId: userId });
       if (existing) {
-        return sendJson(res, 409, { error: 'You already requested this listing.' });
+        const existingConversation = await conversationsCollection.findOne({
+          listingId,
+          participantIds: { $all: [userId, listing.ownerId] }
+        });
+        return sendJson(res, 200, {
+          request: normalizeDoc(existing),
+          conversation: existingConversation ? normalizeDoc(existingConversation) : null
+        });
       }
 
       const requestDoc = {
         id: `req-${Date.now()}`,
         listingId,
-        requesterId: userId,
-        requesterName: user.name || user.firstName || 'User',
+        requesterId: user.id,
+        requesterName: getUserDisplayName(user),
         ownerId: listing.ownerId,
         status: 'pending',
         requestedAt: new Date().toISOString(),
         note: String(note)
       };
 
-      await requestsCollection.insertOne(requestDoc);
-      await listingsCollection.updateOne(
-        { id: listingId },
-        { $inc: { requestCount: 1 }, $set: { updatedAt: new Date().toISOString() } }
-      );
+      const owner = await usersCollection.findOne({ id: listing.ownerId });
+      const ownerName = listing.ownerName || getUserDisplayName(owner);
+      const conversation = {
+        id: `conv-${Date.now()}`,
+        listingId,
+        participantIds: [user.id, listing.ownerId],
+        participantNames: {
+          [user.id]: requestDoc.requesterName,
+          [listing.ownerId]: ownerName
+        },
+        participantCities: {
+          [user.id]: user.city || 'Ulsan',
+          [listing.ownerId]: owner?.city || String(listing.location || '').split(',')[0] || 'Ulsan'
+        },
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      const introText = String(note || `Hi! I am interested in your ${listing.title}. Is it still available?`).trim();
+      const firstMessage = {
+        conversationId: conversation.id,
+        senderId: user.id,
+        senderName: requestDoc.requesterName,
+        text: introText,
+        type: 'sent',
+        createdAt: new Date().toISOString()
+      };
+
+      await Promise.all([
+        requestsCollection.insertOne(requestDoc),
+        conversationsCollection.insertOne(conversation),
+        messagesCollection.insertOne(firstMessage),
+        listingsCollection.updateOne(
+          { id: listingId },
+          { $inc: { requestCount: 1 }, $set: { updatedAt: new Date().toISOString() } }
+        )
+      ]);
 
       await notificationsCollection.insertOne({
         id: `notif-${Date.now()}`,
         userId: listing.ownerId,
+        conversationId: conversation.id,
         text: `${requestDoc.requesterName} requested your ${listing.title} listing.`,
-        type: 'request',
+        type: 'message',
         read: false,
         createdAt: new Date().toISOString()
       });
 
       await touchMeta();
-      return sendJson(res, 201, { request: normalizeDoc(requestDoc) });
+      return sendJson(res, 201, {
+        request: normalizeDoc(requestDoc),
+        conversation: normalizeDoc(conversation),
+        message: normalizeDoc(firstMessage)
+      });
     }
 
     if (pathname.match(/^\/api\/requests\/[^/]+\/status$/) && req.method === 'PATCH') {
@@ -1463,13 +1522,24 @@ const server = http.createServer(async (req, res) => {
         const lastMessage = await messagesCollection.find({ conversationId: conv.id }).sort({ createdAt: -1 }).limit(1).toArray();
         const unreadCount = await notificationsCollection.countDocuments({
           userId,
+          conversationId: conv.id,
           type: 'message',
           read: false
         });
+        const listing = conv.listingId ? await listingsCollection.findOne({ id: conv.listingId }) : null;
+        const otherUserId = (conv.participantIds || []).find(id => id !== userId);
+        const otherUser = otherUserId ? await usersCollection.findOne({ id: otherUserId }) : null;
+        const participantNames = conv.participantNames && typeof conv.participantNames === 'object' && !Array.isArray(conv.participantNames)
+          ? conv.participantNames
+          : {};
 
         enriched.push({
           ...normalizeDoc(conv),
+          participantId: otherUserId || '',
+          participant: participantNames[otherUserId] || conv.participant || getUserDisplayName(otherUser),
+          participantCity: conv.participantCities?.[otherUserId] || otherUser?.city || 'Ulsan',
           unread: unreadCount,
+          listing: listing ? normalizeDoc(listing) : null,
           lastMessage: lastMessage[0] ? normalizeDoc(lastMessage[0]) : null
         });
       }
@@ -1483,14 +1553,25 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: 'userId is required.' });
       }
 
-      const { participantId, participantName, listingId = null } = await readRequestBody(req);
-      if (!participantId || !participantName) {
-        return sendJson(res, 400, { error: 'participantId and participantName are required.' });
+      const { participantId = '', participantName = '', listingId = null } = await readRequestBody(req);
+      const listing = listingId ? await listingsCollection.findOne({ id: listingId }) : null;
+      const resolvedParticipantId = participantId || listing?.ownerId || '';
+      if (!resolvedParticipantId) {
+        return sendJson(res, 400, { error: 'participantId or listingId is required.' });
+      }
+      if (resolvedParticipantId === userId) {
+        return sendJson(res, 400, { error: 'You cannot start a conversation with yourself.' });
+      }
+
+      const currentUser = await usersCollection.findOne({ id: userId });
+      const participantUser = await usersCollection.findOne({ id: resolvedParticipantId });
+      if (!currentUser || !participantUser) {
+        return sendJson(res, 404, { error: 'Conversation participant not found.' });
       }
 
       const existing = await conversationsCollection.findOne({
         listingId,
-        participantIds: { $all: [userId, participantId] }
+        participantIds: { $all: [userId, resolvedParticipantId] }
       });
 
       if (existing) {
@@ -1500,10 +1581,15 @@ const server = http.createServer(async (req, res) => {
       const conversation = {
         id: `conv-${Date.now()}`,
         listingId,
-        participantIds: [userId, participantId],
-        participantNames: [userId, participantName],
-        participant: participantName,
-        participantCity: 'Ulsan',
+        participantIds: [userId, resolvedParticipantId],
+        participantNames: {
+          [userId]: getUserDisplayName(currentUser),
+          [resolvedParticipantId]: participantName || getUserDisplayName(participantUser)
+        },
+        participantCities: {
+          [userId]: currentUser.city || 'Ulsan',
+          [resolvedParticipantId]: participantUser.city || String(listing?.location || '').split(',')[0] || 'Ulsan'
+        },
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
@@ -1516,10 +1602,25 @@ const server = http.createServer(async (req, res) => {
 
     if (pathname.match(/^\/api\/messages\/conversations\/[^/]+\/messages$/) && req.method === 'GET') {
       const conversationId = pathname.split('/')[4];
+      const userId = getUserId(req, url);
+      const conversation = await conversationsCollection.findOne({ id: conversationId });
+      if (!conversation) {
+        return sendJson(res, 404, { error: 'Conversation not found.' });
+      }
+      if (userId && !(conversation.participantIds || []).includes(userId)) {
+        return sendJson(res, 403, { error: 'You are not part of this conversation.' });
+      }
       const messages = await messagesCollection
         .find({ conversationId })
         .sort({ createdAt: 1 })
         .toArray();
+
+      if (userId) {
+        await notificationsCollection.updateMany(
+          { userId, conversationId, type: 'message', read: false },
+          { $set: { read: true } }
+        );
+      }
 
       return sendJson(res, 200, { messages: messages.map(normalizeDoc) });
     }
@@ -1540,6 +1641,9 @@ const server = http.createServer(async (req, res) => {
       const conversation = await conversationsCollection.findOne({ id: conversationId });
       if (!conversation) {
         return sendJson(res, 404, { error: 'Conversation not found.' });
+      }
+      if (!(conversation.participantIds || []).includes(userId)) {
+        return sendJson(res, 403, { error: 'You are not part of this conversation.' });
       }
 
       const { text = '' } = await readRequestBody(req);
@@ -1567,6 +1671,7 @@ const server = http.createServer(async (req, res) => {
         await notificationsCollection.insertOne({
           id: `notif-${Date.now()}`,
           userId: recipientId,
+          conversationId,
           text: `${message.senderName} sent you a new message.`,
           type: 'message',
           read: false,
