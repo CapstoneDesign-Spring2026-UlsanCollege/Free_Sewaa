@@ -1651,11 +1651,24 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: 'Message text is required.' });
       }
 
+      const messageText = String(text).trim();
+      const duplicateWindow = new Date(Date.now() - 8000).toISOString();
+      const recentDuplicate = await messagesCollection.findOne({
+        conversationId,
+        senderId: userId,
+        text: messageText,
+        createdAt: { $gte: duplicateWindow }
+      });
+
+      if (recentDuplicate) {
+        return sendJson(res, 200, { message: normalizeDoc(recentDuplicate), duplicate: true });
+      }
+
       const message = {
         conversationId,
         senderId: userId,
         senderName: user.name || user.firstName || 'You',
-        text: String(text).trim(),
+        text: messageText,
         type: 'sent',
         createdAt: new Date().toISOString()
       };

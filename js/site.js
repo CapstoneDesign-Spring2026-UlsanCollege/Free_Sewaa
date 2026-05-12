@@ -1519,6 +1519,12 @@
   function initMessagesPage() {
     const conversationList = document.getElementById('conversationList');
     if (!conversationList) return;
+    if (conversationList.dataset.liveChatBound === 'true') return;
+    conversationList.dataset.liveChatBound = 'true';
+    if (window.freesewaaMessagePollTimer) {
+      clearInterval(window.freesewaaMessagePollTimer);
+      window.freesewaaMessagePollTimer = null;
+    }
 
     const messageThread = document.getElementById('messageThread');
     const conversationHead = document.getElementById('conversationHead');
@@ -1532,9 +1538,14 @@
     const listingContent = document.getElementById('conversationListingContent');
 
     let activeConversationId = sessionStorage.getItem('freesewaa-open-conversation') || appState.conversations[0]?.id;
+    let isSendingMessage = false;
+    let isRefreshingMessages = false;
     sessionStorage.removeItem('freesewaa-open-conversation');
 
     async function refreshRemoteConversations(renderAfter = true) {
+      if (isRefreshingMessages) return;
+      isRefreshingMessages = true;
+      try {
       const remoteConversations = await fetchRemoteConversations();
       if (!remoteConversations) return;
 
@@ -1565,6 +1576,9 @@
 
       localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
       if (renderAfter) renderConversationList();
+      } finally {
+        isRefreshingMessages = false;
+      }
     }
 
     function getFilteredConversations() {
@@ -1623,7 +1637,7 @@
       const conversation = appState.conversations.find(item => item.id === activeConversationId);
       if (!conversation) return;
       conversation.unread = 0;
-      saveState();
+      localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
       const listing = getListingById(conversation.listingId);
       conversationHead.innerHTML = `
         <div class="conversation-user">
@@ -1670,10 +1684,17 @@
       const conversation = appState.conversations.find(item => item.id === activeConversationId);
       if (!conversation || !text.trim()) return;
       const trimmed = text.trim();
+      if (type === 'sent' && isSendingMessage) return;
+      if (type === 'sent') isSendingMessage = true;
       if (type === 'sent') {
         try {
           const remoteMessage = await sendRemoteMessage(activeConversationId, trimmed);
-          conversation.messages.push(normalizeRemoteConversation(conversation, [remoteMessage]).messages[0]);
+          const normalizedMessage = normalizeRemoteConversation(conversation, [remoteMessage]).messages[0];
+          const duplicate = conversation.messages.some(message =>
+            (normalizedMessage.id && message.id === normalizedMessage.id) ||
+            (message.text === normalizedMessage.text && message.createdAt === normalizedMessage.createdAt)
+          );
+          if (!duplicate) conversation.messages.push(normalizedMessage);
         } catch (error) {
           console.warn(error);
           conversation.messages.push({
@@ -1699,6 +1720,9 @@
       saveState();
       renderConversationList();
       showToast('Message sent.', 'success');
+      if (type === 'sent') {
+        isSendingMessage = false;
+      }
     }
 
     conversationList.addEventListener('click', async event => {
@@ -1717,8 +1741,8 @@
         showToast('Write a message first.', 'error');
         return;
       }
-      await pushMessage(text, 'sent');
       messageInput.value = '';
+      await pushMessage(text, 'sent');
     });
 
     document.querySelectorAll('[data-quick-message]').forEach(button => {
@@ -1752,7 +1776,7 @@
     refreshRemoteConversations(true).then(() => {
       if (!appState.conversations.length) renderConversationList();
     });
-    setInterval(() => refreshRemoteConversations(true), 3500);
+    window.freesewaaMessagePollTimer = setInterval(() => refreshRemoteConversations(true), 3500);
   }
 
   function initMyPostsPage() {
