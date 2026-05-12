@@ -8,6 +8,7 @@ const { MongoClient, ObjectId } = require('mongodb');
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
+const PUBLIC_ROOT = path.resolve(__dirname, '..');
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'free-sewaa';
 
 const PUBLIC_PAGE_ALIASES = {
@@ -1585,8 +1586,8 @@ const server = http.createServer(async (req, res) => {
     const aliasTarget = PUBLIC_PAGE_ALIASES[normalizedPath.toLowerCase()];
     const relativePath = (aliasTarget || normalizedPath).replace(/^\/+/, '');
 
-    let filePath = path.join(ROOT, relativePath);
-    if (!filePath.startsWith(ROOT)) {
+    let filePath = path.resolve(PUBLIC_ROOT, relativePath);
+    if (!filePath.startsWith(PUBLIC_ROOT)) {
       return sendJson(res, 403, { error: 'Forbidden' });
     }
 
@@ -1594,7 +1595,16 @@ const server = http.createServer(async (req, res) => {
       return sendFile(res, filePath);
     }
 
-    return sendFile(res, path.join(ROOT, 'index.html'));
+    const pagePath = path.resolve(PUBLIC_ROOT, 'html', relativePath);
+    if (
+      pagePath.startsWith(path.resolve(PUBLIC_ROOT, 'html')) &&
+      fs.existsSync(pagePath) &&
+      fs.statSync(pagePath).isFile()
+    ) {
+      return sendFile(res, pagePath);
+    }
+
+    return sendFile(res, path.resolve(PUBLIC_ROOT, 'html', 'index.html'));
   } catch (error) {
     console.error(error);
     return sendJson(res, 500, { error: error.message || 'Server error' });
