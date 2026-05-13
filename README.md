@@ -251,38 +251,44 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 
 ## 📄 Documentation
 
-| Document | Description |
-|----------|-------------|
-| [FINAL_SUBMISSION_INDEX.md](docs/PROJECT/FINAL_SUBMISSION_INDEX.md) | **Final submission index with all links** |
-| [WEEK10_STABILITY_PACKET.md](docs/PROJECT/WEEK10_STABILITY_PACKET.md) | Week 10 stability sprint packet |
-| [BUG_TRIAGE.md](docs/PROJECT/BUG_TRIAGE.md) | Bug triage with severity guide |
-| [TEST_CHECKLIST.md](docs/PROJECT/TEST_CHECKLIST.md) | MVP test checklist with evidence |
-| [MVP_STATUS.md](docs/PROJECT/MVP_STATUS.md) | MVP status (working/planned) |
-| [TEAM_CONTRIBUTIONS.md](docs/PROJECT/TEAM_CONTRIBUTIONS.md) | Team contribution receipts |
-| [.github/ISSUE_TEMPLATE/bug_report.md](.github/ISSUE_TEMPLATE/bug_report.md) | Bug report template |
-| [.github/pull_request_template.md](.github/pull_request_template.md) | Pull request template with AI note |
-| [PROJECT_IDEA_PITCH.md](docs/PROJECT/PROJECT_IDEA_PITCH.md) | Project concept and goals |
-| [USER_STORIES.md](docs/PROJECT/USER_STORIES.md) | User stories and flows |
-| [SYSTEM_ARCHITECTURE.md](docs/DESIGN/SYSTEM_ARCHITECTURE.md) | System architecture |
-| [BACKEND_PLAN.md](docs/DESIGN/BACKEND_PLAN.md) | Backend development plan |
-| [MONGODB_SETUP.md](docs/DESIGN/MONGODB_SETUP.md) | MongoDB Atlas setup guide |
-| [DEPLOYMENT.md](docs/DESIGN/DEPLOYMENT.md) | Deployment guide |
-| [Weekly Sprint Packets](docs/sprints/) | Weekly progress tracking (Week 1-10) |
-| [Week 1 - Onboarding](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%201.md) | Setup & planning |
-| [Week 2 - Reset](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%202.md) | Planning & frontend |
-| [Week 3 - Frontend MVP](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%203%20.md) | MVP demo ready |
-| [Week 4 - Browse](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%204.md) | Browse & filtering |
-| [Week 5 - Premium UI](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%205.md) | Redesign complete |
-| [Week 6 - Backend](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%206.md) | API & MongoDB |
-| [Week 7 - Midterm Prep](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%207.md) | Presentation ready |
-| [Week 8 - Midterm](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) | Presented successfully |
-| [Week 9 - Polish](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) | Testing & fixes |
-| [Week 10 - Bug Triage](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) | AI workflow & bugs |
-| [Week 11 - MVP Verification](docs/PROGRESS/week%2011/README.md) | MVP verification, demo script, bug list, ownership |
-| [Code Coverage Guide](docs/PROGRESS/week%2011/CODE_COVERAGE.md) | Jest setup, test plan, 70% coverage target |
-| [Accessibility Testing](docs/PROGRESS/week%2011/ACCESSIBILITY_TESTING.md) | WCAG 2.1 AA audit, keyboard nav, screen reader checks |
-| [AI_CODE_OWNERSHIP_AUDIT.md](docs/AI_CODE_OWNERSHIP_AUDIT.md) | AI use and team ownership |
-| [PROJECT_BOARD.md](PROJECT_BOARD.md) | Project board and task tracking |
+| Category | Document | Description |
+|----------|----------|-------------|
+| **Overview** | [PROJECT_IDEA_PITCH.md](docs/PROJECT/PROJECT_IDEA_PITCH.md) | Project concept and goals |
+| | [USER_STORIES.md](docs/PROJECT/USER_STORIES.md) | User stories and flows |
+| | [GLOSSARY.md](docs/PROJECT/GLOSSARY.md) | Domain and technical terms defined |
+| | [FINAL_SUBMISSION_INDEX.md](docs/PROJECT/FINAL_SUBMISSION_INDEX.md) | Master index of all submission links |
+| **Architecture** | [SYSTEM_ARCHITECTURE.md](docs/DESIGN/SYSTEM_ARCHITECTURE.md) | System architecture overview |
+| | [BACKEND_PLAN.md](docs/DESIGN/BACKEND_PLAN.md) | Backend development plan |
+| | [DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md) | Data models, collections, relationships |
+| | [API_REFERENCE.md](docs/API_REFERENCE.md) | Complete API endpoint reference |
+| **Deployment** | [DEPLOYMENT.md](docs/DESIGN/DEPLOYMENT.md) | Deployment guide and configuration |
+| | [DEPLOYMENT_CHECKLIST.md](docs/DEPLOYMENT_CHECKLIST.md) | Step-by-step deploy checklist |
+| | [MONGODB_SETUP.md](docs/DESIGN/MONGODB_SETUP.md) | MongoDB Atlas setup guide |
+| **Testing** | [TESTING_STRATEGY.md](docs/TESTING_STRATEGY.md) | Overall test plan: unit, integration, UI, a11y |
+| | [TEST_CHECKLIST.md](docs/PROJECT/TEST_CHECKLIST.md) | MVP test checklist with evidence |
+| | [CODE_COVERAGE.md](docs/PROGRESS/week%2011/CODE_COVERAGE.md) | Jest setup, test plan, 70% coverage target |
+| | [ACCESSIBILITY_TESTING.md](docs/PROGRESS/week%2011/ACCESSIBILITY_TESTING.md) | WCAG 2.1 AA audit, keyboard nav, screen reader |
+| | [BUG_TRIAGE.md](docs/PROJECT/BUG_TRIAGE.md) | Bug triage with severity guide |
+| | [BUG_LIST.md](docs/PROGRESS/week%2011/BUG_LIST.md) | Current bug list (P0-P2) |
+| **Sprints** | [Weekly Sprint Packets](docs/sprints/) | All weekly sprint packets |
+| | [Week 1 - Onboarding](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%201.md) | Setup & planning |
+| | [Week 2 - Reset](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%202.md) | Planning & frontend |
+| | [Week 3 - Frontend MVP](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%203%20.md) | MVP demo ready |
+| | [Week 4 - Browse](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%204.md) | Browse & filtering |
+| | [Week 5 - Premium UI](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%205.md) | Redesign complete |
+| | [Week 6 - Backend](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%206.md) | API & MongoDB |
+| | [Week 7 - Midterm Prep](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%207.md) | Presentation ready |
+| | [Week 8 - Midterm](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) | Presented successfully |
+| | [Week 9 - Polish](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) | Testing & fixes |
+| | [Week 10 - Bug Triage](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) | AI workflow & bugs |
+| | [Week 11 - MVP Verification](docs/PROGRESS/week%2011/README.md) | MVP verification, demo script, bug list, ownership |
+| **Management** | [PROJECT_BOARD.md](PROJECT_BOARD.md) | Project board and task tracking |
+| | [RISK_REGISTER.md](docs/PROJECT/RISK_REGISTER.md) | Project risks, impact, and mitigation |
+| | [LESSONS_LEARNED.md](docs/PROJECT/LESSONS_LEARNED.md) | Retrospective and improvements |
+| | [TEAM_CONTRIBUTIONS.md](docs/PROJECT/TEAM_CONTRIBUTIONS.md) | Team contribution receipts |
+| | [AI_CODE_OWNERSHIP_AUDIT.md](docs/AI_CODE_OWNERSHIP_AUDIT.md) | AI use and code ownership check |
+| **Templates** | [.github/ISSUE_TEMPLATE/bug_report.md](.github/ISSUE_TEMPLATE/bug_report.md) | Bug report template |
+| | [.github/pull_request_template.md](.github/pull_request_template.md) | Pull request template with AI note |
 
 > **Weekly Role Rotation:** Roles (Project Manager, Scribe, QA Lead, Demo Driver) rotate each sprint per class policy.
 
@@ -326,13 +332,19 @@ Issue → Branch → Code → PR → Review → Merge
 
 ## 📅 Weekly Sprints
 
-- [Week 1 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%201.md)
-- [Week 2 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%202.md)
-- [Week 3 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%203.md)
-- [Week 4 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%204.md)
-- [Week 5 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%205.md)
-- [Week 6 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%206.md)
-- [Week 11 — MVP Verification](docs/week11/README.md)
+| Week | Title | Link |
+|------|-------|------|
+| 1 | Onboarding & Setup | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%201.md) |
+| 2 | Reset Week & Planning | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%202.md) |
+| 3 | Frontend MVP | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%203%20.md) |
+| 4 | Browse & Filtering | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%204.md) |
+| 5 | Premium UI Redesign | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%205.md) |
+| 6 | Backend Foundation | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%206.md) |
+| 7 | Midterm Preparation | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%207.md) |
+| 8 | Midterm Presentation | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) |
+| 9 | Polish & Testing | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) |
+| 10 | Bug Triage & AI Workflow | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) |
+| 11 | MVP Verification | [Overview](docs/PROGRESS/week%2011/README.md) |
 
 ---
 
