@@ -10,12 +10,12 @@
 
 | Evidence Type | Status | Link |
 |--------------|--------|------|
-| Pull Request | ✅ Done | [PR link placeholder] |
-| Demo video or screenshots | ✅ Done | [Screenshot link placeholder] |
-| Test result | ✅ Done | [Test result link placeholder] |
-| Docs update | ✅ Done | [Docs update link placeholder] |
-| Review comment | ✅ Done | [Review comment link placeholder] |
-| CI run | ✅ Done | [CI run link placeholder] |
+| Pull Request | ✅ Done | [#109](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109) |
+| Demo screenshots | ✅ Done | [Live site](https://free-sewaa-qh05.onrender.com) |
+| Test result | ❌ Not yet | [Needs implementation] |
+| Docs update | ✅ Done | [docs/PROGRESS/week 11/](.) |
+| Review comment | ✅ Done | [#109 review](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109) |
+| CI run | ✅ Done | [Actions](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions) |
 
 ---
 

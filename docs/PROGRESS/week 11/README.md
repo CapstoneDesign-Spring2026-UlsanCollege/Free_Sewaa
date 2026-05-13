@@ -51,4 +51,4 @@
 | Bug List | [BUG_LIST.md](BUG_LIST.md) |
 | Ownership Map | [OWNERSHIP_MAP.md](OWNERSHIP_MAP.md) |
 | Evidence Links | [EVIDENCE_LINKS.md](EVIDENCE_LINKS.md) |
-| Week 11 Evidence | [docs/evidence/week11/README.md](../evidence/week11/README.md) |
+| Week 11 Evidence | [docs/evidence/week11/README.md](../../evidence/week11/README.md) |

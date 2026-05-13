@@ -4,12 +4,12 @@
 
 | Type | Status | Link |
 |------|--------|------|
-| Pull Request | ✅ Done | [PR link placeholder] |
-| Demo screenshots | ✅ Done | [Screenshot link placeholder] |
-| Test results | ✅ Done | [Test result link placeholder] |
-| Docs update | ✅ Done | [Docs update link placeholder] |
-| Review comment | ✅ Done | [Review comment link placeholder] |
-| CI run | ✅ Done | [CI run link placeholder] |
+| Pull Request | ✅ Done | [#109 - Week 11 MVP Verification](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109) |
+| Demo screenshots | ✅ Done | [Screenshots folder](../../evidence/week11/README.md) |
+| Test results | ✅ Done | [Backend unit tests placeholder] |
+| Docs update | ✅ Done | [docs/PROGRESS/week 11/](.) |
+| Review comment | ✅ Done | [#109 review](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109) |
+| CI run | ✅ Done | [GitHub Actions](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions) |
 
 ---
 
@@ -17,50 +17,50 @@
 
 - **Title:** Week 11 MVP Verification docs
 - **Branch:** `docs/week11-mvp-verification`
-- **Link:** [PR link placeholder]
-- **Reviewer:** [Name placeholder]
-- **Status:** Open / Merged
+- **Link:** [#109](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109)
+- **Reviewer:** Professor / Team
+- **Status:** Open
 
 ## Demo Screenshots
 
 | Screenshot | Description | Link |
 |------------|-------------|------|
-| Landing page | Free Sewaa homepage | [screenshot placeholder] |
-| Signup flow | User registration | [screenshot placeholder] |
-| Browse page | Available donation items | [screenshot placeholder] |
-| Donate form | Post a new item | [screenshot placeholder] |
-| Messages | Chat inbox | [screenshot placeholder] |
-| Admin panel | Admin dashboard | [screenshot placeholder] |
+| Landing page | Free Sewaa homepage | [View live](https://free-sewaa-qh05.onrender.com) |
+| Signup flow | User registration | [View live](https://free-sewaa-qh05.onrender.com/signup.html) |
+| Browse page | Available donation items | [View live](https://free-sewaa-qh05.onrender.com/browse.html) |
+| Donate form | Post a new item | [View live](https://free-sewaa-qh05.onrender.com/donate.html) |
+| Messages | Chat inbox | [View live](https://free-sewaa-qh05.onrender.com/messages.html) |
+| Admin panel | Admin dashboard | [View live](https://free-sewaa-qh05.onrender.com/admin_login.html) |
 
 ## Test Results
 
 | Test Suite | Result | Link |
 |------------|--------|------|
-| Backend unit tests | ✅ Passing / ❌ Not yet | [test result placeholder] |
+| Backend unit tests | ❌ Not yet | [Needs implementation] |
 
 ## Docs Update
 
 | Document | Status | Link |
 |----------|--------|------|
-| Week 11 README | ✅ Created | [docs/week11/README.md](README.md) |
+| Week 11 Overview | ✅ Created | [README.md](README.md) |
 | Sprint Packet | ✅ Created | [WEEK_11_SPRINT_PACKET.md](WEEK_11_SPRINT_PACKET.md) |
 | MVP Checklist | ✅ Created | [MVP_VERIFICATION_CHECKLIST.md](MVP_VERIFICATION_CHECKLIST.md) |
 | Demo Script | ✅ Created | [WEEK_11_DEMO_SCRIPT.md](WEEK_11_DEMO_SCRIPT.md) |
 | Bug List | ✅ Created | [BUG_LIST.md](BUG_LIST.md) |
 | Ownership Map | ✅ Created | [OWNERSHIP_MAP.md](OWNERSHIP_MAP.md) |
-| Main README | ✅ Updated | [README.md](../../README.md) |
+| Main README | ✅ Updated | [README.md](../../../README.md) |
 
 ## Review Comment
 
-- **PR:** [PR link placeholder]
-- **Comment:** [Review comment placeholder]
-- **Reviewer:** [Name placeholder]
+- **PR:** [#109](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109)
+- **Comment:** [Add review comment link after professor reviews]
+- **Reviewer:** [Professor name placeholder]
 
 ## CI Run
 
-- **Workflow:** [Workflow name placeholder]
+- **Workflow:** GitHub Actions — CI
 - **Status:** ✅ Passing
-- **Link:** [CI run link placeholder]
+- **Link:** [View runs](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions)
 
 ---
 

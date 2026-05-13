@@ -58,5 +58,15 @@ None identified yet.
 
 ## Bug Tracking Links
 
-- GitHub Issues: [https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues)
-- Bug Reports Folder: [docs/bugs/](../bugs/)
+- GitHub Issues: [View all issues](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues)
+- Bug Reports Folder: [docs/bugs/](../../bugs/)
+- Create new issue: [New issue](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/new/choose)
+
+## Status Legend
+
+| Status | Meaning |
+|--------|---------|
+| Open | Bug identified and documented, not yet fixed |
+| In Progress | Someone is working on a fix |
+| Fixed | Fix has been applied and verified |
+| Won't Fix | Accepted as known limitation |
