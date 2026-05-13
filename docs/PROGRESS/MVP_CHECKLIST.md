@@ -123,4 +123,19 @@
 
 ---
 
-*Last Updated: Week 8 - Midterm*
+### Week 11 — MVP Verification
+
+| Item | Status | Notes |
+|------|--------|-------|
+| Sprint packet created | ✅ Done | [WEEK_11_SPRINT_PACKET.md](../week11/WEEK_11_SPRINT_PACKET.md) |
+| Bug list documented | ✅ Done | [BUG_LIST.md](../week11/BUG_LIST.md) |
+| Ownership map created | ✅ Done | [OWNERSHIP_MAP.md](../week11/OWNERSHIP_MAP.md) |
+| Demo script written | ✅ Done | [WEEK_11_DEMO_SCRIPT.md](../week11/WEEK_11_DEMO_SCRIPT.md) |
+| Evidence links collected | ✅ Done | [EVIDENCE_LINKS.md](../week11/EVIDENCE_LINKS.md) |
+| MVP checklist updated | ✅ Done | [MVP_VERIFICATION_CHECKLIST.md](../week11/MVP_VERIFICATION_CHECKLIST.md) |
+| Screenshots folder ready | ✅ Done | [docs/evidence/week11/](../evidence/week11/README.md) |
+| Core flow verified | ✅ Done | All 7 steps working |
+
+---
+
+*Last Updated: Week 11 - MVP Verification*
