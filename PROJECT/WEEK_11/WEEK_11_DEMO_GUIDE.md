@@ -3,13 +3,13 @@
 
 Before the demo, make sure:
 
-- [ ] Project runs on the classroom computer
-- [ ] Core flow can be shown clearly
-- [ ] Evidence is linked in the repository
-- [ ] Team members can explain the project
-- [ ] Bugs or weak parts are noted
-- [ ] Documentation is updated
-- [ ] Demo does not depend on personal laptops
+- [x] Project runs on the classroom computer
+- [x] Core flow can be shown clearly
+- [x] Evidence is linked in the repository
+- [x] Team members can explain the project
+- [x] Bugs or weak parts are noted
+- [x] Documentation is updated
+- [x] Demo does not depend on personal laptops
 
 ---
 
