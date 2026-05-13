@@ -126,9 +126,9 @@ body.light-mode .nav-link.active{background:rgba(42,32,23,.08); color:var(--text
 .nav-link.has-nav-icon::before,.icon-link.has-nav-icon::before{
   content:attr(data-nav-tooltip);
   position:absolute;
-  left:50%;
-  bottom:calc(100% + 10px);
-  transform:translate(-50%,6px) scale(.96);
+  left:calc(100% + 8px);
+  top:50%;
+  transform:translate(-8px,-50%) scale(.96);
   opacity:0;
   pointer-events:none;
   white-space:nowrap;
@@ -136,30 +136,30 @@ body.light-mode .nav-link.active{background:rgba(42,32,23,.08); color:var(--text
   overflow:hidden;
   text-overflow:ellipsis;
   padding:7px 10px;
-  border-radius:8px;
+  border-radius:999px;
   background:rgba(18,14,10,.94);
   border:1px solid rgba(255,236,212,.12);
   color:var(--cream-2);
   font-size:.78rem;
   font-weight:700;
   box-shadow:0 12px 30px rgba(0,0,0,.26);
-  transition:opacity .18s ease,transform .18s ease;
+  transition:opacity .2s ease,transform .2s ease;
   z-index:50;
 }
 .nav-link.has-nav-icon::after,.icon-link.has-nav-icon::after{
   content:"";
   position:absolute;
-  left:50%;
-  bottom:calc(100% + 4px);
-  transform:translate(-50%,6px) rotate(45deg);
+  left:calc(100% + 4px);
+  top:50%;
+  transform:translate(-8px,-50%) rotate(45deg);
   width:8px;
   height:8px;
   opacity:0;
   pointer-events:none;
   background:rgba(18,14,10,.94);
-  border-right:1px solid rgba(255,236,212,.12);
+  border-left:1px solid rgba(255,236,212,.12);
   border-bottom:1px solid rgba(255,236,212,.12);
-  transition:opacity .18s ease,transform .18s ease;
+  transition:opacity .2s ease,transform .2s ease;
   z-index:49;
 }
 .nav-link.has-nav-icon:hover::before,.nav-link.has-nav-icon:focus-visible::before,
@@ -167,11 +167,11 @@ body.light-mode .nav-link.active{background:rgba(42,32,23,.08); color:var(--text
 .nav-link.has-nav-icon:hover::after,.nav-link.has-nav-icon:focus-visible::after,
 .icon-link.has-nav-icon:hover::after,.icon-link.has-nav-icon:focus-visible::after{
   opacity:1;
-  transform:translate(-50%,0) scale(1);
+  transform:translate(0,-50%) scale(1);
 }
 .nav-link.has-nav-icon:hover::after,.nav-link.has-nav-icon:focus-visible::after,
 .icon-link.has-nav-icon:hover::after,.icon-link.has-nav-icon:focus-visible::after{
-  transform:translate(-50%,0) rotate(45deg);
+  transform:translate(0,-50%) rotate(45deg);
 }
 body.light-mode .nav-link.has-nav-icon::before,body.light-mode .icon-link.has-nav-icon::before,
 body.light-mode .nav-link.has-nav-icon::after,body.light-mode .icon-link.has-nav-icon::after{
