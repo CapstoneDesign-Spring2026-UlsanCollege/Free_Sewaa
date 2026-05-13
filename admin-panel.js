@@ -168,6 +168,7 @@
     setText('[data-admin-flagged]', summary.flaggedListings || 0);
     setText('[data-admin-featured]', summary.featuredListings || 0);
     setText('[data-admin-unread]', summary.unreadNotifications || 0);
+    setText('[data-admin-suggestions]', summary.suggestions || 0);
     setText('[data-admin-conversations]', summary.conversations || 0);
     setText('[data-admin-open-risks]', summary.openRisks || 0);
     setText('[data-admin-health-score]', `${health}/100`);
@@ -312,11 +313,27 @@
       : emptyCard('No recent platform activity yet.');
   }
 
+  function renderSuggestions() {
+    const target = document.getElementById('adminSuggestionsFeed');
+    if (!target) return;
+
+    const suggestions = state.dashboard?.suggestions || [];
+    target.innerHTML = suggestions.length
+      ? suggestions.map(item => `
+          <article class="admin-v2-activityitem">
+            <strong>${escapeHtml(item.name || 'Free Sewaa user')}</strong>
+            <p>${escapeHtml(item.message || 'No suggestion text available.')}</p>
+            <span>${escapeHtml(item.email || 'No email')} 쨌 ${escapeHtml(timeAgo(item.createdAt))}</span>
+          </article>`).join('')
+      : emptyCard('No dashboard suggestions yet.');
+  }
+
   function renderAll() {
     renderSummary();
     renderQueue();
     renderUsers();
     renderListings();
+    renderSuggestions();
     renderActivity();
   }
 

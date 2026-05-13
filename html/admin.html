@@ -98,6 +98,7 @@
         <button type="button" class="admin-v2-nav__link" data-admin-nav="moderation">Moderation</button>
         <button type="button" class="admin-v2-nav__link" data-admin-nav="users">Users</button>
         <button type="button" class="admin-v2-nav__link" data-admin-nav="listings">Listings</button>
+        <button type="button" class="admin-v2-nav__link" data-admin-nav="suggestions">Suggestions</button>
         <button type="button" class="admin-v2-nav__link" data-admin-nav="activity">Activity</button>
       </nav>
 
@@ -167,7 +168,7 @@
         <article class="admin-v2-stat">
           <span>Inbox alerts</span>
           <strong data-admin-unread>0</strong>
-          <p><span data-admin-conversations>0</span> conversations</p>
+          <p><span data-admin-conversations>0</span> conversations 쨌 <span data-admin-suggestions>0</span> suggestions</p>
         </article>
       </section>
 
@@ -245,6 +246,39 @@
             </div>
           </div>
           <div id="adminListingsList" class="admin-v2-cardlist"></div>
+        </article>
+      </section>
+
+      <section class="admin-v2-grid admin-v2-grid--top" id="section-suggestions">
+        <article class="admin-v2-panel admin-v2-panel--wide">
+          <div class="admin-v2-panel__head">
+            <div>
+              <p class="eyebrow">USER FEEDBACK</p>
+              <h2>Suggestions from dashboard contact form</h2>
+            </div>
+          </div>
+          <div id="adminSuggestionsFeed" class="admin-v2-activity"></div>
+        </article>
+
+        <article class="admin-v2-panel">
+          <div class="admin-v2-panel__head">
+            <div>
+              <p class="eyebrow">CONTACT CHANNELS</p>
+              <h2>Free Sewaa contact</h2>
+            </div>
+          </div>
+          <div class="admin-v2-audits">
+            <div class="admin-v2-audititem">
+              <span>Phone</span>
+              <strong>010-9664-6162</strong>
+              <p>Users can call directly from the dashboard contact card.</p>
+            </div>
+            <div class="admin-v2-audititem">
+              <span>Email</span>
+              <strong>support@freesewaa.org</strong>
+              <p>Users can email the organization from the dashboard contact card.</p>
+            </div>
+          </div>
         </article>
       </section>
 

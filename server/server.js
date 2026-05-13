@@ -818,12 +818,13 @@ async function buildChatbotReply(message) {
  * @returns {Object} Dashboard data with summary, users, listings, moderationQueue, activity.
  */
 async function buildAdminDashboardData() {
-  const [users, listings, requests, conversations, notifications, meta] = await Promise.all([
+  const [users, listings, requests, conversations, notifications, suggestions, meta] = await Promise.all([
     usersCollection.find({}).toArray(),
     listingsCollection.find({}).toArray(),
     requestsCollection.find({}).toArray(),
     conversationsCollection.find({}).toArray(),
     notificationsCollection.find({}).toArray(),
+    suggestionsCollection.find({}).sort({ createdAt: -1 }).limit(25).toArray(),
     metaCollection.findOne({ key: 'app-meta' })
   ]);
 
@@ -873,6 +874,7 @@ async function buildAdminDashboardData() {
     featuredListings: normalizedListings.filter(item => item.featured).length,
     flaggedListings: moderationQueue.length,
     unreadNotifications: notifications.filter(item => !item.read).length,
+    suggestions: suggestions.length,
     conversations: conversations.length,
     openRisks: moderationQueue.filter(item => item.urgent || item.status === 'hidden' || !item.reviewed).length,
     healthScore: Math.max(0, 100 - (users.filter(user => user.isBlocked).length * 12) - (moderationQueue.length * 4) - Math.min(20, notifications.filter(item => !item.read).length)),
@@ -904,6 +906,7 @@ async function buildAdminDashboardData() {
     users: normalizedUsers,
     listings: normalizedListings.map(normalizeListingForClient),
     moderationQueue,
+    suggestions: suggestions.map(normalizeDoc),
     activity
   };
 }
