@@ -278,6 +278,7 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 | [Week 8 - Midterm](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) | Presented successfully |
 | [Week 9 - Polish](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) | Testing & fixes |
 | [Week 10 - Bug Triage](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) | AI workflow & bugs |
+| [Week 11 - MVP Verification](docs/week11/README.md) | MVP verification, demo script, bug list, ownership |
 | [AI_CODE_OWNERSHIP_AUDIT.md](docs/AI_CODE_OWNERSHIP_AUDIT.md) | AI use and team ownership |
 | [PROJECT_BOARD.md](PROJECT_BOARD.md) | Project board and task tracking |
 
@@ -329,6 +330,7 @@ Issue → Branch → Code → PR → Review → Merge
 - [Week 4 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%204.md)
 - [Week 5 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%205.md)
 - [Week 6 Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%206.md)
+- [Week 11 — MVP Verification](docs/week11/README.md)
 
 ---
 
