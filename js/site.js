@@ -2167,6 +2167,7 @@
     saved: '<path d="M6 3h12v18l-6-4-6 4Z"/>',
     requests: '<path d="M9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
     profile: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    settings: '<path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.04.04a2 2 0 1 1-2.83 2.83l-.04-.04A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6V20a2 2 0 1 1-4 0v-.05a1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.04.04a2 2 0 1 1-2.83-2.83l.04-.04A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1H4a2 2 0 1 1 0-4h.05a1.7 1.7 0 0 0 .6-1 1.7 1.7 0 0 0-.34-1.88l-.04-.04a2 2 0 1 1 2.83-2.83l.04.04A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6V4a2 2 0 1 1 4 0v.05a1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.04-.04a2 2 0 1 1 2.83 2.83l-.04.04A1.7 1.7 0 0 0 19.4 9c.2.35.4.67.6 1H20a2 2 0 1 1 0 4h-.05a1.7 1.7 0 0 0-.55 1Z"/>',
     logout: '<path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M21 3v18"/>'
   };
 
@@ -2183,6 +2184,7 @@
     if (text.includes('saved')) return 'saved';
     if (text.includes('request')) return 'requests';
     if (text.includes('profile')) return 'profile';
+    if (text.includes('setting')) return 'settings';
     if (text.includes('logout')) return 'logout';
     if (text.includes('home') || text.includes('app.html')) return 'home';
     return 'dashboard';
@@ -2210,10 +2212,74 @@
     const nameEls = document.querySelectorAll('[data-user-name]');
     nameEls.forEach(el => el.textContent = appState.user.name || 'Member');
     const stats = getUserStats();
+    const unreadMessages = appState.conversations.reduce((sum, item) => sum + Number(item.unread || 0), 0);
+    const region = [appState.user.city, appState.user.region].filter(Boolean).join(', ') || 'Not set';
+    const profileReady = appState.user.email && appState.user.phone ? 'Complete' : 'Needs update';
     document.querySelectorAll('[data-stat-active]').forEach(el => el.textContent = stats.active);
     document.querySelectorAll('[data-stat-requested]').forEach(el => el.textContent = stats.requested);
     document.querySelectorAll('[data-stat-saved]').forEach(el => el.textContent = stats.saved);
     document.querySelectorAll('[data-stat-completed]').forEach(el => el.textContent = stats.completed);
+    document.querySelectorAll('[data-user-unread]').forEach(el => el.textContent = unreadMessages);
+    document.querySelectorAll('[data-user-region]').forEach(el => el.textContent = region);
+    document.querySelectorAll('[data-user-profile-status]').forEach(el => el.textContent = profileReady);
+    document.querySelectorAll('[data-user-role-badge]').forEach(el => el.textContent = `${appState.user.role || 'Member'} account`);
+
+    const profileSummary = document.getElementById('userProfileSummary');
+    if (profileSummary) {
+      profileSummary.innerHTML = `
+        <div class="user-summary-card__avatar">${escapeHtml(initials(appState.user.name || 'Member'))}</div>
+        <div class="user-summary-card__body">
+          <strong>${escapeHtml(appState.user.name || 'Member')}</strong>
+          <p>${escapeHtml(appState.user.email || appState.user.phone || 'No contact saved')}</p>
+          <span>${escapeHtml(region)}${appState.user.pickupAvailability ? ` - ${escapeHtml(appState.user.pickupAvailability)}` : ''}</span>
+        </div>
+      `;
+    }
+
+    const renderListingItem = (item, detail = '') => `
+      <article class="mini-panel-card mini-panel-card--dashboard">
+        <div class="mini-panel-card__thumb" style="background-image:url('${escapeHtml(item.image)}')"></div>
+        <div>
+          <strong>${escapeHtml(item.title)}</strong>
+          <p>${escapeHtml(detail || `${item.category} - ${item.status}`)}</p>
+        </div>
+      </article>
+    `;
+
+    const userPostsList = document.getElementById('userPostsList');
+    if (userPostsList) {
+      const posts = getUserListings().slice(0, 3);
+      userPostsList.innerHTML = posts.length
+        ? posts.map(item => renderListingItem(item, `${item.status} - ${item.requestCount || 0} requests`)).join('')
+        : '<p class="muted-copy">No donation posts yet. Create your first listing when you are ready.</p>';
+    }
+
+    const userRequestsList = document.getElementById('userRequestsList');
+    if (userRequestsList) {
+      const requests = getRequestedListings().slice(0, 3);
+      userRequestsList.innerHTML = requests.length
+        ? requests.map(({ request, listing }) => renderListingItem(listing, `${request.status || 'pending'} - requested ${formatCreated(request.requestedAt)}`)).join('')
+        : '<p class="muted-copy">No requests sent yet. Browse items and request anything useful.</p>';
+    }
+
+    const userSavedList = document.getElementById('userSavedList');
+    if (userSavedList) {
+      const savedItems = getSavedListings().slice(0, 2);
+      const savedMarkup = savedItems.map(item => renderListingItem(item, `${item.category} - ${item.location}`)).join('');
+      const messageMarkup = `
+        <article class="mini-panel-card mini-panel-card--dashboard mini-panel-card--message">
+          <div class="user-message-dot">${unreadMessages}</div>
+          <div>
+            <strong>${unreadMessages ? 'Unread messages waiting' : 'Messages are clear'}</strong>
+            <p>${appState.conversations.length} active conversations</p>
+          </div>
+        </article>
+      `;
+      userSavedList.innerHTML = savedItems.length
+        ? `${savedMarkup}${messageMarkup}`
+        : `${messageMarkup}<p class="muted-copy">Saved items will appear here.</p>`;
+    }
+
     const recent = document.getElementById('userPanelListings');
     if (recent) {
       const items = getUserListings().slice(0, 4);
