@@ -1,7 +1,7 @@
 # Weekly Sprint Packet — Week 6
 
 ## MVP Link
-https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/releases/tag/v1.0
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/b01200e696ecf02c6bca2b11392290116f5081fa/docs/PROGRESS/MVP_WEEK_6.md
 
 ## Team
 
