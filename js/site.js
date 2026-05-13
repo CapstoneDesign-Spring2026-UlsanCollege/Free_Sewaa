@@ -1316,30 +1316,55 @@
       return Math.ceil((base64.length * 3) / 4);
     }
 
+    function drawScaledImage(image, maxEdge) {
+      const scale = Math.min(1, maxEdge / Math.max(image.width, image.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(image.width * scale));
+      canvas.height = Math.max(1, Math.round(image.height * scale));
+      const context = canvas.getContext('2d');
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      return canvas;
+    }
+
     function compressImageFile(file) {
+      const maxListingImageChars = 170000;
+      const maxEdges = [900, 720, 560, 420, 320, 240, 180];
+      const qualities = [0.78, 0.68, 0.58, 0.48, 0.38, 0.3];
+
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = () => {
           const image = new Image();
           image.onload = () => {
-            const maxEdge = 1600;
-            const scale = Math.min(1, maxEdge / Math.max(image.width, image.height));
-            const canvas = document.createElement('canvas');
-            canvas.width = Math.max(1, Math.round(image.width * scale));
-            canvas.height = Math.max(1, Math.round(image.height * scale));
-            const context = canvas.getContext('2d');
-            context.drawImage(image, 0, 0, canvas.width, canvas.height);
-            let quality = 0.82;
-            let dataUrl = canvas.toDataURL('image/jpeg', quality);
-            while (dataUrlSize(dataUrl) > 700 * 1024 && quality > 0.5) {
-              quality -= 0.08;
-              dataUrl = canvas.toDataURL('image/jpeg', quality);
+            let smallestDataUrl = '';
+            for (const maxEdge of maxEdges) {
+              const canvas = drawScaledImage(image, maxEdge);
+              for (const quality of qualities) {
+                const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                smallestDataUrl = !smallestDataUrl || dataUrl.length < smallestDataUrl.length ? dataUrl : smallestDataUrl;
+                if (dataUrl.length <= maxListingImageChars) {
+                  resolve({
+                    dataUrl,
+                    originalBytes: file.size,
+                    compressedBytes: dataUrlSize(dataUrl)
+                  });
+                  return;
+                }
+              }
             }
-            resolve({
-              dataUrl,
-              originalBytes: file.size,
-              compressedBytes: dataUrlSize(dataUrl)
-            });
+            if (smallestDataUrl) {
+              if (smallestDataUrl.length <= maxListingImageChars) {
+                resolve({
+                  dataUrl: smallestDataUrl,
+                  originalBytes: file.size,
+                  compressedBytes: dataUrlSize(smallestDataUrl)
+                });
+                return;
+              }
+              reject(new Error(`${file.name} is too large to use. Try a simpler or smaller photo.`));
+              return;
+            }
+            reject(new Error(`${file.name} could not be prepared for upload.`));
           };
           image.onerror = () => reject(new Error(`Could not load ${file.name}.`));
           image.src = reader.result;
@@ -1349,6 +1374,29 @@
       });
     }
 
+    async function prepareUploadImages(files) {
+      const prepared = await Promise.all(files.map(compressImageFile));
+      return {
+        images: prepared.map(item => item.dataUrl),
+        originalBytes: prepared.reduce((sum, item) => sum + item.originalBytes, 0),
+        compressedBytes: prepared.reduce((sum, item) => sum + item.compressedBytes, 0)
+      };
+    }
+
+    function getUploadLimitMessage(files) {
+      const remainingSlots = Math.max(0, 5 - imagePreviews.length);
+      if (files.length > remainingSlots) {
+        return `Only ${remainingSlots} more image${remainingSlots === 1 ? '' : 's'} can be added.`;
+      }
+      return '';
+    }
+
+    function buildUploadSuccessMessage(originalBytes, compressedBytes) {
+      if (originalBytes > compressedBytes) {
+        return `Images optimized from ${formatFileSize(originalBytes)} to ${formatFileSize(compressedBytes)}.`;
+      }
+      return 'Images added to your listing draft.';
+    }
 
     function updatePreview() {
       const data = getFormData();
@@ -1477,20 +1525,30 @@
     }
 
     uploadTrigger.addEventListener('click', () => uploadInput.click());
-    uploadInput.addEventListener('change', event => {
-      const files = Array.from(event.target.files || []).slice(0, 5);
-      if (!files.length) return;
-      const readers = files.map(file => new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onload = e => resolve(e.target.result);
-        reader.readAsDataURL(file);
-      }));
-      Promise.all(readers).then(images => {
-        imagePreviews = [...imagePreviews, ...images].slice(0, 5);
+    uploadInput.addEventListener('change', async event => {
+      const selectedFiles = Array.from(event.target.files || []).filter(file => file.type.startsWith('image/'));
+      const limitMessage = getUploadLimitMessage(selectedFiles);
+      const files = selectedFiles.slice(0, Math.max(0, 5 - imagePreviews.length));
+      if (!files.length) {
+        setStatus(limitMessage || 'Choose an image file to add to your listing.', 'error');
+        uploadInput.value = '';
+        return;
+      }
+
+      setStatus('Preparing images for Browse...', 'default');
+      try {
+        const upload = await prepareUploadImages(files);
+        imagePreviews = [...imagePreviews, ...upload.images].slice(0, 5);
         renderUploadPreviews();
         updatePreview();
-        setStatus('Images added to your listing draft.', 'success');
-      });
+        setStatus(limitMessage || buildUploadSuccessMessage(upload.originalBytes, upload.compressedBytes), 'success');
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || 'Could not prepare that image. Try a different photo.', 'error');
+        showToast(error.message || 'Could not prepare that image.', 'error');
+      } finally {
+        uploadInput.value = '';
+      }
     });
 
     uploadPreviewGrid.addEventListener('click', event => {
