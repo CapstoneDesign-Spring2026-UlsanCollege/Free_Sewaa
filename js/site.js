@@ -305,7 +305,7 @@
   }
 
   function isAdmin() {
-    return getCurrentUser().role === 'admin';
+    return ['admin', 'superadmin'].includes(getCurrentUser().role);
   }
 
   const liveChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('freesewaa-live') : null;

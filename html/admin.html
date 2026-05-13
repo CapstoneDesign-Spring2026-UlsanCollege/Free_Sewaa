@@ -17,7 +17,7 @@
         const storedUser = JSON.parse(localStorage.getItem('freesewaa-user') || '{}');
         const isAuthed = localStorage.getItem('freesewaa-auth') === 'true';
 
-        if (!isAuthed || !storedUser || storedUser.role !== 'admin' || !localStorage.getItem('freesewaa-current-user-id')) {
+        if (!isAuthed || !storedUser || !['admin', 'superadmin'].includes(storedUser.role) || !localStorage.getItem('freesewaa-current-user-id')) {
           window.location.replace('/admin_login.html');
         }
       } catch (error) {
@@ -334,7 +334,7 @@
         const data = await response.json();
         const user = data.user || {};
 
-        if (!response.ok || user.role !== 'admin') {
+        if (!response.ok || !['admin', 'superadmin'].includes(user.role)) {
           clearSessionAndRedirect();
           throw new Error('Admin access required.');
         }

@@ -44,6 +44,18 @@
     return localStorage.getItem('freesewaa-current-user-id') || '';
   }
 
+  function getCurrentUser() {
+    try {
+      return JSON.parse(localStorage.getItem('freesewaa-user') || '{}');
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function isSuperAdmin() {
+    return getCurrentUser().role === 'superadmin';
+  }
+
   function getAdminHeaders(extra = {}) {
     const userId = getCurrentUserId();
     const token = localStorage.getItem('freesewaa-token') || '';
@@ -181,6 +193,15 @@
       user.isBlocked ? 'blocked' : 'active',
       `${user.listingCount || 0} listings`
     ];
+    const superAdmin = isSuperAdmin();
+    const userActionButtons = superAdmin ? `
+          <button class="admin-btn admin-btn--soft" type="button" data-user-action="${user.isBlocked ? 'unblock' : 'block'}" data-user-id="${escapeHtml(user.id)}">${user.isBlocked ? 'Unblock' : 'Block'}</button>
+          ${user.role === 'superadmin'
+            ? '<button class="admin-btn admin-btn--soft" type="button" disabled>Super Admin</button>'
+            : `<button class="admin-btn admin-btn--soft" type="button" data-user-action="${user.role === 'admin' ? 'remove-admin' : 'make-admin'}" data-user-id="${escapeHtml(user.id)}">${user.role === 'admin' ? 'Remove Admin' : 'Make Admin'}</button>`}
+          ${user.role === 'user' ? `<button class="admin-btn admin-btn--soft" type="button" data-user-action="make-superadmin" data-user-id="${escapeHtml(user.id)}">Make Super Admin</button>` : ''}
+          <button class="admin-btn admin-btn--danger" type="button" data-user-action="delete-user" data-user-id="${escapeHtml(user.id)}">Delete</button>
+    ` : '<p class="muted-copy">Only a super admin can block users, delete users, or change roles.</p>';
 
     return `
       <article class="admin-v2-itemcard">
@@ -193,9 +214,7 @@
           <div class="admin-v2-tags">${tags.map(tag => `<span class="admin-tag">${escapeHtml(tag)}</span>`).join('')}</div>
         </div>
         <div class="admin-row-actions">
-          <button class="admin-btn admin-btn--soft" type="button" data-user-action="${user.isBlocked ? 'unblock' : 'block'}" data-user-id="${escapeHtml(user.id)}">${user.isBlocked ? 'Unblock' : 'Block'}</button>
-          <button class="admin-btn admin-btn--soft" type="button" data-user-action="${user.role === 'admin' ? 'remove-admin' : 'make-admin'}" data-user-id="${escapeHtml(user.id)}">${user.role === 'admin' ? 'Remove Admin' : 'Make Admin'}</button>
-          <button class="admin-btn admin-btn--danger" type="button" data-user-action="delete" data-user-id="${escapeHtml(user.id)}">Delete</button>
+          ${userActionButtons}
         </div>
       </article>`;
   }
@@ -211,7 +230,7 @@
         state.userStatus === 'all' ||
         (state.userStatus === 'active' && !user.isBlocked) ||
         (state.userStatus === 'blocked' && user.isBlocked) ||
-        (state.userStatus === 'admins' && user.role === 'admin');
+        (state.userStatus === 'admins' && (user.role === 'admin' || user.role === 'superadmin'));
       return statusOk && (!query || text.includes(query));
     });
 
@@ -356,7 +375,7 @@
       try {
         if (userButton) {
           const action = userButton.dataset.userAction;
-          if (action === 'delete' && !window.confirm('Delete this user and related records?')) return;
+          if (action === 'delete-user' && !window.confirm('Delete this user and related records?')) return;
           await postAction('/api/admin/user-action', {
             targetUserId: userButton.dataset.userId,
             action

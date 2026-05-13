@@ -22,6 +22,14 @@ const PUBLIC_PAGE_ALIASES = {
 
 const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI;
 const DB_NAME = process.env.DB_NAME || 'freesewaa';
+const SUPER_ADMIN_EMAILS = String(process.env.SUPER_ADMIN_EMAILS || process.env.SUPER_ADMIN_EMAIL || '')
+  .split(',')
+  .map(email => email.trim().toLowerCase())
+  .filter(Boolean);
+const SUPER_ADMIN_USER_IDS = String(process.env.SUPER_ADMIN_USER_IDS || process.env.SUPER_ADMIN_USER_ID || '')
+  .split(',')
+  .map(id => id.trim())
+  .filter(Boolean);
 
 if (!MONGODB_URI) {
   console.error('❌ Missing MongoDB connection string. Set MONGODB_URI (or MONGO_URI) in environment variables.');
@@ -111,6 +119,25 @@ function safeUser(user) {
   if (!user) return null;
   const { password, _id, ...rest } = user;
   return rest;
+}
+
+function isAdminRole(role) {
+  return role === 'admin' || role === 'superadmin';
+}
+
+function isSuperAdminUser(user) {
+  if (!user) return false;
+  return user.role === 'superadmin';
+}
+
+function isConfiguredSuperAdmin(user) {
+  if (!user) return false;
+  const email = String(user.email || '').trim().toLowerCase();
+  const id = String(user.id || '').trim();
+  return (
+    (email && SUPER_ADMIN_EMAILS.includes(email)) ||
+    (id && SUPER_ADMIN_USER_IDS.includes(id))
+  );
 }
 
 function getUserId(req, url) {
@@ -275,6 +302,19 @@ async function ensureSeedData() {
   if (existingAdmin && !existingAdmin.role) {
     await usersCollection.updateOne({ id: existingAdmin.id }, { $set: { role: 'admin' } });
     existingAdmin.role = 'admin';
+  }
+
+  if (SUPER_ADMIN_EMAILS.length || SUPER_ADMIN_USER_IDS.length) {
+    const superAdminQuery = [];
+    if (SUPER_ADMIN_EMAILS.length) superAdminQuery.push({ email: { $in: SUPER_ADMIN_EMAILS } });
+    if (SUPER_ADMIN_USER_IDS.length) superAdminQuery.push({ id: { $in: SUPER_ADMIN_USER_IDS } });
+
+    if (superAdminQuery.length) {
+      await usersCollection.updateMany(
+        { $or: superAdminQuery },
+        { $set: { role: 'superadmin', updatedAt: new Date().toISOString() } }
+      );
+    }
   }
 
   const existingState = await statesCollection.findOne({ userId: existingUser.id });
@@ -822,7 +862,8 @@ async function buildAdminDashboardData() {
 
   const summary = {
     users: normalizedUsers.length,
-    admins: users.filter(user => user.role === 'admin').length,
+    admins: users.filter(user => isAdminRole(user.role)).length,
+    superadmins: users.filter(user => user.role === 'superadmin').length,
     blockedUsers: users.filter(user => user.isBlocked).length,
     listings: normalizedListings.length,
     activeListings: normalizedListings.filter(item => item.status === 'active').length,
@@ -873,17 +914,38 @@ async function requireAdminUser(req, url) {
   }
 
   const user = await usersCollection.findOne({ id: userId });
-  if (!user || user.role !== 'admin') {
+  if (!user || !isAdminRole(user.role)) {
     return { error: 'Admin access required.' };
   }
 
   return { user };
 }
 
-async function applyAdminUserAction(targetUserId, action) {
+async function requireSuperAdminUser(req, url) {
+  const admin = await requireAdminUser(req, url);
+  if (admin.error) return admin;
+  if (!isSuperAdminUser(admin.user)) {
+    return { error: 'Super admin access required.' };
+  }
+  return admin;
+}
+
+async function applyAdminUserAction(targetUserId, action, actor) {
   const targetUser = await usersCollection.findOne({ id: targetUserId });
   if (!targetUser) {
     throw new Error('Target user not found.');
+  }
+
+  if (!isSuperAdminUser(actor)) {
+    throw new Error('Super admin access required for user management.');
+  }
+
+  if (isSuperAdminUser(targetUser) && targetUser.id !== actor.id) {
+    throw new Error('Another super admin cannot be changed from this panel.');
+  }
+
+  if (targetUser.id === actor.id && ['block', 'remove-admin', 'delete-user'].includes(action)) {
+    throw new Error('You cannot block, demote, or delete your own super admin account.');
   }
 
   if (action === 'block') {
@@ -900,6 +962,12 @@ async function applyAdminUserAction(targetUserId, action) {
 
   if (action === 'make-admin') {
     await usersCollection.updateOne({ id: targetUserId }, { $set: { role: 'admin' } });
+    await touchMeta();
+    return buildAdminDashboardData();
+  }
+
+  if (action === 'make-superadmin') {
+    await usersCollection.updateOne({ id: targetUserId }, { $set: { role: 'superadmin' } });
     await touchMeta();
     return buildAdminDashboardData();
   }
@@ -1096,9 +1164,15 @@ const server = http.createServer(async (req, res) => {
         await ensureStateForUser(user);
       }
 
+      const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (role !== user.role) {
+        await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
+        user.role = role;
+      }
+
       return sendJson(res, 200, {
         user: safeUser(user),
-        auth: { userId: user.id, isAuthenticated: true, role: user.role || 'user' }
+        auth: { userId: user.id, isAuthenticated: true, role }
       });
     }
 
@@ -1121,12 +1195,18 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 403, { error: 'This account is blocked.' });
       }
 
+      const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (role !== user.role) {
+        await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
+        user.role = role;
+      }
+
       return sendJson(res, 200, {
         user: safeUser(user),
         auth: {
           userId: user.id,
           isAuthenticated: true,
-          role: user.role || 'user'
+          role
         }
       });
     }
@@ -1195,11 +1275,17 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 403, { error: 'This account is blocked.' });
       }
 
+      const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (role !== user.role) {
+        await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
+        user.role = role;
+      }
+
       await ensureStateForUser(user);
 
       return sendJson(res, 200, {
         user: safeUser(user),
-        auth: { userId: user.id, isAuthenticated: true }
+        auth: { userId: user.id, isAuthenticated: true, role }
       });
     }
 
@@ -1218,7 +1304,8 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 401, { error: 'Invalid credentials.' });
       }
 
-      if (user.role !== 'admin') {
+      const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (!isAdminRole(role)) {
         return sendJson(res, 403, { error: 'Admin access required.' });
       }
 
@@ -1226,11 +1313,16 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 403, { error: 'This account is blocked.' });
       }
 
+      if (role !== user.role) {
+        await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
+        user.role = role;
+      }
+
       await ensureStateForUser(user);
 
       return sendJson(res, 200, {
         user: safeUser(user),
-        auth: { userId: user.id, isAuthenticated: true, role: 'admin' }
+        auth: { userId: user.id, isAuthenticated: true, role }
       });
     }
 
@@ -1290,7 +1382,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/admin/user-action' && req.method === 'POST') {
-      const admin = await requireAdminUser(req, url);
+      const admin = await requireSuperAdminUser(req, url);
       if (admin.error) {
         return sendJson(res, 403, { error: admin.error });
       }
@@ -1300,7 +1392,7 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: 'targetUserId and action are required.' });
       }
 
-      const payload = await applyAdminUserAction(targetUserId, action);
+      const payload = await applyAdminUserAction(targetUserId, action, admin.user);
       return sendJson(res, 200, { payload });
     }
 

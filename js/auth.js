@@ -201,7 +201,7 @@ function setSession(data) {
     localStorage.removeItem(STORAGE_KEYS.token);
   }
 
-  window.location.href = sessionRole === 'admin' ? '/admin.html' : '/user_panel.html';
+  window.location.href = ['admin', 'superadmin'].includes(sessionRole) ? '/admin.html' : '/user_panel.html';
 }
 
 function validateSignupEmailForm(form, values) {

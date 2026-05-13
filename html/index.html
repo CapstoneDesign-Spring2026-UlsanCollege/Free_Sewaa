@@ -14,7 +14,7 @@
 
 <script>
 if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('freesewaa-current-user-id')) {
-  try { const u = JSON.parse(localStorage.getItem('freesewaa-user') || '{}'); window.location.replace(u.role === 'admin' ? 'admin.html' : 'app.html'); } catch(e) { window.location.replace('app.html'); }
+  try { const u = JSON.parse(localStorage.getItem('freesewaa-user') || '{}'); window.location.replace(['admin', 'superadmin'].includes(u.role) ? 'admin.html' : 'app.html'); } catch(e) { window.location.replace('app.html'); }
 }
 </script>
 
