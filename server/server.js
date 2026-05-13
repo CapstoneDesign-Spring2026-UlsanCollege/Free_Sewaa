@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
 const PUBLIC_ROOT = path.resolve(__dirname, '..');
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'free-sewaa';
+const FALLBACK_LISTING_IMAGE = 'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80';
+const MAX_INLINE_IMAGE_LENGTH = 180000;
 
 const PUBLIC_PAGE_ALIASES = {
   '/auth-choice.html': 'auth_choice.html',
@@ -138,6 +140,25 @@ function normalizeDoc(doc) {
     clone._id = String(clone._id);
   }
   return clone;
+}
+
+function normalizeListingForClient(listing) {
+  const normalized = normalizeDoc(listing);
+  if (!normalized) return null;
+
+  if (typeof normalized.image === 'string' && normalized.image.length > MAX_INLINE_IMAGE_LENGTH) {
+    normalized.image = FALLBACK_LISTING_IMAGE;
+    normalized.imageWasTooLarge = true;
+  }
+
+  return normalized;
+}
+
+function sanitizeListingImage(image) {
+  const value = String(image || '').trim();
+  if (!value) return FALLBACK_LISTING_IMAGE;
+  if (value.length > MAX_INLINE_IMAGE_LENGTH) return FALLBACK_LISTING_IMAGE;
+  return value;
 }
 
 function buildAuthQuery(email = '', phone = '') {
@@ -745,7 +766,7 @@ async function buildAdminDashboardData() {
   return {
     summary,
     users: normalizedUsers,
-    listings: normalizedListings,
+    listings: normalizedListings.map(normalizeListingForClient),
     moderationQueue,
     activity
   };
@@ -1222,7 +1243,7 @@ const server = http.createServer(async (req, res) => {
         .sort({ createdAt: -1 })
         .toArray();
 
-      return sendJson(res, 200, { listings: listings.map(normalizeDoc) });
+      return sendJson(res, 200, { listings: listings.map(normalizeListingForClient) });
     }
 
     if (pathname.match(/^\/api\/listings\/[^/]+$/) && req.method === 'GET') {
@@ -1231,7 +1252,7 @@ const server = http.createServer(async (req, res) => {
       if (!listing) {
         return sendJson(res, 404, { error: 'Listing not found.' });
       }
-      return sendJson(res, 200, { listing: normalizeDoc(listing) });
+      return sendJson(res, 200, { listing: normalizeListingForClient(listing) });
     }
 
     if (pathname === '/api/listings' && req.method === 'POST') {
@@ -1264,7 +1285,7 @@ const server = http.createServer(async (req, res) => {
         pickupWindow: body.pickupWindow || '',
         description: body.description || '',
         notes: body.notes || '',
-        image: body.image || '',
+        image: sanitizeListingImage(body.image),
         requestCount: 0,
         saveCount: 0,
         urgent: Boolean(body.urgent),
@@ -1276,7 +1297,7 @@ const server = http.createServer(async (req, res) => {
       await listingsCollection.insertOne(listing);
       await touchMeta();
 
-      return sendJson(res, 201, { listing: normalizeDoc(listing) });
+      return sendJson(res, 201, { listing: normalizeListingForClient(listing) });
     }
 
     if (pathname.match(/^\/api\/listings\/[^/]+$/) && req.method === 'PUT') {
@@ -1308,7 +1329,7 @@ const server = http.createServer(async (req, res) => {
         ...(body.pickupWindow !== undefined ? { pickupWindow: body.pickupWindow } : {}),
         ...(body.description !== undefined ? { description: body.description } : {}),
         ...(body.notes !== undefined ? { notes: body.notes } : {}),
-        ...(body.image !== undefined ? { image: body.image } : {}),
+        ...(body.image !== undefined ? { image: sanitizeListingImage(body.image) } : {}),
         ...(body.urgent !== undefined ? { urgent: Boolean(body.urgent) } : {}),
         ...(body.status !== undefined ? { status: body.status } : {}),
         updatedAt: new Date().toISOString()
@@ -1318,7 +1339,7 @@ const server = http.createServer(async (req, res) => {
       const updated = await listingsCollection.findOne({ id });
 
       await touchMeta();
-      return sendJson(res, 200, { listing: normalizeDoc(updated) });
+      return sendJson(res, 200, { listing: normalizeListingForClient(updated) });
     }
 
     if (pathname.match(/^\/api\/listings\/[^/]+$/) && req.method === 'DELETE') {
@@ -1573,7 +1594,7 @@ const server = http.createServer(async (req, res) => {
           participant: participantNames[otherUserId] || conv.participant || getUserDisplayName(otherUser),
           participantCity: conv.participantCities?.[otherUserId] || otherUser?.city || 'Ulsan',
           unread: unreadCount,
-          listing: listing ? normalizeDoc(listing) : null,
+          listing: listing ? normalizeListingForClient(listing) : null,
           lastMessage: lastMessage[0] ? normalizeDoc(lastMessage[0]) : null
         });
       }
