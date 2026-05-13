@@ -42,7 +42,7 @@
 
 | Document | Status | Link |
 |----------|--------|------|
-| Week 11 README | ✅ Created | [docs/PROGRESS/week11/README.md](README.md) |
+| Week 11 README | ✅ Created | [docs/PROGRESS/WEEK_11/README.md](README.md) |
 | Sprint Packet | ✅ Created | [WEEK_11_SPRINT_PACKET.md](WEEK_11_SPRINT_PACKET.md) |
 | MVP Checklist | ✅ Created | [MVP_VERIFICATION_CHECKLIST.md](MVP_VERIFICATION_CHECKLIST.md) |
 | Demo Script | ✅ Created | [WEEK_11_DEMO_SCRIPT.md](WEEK_11_DEMO_SCRIPT.md) |
