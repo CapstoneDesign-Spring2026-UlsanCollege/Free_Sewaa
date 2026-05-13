@@ -92,6 +92,37 @@ body.light-mode .brand{color:var(--text)}
 .nav-link:hover{transform:translateY(-1px); color:var(--cream-2)}
 .nav-link.active{background:rgba(255,244,230,.08); color:var(--cream-2)}
 body.light-mode .nav-link.active{background:rgba(42,32,23,.08); color:var(--text)}
+.nav-link.has-nav-icon,.icon-link.has-nav-icon{
+  position:relative;
+  width:44px;
+  height:44px;
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+}
+.nav-icon{
+  width:20px;
+  height:20px;
+  display:block;
+  stroke:currentColor;
+  stroke-width:1.9;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  fill:none;
+}
+.nav-label{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
 .header-actions{display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end}
 .icon-link{
   display:inline-flex; align-items:center; gap:8px;

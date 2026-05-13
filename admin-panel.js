@@ -199,7 +199,6 @@
           ${user.role === 'superadmin'
             ? '<button class="admin-btn admin-btn--soft" type="button" disabled>Super Admin</button>'
             : `<button class="admin-btn admin-btn--soft" type="button" data-user-action="${user.role === 'admin' ? 'remove-admin' : 'make-admin'}" data-user-id="${escapeHtml(user.id)}">${user.role === 'admin' ? 'Remove Admin' : 'Make Admin'}</button>`}
-          ${user.role === 'user' ? `<button class="admin-btn admin-btn--soft" type="button" data-user-action="make-superadmin" data-user-id="${escapeHtml(user.id)}">Make Super Admin</button>` : ''}
           <button class="admin-btn admin-btn--danger" type="button" data-user-action="delete-user" data-user-id="${escapeHtml(user.id)}">Delete</button>
     ` : '<p class="muted-copy">Only a super admin can block users, delete users, or change roles.</p>';
 

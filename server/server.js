@@ -957,12 +957,6 @@ async function applyAdminUserAction(targetUserId, action, actor) {
     return buildAdminDashboardData();
   }
 
-  if (action === 'make-superadmin') {
-    await usersCollection.updateOne({ id: targetUserId }, { $set: { role: 'superadmin' } });
-    await touchMeta();
-    return buildAdminDashboardData();
-  }
-
   if (action === 'remove-admin') {
     await usersCollection.updateOne({ id: targetUserId }, { $set: { role: 'user' } });
     await touchMeta();
