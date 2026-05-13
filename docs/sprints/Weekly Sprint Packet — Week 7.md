@@ -1,6 +1,6 @@
 # Weekly Sprint Packet — Week 7
 
-**MVP Link**
+**MVP Week 7**
 - https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/4117349d8fbaee70ae7df0759a8e910f73559fb6/docs/PROGRESS/MVP_WEEK_7.md
 
 ## Team
