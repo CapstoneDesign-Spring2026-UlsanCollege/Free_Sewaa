@@ -303,7 +303,7 @@ async function signInWithGoogle(button) {
     } else if (error.code === 'auth/popup-blocked') {
       message = 'Popup was blocked by the browser. Please allow popups and try again.';
     } else if (error.code === 'auth/unauthorized-domain') {
-      message = 'This domain is not authorized in Firebase. Add localhost to Authorized domains.';
+      message = `This domain is not authorized in Firebase. Add ${window.location.hostname} to Authorized domains.`;
     }
 
     showGlobalMessage(message, 'error');

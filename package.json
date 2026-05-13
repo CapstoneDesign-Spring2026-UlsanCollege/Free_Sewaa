@@ -1,0 +1,17 @@
+{
+  "name": "freesewaa",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Free Sewaa connected frontend and backend",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "mongodb": "^6.21.0"
+  }
+}

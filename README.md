@@ -6,6 +6,16 @@
 [![Status: In Progress](https://img.shields.io/badge/Status-In%20Progress-blue)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-6.0+-green.svg)](https://mongodb.com/)
+[![Last Commit](https://img.shields.io/github/last-commit/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main)
+[![Issues](https://img.shields.io/github/issues/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls)
+
+## 🎓 Capstone Info
+
+- **Course:** Capstone Design — Spring 2026, Ulsan College
+- **Team name:** Free Sewaa Team
+- **Sprint board:** https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/14
+- **Submission format:** Sprint Packet Issues submitted every Friday
 
 ---
 
@@ -17,19 +27,14 @@ This project is deployed from the GitHub `main` branch using Render.
 - Signup page: https://free-sewaa-qh05.onrender.com/signup.html
 - Admin login: https://free-sewaa-qh05.onrender.com/admin_login.html
 
-Admin demo account:
+⚠️ **Admin demo account (demo-only, never use real credentials in public repo):**
 
 ```text
 Email: admin@freesewaa.local
 Password: admin12345
 ```
 
-User demo account:
-
-```text
-Email: pathakram09555gmail.com
-Password:123456
-```
+> User demo account: See Quick Start below.
 
 ---
 
@@ -38,11 +43,18 @@ Password:123456
 **Free Sewaa** is a community-based donation platform that enables people to give away usable items for free to those who need them. The mission is to reduce waste, support communities, and make helping others simple and accessible.
 
 ### Features
-- 🔐 User authentication (signup/login)
-- 📦 Browse available donation items
-- 🎁 Post items for donation
-- 📋 Request items
+- 🔐 User authentication (signup/login) with JWT
+- 📦 Browse available donation items with search and category filtering
+- 🎁 Post items for donation with image upload
+- 📋 Request items with contact donor flow
 - 💬 Direct messaging between users
+- 🏠 Premium UI design (Airbnb/Karrot inspired)
+- 📱 Responsive design (mobile/tablet/desktop)
+- 🔧 Backend API (Node.js/Express + MongoDB)
+- 🔎 Admin dashboard for management
+- 📊 User profile dashboard (My Items/My Requests)
+- 🔔 Password hashing with bcrypt (in progress)
+- ✅ Unit testing with Jest (in progress)
 
 ---
 
@@ -77,9 +89,11 @@ Open your browser and go to:
 - **Sign in:** http://localhost:3000/signin.html
 - **App:** http://localhost:3000/app.html
 
-**Demo Account:**
-- Email: `alisha@example.com`
-- Password: `demo123`
+**Demo Account (for presentation):**
+```text
+Email: pathakram09555@gmail.com
+Password: 123456
+```
 
 > **Tip:** Use this account for presentation demo.
 
@@ -163,7 +177,7 @@ POST /api/auth/signin
 Free_Sewaa/
 ├── .github/                    # GitHub templates & workflows
 │   ├── ISSUE_TEMPLATE/         # Issue templates
-│   ├── PULL_REQUEST_TEMPLATE.md
+│   ├── pull_request_template.md
 │   └── workflows/              # CI/CD workflows
 ├── docs/                       # Documentation
 │   ├── DESIGN/                 # Design documents
@@ -174,14 +188,14 @@ Free_Sewaa/
 ├── server/                     # Node.js backend
 │   ├── server.js               # Express server
 │   └── package.json            # Dependencies
-├── *.html                      # Frontend pages (18 pages)
+├── html/                       # Frontend pages (18 pages)
 │   ├── index.html              # Landing page
 │   ├── signin.html             # Sign in
 │   ├── signup.html             # Sign up
 │   ├── app.html                # Main app after login
 │   ├── browse.html             # Browse items
 │   ├── donate.html             # Post donation
-│   └── ... (14 more pages)
+│   └── ... (12 more pages)
 ├── css/                        # Stylesheets
 │   ├── style.css               # Landing page styles
 │   ├── theme.css               # App pages styles
@@ -239,17 +253,46 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 
 | Document | Description |
 |----------|-------------|
+| [FINAL_SUBMISSION_INDEX.md](docs/PROJECT/FINAL_SUBMISSION_INDEX.md) | **Final submission index with all links** |
+| [WEEK10_STABILITY_PACKET.md](docs/PROJECT/WEEK10_STABILITY_PACKET.md) | Week 10 stability sprint packet |
+| [BUG_TRIAGE.md](docs/PROJECT/BUG_TRIAGE.md) | Bug triage with severity guide |
+| [TEST_CHECKLIST.md](docs/PROJECT/TEST_CHECKLIST.md) | MVP test checklist with evidence |
+| [MVP_STATUS.md](docs/PROJECT/MVP_STATUS.md) | MVP status (working/planned) |
+| [TEAM_CONTRIBUTIONS.md](docs/PROJECT/TEAM_CONTRIBUTIONS.md) | Team contribution receipts |
+| [.github/ISSUE_TEMPLATE/bug_report.md](.github/ISSUE_TEMPLATE/bug_report.md) | Bug report template |
+| [.github/pull_request_template.md](.github/pull_request_template.md) | Pull request template with AI note |
 | [PROJECT_IDEA_PITCH.md](docs/PROJECT/PROJECT_IDEA_PITCH.md) | Project concept and goals |
 | [USER_STORIES.md](docs/PROJECT/USER_STORIES.md) | User stories and flows |
 | [SYSTEM_ARCHITECTURE.md](docs/DESIGN/SYSTEM_ARCHITECTURE.md) | System architecture |
 | [BACKEND_PLAN.md](docs/DESIGN/BACKEND_PLAN.md) | Backend development plan |
 | [MONGODB_SETUP.md](docs/DESIGN/MONGODB_SETUP.md) | MongoDB Atlas setup guide |
 | [DEPLOYMENT.md](docs/DESIGN/DEPLOYMENT.md) | Deployment guide |
-| [Weekly Sprint Packets](docs/sprints/) | Weekly progress tracking |
+| [Weekly Sprint Packets](docs/sprints/) | Weekly progress tracking (Week 1-10) |
+| [Week 1 - Onboarding](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%201.md) | Setup & planning |
+| [Week 2 - Reset](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%202.md) | Planning & frontend |
+| [Week 3 - Frontend MVP](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%203%20.md) | MVP demo ready |
+| [Week 4 - Browse](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%204.md) | Browse & filtering |
+| [Week 5 - Premium UI](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%205.md) | Redesign complete |
+| [Week 6 - Backend](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%206.md) | API & MongoDB |
+| [Week 7 - Midterm Prep](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%207.md) | Presentation ready |
+| [Week 8 - Midterm](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) | Presented successfully |
+| [Week 9 - Polish](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) | Testing & fixes |
+| [Week 10 - Bug Triage](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) | AI workflow & bugs |
+| [AI_CODE_OWNERSHIP_AUDIT.md](docs/AI_CODE_OWNERSHIP_AUDIT.md) | AI use and team ownership |
+| [PROJECT_BOARD.md](PROJECT_BOARD.md) | Project board and task tracking |
+
+> **Weekly Role Rotation:** Roles (Project Manager, Scribe, QA Lead, Demo Driver) rotate each sprint per class policy.
 
 ---
 
 ## 📋 Quick Reference
+
+- **Live site:** https://free-sewaa-qh05.onrender.com
+- **Signup page:** https://free-sewaa-qh05.onrender.com/signup.html
+- **Admin login:** https://free-sewaa-qh05.onrender.com/admin_login.html
+- **Demo account:** `pathakram09555@gmail.com` / `123456`
+- **Key commands:** `npm install`, `npm start`
+- **Key pages:** `html/index.html`, `html/app.html`, `html/browse.html`, `html/donate.html`
 
 ---
 
@@ -259,6 +302,8 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 - **Project Board:** https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/14
 - **Pull Requests:** https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls
 - **Issues:** https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues
+
+> Documentation updated May 2026 (test commit 2)
 
 ---
 
@@ -296,3 +341,5 @@ This project is licensed under the MIT License.
 ## 🙏 Mission
 
 > To build a platform that connects communities, reduces waste, and helps people in need by making sharing simple and accessible.
+
+

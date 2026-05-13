@@ -242,10 +242,10 @@
       status: listing.status || 'active'
     })) : base.listings;
 
-    const validIds = new Set(state.listings.map(item => item.id));
-    state.user.savedListingIds = (state.user.savedListingIds || []).filter(id => validIds.has(id));
-    state.user.requestedListingIds = (state.user.requestedListingIds || []).filter(id => validIds.has(id));
-    state.requests = Array.isArray(parsed.requests) ? parsed.requests.filter(item => validIds.has(item.listingId)) : base.requests;
+    const validIds = new Set(state.listings.map(item => String(item.id)));
+    state.user.savedListingIds = (state.user.savedListingIds || []).filter(id => validIds.has(String(id)));
+    state.user.requestedListingIds = (state.user.requestedListingIds || []).filter(id => validIds.has(String(id)));
+    state.requests = Array.isArray(parsed.requests) ? parsed.requests.filter(item => validIds.has(String(item.listingId))) : base.requests;
     if (!state.requests.length && state.user.requestedListingIds.length) {
       state.requests = state.user.requestedListingIds.map(id => ({
         id: `req-${id}`,
@@ -312,7 +312,12 @@
 
   function getSessionHeaders(extra = {}) {
     const token = localStorage.getItem('freesewaa-token') || '';
-    return token ? { ...extra, Authorization: `Bearer ${token}` } : { ...extra };
+    const userId = getCurrentUserId();
+    return {
+      ...extra,
+      ...(userId ? { 'x-user-id': userId } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    };
   }
   let suppressBroadcast = false;
 
@@ -420,6 +425,72 @@
     }
   }
 
+  async function fetchRemoteListings() {
+    try {
+      const response = await fetch(apiUrl('/api/listings?status=all'), { headers: getSessionHeaders() });
+      if (!response.ok) throw new Error('Unable to load listings.');
+      const data = await response.json();
+      return Array.isArray(data.listings) ? data.listings : [];
+    } catch (error) {
+      console.warn(error);
+      return null;
+    }
+  }
+
+  async function createRemoteListing(payload) {
+    const response = await fetch(apiUrl('/api/listings'), {
+      method: 'POST',
+      headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Unable to publish listing.');
+    return data.listing;
+  }
+
+  async function createRemoteRequest(listingId, note = '') {
+    const response = await fetch(apiUrl('/api/requests'), {
+      method: 'POST',
+      headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ listingId, note })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Unable to request listing.');
+    return data;
+  }
+
+  async function fetchRemoteConversations() {
+    try {
+      const response = await fetch(apiUrl('/api/messages/conversations'), { headers: getSessionHeaders() });
+      if (!response.ok) throw new Error('Unable to load conversations.');
+      const data = await response.json();
+      return Array.isArray(data.conversations) ? data.conversations : [];
+    } catch (error) {
+      console.warn(error);
+      return null;
+    }
+  }
+
+  async function fetchRemoteMessages(conversationId) {
+    const response = await fetch(apiUrl(`/api/messages/conversations/${encodeURIComponent(conversationId)}/messages`), {
+      headers: getSessionHeaders()
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Unable to load messages.');
+    return Array.isArray(data.messages) ? data.messages : [];
+  }
+
+  async function sendRemoteMessage(conversationId, text) {
+    const response = await fetch(apiUrl(`/api/messages/conversations/${encodeURIComponent(conversationId)}/messages`), {
+      method: 'POST',
+      headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ text })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Unable to send message.');
+    return data.message;
+  }
+
   let appState = loadState();
 
   function saveState() {
@@ -488,7 +559,7 @@
     document.body.classList.remove('modal-open');
   }
 
-  document.addEventListener('click', event => {
+  document.addEventListener('click', async event => {
     if (event.target.matches('[data-close-modal]')) {
       closeModals();
     }
@@ -497,19 +568,19 @@
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') closeModals();
   });
-  document.addEventListener('click', event => {
+  document.addEventListener('click', async event => {
     const accountModal = event.target.closest('#accountListingModal');
     if (!accountModal) return;
     const saveButton = event.target.closest('.modal-save-button');
     const requestButton = event.target.closest('.modal-request-button');
     if (saveButton) {
-      const id = Number(saveButton.dataset.id);
+      const id = saveButton.dataset.id;
       toggleSaveListing(id);
       renderListingModal(getListingById(id), 'accountListingContent');
     }
     if (requestButton) {
-      const id = Number(requestButton.dataset.id);
-      const conversationId = requestListing(id);
+      const id = requestButton.dataset.id;
+      const conversationId = await requestListing(id);
       if (conversationId) {
         sessionStorage.setItem('freesewaa-open-conversation', conversationId);
         window.location.href = 'messages.html';
@@ -657,8 +728,20 @@
     saveState();
   }
 
+  function idsMatch(left, right) {
+    return String(left) === String(right);
+  }
+
+  function listIncludesId(list, id) {
+    return (list || []).some(item => idsMatch(item, id));
+  }
+
+  function removeIdFromList(list, id) {
+    return (list || []).filter(item => !idsMatch(item, id));
+  }
+
   function getListingById(id) {
-    return appState.listings.find(listing => listing.id === id);
+    return appState.listings.find(listing => idsMatch(listing.id, id));
   }
 
   function getSavedCount() {
@@ -679,7 +762,7 @@
   }
 
   function getRequestRecord(listingId) {
-    return appState.requests.find(item => item.listingId === listingId);
+    return appState.requests.find(item => idsMatch(item.listingId, listingId));
   }
 
   function getRequestedListings() {
@@ -689,7 +772,50 @@
   }
 
   function getConversationByListingId(listingId) {
-    return appState.conversations.find(item => item.listingId === listingId);
+    return appState.conversations.find(item => idsMatch(item.listingId, listingId));
+  }
+
+  function normalizeRemoteConversation(conversation, messages = null) {
+    const currentUserId = getCurrentUserId();
+    const listing = conversation.listing || getListingById(conversation.listingId) || null;
+    const participant =
+      conversation.participant ||
+      conversation.participantName ||
+      'Community Member';
+    const normalizedMessages = Array.isArray(messages)
+      ? messages.map(message => ({
+          id: message.id || message._id || `${message.conversationId}-${message.createdAt}`,
+          sender: message.senderName || (message.senderId === currentUserId ? 'You' : participant),
+          text: message.text || '',
+          time: new Date(message.createdAt || Date.now()).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+          type: message.senderId === currentUserId ? 'sent' : 'received',
+          createdAt: message.createdAt || new Date().toISOString()
+        }))
+      : [];
+
+    return {
+      id: conversation.id,
+      listingId: conversation.listingId,
+      participant,
+      participantCity: conversation.participantCity || listing?.location?.split(',')[0] || 'Ulsan',
+      unread: Number(conversation.unread || 0),
+      updatedAt: conversation.updatedAt || conversation.lastMessage?.createdAt || new Date().toISOString(),
+      messages: normalizedMessages,
+      lastMessage: conversation.lastMessage || null
+    };
+  }
+
+  function upsertConversation(conversation) {
+    const index = appState.conversations.findIndex(item => item.id === conversation.id);
+    if (index >= 0) {
+      appState.conversations[index] = {
+        ...appState.conversations[index],
+        ...conversation,
+        messages: conversation.messages?.length ? conversation.messages : appState.conversations[index].messages
+      };
+    } else {
+      appState.conversations.unshift(conversation);
+    }
   }
 
   function createConversationForListing(listingId, introText) {
@@ -731,7 +857,7 @@
       request.status = status;
       if (note) request.note = note;
     }
-    if (!appState.user.requestedListingIds.includes(listingId)) {
+    if (!listIncludesId(appState.user.requestedListingIds, listingId)) {
       appState.user.requestedListingIds.unshift(listingId);
     }
     saveState();
@@ -739,8 +865,8 @@
   }
 
   function removeRequest(listingId) {
-    appState.requests = appState.requests.filter(item => item.listingId !== listingId);
-    appState.user.requestedListingIds = appState.user.requestedListingIds.filter(id => id !== listingId);
+    appState.requests = appState.requests.filter(item => !idsMatch(item.listingId, listingId));
+    appState.user.requestedListingIds = removeIdFromList(appState.user.requestedListingIds, listingId);
     addNotification(`You cancelled your request for ${getListingById(listingId)?.title || 'a listing'}.`);
     saveState();
   }
@@ -757,11 +883,11 @@
   function deleteListingById(listingId) {
     const listing = getListingById(listingId);
     if (!listing) return;
-    appState.listings = appState.listings.filter(item => item.id !== listingId);
-    appState.user.savedListingIds = appState.user.savedListingIds.filter(id => id !== listingId);
-    appState.user.requestedListingIds = appState.user.requestedListingIds.filter(id => id !== listingId);
-    appState.requests = appState.requests.filter(item => item.listingId !== listingId);
-    appState.conversations = appState.conversations.filter(item => item.listingId !== listingId);
+    appState.listings = appState.listings.filter(item => !idsMatch(item.id, listingId));
+    appState.user.savedListingIds = removeIdFromList(appState.user.savedListingIds, listingId);
+    appState.user.requestedListingIds = removeIdFromList(appState.user.requestedListingIds, listingId);
+    appState.requests = appState.requests.filter(item => !idsMatch(item.listingId, listingId));
+    appState.conversations = appState.conversations.filter(item => !idsMatch(item.listingId, listingId));
     addNotification(`You removed the listing ${listing.title}.`);
     saveState();
   }
@@ -787,7 +913,7 @@
     const savedIds = appState.user.savedListingIds;
     const listing = getListingById(id);
     if (!listing) return false;
-    const index = savedIds.indexOf(id);
+    const index = savedIds.findIndex(savedId => idsMatch(savedId, id));
     if (index >= 0) {
       savedIds.splice(index, 1);
       listing.saveCount = Math.max(0, listing.saveCount - 1);
@@ -799,10 +925,10 @@
       showToast('Saved to your items.', 'success');
     }
     saveState();
-    return savedIds.includes(id);
+    return listIncludesId(savedIds, id);
   }
 
-  function requestListing(id) {
+  async function requestListing(id) {
     const listing = getListingById(id);
     if (!listing) return;
     if (listing.ownerId === appState.user.id) {
@@ -811,6 +937,31 @@
     }
     const existingRequest = getRequestRecord(id);
     if (!existingRequest) {
+      const introText = `Hi! I am interested in your ${listing.title}. Is it still available?`;
+      try {
+        const data = await createRemoteRequest(id, introText);
+        if (data.request) {
+          createOrUpdateRequest(id, data.request.status || 'pending', data.request.note || introText);
+        }
+        if (data.conversation) {
+          upsertConversation(normalizeRemoteConversation(data.conversation, data.message ? [data.message] : []));
+        } else {
+          upsertConversation(createConversationForListing(id, introText));
+        }
+        addNotification(`Your request for ${listing.title} was sent.`);
+        saveState();
+        showToast('Request sent. Conversation added to Messages.', 'success');
+        return data.conversation?.id || getConversationByListingId(id)?.id;
+      } catch (error) {
+        console.warn(error);
+        listing.requestCount += 1;
+        createOrUpdateRequest(id, 'pending');
+        const conversation = createConversationForListing(id, introText);
+        addNotification(`Your request for ${listing.title} was saved locally.`);
+        saveState();
+        showToast(error.message || 'Request saved locally. Server chat may be unavailable.', 'error');
+        return conversation?.id;
+      }
       listing.requestCount += 1;
       createOrUpdateRequest(id, 'pending');
       const conversation = createConversationForListing(id, `Hi! I’m interested in your ${listing.title}. Is it still available?`);
@@ -826,8 +977,8 @@
   function renderListingModal(listing, containerId) {
     const container = document.getElementById(containerId);
     if (!container || !listing) return;
-    const isSaved = appState.user.savedListingIds.includes(listing.id);
-    const requested = appState.user.requestedListingIds.includes(listing.id);
+    const isSaved = listIncludesId(appState.user.savedListingIds, listing.id);
+    const requested = listIncludesId(appState.user.requestedListingIds, listing.id);
     container.innerHTML = `
       <div class="modal-listing-layout">
         <div class="modal-listing-image" style="background-image:url('${escapeHtml(listing.image)}')"></div>
@@ -912,8 +1063,8 @@
     function renderListings() {
       const listings = getFilteredListings();
       listingGrid.innerHTML = listings.map(listing => {
-        const saved = appState.user.savedListingIds.includes(listing.id);
-        const requested = appState.user.requestedListingIds.includes(listing.id);
+        const saved = listIncludesId(appState.user.savedListingIds, listing.id);
+        const requested = listIncludesId(appState.user.requestedListingIds, listing.id);
         return `
           <article class="listing-card reveal-card app-listing-card is-visible">
             <div class="listing-card__media app-listing-media" style="background-image:url('${escapeHtml(listing.image)}')">
@@ -996,10 +1147,10 @@
     document.getElementById('resetFilters')?.addEventListener('click', resetFilters);
     document.getElementById('emptyResetButton')?.addEventListener('click', resetFilters);
 
-    listingGrid.addEventListener('click', event => {
+    listingGrid.addEventListener('click', async event => {
       const actionButton = event.target.closest('[data-action]');
       if (!actionButton) return;
-      const id = Number(actionButton.dataset.id);
+      const id = actionButton.dataset.id;
       const listing = getListingById(id);
       if (!listing) return;
       if (actionButton.dataset.action === 'preview') {
@@ -1013,7 +1164,7 @@
         return;
       }
       if (actionButton.dataset.action === 'request') {
-        const conversationId = requestListing(id);
+        const conversationId = await requestListing(id);
         renderListings();
         if (actionButton.textContent.includes('Open') || conversationId) {
           if (conversationId) sessionStorage.setItem('freesewaa-open-conversation', conversationId);
@@ -1022,18 +1173,18 @@
       }
     });
 
-    modal?.addEventListener('click', event => {
+    modal?.addEventListener('click', async event => {
       const saveButton = event.target.closest('.modal-save-button');
       const requestButton = event.target.closest('.modal-request-button');
       if (saveButton) {
-        const id = Number(saveButton.dataset.id);
+        const id = saveButton.dataset.id;
         toggleSaveListing(id);
         renderListingModal(getListingById(id), 'listingModalContent');
         renderListings();
       }
       if (requestButton) {
-        const id = Number(requestButton.dataset.id);
-        const conversationId = requestListing(id);
+        const id = requestButton.dataset.id;
+        const conversationId = await requestListing(id);
         renderListings();
         closeModals();
         if (conversationId) sessionStorage.setItem('freesewaa-open-conversation', conversationId);
@@ -1270,7 +1421,7 @@
       renderStep();
     }
 
-    function publishListing() {
+    async function publishListing() {
       const data = getFormData();
       const listing = {
         id: Date.now(),
@@ -1292,7 +1443,14 @@
         urgent: data.urgent,
         status: 'active'
       };
-      appState.listings.unshift(listing);
+      try {
+        const remoteListing = await createRemoteListing(listing);
+        appState.listings.unshift(remoteListing || listing);
+      } catch (error) {
+        console.warn(error);
+        appState.listings.unshift(listing);
+        showToast(error.message || 'Listing saved locally. Server publish may be unavailable.', 'error');
+      }
       delete appState.user.drafts.donate;
       addNotification(`Your listing "${listing.title}" is now live.`);
       saveState();
@@ -1344,7 +1502,7 @@
       }
     });
 
-    nextButton.addEventListener('click', () => {
+    nextButton.addEventListener('click', async () => {
       const error = validateStep(currentStep);
       if (error) {
         setStatus(error, 'error');
@@ -1356,7 +1514,7 @@
         renderStep();
         return;
       }
-      publishListing();
+      await publishListing();
     });
 
     createAnotherButton?.addEventListener('click', () => {
@@ -1373,6 +1531,12 @@
   function initMessagesPage() {
     const conversationList = document.getElementById('conversationList');
     if (!conversationList) return;
+    if (conversationList.dataset.liveChatBound === 'true') return;
+    conversationList.dataset.liveChatBound = 'true';
+    if (window.freesewaaMessagePollTimer) {
+      clearInterval(window.freesewaaMessagePollTimer);
+      window.freesewaaMessagePollTimer = null;
+    }
 
     const messageThread = document.getElementById('messageThread');
     const conversationHead = document.getElementById('conversationHead');
@@ -1386,7 +1550,48 @@
     const listingContent = document.getElementById('conversationListingContent');
 
     let activeConversationId = sessionStorage.getItem('freesewaa-open-conversation') || appState.conversations[0]?.id;
+    let isSendingMessage = false;
+    let isRefreshingMessages = false;
     sessionStorage.removeItem('freesewaa-open-conversation');
+
+    async function refreshRemoteConversations(renderAfter = true) {
+      if (isRefreshingMessages) return;
+      isRefreshingMessages = true;
+      try {
+      const remoteConversations = await fetchRemoteConversations();
+      if (!remoteConversations) return;
+
+      remoteConversations.forEach(conversation => {
+        const existing = appState.conversations.find(item => item.id === conversation.id);
+        upsertConversation({
+          ...normalizeRemoteConversation(conversation),
+          messages: existing?.messages || []
+        });
+      });
+
+      if (!activeConversationId && remoteConversations[0]) {
+        activeConversationId = remoteConversations[0].id;
+      }
+
+      if (activeConversationId) {
+        try {
+          const messages = await fetchRemoteMessages(activeConversationId);
+          const activeRemote = remoteConversations.find(item => item.id === activeConversationId) ||
+            appState.conversations.find(item => item.id === activeConversationId);
+          if (activeRemote) {
+            upsertConversation(normalizeRemoteConversation(activeRemote, messages));
+          }
+        } catch (error) {
+          console.warn(error);
+        }
+      }
+
+      localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
+      if (renderAfter) renderConversationList();
+      } finally {
+        isRefreshingMessages = false;
+      }
+    }
 
     function getFilteredConversations() {
       const term = conversationSearch.value.trim().toLowerCase();
@@ -1409,7 +1614,7 @@
 
       conversationList.innerHTML = conversations.map(conversation => {
         const listing = getListingById(conversation.listingId);
-        const latest = conversation.messages[conversation.messages.length - 1];
+        const latest = conversation.messages[conversation.messages.length - 1] || conversation.lastMessage;
         return `
           <button class="chat-item ${conversation.id === activeConversationId ? 'active-chat' : ''}" data-conversation-id="${conversation.id}">
             <div class="chat-avatar avatar-generated">${initials(conversation.participant)}</div>
@@ -1444,7 +1649,7 @@
       const conversation = appState.conversations.find(item => item.id === activeConversationId);
       if (!conversation) return;
       conversation.unread = 0;
-      saveState();
+      localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
       const listing = getListingById(conversation.listingId);
       conversationHead.innerHTML = `
         <div class="conversation-user">
@@ -1472,8 +1677,8 @@
         renderListingModal(listing, 'conversationListingContent');
         openModal('conversationListingModal');
       });
-      document.getElementById('markReadyButton')?.addEventListener('click', () => {
-        pushMessage('Your item is packed and ready for pickup.', 'sent');
+      document.getElementById('markReadyButton')?.addEventListener('click', async () => {
+        await pushMessage('Your item is packed and ready for pickup.', 'sent');
       });
 
       renderConversationListMetaOnly();
@@ -1487,15 +1692,39 @@
       });
     }
 
-    function pushMessage(text, type = 'sent') {
+    async function pushMessage(text, type = 'sent') {
       const conversation = appState.conversations.find(item => item.id === activeConversationId);
       if (!conversation || !text.trim()) return;
-      conversation.messages.push({
-        sender: type === 'sent' ? 'You' : conversation.participant,
-        text: text.trim(),
-        time: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
-        type
-      });
+      const trimmed = text.trim();
+      if (type === 'sent' && isSendingMessage) return;
+      if (type === 'sent') isSendingMessage = true;
+      if (type === 'sent') {
+        try {
+          const remoteMessage = await sendRemoteMessage(activeConversationId, trimmed);
+          const normalizedMessage = normalizeRemoteConversation(conversation, [remoteMessage]).messages[0];
+          const duplicate = conversation.messages.some(message =>
+            (normalizedMessage.id && message.id === normalizedMessage.id) ||
+            (message.text === normalizedMessage.text && message.createdAt === normalizedMessage.createdAt)
+          );
+          if (!duplicate) conversation.messages.push(normalizedMessage);
+        } catch (error) {
+          console.warn(error);
+          conversation.messages.push({
+            sender: 'You',
+            text: trimmed,
+            time: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+            type: 'sent'
+          });
+          showToast(error.message || 'Message saved locally. Server chat may be unavailable.', 'error');
+        }
+      } else {
+        conversation.messages.push({
+          sender: conversation.participant,
+          text: trimmed,
+          time: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+          type
+        });
+      }
       conversation.updatedAt = new Date().toISOString();
       if (type === 'sent') {
         addNotification(`You replied to ${conversation.participant}.`);
@@ -1503,26 +1732,29 @@
       saveState();
       renderConversationList();
       showToast('Message sent.', 'success');
+      if (type === 'sent') {
+        isSendingMessage = false;
+      }
     }
 
-    conversationList.addEventListener('click', event => {
+    conversationList.addEventListener('click', async event => {
       const button = event.target.closest('[data-conversation-id]');
       if (!button) return;
       activeConversationId = button.dataset.conversationId;
-      renderConversationList();
+      await refreshRemoteConversations(true);
     });
 
     conversationSearch.addEventListener('input', renderConversationList);
 
-    messageForm.addEventListener('submit', event => {
+    messageForm.addEventListener('submit', async event => {
       event.preventDefault();
       const text = messageInput.value.trim();
       if (!text) {
         showToast('Write a message first.', 'error');
         return;
       }
-      pushMessage(text, 'sent');
       messageInput.value = '';
+      await pushMessage(text, 'sent');
     });
 
     document.querySelectorAll('[data-quick-message]').forEach(button => {
@@ -1532,28 +1764,31 @@
       });
     });
 
-    confirmPickupButton.addEventListener('click', () => {
-      pushMessage('Pickup is confirmed. I will be there at the agreed time.', 'sent');
+    confirmPickupButton.addEventListener('click', async () => {
+      await pushMessage('Pickup is confirmed. I will be there at the agreed time.', 'sent');
     });
 
     document.getElementById('conversationListingModal')?.addEventListener('click', event => {
       const saveButton = event.target.closest('.modal-save-button');
       const requestButton = event.target.closest('.modal-request-button');
       if (saveButton) {
-        const id = Number(saveButton.dataset.id);
+        const id = saveButton.dataset.id;
         toggleSaveListing(id);
         const listing = getListingById(id);
         renderListingModal(listing, 'conversationListingContent');
       }
       if (requestButton) {
-        const id = Number(requestButton.dataset.id);
+        const id = requestButton.dataset.id;
         sessionStorage.setItem('freesewaa-open-conversation', activeConversationId);
         closeModals();
         window.location.href = 'browse.html';
       }
     });
 
-    renderConversationList();
+    refreshRemoteConversations(true).then(() => {
+      if (!appState.conversations.length) renderConversationList();
+    });
+    window.freesewaaMessagePollTimer = setInterval(() => refreshRemoteConversations(true), 3500);
   }
 
   function initMyPostsPage() {
@@ -1596,21 +1831,21 @@
       render();
     }));
 
-    grid.addEventListener('click', event => {
+    grid.addEventListener('click', async event => {
       const actionButton = event.target.closest('[data-post-action]');
       const previewButton = event.target.closest('[data-post-open]');
       const deleteButton = event.target.closest('[data-post-delete]');
       if (actionButton) {
-        markListingStatus(Number(actionButton.dataset.id), actionButton.dataset.postAction);
+        markListingStatus(actionButton.dataset.id, actionButton.dataset.postAction);
         showToast('Listing status updated.', 'success');
         render();
       }
       if (previewButton) {
-        renderListingModal(getListingById(Number(previewButton.dataset.postOpen)), 'accountListingContent');
+        renderListingModal(getListingById(previewButton.dataset.postOpen), 'accountListingContent');
         openModal('accountListingModal');
       }
       if (deleteButton) {
-        deleteListingById(Number(deleteButton.dataset.postDelete));
+        deleteListingById(deleteButton.dataset.postDelete);
         showToast('Listing deleted.', 'success');
         render();
       }
@@ -1636,24 +1871,24 @@
       }).join('');
     }
 
-    grid.addEventListener('click', event => {
+    grid.addEventListener('click', async event => {
       const preview = event.target.closest('[data-saved-open]');
       const request = event.target.closest('[data-saved-request]');
       const remove = event.target.closest('[data-saved-remove]');
       if (preview) {
-        renderListingModal(getListingById(Number(preview.dataset.savedOpen)), 'accountListingContent');
+        renderListingModal(getListingById(preview.dataset.savedOpen), 'accountListingContent');
         openModal('accountListingModal');
       }
       if (request) {
-        const id = Number(request.dataset.savedRequest);
-        const conversationId = requestListing(id) || getConversationByListingId(id)?.id;
+        const id = request.dataset.savedRequest;
+        const conversationId = await requestListing(id) || getConversationByListingId(id)?.id;
         if (conversationId) {
           sessionStorage.setItem('freesewaa-open-conversation', conversationId);
           window.location.href = 'messages.html';
         }
       }
       if (remove) {
-        toggleSaveListing(Number(remove.dataset.savedRemove));
+        toggleSaveListing(remove.dataset.savedRemove);
         render();
       }
     });
@@ -1698,20 +1933,20 @@
       const setStatus = event.target.closest('[data-request-status]');
       const cancel = event.target.closest('[data-request-cancel]');
       if (msg) {
-        const listingId = Number(msg.dataset.requestMessage);
+        const listingId = msg.dataset.requestMessage;
         const conversation = createConversationForListing(listingId, 'Hi again — following up on my request.');
         sessionStorage.setItem('freesewaa-open-conversation', conversation.id);
         window.location.href = 'messages.html';
       }
       if (setStatus) {
-        const listingId = Number(setStatus.dataset.id);
+        const listingId = setStatus.dataset.id;
         const request = createOrUpdateRequest(listingId, setStatus.dataset.requestStatus);
         if (request.status === 'completed') addNotification(`You marked ${getListingById(listingId)?.title || 'a listing'} as received.`);
         render();
         showToast('Request updated.', 'success');
       }
       if (cancel) {
-        removeRequest(Number(cancel.dataset.requestCancel));
+        removeRequest(cancel.dataset.requestCancel);
         render();
         showToast('Request cancelled.', 'success');
       }
@@ -1935,6 +2170,12 @@
     const remoteState = await fetchRemoteState();
     if (remoteState) {
       appState = normalizeState(remoteState);
+      localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
+    }
+
+    const remoteListings = await fetchRemoteListings();
+    if (remoteListings?.length) {
+      appState.listings = remoteListings;
       localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
     }
 

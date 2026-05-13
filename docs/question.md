@@ -93,4 +93,12 @@ Brief summary of progress through Week 5:
 
 ---
 
-*Last Updated: Week 6*
+## Week 7 — Scribe update
+
+- Updated weekly docs to match Sprint Packet requirements (demo, board snapshot, sprint notes).
+- Ensured `docs/sprints` and `docs/question.md` are traceable for instructor evidence.
+- Focus: completed individual contribution receipts for Week 7 packet.
+
+---
+
+*Last Updated: Week 7 (May 2026)*

@@ -1,31 +1,32 @@
 ---
 name: Bug Report
-about: Report something that isn't working correctly
-title: "[Bug] "
+about: Report a bug with severity, owner, and evidence
+title: 'Bug: '
 labels: bug
 assignees: ''
-
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+# Bug: [short name]
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '...'
-3. See error
+## Severity
+P0 / P1 / P2 / P3
 
-**Expected behavior**
-A clear description of what you expected to happen.
+## Steps to reproduce
+1. 
+2. 
+3. 
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+## Expected result
 
-**Environment (please complete the following):**
-- OS: [e.g., macOS, Windows]
-- Browser: [e.g., Chrome, Firefox]
-- Node version: [e.g., 18.x]
+## Actual result
 
-**Additional context**
-Add any other context about the problem here.
+## Evidence & Owner
+- Owner:
+- Screenshot/video/log link:
+
+## Definition of Done
+- [ ] Reproduced
+- [ ] Cause identified or documented
+- [ ] Fix made OR next step clear
+- [ ] Tested
+- [ ] Evidence linked

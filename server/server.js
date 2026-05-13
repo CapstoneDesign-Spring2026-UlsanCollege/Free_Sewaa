@@ -8,6 +8,8 @@ const { MongoClient, ObjectId } = require('mongodb');
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
+const PUBLIC_ROOT = path.resolve(__dirname, '..');
+const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'free-sewaa';
 
 const PUBLIC_PAGE_ALIASES = {
   '/auth-choice.html': 'auth_choice.html',
@@ -118,6 +120,17 @@ function getUserId(req, url) {
   );
 }
 
+function getUserDisplayName(user) {
+  if (!user) return 'Free Sewaa Member';
+  return (
+    user.name ||
+    [user.firstName, user.lastName].filter(Boolean).join(' ').trim() ||
+    user.email ||
+    user.phone ||
+    'Free Sewaa Member'
+  );
+}
+
 function normalizeDoc(doc) {
   if (!doc) return null;
   const clone = { ...doc };
@@ -139,6 +152,50 @@ function buildAuthQuery(email = '', phone = '') {
     normalizedEmail,
     normalizedPhone,
     query
+  };
+}
+
+function decodeBase64UrlJson(value = '') {
+  const normalized = String(value).replace(/-/g, '+').replace(/_/g, '/');
+  const padded = normalized.padEnd(normalized.length + ((4 - (normalized.length % 4)) % 4), '=');
+  return JSON.parse(Buffer.from(padded, 'base64').toString('utf8'));
+}
+
+function decodeFirebaseToken(idToken = '') {
+  const parts = String(idToken || '').split('.');
+  if (parts.length < 2) {
+    throw new Error('Invalid Firebase token.');
+  }
+
+  return decodeBase64UrlJson(parts[1]);
+}
+
+function isExpectedFirebaseToken(claims) {
+  const now = Math.floor(Date.now() / 1000);
+  return (
+    claims &&
+    claims.aud === FIREBASE_PROJECT_ID &&
+    claims.iss === `https://securetoken.google.com/${FIREBASE_PROJECT_ID}` &&
+    Number(claims.exp || 0) > now
+  );
+}
+
+function getNameParts({ firstName = '', lastName = '', displayName = '', email = '' } = {}) {
+  const cleanFirst = String(firstName || '').trim();
+  const cleanLast = String(lastName || '').trim();
+  if (cleanFirst || cleanLast) {
+    return { firstName: cleanFirst || 'Member', lastName: cleanLast };
+  }
+
+  const fallbackName =
+    String(displayName || '').trim() ||
+    String(email || '').split('@')[0].replace(/[._-]+/g, ' ').trim() ||
+    'Free Sewaa Member';
+  const parts = fallbackName.split(/\s+/).filter(Boolean);
+
+  return {
+    firstName: parts[0] || 'Member',
+    lastName: parts.slice(1).join(' ')
   };
 }
 
@@ -170,6 +227,9 @@ async function ensureIndexes() {
   await notificationsCollection.createIndex({ read: 1 });
 }
 
+/**
+ * Seed demo user, admin, and sample data if they don't exist.
+ */
 async function ensureSeedData() {
   let existingUser = await usersCollection.findOne({ id: 'user-demo' });
 
@@ -440,10 +500,21 @@ async function ensureSeedData() {
   );
 }
 
+/**
+ * Get user application state by userId.
+ * @param {string} userId - The user ID.
+ * @returns {Object|null} User state object or null.
+ */
 async function getUserState(userId) {
   return statesCollection.findOne({ userId });
 }
 
+/**
+ * Set or update user application state.
+ * @param {string} userId - The user ID.
+ * @param {Object} state - The state object to save.
+ * @returns {Object} Result of the update operation.
+ */
 async function setUserState(userId, state) {
   await statesCollection.updateOne(
     { userId },
@@ -484,7 +555,7 @@ function sendJson(res, statusCode, payload) {
     'Content-Type': 'application/json; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, x-user-id'
+    'Access-Control-Allow-Headers': 'Content-Type, x-user-id, Authorization'
   });
   res.end(body);
 }
@@ -560,6 +631,10 @@ function getListingFlags(listing) {
   return flags;
 }
 
+/**
+ * Build admin dashboard data with users, listings, requests, and notifications.
+ * @returns {Object} Dashboard data with summary, users, listings, moderationQueue, activity.
+ */
 async function buildAdminDashboardData() {
   const [users, listings, requests, conversations, notifications, meta] = await Promise.all([
     usersCollection.find({}).toArray(),
@@ -770,7 +845,7 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, x-user-id'
+      'Access-Control-Allow-Headers': 'Content-Type, x-user-id, Authorization'
     });
     return res.end();
   }
@@ -789,6 +864,92 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, {
         user: safeUser(user),
         auth: { userId: user.id, isAuthenticated: true }
+      });
+    }
+
+    if (pathname === '/api/auth/firebase' && req.method === 'POST') {
+      const { idToken = '', provider = 'firebase', firstName = '', lastName = '', phone = '' } = await readRequestBody(req);
+
+      if (!idToken) {
+        return sendJson(res, 400, { error: 'Firebase token is required.' });
+      }
+
+      let claims;
+      try {
+        claims = decodeFirebaseToken(idToken);
+      } catch (error) {
+        return sendJson(res, 400, { error: 'Invalid Firebase token.' });
+      }
+
+      if (!isExpectedFirebaseToken(claims)) {
+        return sendJson(res, 401, { error: 'Firebase token is expired or does not belong to this app.' });
+      }
+
+      const firebaseUid = String(claims.user_id || claims.sub || '').trim();
+      const email = String(claims.email || '').trim().toLowerCase();
+      const tokenPhone = String(claims.phone_number || phone || '').replace(/\s+/g, '');
+      const authProvider = String(provider || claims.firebase?.sign_in_provider || 'firebase').trim() || 'firebase';
+
+      if (!firebaseUid) {
+        return sendJson(res, 400, { error: 'Firebase token is missing a user id.' });
+      }
+
+      const lookup = [{ firebaseUid }];
+      if (email) lookup.push({ email });
+      if (tokenPhone) lookup.push({ phone: tokenPhone });
+
+      let user = await usersCollection.findOne({ $or: lookup });
+      const nameParts = getNameParts({
+        firstName,
+        lastName,
+        displayName: claims.name || '',
+        email
+      });
+
+      if (user?.isBlocked) {
+        return sendJson(res, 403, { error: 'This account is blocked.' });
+      }
+
+      if (!user) {
+        user = {
+          id: `user-${Date.now()}`,
+          firebaseUid,
+          provider: authProvider,
+          firstName: nameParts.firstName,
+          lastName: nameParts.lastName,
+          name: `${nameParts.firstName} ${nameParts.lastName}`.trim(),
+          city: 'Ulsan',
+          region: 'Nam-gu',
+          role: 'user',
+          createdAt: new Date().toISOString()
+        };
+
+        if (email) user.email = email;
+        if (tokenPhone) user.phone = tokenPhone;
+
+        await usersCollection.insertOne(user);
+        await setUserState(user.id, defaultUserState(user));
+      } else {
+        const updates = {
+          firebaseUid,
+          provider: user.provider || authProvider,
+          updatedAt: new Date().toISOString()
+        };
+
+        if (!user.firstName && nameParts.firstName) updates.firstName = nameParts.firstName;
+        if (!user.lastName && nameParts.lastName) updates.lastName = nameParts.lastName;
+        if (!user.name) updates.name = `${nameParts.firstName} ${nameParts.lastName}`.trim();
+        if (email && !user.email) updates.email = email;
+        if (tokenPhone && !user.phone) updates.phone = tokenPhone;
+
+        await usersCollection.updateOne({ id: user.id }, { $set: updates });
+        user = { ...user, ...updates };
+        await ensureStateForUser(user);
+      }
+
+      return sendJson(res, 200, {
+        user: safeUser(user),
+        auth: { userId: user.id, isAuthenticated: true, role: user.role || 'user' }
       });
     }
 
@@ -1184,39 +1345,87 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 404, { error: 'Listing not found.' });
       }
 
+      if (listing.ownerId === userId) {
+        return sendJson(res, 400, { error: 'You cannot request your own listing.' });
+      }
+
       const existing = await requestsCollection.findOne({ listingId, requesterId: userId });
       if (existing) {
-        return sendJson(res, 409, { error: 'You already requested this listing.' });
+        const existingConversation = await conversationsCollection.findOne({
+          listingId,
+          participantIds: { $all: [userId, listing.ownerId] }
+        });
+        return sendJson(res, 200, {
+          request: normalizeDoc(existing),
+          conversation: existingConversation ? normalizeDoc(existingConversation) : null
+        });
       }
 
       const requestDoc = {
         id: `req-${Date.now()}`,
         listingId,
-        requesterId: userId,
-        requesterName: user.name || user.firstName || 'User',
+        requesterId: user.id,
+        requesterName: getUserDisplayName(user),
         ownerId: listing.ownerId,
         status: 'pending',
         requestedAt: new Date().toISOString(),
         note: String(note)
       };
 
-      await requestsCollection.insertOne(requestDoc);
-      await listingsCollection.updateOne(
-        { id: listingId },
-        { $inc: { requestCount: 1 }, $set: { updatedAt: new Date().toISOString() } }
-      );
+      const owner = await usersCollection.findOne({ id: listing.ownerId });
+      const ownerName = listing.ownerName || getUserDisplayName(owner);
+      const conversation = {
+        id: `conv-${Date.now()}`,
+        listingId,
+        participantIds: [user.id, listing.ownerId],
+        participantNames: {
+          [user.id]: requestDoc.requesterName,
+          [listing.ownerId]: ownerName
+        },
+        participantCities: {
+          [user.id]: user.city || 'Ulsan',
+          [listing.ownerId]: owner?.city || String(listing.location || '').split(',')[0] || 'Ulsan'
+        },
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      const introText = String(note || `Hi! I am interested in your ${listing.title}. Is it still available?`).trim();
+      const firstMessage = {
+        conversationId: conversation.id,
+        senderId: user.id,
+        senderName: requestDoc.requesterName,
+        text: introText,
+        type: 'sent',
+        createdAt: new Date().toISOString()
+      };
+
+      await Promise.all([
+        requestsCollection.insertOne(requestDoc),
+        conversationsCollection.insertOne(conversation),
+        messagesCollection.insertOne(firstMessage),
+        listingsCollection.updateOne(
+          { id: listingId },
+          { $inc: { requestCount: 1 }, $set: { updatedAt: new Date().toISOString() } }
+        )
+      ]);
 
       await notificationsCollection.insertOne({
         id: `notif-${Date.now()}`,
         userId: listing.ownerId,
+        conversationId: conversation.id,
         text: `${requestDoc.requesterName} requested your ${listing.title} listing.`,
-        type: 'request',
+        type: 'message',
         read: false,
         createdAt: new Date().toISOString()
       });
 
       await touchMeta();
-      return sendJson(res, 201, { request: normalizeDoc(requestDoc) });
+      return sendJson(res, 201, {
+        request: normalizeDoc(requestDoc),
+        conversation: normalizeDoc(conversation),
+        message: normalizeDoc(firstMessage)
+      });
     }
 
     if (pathname.match(/^\/api\/requests\/[^/]+\/status$/) && req.method === 'PATCH') {
@@ -1313,13 +1522,24 @@ const server = http.createServer(async (req, res) => {
         const lastMessage = await messagesCollection.find({ conversationId: conv.id }).sort({ createdAt: -1 }).limit(1).toArray();
         const unreadCount = await notificationsCollection.countDocuments({
           userId,
+          conversationId: conv.id,
           type: 'message',
           read: false
         });
+        const listing = conv.listingId ? await listingsCollection.findOne({ id: conv.listingId }) : null;
+        const otherUserId = (conv.participantIds || []).find(id => id !== userId);
+        const otherUser = otherUserId ? await usersCollection.findOne({ id: otherUserId }) : null;
+        const participantNames = conv.participantNames && typeof conv.participantNames === 'object' && !Array.isArray(conv.participantNames)
+          ? conv.participantNames
+          : {};
 
         enriched.push({
           ...normalizeDoc(conv),
+          participantId: otherUserId || '',
+          participant: participantNames[otherUserId] || conv.participant || getUserDisplayName(otherUser),
+          participantCity: conv.participantCities?.[otherUserId] || otherUser?.city || 'Ulsan',
           unread: unreadCount,
+          listing: listing ? normalizeDoc(listing) : null,
           lastMessage: lastMessage[0] ? normalizeDoc(lastMessage[0]) : null
         });
       }
@@ -1333,14 +1553,25 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: 'userId is required.' });
       }
 
-      const { participantId, participantName, listingId = null } = await readRequestBody(req);
-      if (!participantId || !participantName) {
-        return sendJson(res, 400, { error: 'participantId and participantName are required.' });
+      const { participantId = '', participantName = '', listingId = null } = await readRequestBody(req);
+      const listing = listingId ? await listingsCollection.findOne({ id: listingId }) : null;
+      const resolvedParticipantId = participantId || listing?.ownerId || '';
+      if (!resolvedParticipantId) {
+        return sendJson(res, 400, { error: 'participantId or listingId is required.' });
+      }
+      if (resolvedParticipantId === userId) {
+        return sendJson(res, 400, { error: 'You cannot start a conversation with yourself.' });
+      }
+
+      const currentUser = await usersCollection.findOne({ id: userId });
+      const participantUser = await usersCollection.findOne({ id: resolvedParticipantId });
+      if (!currentUser || !participantUser) {
+        return sendJson(res, 404, { error: 'Conversation participant not found.' });
       }
 
       const existing = await conversationsCollection.findOne({
         listingId,
-        participantIds: { $all: [userId, participantId] }
+        participantIds: { $all: [userId, resolvedParticipantId] }
       });
 
       if (existing) {
@@ -1350,10 +1581,15 @@ const server = http.createServer(async (req, res) => {
       const conversation = {
         id: `conv-${Date.now()}`,
         listingId,
-        participantIds: [userId, participantId],
-        participantNames: [userId, participantName],
-        participant: participantName,
-        participantCity: 'Ulsan',
+        participantIds: [userId, resolvedParticipantId],
+        participantNames: {
+          [userId]: getUserDisplayName(currentUser),
+          [resolvedParticipantId]: participantName || getUserDisplayName(participantUser)
+        },
+        participantCities: {
+          [userId]: currentUser.city || 'Ulsan',
+          [resolvedParticipantId]: participantUser.city || String(listing?.location || '').split(',')[0] || 'Ulsan'
+        },
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
@@ -1366,10 +1602,25 @@ const server = http.createServer(async (req, res) => {
 
     if (pathname.match(/^\/api\/messages\/conversations\/[^/]+\/messages$/) && req.method === 'GET') {
       const conversationId = pathname.split('/')[4];
+      const userId = getUserId(req, url);
+      const conversation = await conversationsCollection.findOne({ id: conversationId });
+      if (!conversation) {
+        return sendJson(res, 404, { error: 'Conversation not found.' });
+      }
+      if (userId && !(conversation.participantIds || []).includes(userId)) {
+        return sendJson(res, 403, { error: 'You are not part of this conversation.' });
+      }
       const messages = await messagesCollection
         .find({ conversationId })
         .sort({ createdAt: 1 })
         .toArray();
+
+      if (userId) {
+        await notificationsCollection.updateMany(
+          { userId, conversationId, type: 'message', read: false },
+          { $set: { read: true } }
+        );
+      }
 
       return sendJson(res, 200, { messages: messages.map(normalizeDoc) });
     }
@@ -1391,17 +1642,33 @@ const server = http.createServer(async (req, res) => {
       if (!conversation) {
         return sendJson(res, 404, { error: 'Conversation not found.' });
       }
+      if (!(conversation.participantIds || []).includes(userId)) {
+        return sendJson(res, 403, { error: 'You are not part of this conversation.' });
+      }
 
       const { text = '' } = await readRequestBody(req);
       if (!String(text).trim()) {
         return sendJson(res, 400, { error: 'Message text is required.' });
       }
 
+      const messageText = String(text).trim();
+      const duplicateWindow = new Date(Date.now() - 8000).toISOString();
+      const recentDuplicate = await messagesCollection.findOne({
+        conversationId,
+        senderId: userId,
+        text: messageText,
+        createdAt: { $gte: duplicateWindow }
+      });
+
+      if (recentDuplicate) {
+        return sendJson(res, 200, { message: normalizeDoc(recentDuplicate), duplicate: true });
+      }
+
       const message = {
         conversationId,
         senderId: userId,
         senderName: user.name || user.firstName || 'You',
-        text: String(text).trim(),
+        text: messageText,
         type: 'sent',
         createdAt: new Date().toISOString()
       };
@@ -1417,6 +1684,7 @@ const server = http.createServer(async (req, res) => {
         await notificationsCollection.insertOne({
           id: `notif-${Date.now()}`,
           userId: recipientId,
+          conversationId,
           text: `${message.senderName} sent you a new message.`,
           type: 'message',
           read: false,
@@ -1436,8 +1704,8 @@ const server = http.createServer(async (req, res) => {
     const aliasTarget = PUBLIC_PAGE_ALIASES[normalizedPath.toLowerCase()];
     const relativePath = (aliasTarget || normalizedPath).replace(/^\/+/, '');
 
-    let filePath = path.join(ROOT, relativePath);
-    if (!filePath.startsWith(ROOT)) {
+    let filePath = path.resolve(PUBLIC_ROOT, relativePath);
+    if (!filePath.startsWith(PUBLIC_ROOT)) {
       return sendJson(res, 403, { error: 'Forbidden' });
     }
 
@@ -1445,7 +1713,16 @@ const server = http.createServer(async (req, res) => {
       return sendFile(res, filePath);
     }
 
-    return sendFile(res, path.join(ROOT, 'index.html'));
+    const pagePath = path.resolve(PUBLIC_ROOT, 'html', relativePath);
+    if (
+      pagePath.startsWith(path.resolve(PUBLIC_ROOT, 'html')) &&
+      fs.existsSync(pagePath) &&
+      fs.statSync(pagePath).isFile()
+    ) {
+      return sendFile(res, pagePath);
+    }
+
+    return sendFile(res, path.resolve(PUBLIC_ROOT, 'html', 'index.html'));
   } catch (error) {
     console.error(error);
     return sendJson(res, 500, { error: error.message || 'Server error' });
