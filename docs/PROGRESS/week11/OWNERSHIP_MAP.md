@@ -30,7 +30,7 @@
 | Bug reports | Swarnim Jung Karki | `docs/bugs/` |
 | Sprint packets | Swarnim Jung Karki | `docs/sprints/` |
 | Evidence | Swarnim Jung Karki | `docs/evidence/` |
-| Week 11 docs | Swarnim Jung Karki | `docs/week11/` |
+| Week 11 docs | Swarnim Jung Karki | `docs/PROGRESS/week11/` |
 
 ---
 
