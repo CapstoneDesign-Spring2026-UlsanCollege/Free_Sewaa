@@ -2217,6 +2217,148 @@
     });
   }
 
+  function initChatbotWidget() {
+    if (document.querySelector('[data-chatbot-widget]')) return;
+
+    const historyKey = 'freesewaa-chatbot-history';
+    const launcher = document.createElement('button');
+    launcher.type = 'button';
+    launcher.className = 'chatbot-launcher';
+    launcher.setAttribute('aria-label', 'Open Free Sewaa helper');
+    launcher.setAttribute('aria-expanded', 'false');
+    launcher.textContent = '?';
+
+    const widget = document.createElement('section');
+    widget.className = 'chatbot-widget';
+    widget.setAttribute('data-chatbot-widget', 'true');
+    widget.setAttribute('aria-label', 'Free Sewaa helper chat');
+    widget.innerHTML = `
+      <div class="chatbot-panel" role="dialog" aria-modal="false" aria-labelledby="chatbotTitle">
+        <div class="chatbot-panel__header">
+          <div>
+            <p class="chatbot-panel__eyebrow">AI helper</p>
+            <h2 id="chatbotTitle">Free Sewaa Chat</h2>
+          </div>
+          <button type="button" class="chatbot-icon-button" data-chatbot-close aria-label="Close chat">x</button>
+        </div>
+        <div class="chatbot-messages" data-chatbot-messages aria-live="polite"></div>
+        <form class="chatbot-form" data-chatbot-form>
+          <input type="text" data-chatbot-input maxlength="600" autocomplete="off" placeholder="Ask about donations, pickup, or listings" aria-label="Chat message" />
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    `;
+
+    document.body.appendChild(launcher);
+    document.body.appendChild(widget);
+
+    const panel = widget.querySelector('.chatbot-panel');
+    const closeButton = widget.querySelector('[data-chatbot-close]');
+    const messagesEl = widget.querySelector('[data-chatbot-messages]');
+    const form = widget.querySelector('[data-chatbot-form]');
+    const input = widget.querySelector('[data-chatbot-input]');
+
+    function loadHistory() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(historyKey) || '[]');
+        return Array.isArray(saved) ? saved.slice(-12) : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveHistory(history) {
+      try {
+        localStorage.setItem(historyKey, JSON.stringify(history.slice(-12)));
+      } catch (error) {}
+    }
+
+    let history = loadHistory();
+    if (!history.length) {
+      history = [
+        {
+          role: 'bot',
+          text: 'Hi! Ask me about donating, browsing items, requests, pickup, or messages.'
+        }
+      ];
+    }
+
+    function renderMessage(item) {
+      const bubble = document.createElement('div');
+      bubble.className = `chatbot-message chatbot-message--${item.role === 'user' ? 'user' : 'bot'}`;
+
+      const label = document.createElement('span');
+      label.textContent = item.role === 'user' ? 'You' : 'Assistant';
+
+      const text = document.createElement('p');
+      text.textContent = item.text;
+
+      bubble.appendChild(label);
+      bubble.appendChild(text);
+      messagesEl.appendChild(bubble);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      return bubble;
+    }
+
+    function renderHistory() {
+      messagesEl.innerHTML = '';
+      history.forEach(renderMessage);
+    }
+
+    function setOpen(isOpen) {
+      widget.classList.toggle('is-open', isOpen);
+      launcher.classList.toggle('is-hidden', isOpen);
+      launcher.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) {
+        window.setTimeout(() => input.focus(), 80);
+      }
+    }
+
+    async function sendChatMessage(text) {
+      const pending = renderMessage({ role: 'bot', text: 'Thinking...' });
+      try {
+        const response = await fetch(apiUrl('/api/chatbot'), {
+          method: 'POST',
+          headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+          body: JSON.stringify({ message: text })
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || 'Chatbot is unavailable.');
+        }
+        pending.querySelector('p').textContent = data.reply;
+        history.push({ role: 'bot', text: data.reply });
+        saveHistory(history);
+      } catch (error) {
+        const fallback = 'I could not reach the helper service. Please try again in a moment.';
+        pending.querySelector('p').textContent = fallback;
+        history.push({ role: 'bot', text: fallback });
+        saveHistory(history);
+      }
+    }
+
+    launcher.addEventListener('click', () => setOpen(true));
+    closeButton.addEventListener('click', () => setOpen(false));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && widget.classList.contains('is-open')) {
+        setOpen(false);
+      }
+    });
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      history.push({ role: 'user', text });
+      renderMessage({ role: 'user', text });
+      saveHistory(history);
+      sendChatMessage(text);
+    });
+
+    renderHistory();
+  }
+
 
   function initCurrentPage() {
     if (page === 'browse') initBrowsePage();
@@ -2251,6 +2393,7 @@
       localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
     }
 
+    initChatbotWidget();
     initCurrentPage();
   }
 

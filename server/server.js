@@ -678,6 +678,100 @@ function getListingFlags(listing) {
   return flags;
 }
 
+function normalizeChatText(value) {
+  return String(value || '').trim().replace(/\s+/g, ' ');
+}
+
+function createListingSummary(listings) {
+  if (!listings.length) {
+    return 'I could not find active listings right now. Try checking Browse again in a moment or start a new donation post.';
+  }
+
+  const topListings = listings
+    .slice(0, 4)
+    .map(listing => `${listing.title} (${listing.category}, ${listing.location})`)
+    .join('; ');
+
+  return `Here are a few active items: ${topListings}. Open Browse to view details or send a request.`;
+}
+
+async function buildChatbotReply(message) {
+  const text = normalizeChatText(message);
+  const lower = text.toLowerCase();
+
+  if (!text) {
+    return 'Ask me about donating, browsing items, requests, pickup, messages, or your account.';
+  }
+
+  const activeListings = await listingsCollection
+    .find({ status: 'active' })
+    .sort({ urgent: -1, createdAt: -1 })
+    .limit(8)
+    .toArray();
+
+  const categories = [...new Set(activeListings.map(item => item.category).filter(Boolean))];
+  const urgentListings = activeListings.filter(item => item.urgent);
+
+  if (/\b(hi|hello|hey|namaste)\b/.test(lower)) {
+    return 'Hi! I am the Free Sewaa helper. I can help you find free items, donate something, understand pickup, or manage requests.';
+  }
+
+  if (/\b(donate|give|post|upload|share)\b/.test(lower)) {
+    return 'To donate an item, go to Donate, add the title, category, condition, pickup window, notes, and a clear photo. After publishing, people can request it from Browse.';
+  }
+
+  if (/\b(find|browse|available|items?|listings?|need|search)\b/.test(lower)) {
+    return createListingSummary(activeListings);
+  }
+
+  if (/\b(food|rice|pantry|clothing|jacket|books?|desk|home|furniture|category|categories)\b/.test(lower)) {
+    const matched = activeListings.filter(listing => {
+      const haystack = `${listing.title} ${listing.category} ${listing.description}`.toLowerCase();
+      return lower.split(/\W+/).some(word => word.length > 2 && haystack.includes(word));
+    });
+
+    if (matched.length) {
+      return createListingSummary(matched);
+    }
+
+    return categories.length
+      ? `Current active categories include ${categories.join(', ')}. You can filter by category on Browse.`
+      : 'Categories will appear after active listings are published.';
+  }
+
+  if (/\b(urgent|asap|emergency|soon|today)\b/.test(lower)) {
+    return urgentListings.length
+      ? createListingSummary(urgentListings)
+      : 'I do not see urgent active listings right now. Browse still has regular active donations you can request.';
+  }
+
+  if (/\b(request|reserve|claim|interested)\b/.test(lower)) {
+    return 'Open an item on Browse and choose Request. Add a short note with your pickup availability, then check Messages for the conversation.';
+  }
+
+  if (/\b(message|chat|reply|conversation|contact)\b/.test(lower)) {
+    return 'Use Messages to continue conversations after a request is created. Keep pickup details clear and avoid sharing sensitive information.';
+  }
+
+  if (/\b(pickup|collect|delivery|meet|location|where)\b/.test(lower)) {
+    return 'Pickup details are set by the donor. Check the item location and pickup window, then confirm the exact time in Messages.';
+  }
+
+  if (/\b(account|login|signin|sign in|signup|profile|dashboard)\b/.test(lower)) {
+    return 'Use your Dashboard for profile details, active listings, saved items, and requests. If you are signed out, use Sign In or Sign Up from the home page.';
+  }
+
+  if (/\b(admin|moderation|block|review)\b/.test(lower)) {
+    return 'Admins can use the Admin panel to review users, listings, platform activity, and moderation actions.';
+  }
+
+  if (/\b(thanks|thank you)\b/.test(lower)) {
+    return 'You are welcome. I am here whenever you need help using Free Sewaa.';
+  }
+
+  return 'I can help with donating items, finding active listings, pickup, requests, messages, profile, and admin basics. Try asking "what items are available?" or "how do I donate?"';
+}
+
 /**
  * Build admin dashboard data with users, listings, requests, and notifications.
  * @returns {Object} Dashboard data with summary, users, listings, moderationQueue, activity.
@@ -1151,6 +1245,22 @@ const server = http.createServer(async (req, res) => {
             detail: 'Signup, signin, admin login, and admin moderation pages all resolve through the same local server.'
           }
         ]
+      });
+    }
+
+    if (pathname === '/api/chatbot' && req.method === 'POST') {
+      const { message = '' } = await readRequestBody(req);
+      const cleanMessage = normalizeChatText(message);
+
+      if (cleanMessage.length > 600) {
+        return sendJson(res, 400, { error: 'Please keep chatbot messages under 600 characters.' });
+      }
+
+      const reply = await buildChatbotReply(cleanMessage);
+      return sendJson(res, 200, {
+        reply,
+        source: 'free-sewaa-assistant',
+        createdAt: new Date().toISOString()
       });
     }
 

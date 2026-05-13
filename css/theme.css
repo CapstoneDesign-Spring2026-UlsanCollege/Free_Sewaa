@@ -884,3 +884,156 @@ body.light-mode .admin-highlight-card,body.light-mode .admin-note-box{background
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ===== FREE SEWAA CHATBOT ===== */
+.chatbot-launcher{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  width:58px;
+  height:58px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:50%;
+  background:#f2d8ba;
+  color:#20160f;
+  font:inherit;
+  font-size:1.45rem;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 18px 48px rgba(0,0,0,.34);
+  z-index:120;
+  transition:transform .2s ease,opacity .2s ease,background .2s ease;
+}
+.chatbot-launcher:hover{transform:translateY(-2px);background:#fff0dc}
+.chatbot-launcher.is-hidden{opacity:0;pointer-events:none;transform:translateY(12px)}
+.chatbot-widget{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  width:min(380px,calc(100vw - 28px));
+  z-index:121;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(14px);
+  transition:opacity .2s ease,transform .2s ease;
+}
+.chatbot-widget.is-open{opacity:1;pointer-events:auto;transform:translateY(0)}
+.chatbot-panel{
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:8px;
+  background:rgba(12,14,20,.96);
+  color:#f8efe5;
+  box-shadow:0 22px 70px rgba(0,0,0,.38);
+  backdrop-filter:blur(18px);
+}
+.chatbot-panel__header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  padding:16px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(135deg,rgba(242,216,186,.12),rgba(104,146,128,.08));
+}
+.chatbot-panel__eyebrow{
+  margin:0 0 4px;
+  color:rgba(242,216,186,.75);
+  font-size:.76rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.chatbot-panel h2{margin:0;font-size:1.05rem;line-height:1.2}
+.chatbot-icon-button{
+  width:34px;
+  height:34px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:8px;
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  font:inherit;
+  font-weight:800;
+  cursor:pointer;
+}
+.chatbot-messages{
+  height:340px;
+  overflow:auto;
+  display:grid;
+  align-content:start;
+  gap:12px;
+  padding:16px;
+}
+.chatbot-message{
+  max-width:86%;
+  display:grid;
+  gap:5px;
+  padding:11px 12px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.05);
+}
+.chatbot-message span{
+  font-size:.72rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.54);
+}
+.chatbot-message p{
+  margin:0;
+  color:rgba(255,255,255,.86);
+  line-height:1.55;
+  font-size:.94rem;
+}
+.chatbot-message--user{
+  justify-self:end;
+  background:rgba(242,216,186,.14);
+  border-color:rgba(242,216,186,.18);
+}
+.chatbot-message--bot{justify-self:start}
+.chatbot-form{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 78px;
+  gap:10px;
+  padding:14px;
+  border-top:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03);
+}
+.chatbot-form input{
+  width:100%;
+  min-height:44px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:8px;
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  padding:0 12px;
+  font:inherit;
+}
+.chatbot-form input::placeholder{color:rgba(255,255,255,.45)}
+.chatbot-form button{
+  min-height:44px;
+  border:0;
+  border-radius:8px;
+  background:#f2d8ba;
+  color:#21160e;
+  font:inherit;
+  font-weight:800;
+  cursor:pointer;
+}
+body.light-mode .chatbot-panel{
+  background:rgba(255,250,244,.98);
+  color:#21160e;
+  border-color:rgba(32,18,9,.12);
+}
+body.light-mode .chatbot-panel__header,body.light-mode .chatbot-form{border-color:rgba(32,18,9,.08);background:rgba(255,255,255,.66)}
+body.light-mode .chatbot-panel__eyebrow,body.light-mode .chatbot-message span{color:rgba(80,58,40,.64)}
+body.light-mode .chatbot-message{background:rgba(32,18,9,.04);border-color:rgba(32,18,9,.08)}
+body.light-mode .chatbot-message--user{background:rgba(112,89,60,.12)}
+body.light-mode .chatbot-message p{color:#21160e}
+body.light-mode .chatbot-icon-button,body.light-mode .chatbot-form input{background:#fff;color:#21160e;border-color:rgba(32,18,9,.12)}
+@media (max-width:560px){
+  .chatbot-launcher{right:16px;bottom:16px}
+  .chatbot-widget{right:14px;bottom:14px;width:calc(100vw - 28px)}
+  .chatbot-messages{height:320px}
+}
