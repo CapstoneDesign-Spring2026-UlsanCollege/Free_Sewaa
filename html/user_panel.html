@@ -93,6 +93,55 @@
         <div id="userSavedList" class="stack-list"></div>
       </article>
     </section>
+
+    <section class="wrap dashboard-grid contact-dashboard-grid">
+      <article class="panel reveal-card contact-dashboard-card">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">CONTACT</p>
+            <h2 class="section-title small">Get in touch with Free Sewaa</h2>
+          </div>
+        </div>
+        <p class="section-text">Questions, support, partnerships, or community collaboration — we'd love to hear from you.</p>
+        <div class="contact-action-grid">
+          <a class="contact-action" href="tel:01096646162">
+            <span>Call</span>
+            <strong>010-9664-6162</strong>
+          </a>
+          <a class="contact-action" href="mailto:support@freesewaa.org">
+            <span>Email</span>
+            <strong>support@freesewaa.org</strong>
+          </a>
+        </div>
+      </article>
+
+      <article class="panel reveal-card contact-dashboard-card">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">SUGGESTIONS</p>
+            <h2 class="section-title small">Share your idea</h2>
+          </div>
+        </div>
+        <form class="contact-suggestion-form" id="contactSuggestionForm">
+          <label class="field">
+            <span>Your name</span>
+            <input id="suggestionName" type="text" autocomplete="name" placeholder="Your name" />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input id="suggestionEmail" type="email" autocomplete="email" placeholder="you@example.com" />
+          </label>
+          <label class="field">
+            <span>Suggestion</span>
+            <textarea id="suggestionMessage" rows="5" maxlength="1200" placeholder="Tell us what would make Free Sewaa better." required></textarea>
+          </label>
+          <div class="form-actions contact-form-actions">
+            <button class="btn btn-hero" type="submit">Send suggestion</button>
+            <p class="form-status" id="suggestionStatus" data-tone="default"></p>
+          </div>
+        </form>
+      </article>
+    </section>
   </main>
 
   <script src="api-config.js"></script>

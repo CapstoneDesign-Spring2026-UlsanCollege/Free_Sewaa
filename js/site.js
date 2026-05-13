@@ -492,6 +492,17 @@
     return data.message;
   }
 
+  async function sendSuggestion(payload) {
+    const response = await fetch(apiUrl('/api/suggestions'), {
+      method: 'POST',
+      headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Could not send suggestion.');
+    return data;
+  }
+
   let appState = loadState();
 
   function saveState() {
@@ -2215,6 +2226,67 @@
           </div>
         </article>
       `).join('') : '<p class="muted-copy">No listings yet. Start with your first donation post.</p>';
+    }
+
+    const suggestionForm = document.getElementById('contactSuggestionForm');
+    const suggestionStatus = document.getElementById('suggestionStatus');
+    if (suggestionForm && suggestionForm.dataset.bound !== 'true') {
+      suggestionForm.dataset.bound = 'true';
+      const nameInput = document.getElementById('suggestionName');
+      const emailInput = document.getElementById('suggestionEmail');
+      const messageInput = document.getElementById('suggestionMessage');
+
+      if (nameInput && !nameInput.value) nameInput.value = appState.user.name || '';
+      if (emailInput && !emailInput.value) emailInput.value = appState.user.email || '';
+
+      suggestionForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        const submitButton = suggestionForm.querySelector('button[type="submit"]');
+        const previousText = submitButton?.textContent || 'Send suggestion';
+        const message = messageInput?.value.trim() || '';
+
+        if (!message) {
+          if (suggestionStatus) {
+            suggestionStatus.textContent = 'Please write your suggestion first.';
+            suggestionStatus.dataset.tone = 'error';
+            suggestionStatus.classList.add('is-visible');
+          }
+          return;
+        }
+
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = 'Sending...';
+        }
+
+        try {
+          await sendSuggestion({
+            name: nameInput?.value.trim() || appState.user.name || '',
+            email: emailInput?.value.trim() || appState.user.email || '',
+            message
+          });
+
+          if (suggestionStatus) {
+            suggestionStatus.textContent = 'Thank you. Your suggestion was sent.';
+            suggestionStatus.dataset.tone = 'success';
+            suggestionStatus.classList.add('is-visible');
+          }
+          if (messageInput) messageInput.value = '';
+          showToast('Suggestion sent.', 'success');
+        } catch (error) {
+          if (suggestionStatus) {
+            suggestionStatus.textContent = error.message || 'Could not send suggestion.';
+            suggestionStatus.dataset.tone = 'error';
+            suggestionStatus.classList.add('is-visible');
+          }
+          showToast(error.message || 'Could not send suggestion.', 'error');
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = previousText;
+          }
+        }
+      });
     }
   }
 

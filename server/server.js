@@ -47,6 +47,7 @@ let requestsCollection;
 let conversationsCollection;
 let messagesCollection;
 let notificationsCollection;
+let suggestionsCollection;
 
 function defaultUserState(user) {
   const name =
@@ -269,6 +270,10 @@ async function ensureIndexes() {
   await notificationsCollection.createIndex({ id: 1 }, { unique: true });
   await notificationsCollection.createIndex({ userId: 1 });
   await notificationsCollection.createIndex({ read: 1 });
+
+  await suggestionsCollection.createIndex({ id: 1 }, { unique: true });
+  await suggestionsCollection.createIndex({ userId: 1 });
+  await suggestionsCollection.createIndex({ createdAt: -1 });
 }
 
 /**
@@ -1773,6 +1778,41 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, { ok: true });
     }
 
+    if (pathname === '/api/suggestions' && req.method === 'POST') {
+      const userId = getUserId(req, url);
+      const body = await readRequestBody(req);
+      const name = String(body.name || '').trim().slice(0, 120);
+      const email = String(body.email || '').trim().toLowerCase().slice(0, 160);
+      const message = String(body.message || '').trim().slice(0, 1200);
+
+      if (!message) {
+        return sendJson(res, 400, { error: 'Suggestion message is required.' });
+      }
+
+      let user = null;
+      if (userId) {
+        user = await usersCollection.findOne({ id: userId });
+      }
+
+      const suggestion = {
+        id: `suggestion-${Date.now()}`,
+        userId: user?.id || userId || null,
+        name: name || getUserDisplayName(user),
+        email: email || user?.email || '',
+        message,
+        status: 'new',
+        createdAt: new Date().toISOString()
+      };
+
+      await suggestionsCollection.insertOne(suggestion);
+      await touchMeta();
+
+      return sendJson(res, 201, {
+        suggestion: normalizeDoc(suggestion),
+        message: 'Thank you for sharing your suggestion.'
+      });
+    }
+
     if (pathname === '/api/messages/conversations' && req.method === 'GET') {
       const userId = getUserId(req, url);
       if (!userId) {
@@ -2009,6 +2049,7 @@ async function startServer() {
     conversationsCollection = db.collection('conversations');
     messagesCollection = db.collection('messages');
     notificationsCollection = db.collection('notifications');
+    suggestionsCollection = db.collection('suggestions');
 
     await ensureIndexes();
     await ensureSeedData();
