@@ -2190,6 +2190,7 @@
       link.classList.add('has-nav-icon');
       link.setAttribute('aria-label', label);
       link.setAttribute('title', label);
+      link.dataset.navTooltip = label;
       link.innerHTML = `${makeNavIcon(navIcons[key])}<span class="nav-label">${escapeHtml(label)}</span>`;
     });
   }
