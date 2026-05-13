@@ -6,7 +6,7 @@
 |------|--------|------|
 | Pull Request | ✅ Done | [#109 - Week 11 MVP Verification](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109) |
 | Demo screenshots | ✅ Done | [Screenshots folder](../../evidence/week11/README.md) |
-| Test results | ✅ Done | [Backend unit tests placeholder] |
+| Test results | ❌ Not yet | Jest not configured — see [CODE_COVERAGE.md](CODE_COVERAGE.md) |
 | Docs update | ✅ Done | [docs/PROGRESS/week 11/](.) |
 | Review comment | ✅ Done | [#109 review](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109) |
 | CI run | ✅ Done | [GitHub Actions](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions) |
@@ -36,7 +36,7 @@
 
 | Test Suite | Result | Link |
 |------------|--------|------|
-| Backend unit tests | ❌ Not yet | [Needs implementation] |
+| Backend unit tests | ❌ Not yet | Jest not yet configured — see [CODE_COVERAGE.md](CODE_COVERAGE.md) for setup guide |
 
 ## Docs Update
 
@@ -55,8 +55,8 @@
 ## Review Comment
 
 - **PR:** [#109](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109)
-- **Comment:** [Add review comment link after professor reviews]
-- **Reviewer:** [Proff.Ben]
+- **Comment:** _Pending professor review — link will be added after feedback_
+- **Reviewer:** Prof. Ben
 
 ## CI Run
 

@@ -71,12 +71,12 @@ Coverage report will be in `server/coverage/` folder. Open `server/coverage/lcov
 
 ## Coverage Targets
 
-| Metric | Target | Current |
-|--------|--------|---------|
-| Lines | 70% | ❌ Not yet |
-| Functions | 70% | ❌ Not yet |
-| Branches | 60% | ❌ Not yet |
-| Statements | 70% | ❌ Not yet |
+| Metric | Target | Current | Action Needed |
+|--------|--------|---------|---------------|
+| Lines | 70% | ❌ Not run | Install Jest, write tests, run coverage |
+| Functions | 70% | ❌ Not run | Cover all API endpoint handler functions |
+| Branches | 60% | ❌ Not run | Test if/else conditions in server logic |
+| Statements | 70% | ❌ Not run | Ensure every line of code is reached by tests |
 
 ---
 
@@ -112,7 +112,30 @@ describe('POST /api/auth/signup', () => {
 
 ---
 
+## Progress Status
+
+| Step | Status | Completed | Notes |
+|------|--------|-----------|-------|
+| Jest installed | ❌ Not done | — | `npm install --save-dev jest` in server/ |
+| Package.json script added | ❌ Not done | — | Add `"test": "jest --coverage"` |
+| Test files created | ❌ Not done | — | Create `__tests__/` with auth.test.js, items.test.js |
+| Tests passing | ❌ Not done | — | Run `npm test` |
+| Coverage ≥ 70% | ❌ Not done | — | Check lcov-report/index.html |
+| CI runs tests | ❌ Not done | — | Update `.github/workflows/ci.yml` |
+
+## RAG Status
+
+| Area | Status |
+|------|--------|
+| Code coverage | 🔴 Red — not started |
+| Unit tests | 🔴 Red — no test files exist |
+| CI integration | 🟡 Amber — CI exists but does not run tests |
+| Documentation | 🟢 Green — setup guide written |
+
+---
+
 ## Links
 - Jest Docs: https://jestjs.io/docs/getting-started
 - Coverage Guide: https://jestjs.io/docs/cli#--coverage
 - Our Testing Log: [TESTING_LOG.md](../../PROGRESS/TESTING_LOG.md)
+- CI Workflow: [View on GitHub](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions)

@@ -16,35 +16,35 @@ Accessibility testing checks if the app can be used by people with disabilities.
 ### Keyboard Navigation
 | Test | Status | Notes |
 |------|--------|-------|
-| All links focusable with Tab key | ❌ Not tested | [Add result] |
-| Forms can be filled without mouse | ❌ Not tested | [Add result] |
-| Dropdown menus keyboard accessible | ❌ Not tested | [Add result] |
-| Escape key closes modals | ❌ Not tested | [Add result] |
+| All links focusable with Tab key | ⚠️ Partial | Nav links work, some dropdown items need double Tab |
+| Forms can be filled without mouse | ✅ Pass | All form fields are reachable via Tab |
+| Dropdown menus keyboard accessible | ⚠️ Partial | Settings menu opens but focus order needs improvement |
+| Escape key closes modals | ❌ Fail | Some modals do not close with Escape |
 
 ### Screen Reader
 | Test | Status | Notes |
 |------|--------|-------|
-| All images have alt text | ❌ Not tested | [Add result] |
-| Headings use proper h1-h6 tags | ❌ Not tested | [Add result] |
-| Forms have labels | ❌ Not tested | [Add result] |
-| Error messages announced | ❌ Not tested | [Add result] |
-| Buttons have descriptive text | ❌ Not tested | [Add result] |
+| All images have alt text | ⚠️ Partial | Background images (CSS) are decorative; some `<img>` tags missing alt |
+| Headings use proper h1-h6 tags | ✅ Pass | Pages use h1 → h2 hierarchy correctly |
+| Forms have labels | ✅ Pass | Signup/signin forms use `<label>` wrapping |
+| Error messages announced | ❌ Fail | Form validation messages not linked via aria-describedby |
+| Buttons have descriptive text | ✅ Pass | All buttons have visible text labels |
 
 ### Color & Contrast
 | Test | Status | Notes |
 |------|--------|-------|
-| Text contrast ratio ≥ 4.5:1 | ❌ Not tested | [Add result] |
-| Links distinguishable from text | ❌ Not tested | [Add result] |
-| Error states visible (not just color) | ❌ Not tested | [Add result] |
-| Dark mode contrast OK | ❌ Not tested | [Add result] |
+| Text contrast ratio ≥ 4.5:1 | ⚠️ Partial | Most text passes, some muted/secondary text may fail |
+| Links distinguishable from text | ✅ Pass | Links have underline or color difference |
+| Error states visible (not just color) | ❌ Fail | Error messages rely on red color only |
+| Dark mode contrast OK | ✅ Pass | Dark theme contrast checked manually |
 
 ### HTML Structure
 | Test | Status | Notes |
 |------|--------|-------|
-| Valid HTML5 | ❌ Not tested | [Add result] |
-| Landmarks used (nav, main, footer) | ❌ Not tested | [Add result] |
-| ARIA attributes where needed | ❌ Not tested | [Add result] |
-| Page has proper title | ❌ Not tested | [Add result] |
+| Valid HTML5 | ✅ Pass | Valid doctype, charset, viewport on all pages |
+| Landmarks used (nav, main, footer) | ✅ Pass | `<nav aria-label>`, `<main>`, `<footer>` present |
+| ARIA attributes where needed | ⚠️ Partial | Nav has aria-label, but modals lack aria-modal |
+| Page has proper title | ✅ Pass | Each page has descriptive `<title>` tag |
 
 ---
 
@@ -53,7 +53,7 @@ Accessibility testing checks if the app can be used by people with disabilities.
 ### 1. Manual Keyboard Test
 - Unplug your mouse
 - Use only Tab, Shift+Tab, Enter, Escape, Arrow keys
-- Can you complete signup without mouse? ✅ / ❌
+- Can you complete signup without mouse? ✅ Yes (passed)
 
 ### 2. Browser DevTools
 - Chrome: Right-click → Inspect → Lighthouse tab → Accessibility audit

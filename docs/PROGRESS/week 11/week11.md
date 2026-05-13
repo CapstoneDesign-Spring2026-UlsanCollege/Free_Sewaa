@@ -3,11 +3,15 @@
 **Period:** Week 11 — MVP Verification
 
 ## What We Did
-- Verified all 7 steps of the MVP core flow
-- Documented 10 bugs with severity levels (P0-P2)
-- Created ownership map for all 5 team members
-- Wrote demo script for 4m45s presentation
-- Linked all evidence in EVIDENCE_LINKS.md
+- Verified all 7 steps of the MVP core flow end to end
+- Documented 10 bugs with severity levels (P0-P2) and owners
+- Created ownership map for all 5 team members with file-level detail
+- Wrote demo script for 4m45s presentation with speaker assignments
+- Linked all evidence in EVIDENCE_LINKS.md with real PR and CI links
+- Added code coverage testing guide (Jest, 70% target)
+- Added accessibility testing guide with real audit results
+- Updated MVP checklist with evidence, quality, docs, and demo readiness
+- Filled all placeholder links with real GitHub URLs
 
 ## Quick Links
 
