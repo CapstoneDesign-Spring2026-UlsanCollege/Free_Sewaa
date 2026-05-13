@@ -235,12 +235,12 @@
       }
     };
 
-    state.listings = Array.isArray(parsed.listings) ? parsed.listings.map(listing => ({
+    state.listings = dedupeListings(Array.isArray(parsed.listings) ? parsed.listings.map(listing => ({
       ...listing,
       ownerId: listing.ownerId || ([101, 102, 103].includes(listing.id) ? state.user.id : `community-${listing.id}`),
       ownerName: listing.ownerName || (((listing.ownerId || ([101, 102, 103].includes(listing.id) ? state.user.id : `community-${listing.id}`)) === state.user.id) ? state.user.name : 'Community Member'),
       status: listing.status || 'active'
-    })) : base.listings;
+    })) : base.listings);
 
     const validIds = new Set(state.listings.map(item => String(item.id)));
     state.user.savedListingIds = (state.user.savedListingIds || []).filter(id => validIds.has(String(id)));
@@ -732,6 +732,16 @@
     return String(left) === String(right);
   }
 
+  function dedupeListings(listings = []) {
+    const seen = new Set();
+    return listings.filter(listing => {
+      const key = String(listing?.id || '');
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
   function listIncludesId(list, id) {
     return (list || []).some(item => idsMatch(item, id));
   }
@@ -1005,6 +1015,9 @@
   function initBrowsePage() {
     const listingGrid = document.getElementById('listingGrid');
     if (!listingGrid) return;
+    if (listingGrid.dataset.browseBound === 'true') return;
+    listingGrid.dataset.browseBound = 'true';
+    appState.listings = dedupeListings(appState.listings);
 
     const state = {
       search: '',
@@ -1061,6 +1074,7 @@
     }
 
     function renderListings() {
+      appState.listings = dedupeListings(appState.listings);
       const listings = getFilteredListings();
       listingGrid.innerHTML = listings.map(listing => {
         const saved = listIncludesId(appState.user.savedListingIds, listing.id);
@@ -2175,7 +2189,7 @@
 
     const remoteListings = await fetchRemoteListings();
     if (remoteListings?.length) {
-      appState.listings = remoteListings;
+      appState.listings = dedupeListings(remoteListings);
       localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
     }
 
