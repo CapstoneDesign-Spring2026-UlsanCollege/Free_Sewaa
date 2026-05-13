@@ -261,7 +261,13 @@ If the live demo fails, present:
 
 **Issues:**
 - *(add issue links)*
-
+  
+### Sujan Tamang
+**Commits**
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/b519cae0fd3cb3f65e232a93e1c7854921a6136b
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a7b65adbbf8d8473fdafbc68424ee5a6f65f59a1
+  **PR link**
+-  [PR #47: Fixed CSS and JS linking](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/47)
 ---
 
 ### Mohan Khadka
@@ -277,12 +283,5 @@ If the live demo fails, present:
 
 ---
 
-### Sujan Tamang
-Commit
-
-[b519cae0fd3cb3f65e232a93e1c7854921a6136b: Delete docs/sprints directory](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/b519cae0fd3cb3f65e232a93e1c7854921a6136b)
-- [a7b65adbbf8d8473fdafbc68424ee5a6f65f59a1: Create Weekly Sprint Packet Week 7](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a7b65adbbf8d8473fdafbc68424ee5a6f65f59a1)
-
-- [PR #47: Fixed CSS and JS linking](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/47)
 
 
