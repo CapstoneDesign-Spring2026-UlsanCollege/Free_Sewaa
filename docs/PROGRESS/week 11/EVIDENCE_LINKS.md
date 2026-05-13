@@ -54,7 +54,7 @@
 
 - **PR:** [#109](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109)
 - **Comment:** [Add review comment link after professor reviews]
-- **Reviewer:** [Professor name placeholder]
+- **Reviewer:** [Proff.Ben]
 
 ## CI Run
 
