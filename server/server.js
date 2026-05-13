@@ -1106,6 +1106,31 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, { ok: true });
     }
 
+    if (pathname === '/api/auth/session' && req.method === 'GET') {
+      const userId = getUserId(req, url);
+      if (!userId) {
+        return sendJson(res, 401, { error: 'Authentication required.' });
+      }
+
+      const user = await usersCollection.findOne({ id: userId });
+      if (!user) {
+        return sendJson(res, 401, { error: 'User session not found.' });
+      }
+
+      if (user.isBlocked) {
+        return sendJson(res, 403, { error: 'This account is blocked.' });
+      }
+
+      return sendJson(res, 200, {
+        user: safeUser(user),
+        auth: {
+          userId: user.id,
+          isAuthenticated: true,
+          role: user.role || 'user'
+        }
+      });
+    }
+
     if (pathname === '/api/auth/signup' && req.method === 'POST') {
       const { firstName = '', lastName = '', email = '', password = '', phone = '' } = await readRequestBody(req);
 

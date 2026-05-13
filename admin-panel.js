@@ -46,7 +46,20 @@
 
   function getAdminHeaders(extra = {}) {
     const userId = getCurrentUserId();
-    return userId ? { ...extra, 'x-user-id': userId } : { ...extra };
+    const token = localStorage.getItem('freesewaa-token') || '';
+    return {
+      ...extra,
+      ...(userId ? { 'x-user-id': userId } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    };
+  }
+
+  function redirectToAdminLogin() {
+    localStorage.removeItem('freesewaa-auth');
+    localStorage.removeItem('freesewaa-current-user-id');
+    localStorage.removeItem('freesewaa-token');
+    localStorage.removeItem('freesewaa-user');
+    window.location.href = '/admin_login.html';
   }
 
   function toast(message, tone = 'success') {
@@ -103,7 +116,9 @@
       throw new Error('The server returned an unexpected response.');
     }
     if (!response.ok) {
-      throw new Error(data.error || 'Admin request failed.');
+      const error = new Error(data.error || 'Admin request failed.');
+      error.status = response.status;
+      throw error;
     }
     return data;
   }
@@ -374,13 +389,16 @@
     bindActions();
 
     try {
+      if (window.FREESEWAA_VERIFY_ADMIN && typeof window.FREESEWAA_VERIFY_ADMIN.then === 'function') {
+        await window.FREESEWAA_VERIFY_ADMIN;
+      }
       await loadDashboard();
     } catch (error) {
       console.error(error);
       toast(error.message || 'Unable to load admin dashboard.', 'error');
-      if (/admin access/i.test(error.message || '')) {
+      if (error.status === 401 || error.status === 403 || /admin access|authentication required|session/i.test(error.message || '')) {
         setTimeout(() => {
-          window.location.href = '/admin_login.html';
+          redirectToAdminLogin();
         }, 900);
       }
     }
