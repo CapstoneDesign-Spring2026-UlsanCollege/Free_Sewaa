@@ -38,6 +38,26 @@ Full details: [BUG_LIST.md](BUG_LIST.md)
 
 ---
 
+## Testing Documentation
+
+| Document | Description |
+|----------|-------------|
+| [CODE_COVERAGE.md](CODE_COVERAGE.md) | Code coverage testing guide with Jest setup, targets, and examples |
+| [ACCESSIBILITY_TESTING.md](ACCESSIBILITY_TESTING.md) | Accessibility testing checklist, tools, and standards (WCAG 2.1 AA) |
+
+---
+
+## Evidence Links
+
+| Document | Link |
+|----------|------|
+| All Evidence | [EVIDENCE_LINKS.md](EVIDENCE_LINKS.md) |
+| Code Coverage | [CODE_COVERAGE.md](CODE_COVERAGE.md) |
+| Accessibility | [ACCESSIBILITY_TESTING.md](ACCESSIBILITY_TESTING.md) |
+| Testing Log | [TESTING_LOG.md](../../PROGRESS/TESTING_LOG.md) |
+
+---
+
 ## Ownership Map
 
 | Name | Role | Key Files |

@@ -17,6 +17,8 @@
 | Demo Script | [WEEK_11_DEMO_SCRIPT.md](WEEK_11_DEMO_SCRIPT.md) |
 | Bug List | [BUG_LIST.md](BUG_LIST.md) |
 | Evidence | [EVIDENCE_LINKS.md](EVIDENCE_LINKS.md) |
+| Code Coverage | [CODE_COVERAGE.md](CODE_COVERAGE.md) |
+| Accessibility Testing | [ACCESSIBILITY_TESTING.md](ACCESSIBILITY_TESTING.md) |
 | Checklist | [MVP_VERIFICATION_CHECKLIST.md](MVP_VERIFICATION_CHECKLIST.md) |
 
 ## Track

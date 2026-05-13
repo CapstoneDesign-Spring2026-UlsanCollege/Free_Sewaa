@@ -39,6 +39,11 @@
 - [ ] Search returns correct results (P2)
 - [ ] Timestamps show correct relative time (P2)
 - [ ] Chat button passes item context (P2)
+- [ ] Jest test framework installed and configured
+- [ ] Code coverage report generated (target 70%+)
+- [ ] Keyboard navigation tested on key pages
+- [ ] Lighthouse accessibility audit completed
+- [ ] Color contrast meets WCAG 2.1 AA standard
 
 ---
 

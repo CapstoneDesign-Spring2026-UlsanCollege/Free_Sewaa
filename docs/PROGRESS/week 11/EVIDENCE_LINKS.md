@@ -49,6 +49,8 @@
 | Bug List | ✅ Created | [BUG_LIST.md](BUG_LIST.md) |
 | Ownership Map | ✅ Created | [OWNERSHIP_MAP.md](OWNERSHIP_MAP.md) |
 | Main README | ✅ Updated | [README.md](../../../README.md) |
+| Code Coverage Guide | ✅ Created | [CODE_COVERAGE.md](CODE_COVERAGE.md) |
+| Accessibility Testing Guide | ✅ Created | [ACCESSIBILITY_TESTING.md](ACCESSIBILITY_TESTING.md) |
 
 ## Review Comment
 
