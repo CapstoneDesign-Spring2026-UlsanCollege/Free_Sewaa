@@ -121,10 +121,6 @@ function safeUser(user) {
   return rest;
 }
 
-function isAdminRole(role) {
-  return role === 'admin' || role === 'superadmin';
-}
-
 function isSuperAdminUser(user) {
   if (!user) return false;
   return user.role === 'superadmin';
@@ -862,7 +858,7 @@ async function buildAdminDashboardData() {
 
   const summary = {
     users: normalizedUsers.length,
-    admins: users.filter(user => isAdminRole(user.role)).length,
+    admins: users.filter(user => user.role === 'admin').length,
     superadmins: users.filter(user => user.role === 'superadmin').length,
     blockedUsers: users.filter(user => user.isBlocked).length,
     listings: normalizedListings.length,
@@ -910,24 +906,19 @@ async function buildAdminDashboardData() {
 async function requireAdminUser(req, url) {
   const userId = getUserId(req, url);
   if (!userId) {
-    return { error: 'Admin access required.' };
+    return { error: 'Super admin access required.' };
   }
 
   const user = await usersCollection.findOne({ id: userId });
-  if (!user || !isAdminRole(user.role)) {
-    return { error: 'Admin access required.' };
+  if (!isSuperAdminUser(user)) {
+    return { error: 'Super admin access required.' };
   }
 
   return { user };
 }
 
 async function requireSuperAdminUser(req, url) {
-  const admin = await requireAdminUser(req, url);
-  if (admin.error) return admin;
-  if (!isSuperAdminUser(admin.user)) {
-    return { error: 'Super admin access required.' };
-  }
-  return admin;
+  return requireAdminUser(req, url);
 }
 
 async function applyAdminUserAction(targetUserId, action, actor) {
@@ -1305,8 +1296,8 @@ const server = http.createServer(async (req, res) => {
       }
 
       const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
-      if (!isAdminRole(role)) {
-        return sendJson(res, 403, { error: 'Admin access required.' });
+      if (role !== 'superadmin') {
+        return sendJson(res, 403, { error: 'Super admin access required.' });
       }
 
       if (user.isBlocked) {
