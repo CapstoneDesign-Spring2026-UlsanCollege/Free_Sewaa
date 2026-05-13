@@ -229,4 +229,10 @@ Key achievements:
 - Renamed sprint packet files for consistency
 - Created communication.md for team communication guidelines
 
+### Sujan Tamang
+
+**Commits:**
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/7fb12f1217de9dfa5ca460281ff60b84a72282af
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/3722825609b9c0ebda3fb11671eb0f6d98df1a78
+
 ---
