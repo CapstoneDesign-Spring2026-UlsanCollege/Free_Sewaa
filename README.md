@@ -278,7 +278,9 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 | [Week 8 - Midterm](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) | Presented successfully |
 | [Week 9 - Polish](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) | Testing & fixes |
 | [Week 10 - Bug Triage](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) | AI workflow & bugs |
-| [Week 11 - MVP Verification](docs/week11/README.md) | MVP verification, demo script, bug list, ownership |
+| [Week 11 - MVP Verification](docs/PROGRESS/week%2011/README.md) | MVP verification, demo script, bug list, ownership |
+| [Code Coverage Guide](docs/PROGRESS/week%2011/CODE_COVERAGE.md) | Jest setup, test plan, 70% coverage target |
+| [Accessibility Testing](docs/PROGRESS/week%2011/ACCESSIBILITY_TESTING.md) | WCAG 2.1 AA audit, keyboard nav, screen reader checks |
 | [AI_CODE_OWNERSHIP_AUDIT.md](docs/AI_CODE_OWNERSHIP_AUDIT.md) | AI use and team ownership |
 | [PROJECT_BOARD.md](PROJECT_BOARD.md) | Project board and task tracking |
 
