@@ -1,7 +1,7 @@
 # Week 9 Sprint Packet — Free Sewaa
 
-**Sprint 3: MVP Verification + Code Ownership**
-
+## MVP Week 9
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/65a85c92e727a79c819754787180b764be35035a/docs/PROGRESS/MVP_WEEK_9.md
 ---
 
 ## 0) Team + Sprint
