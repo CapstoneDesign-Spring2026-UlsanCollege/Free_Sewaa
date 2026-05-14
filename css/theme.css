@@ -55,19 +55,10 @@ button,input,textarea,select{font:inherit}
   position:sticky;
   top:0;
   z-index:40;
-  padding:18px 0 0;
-}
-body[data-page="user-panel"] .site-header{
-  position:sticky;
-  top:0;
   padding:0;
   background:color-mix(in srgb, var(--bg) 94%, transparent);
   box-shadow:0 14px 36px rgba(0,0,0,.18);
   backdrop-filter:blur(14px);
-}
-body[data-page="user-panel"] .site-header__inner{
-  padding:14px 0 16px;
-  background:color-mix(in srgb, var(--bg) 96%, transparent);
 }
 .site-header__inner{
   width:min(1240px, calc(100% - 24px));
@@ -76,13 +67,13 @@ body[data-page="user-panel"] .site-header__inner{
   grid-template-columns:auto 1fr auto;
   align-items:center;
   gap:24px;
-  padding:14px 0 18px;
+  padding:14px 0 16px;
   border-bottom:1px solid rgba(255,236,212,.08);
-  background:linear-gradient(180deg, rgba(10,9,7,.92), rgba(10,9,7,.74));
+  background:color-mix(in srgb, var(--bg) 96%, transparent);
   backdrop-filter:blur(10px);
 }
 body.light-mode .site-header__inner{
-  background:linear-gradient(180deg, rgba(247,240,231,.92), rgba(247,240,231,.78));
+  background:color-mix(in srgb, var(--bg) 96%, transparent);
   border-bottom:1px solid rgba(42,32,23,.08);
 }
 .brand{

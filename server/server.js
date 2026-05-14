@@ -670,7 +670,11 @@ function sendFile(res, filePath) {
       res.end('Not found');
       return;
     }
-    res.writeHead(200, { 'Content-Type': contentTypes[ext] || 'application/octet-stream' });
+    const headers = { 'Content-Type': contentTypes[ext] || 'application/octet-stream' };
+    if (['.html', '.css', '.js'].includes(ext)) {
+      headers['Cache-Control'] = 'no-store';
+    }
+    res.writeHead(200, headers);
     res.end(data);
   });
 }
