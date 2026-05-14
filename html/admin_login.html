@@ -54,8 +54,8 @@
 
       <form class="auth-form" id="adminLoginForm" novalidate>
         <label class="field">
-          <span>Email address</span>
-          <input id="adminEmail" type="email" placeholder="Enter your admin email" autocomplete="username" required />
+          <span>Admin Gmail address</span>
+          <input id="adminEmail" type="email" placeholder="admin@gmail.com" autocomplete="username" required />
         </label>
         <label class="field">
           <span>Password</span>
@@ -174,7 +174,11 @@
       const email = document.getElementById('adminEmail').value.trim();
       const password = document.getElementById('adminPassword').value;
       if (!email || !password) {
-        showMessage('Please enter your email and password.');
+        showMessage('Please enter your admin Gmail address and password.');
+        return;
+      }
+      if (!/^[a-z0-9._%+-]+@gmail\.com$/i.test(email)) {
+        showMessage('Please use an admin Gmail address ending in @gmail.com.');
         return;
       }
       submitBtn.disabled = true;

@@ -42,7 +42,7 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
       <div class="auth-card__top">
         <p class="eyebrow">SIGN UP</p>
         <h2>Create account</h2>
-        <p class="auth-card__text">Start with Google, email, or phone number.</p>
+        <p class="auth-card__text">Create your account with a verified Gmail address.</p>
       </div>
 
       <div class="social-row">
@@ -57,8 +57,7 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
       <div class="divider"><span>or</span></div>
 
       <div class="auth-toggle">
-        <button class="toggle-btn is-active" data-panel-target="emailPanel">Email</button>
-        <button class="toggle-btn" data-panel-target="phonePanel">Phone Number</button>
+        <button class="toggle-btn is-active" data-panel-target="emailPanel">Gmail</button>
       </div>
 
       <div class="auth-panel is-active" id="emailPanel">
@@ -67,29 +66,8 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
             <label class="field"><span>First name</span><input type="text" placeholder="First name" /></label>
             <label class="field"><span>Last name</span><input type="text" placeholder="Last name" /></label>
           </div>
-          <label class="field"><span>Email address</span><input type="email" placeholder="you@example.com" /></label>
+          <label class="field"><span>Gmail address</span><input type="email" placeholder="you@gmail.com" autocomplete="email" /></label>
           <label class="field"><span>Password</span><input type="password" placeholder="Create password" /></label>
-          <label class="checkbox"><input type="checkbox" /><span>I agree to the Terms and Privacy Policy</span></label>
-          <button class="primary-btn" type="submit">Create Account</button>
-        </form>
-      </div>
-
-      <div class="auth-panel" id="phonePanel">
-        <form class="auth-form" data-auth-panel="phone">
-          <div class="field-grid">
-            <label class="field"><span>First name</span><input type="text" placeholder="First name" /></label>
-            <label class="field"><span>Last name</span><input type="text" placeholder="Last name" /></label>
-          </div>
-          <label class="field">
-            <span>Phone number</span>
-            <div class="phone-group">
-              <select><option>+1</option><option>+82</option><option>+977</option><option>+44</option><option>+61</option></select>
-              <input type="tel" placeholder="Enter your phone number" />
-            </div>
-          </label>
-          <button class="secondary-btn" type="button" data-phone-action="send-code">Send Verification Code</button>
-          <div id="recaptcha-container" class="recaptcha-container"></div>
-          <label class="field"><span>Verification code</span><input type="text" placeholder="Enter 6-digit code" /></label>
           <label class="checkbox"><input type="checkbox" /><span>I agree to the Terms and Privacy Policy</span></label>
           <button class="primary-btn" type="submit">Create Account</button>
         </form>
