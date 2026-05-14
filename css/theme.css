@@ -1368,3 +1368,320 @@ body.light-mode .chatbot-icon-button,body.light-mode .chatbot-form input{backgro
   .chatbot-widget{right:14px;bottom:14px;width:calc(100vw - 28px)}
   .chatbot-messages{height:320px}
 }
+
+/* ===== Professional UI Refresh ===== */
+:root{
+  --bg:#0b1117;
+  --bg-2:#101922;
+  --panel:#14202a;
+  --text:#f7faf8;
+  --muted:rgba(247,250,248,.74);
+  --soft:rgba(247,250,248,.54);
+  --cream:#f4c77c;
+  --cream-2:#f8fbf8;
+  --bronze:#2fb59f;
+  --line:rgba(232,241,236,.12);
+  --glass:rgba(255,255,255,.055);
+  --shadow:0 24px 70px rgba(0,0,0,.28);
+  --radius:8px;
+}
+
+body{
+  background:
+    linear-gradient(135deg,rgba(47,181,159,.08),transparent 26%),
+    linear-gradient(225deg,rgba(244,199,124,.08),transparent 24%),
+    linear-gradient(180deg,#081018 0%,#101820 54%,#0d141b 100%);
+}
+
+body.light-mode{
+  --bg:#f5f7f4;
+  --bg-2:#edf2ee;
+  --panel:#ffffff;
+  --text:#17212a;
+  --muted:rgba(23,33,42,.72);
+  --soft:rgba(23,33,42,.52);
+  --cream:#d9912d;
+  --cream-2:#17212a;
+  --bronze:#178f80;
+  --line:rgba(23,33,42,.12);
+  --glass:rgba(255,255,255,.78);
+  --shadow:0 18px 45px rgba(31,44,56,.12);
+}
+
+.site-header{
+  background:color-mix(in srgb,var(--bg) 88%,transparent);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 14px 35px rgba(0,0,0,.18);
+}
+
+.site-header__inner{
+  width:min(1280px,calc(100% - 32px));
+  padding:12px 0;
+  border-bottom:0;
+  background:transparent;
+}
+
+.brand{
+  font-family:"Inter",system-ui,sans-serif;
+  font-size:1.35rem;
+  letter-spacing:0;
+  color:var(--cream-2);
+}
+
+.brand::before{
+  content:"";
+  width:13px;
+  height:13px;
+  display:inline-block;
+  margin-right:10px;
+  border-radius:4px;
+  background:linear-gradient(135deg,var(--bronze),var(--cream));
+  box-shadow:0 0 0 5px rgba(47,181,159,.12);
+  vertical-align:middle;
+}
+
+.main-nav{gap:6px}
+
+.nav-link,
+.nav-link.has-nav-icon,
+.icon-link.has-nav-icon{
+  width:auto;
+  height:42px;
+  min-width:42px;
+  padding:0 12px;
+  border-radius:var(--radius);
+  gap:8px;
+  overflow:visible;
+}
+
+.nav-link.has-nav-icon:hover,
+.nav-link.has-nav-icon:focus-visible,
+.icon-link.has-nav-icon:hover,
+.icon-link.has-nav-icon:focus-visible{
+  width:auto;
+  padding-inline:12px;
+}
+
+.nav-label,
+.nav-link.has-nav-icon:hover .nav-label,
+.nav-link.has-nav-icon:focus-visible .nav-label,
+.icon-link.has-nav-icon:hover .nav-label,
+.icon-link.has-nav-icon:focus-visible .nav-label{
+  max-width:140px;
+  opacity:1;
+}
+
+.nav-icon{width:18px;height:18px}
+
+.nav-link.active,
+.active-link,
+.icon-link:hover{
+  background:rgba(47,181,159,.12);
+  color:var(--cream-2);
+  border-color:rgba(47,181,159,.18);
+}
+
+.header-actions .icon-link.has-nav-icon{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.035);
+}
+
+.settings-menu{
+  border-radius:var(--radius);
+  background:color-mix(in srgb,var(--bg-2) 96%,transparent);
+}
+
+.btn,
+.chip,
+.sort-pill,
+.status-chip,
+.field input,
+.field textarea,
+.field select,
+.message-compose input{
+  border-radius:var(--radius);
+}
+
+.btn-hero,
+body.light-mode .btn-hero,
+.bubble-sent,
+body.light-mode .bubble-sent,
+.step-dot.is-active,
+body.light-mode .step-dot.is-active{
+  color:#071411;
+  background:linear-gradient(135deg,var(--bronze),#68d7c0);
+  box-shadow:0 16px 36px rgba(47,181,159,.22);
+}
+
+.btn-soft{
+  background:rgba(255,255,255,.055);
+  border:1px solid var(--line);
+}
+
+.hero,
+.page-hero{
+  min-height:64vh;
+}
+
+.hero-title,
+.page-title,
+.section-title,
+.feature-card__body h3,
+.listing-card__body h3,
+.pricing-card h2{
+  font-family:"Inter",system-ui,sans-serif;
+  letter-spacing:0;
+}
+
+.hero-title{
+  font-size:clamp(3rem,6vw,5.8rem);
+  line-height:.98;
+}
+
+.page-title{
+  font-size:clamp(2.8rem,5.6vw,5.2rem);
+  line-height:1;
+}
+
+.section-title{
+  font-size:clamp(2rem,3.8vw,3.4rem);
+  line-height:1.08;
+}
+
+.section-title.small{
+  font-size:clamp(1.45rem,2.4vw,2.15rem);
+}
+
+.hero-overlay{
+  background:
+    linear-gradient(180deg,rgba(8,16,24,.34),rgba(8,16,24,.74) 56%,rgba(8,16,24,.96) 100%),
+    linear-gradient(90deg,rgba(8,16,24,.76),rgba(8,16,24,.26) 48%,rgba(8,16,24,.7));
+}
+
+.hero-home-bg::before{
+  opacity:.42;
+  border-radius:var(--radius);
+  transform:none;
+}
+
+.showcase-card,
+.feature-card,
+.panel,
+.listing-card,
+.pricing-card,
+.stat-card,
+.page-badge,
+.event-card,
+.event-support,
+.review-score-card,
+.review-community-card,
+.chatbot-panel{
+  border-radius:var(--radius);
+  border-color:var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035));
+  box-shadow:var(--shadow);
+}
+
+body.light-mode .showcase-card,
+body.light-mode .feature-card,
+body.light-mode .panel,
+body.light-mode .listing-card,
+body.light-mode .pricing-card,
+body.light-mode .event-card,
+body.light-mode .page-badge{
+  background:#fff;
+}
+
+.showcase-card__media,
+.feature-card__media,
+.listing-card__media,
+.app-listing-media{
+  border-radius:0;
+}
+
+.feature-grid,
+.content-grid,
+.browse-layout,
+.form-layout,
+.messages-layout,
+.order-layout{
+  gap:20px;
+}
+
+.app-listing-card{
+  border-radius:var(--radius);
+}
+
+.listing-pill,
+.filter-tag,
+.event-meta span,
+.status-pill{
+  border-radius:var(--radius);
+}
+
+.listing-footer--actions{
+  grid-template-columns:1fr 1fr 1.15fr;
+}
+
+.listing-action{
+  min-height:44px;
+  padding-inline:12px;
+}
+
+.field input,
+.field textarea,
+.field select,
+.message-compose input,
+.chatbot-form input{
+  background:rgba(255,255,255,.055);
+  border-color:var(--line);
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus,
+.message-compose input:focus,
+.chatbot-form input:focus{
+  border-color:rgba(47,181,159,.55);
+  box-shadow:0 0 0 4px rgba(47,181,159,.12);
+}
+
+.chatbot-launcher{
+  border-radius:var(--radius);
+  background:var(--bronze);
+  color:#071411;
+}
+
+@media (max-width:1150px){
+  .site-header__inner{
+    grid-template-columns:1fr;
+    align-items:start;
+  }
+
+  .main-nav,
+  .header-actions{
+    justify-content:flex-start;
+  }
+}
+
+@media (max-width:760px){
+  .site-header__inner{width:calc(100% - 24px)}
+  .main-nav{
+    width:100%;
+    overflow-x:auto;
+    flex-wrap:nowrap;
+    justify-content:flex-start;
+    padding-bottom:4px;
+  }
+
+  .header-actions{
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr auto;
+  }
+
+  .header-actions .icon-link.has-nav-icon{justify-content:center}
+  .hero,.page-hero{min-height:auto}
+  .hero-inner,.page-hero__content{padding-top:76px}
+  .listing-footer--actions{grid-template-columns:1fr}
+}
