@@ -1017,14 +1017,25 @@
       <div class="modal-listing-layout">
         <div class="modal-listing-image" style="background-image:url('${escapeHtml(listing.image)}')"></div>
         <div class="modal-listing-copy">
-          <p class="eyebrow">${escapeHtml(listing.category)} · ${escapeHtml(listing.condition)}</p>
+          <div class="listing-detail-kicker">
+            <span class="listing-pill">${escapeHtml(listing.category)}</span>
+            <span class="listing-pill listing-pill--soft">${escapeHtml(listing.condition)}</span>
+            ${listing.urgent ? '<span class="listing-pill listing-pill--urgent">Urgent support</span>' : ''}
+          </div>
           <h2>${escapeHtml(listing.title)}</h2>
           <p>${escapeHtml(listing.description)}</p>
+          <div class="listing-owner-strip">
+            ${renderAvatar(listing.ownerName || 'Community Member', '', 'listing-owner-avatar')}
+            <div>
+              <span class="mini-label">Shared by</span>
+              <strong>${escapeHtml(listing.ownerName || 'Community Member')}</strong>
+            </div>
+          </div>
           <div class="modal-meta-grid">
             <div><span class="mini-label">Location</span><strong>${escapeHtml(listing.location)}</strong></div>
             <div><span class="mini-label">Pickup</span><strong>${escapeHtml(listing.pickup)}</strong></div>
             <div><span class="mini-label">Distance</span><strong>${listing.distanceKm} km away</strong></div>
-            <div><span class="mini-label">Posted</span><strong>${formatCreated(listing.createdAt)}</strong></div>
+            <div><span class="mini-label">Best time</span><strong>${escapeHtml(listing.pickupWindow || 'Flexible')}</strong></div>
           </div>
           <p class="helper-text">${escapeHtml(listing.notes || 'No extra pickup notes.')}</p>
           <div class="form-actions stack-mobile">
@@ -1108,16 +1119,26 @@
             <div class="listing-card__media app-listing-media" style="background-image:url('${escapeHtml(listing.image)}')">
               <div class="listing-card__topbar">
                 <span class="listing-pill">${escapeHtml(listing.category)}</span>
-                ${listing.urgent ? '<span class="listing-pill listing-pill--urgent">Urgent</span>' : ''}
+                ${listing.urgent ? '<span class="listing-pill listing-pill--urgent">Urgent support</span>' : `<span class="listing-pill listing-pill--soft">${escapeHtml(listing.condition)}</span>`}
               </div>
             </div>
             <div class="listing-card__body">
-              <div class="listing-meta"><span>${escapeHtml(listing.condition)}</span><span>${listing.distanceKm} km away</span></div>
+              <div class="listing-meta"><span>${escapeHtml(listing.location)}</span><span>${listing.distanceKm} km away</span></div>
               <h3>${escapeHtml(listing.title)}</h3>
               <p>${escapeHtml(listing.description)}</p>
+              <div class="listing-trust-row">
+                <div>
+                  <span>Pickup</span>
+                  <strong>${escapeHtml(listing.pickupWindow || listing.pickup || 'Flexible')}</strong>
+                </div>
+                <div>
+                  <span>Shared by</span>
+                  <strong>${escapeHtml(listing.ownerName || 'Community Member')}</strong>
+                </div>
+              </div>
               <div class="listing-stats-row">
-                <span>${escapeHtml(listing.location)}</span>
-                <span>${listing.requestCount} requests · ${listing.saveCount} saves</span>
+                <span>${listing.requestCount} requests</span>
+                <span>${listing.saveCount} saves</span>
               </div>
               <div class="listing-footer listing-footer--actions">
                 <button class="btn btn-soft listing-action" type="button" data-action="preview" data-id="${listing.id}">Preview</button>
@@ -1134,7 +1155,7 @@
       savedSummary.textContent = `${getSavedCount()} Saved`;
       requestsSummary.textContent = `${getRequestedCount()} Requested`;
       headline.textContent = `${listings.length} listings available`;
-      subline.textContent = listings.length ? 'Updated instantly as you search and filter.' : 'Try changing the filters to reveal more listings.';
+      subline.textContent = listings.length ? 'Updated as you search and refine the listing details.' : 'Try changing the filters to reveal more listings.';
       savedCountBadge.textContent = getSavedCount();
       requestCountBadge.textContent = getRequestedCount();
       renderActiveFilters();
