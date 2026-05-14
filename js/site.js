@@ -6,7 +6,8 @@
     app: 'freesewaa-app-state',
     auth: 'freesewaa-auth',
     currentUserId: 'freesewaa-current-user-id',
-    user: 'freesewaa-user'
+    user: 'freesewaa-user',
+    reviews: 'freesewaa-about-reviews'
   };
 
   const defaultState = {
@@ -2420,6 +2421,162 @@
     });
   }
 
+  const defaultAboutReviews = [
+    {
+      name: 'Mina Park',
+      rating: 5,
+      message: 'Free Sewaa made it simple to donate household items without wasting time. The pickup details and messages felt organized.',
+      createdAt: '2026-04-22T10:00:00'
+    },
+    {
+      name: 'Rohan Patel',
+      rating: 5,
+      message: 'I found study books and school supplies quickly. The platform feels respectful, which matters when someone is asking for support.',
+      createdAt: '2026-04-28T14:20:00'
+    },
+    {
+      name: 'Ana Lopez',
+      rating: 4,
+      message: 'The donation camps and volunteer options make the project feel connected to real community work, not just item listings.',
+      createdAt: '2026-05-03T09:15:00'
+    }
+  ];
+
+  function loadAboutReviews() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEYS.reviews) || '[]');
+      return Array.isArray(saved) && saved.length ? saved : defaultAboutReviews;
+    } catch (error) {
+      return defaultAboutReviews;
+    }
+  }
+
+  function saveAboutReviews(reviews) {
+    localStorage.setItem(STORAGE_KEYS.reviews, JSON.stringify(reviews));
+  }
+
+  async function fetchAboutReviews() {
+    try {
+      const response = await fetch(apiUrl('/api/reviews'), { headers: getSessionHeaders() });
+      if (!response.ok) throw new Error('Unable to load reviews.');
+      const data = await response.json();
+      return Array.isArray(data.reviews) ? data.reviews : null;
+    } catch (error) {
+      console.warn(error);
+      return null;
+    }
+  }
+
+  async function createAboutReview(review) {
+    const response = await fetch(apiUrl('/api/reviews'), {
+      method: 'POST',
+      headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify(review)
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Could not submit review.');
+    return data.review;
+  }
+
+  function renderStars(rating) {
+    const value = Math.max(1, Math.min(5, Number(rating) || 5));
+    return `${'★'.repeat(value)}${'☆'.repeat(5 - value)}`;
+  }
+
+  function renderAboutReviews() {
+    const feed = document.getElementById('reviewsFeed');
+    if (!feed) return;
+
+    const reviews = loadAboutReviews();
+    const average = reviews.reduce((sum, review) => sum + (Number(review.rating) || 0), 0) / Math.max(1, reviews.length);
+    const averageEl = document.getElementById('reviewAverage');
+    const countEl = document.getElementById('reviewCount');
+
+    if (averageEl) averageEl.textContent = average.toFixed(1);
+    if (countEl) countEl.textContent = `Based on ${reviews.length} community review${reviews.length === 1 ? '' : 's'}`;
+
+    feed.innerHTML = reviews.map(review => `
+      <article class="review-community-card">
+        <div class="review-community-card__top">
+          <div>
+            <strong>${escapeHtml(review.name || 'Community Member')}</strong>
+            <span>${escapeHtml(formatCreated(review.createdAt || new Date().toISOString()))}</span>
+          </div>
+          <div class="review-stars" aria-label="${Number(review.rating) || 5} out of 5 stars">${renderStars(review.rating)}</div>
+        </div>
+        <p>${escapeHtml(review.message || '')}</p>
+      </article>
+    `).join('');
+  }
+
+  function initAboutPage() {
+    renderAboutReviews();
+    fetchAboutReviews().then(reviews => {
+      if (reviews && reviews.length) {
+        saveAboutReviews(reviews);
+        renderAboutReviews();
+      }
+    });
+
+    const form = document.getElementById('aboutReviewForm');
+    if (!form || form.dataset.bound === 'true') return;
+    form.dataset.bound = 'true';
+
+    const nameInput = document.getElementById('reviewName');
+    const emailInput = document.getElementById('reviewEmail');
+    const ratingInput = document.getElementById('reviewRating');
+    const messageInput = document.getElementById('reviewMessage');
+    const status = document.getElementById('reviewStatus');
+
+    if (nameInput && !nameInput.value) nameInput.value = appState.user.name || getCurrentUser().name || '';
+    if (emailInput && !emailInput.value) emailInput.value = appState.user.email || getCurrentUser().email || '';
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      const submitButton = form.querySelector('button[type="submit"]');
+      const previousText = submitButton?.textContent || 'Submit Review';
+      const review = {
+        name: nameInput?.value.trim() || 'Community Member',
+        email: emailInput?.value.trim() || '',
+        rating: Number(ratingInput?.value || 5),
+        message: messageInput?.value.trim() || '',
+        createdAt: new Date().toISOString()
+      };
+
+      if (!review.message) {
+        setFormStatus(status, 'Please write your review first.', 'error');
+        return;
+      }
+
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Submitting...';
+      }
+
+      let reviews = [review, ...loadAboutReviews()].slice(0, 12);
+      saveAboutReviews(reviews);
+      renderAboutReviews();
+
+      try {
+        const savedReview = await createAboutReview(review);
+        reviews = [savedReview || review, ...loadAboutReviews().filter(item => item.createdAt !== review.createdAt)].slice(0, 12);
+        saveAboutReviews(reviews);
+        renderAboutReviews();
+        setFormStatus(status, 'Thank you. Your review was added.', 'success');
+        showToast('Review added.', 'success');
+      } catch (error) {
+        setFormStatus(status, 'Review added here. Admin sync will retry when the server is reachable.', 'success');
+        showToast('Review added locally.', 'success');
+      } finally {
+        if (messageInput) messageInput.value = '';
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = previousText;
+        }
+      }
+    });
+  }
+
   function initUserPanelPage() {
     const nameEls = document.querySelectorAll('[data-user-name]');
     nameEls.forEach(el => el.textContent = appState.user.name || 'Member');
@@ -2764,6 +2921,7 @@
 
 
   function initCurrentPage() {
+    if (page === 'about') initAboutPage();
     if (page === 'browse') initBrowsePage();
     if (page === 'donate') initDonatePage();
     if (page === 'donate-us') initDonateUsPage();

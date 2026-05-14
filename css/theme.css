@@ -654,6 +654,51 @@ body.light-mode .upload-box strong, body.light-mode .pricing-card .price{color:v
   padding:14px 0;
   border-bottom:1px solid rgba(255,236,212,.08);
 }
+.reviews-section{padding:0 0 96px}
+.reviews-section__head{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 240px;
+  gap:24px;
+  align-items:end;
+  margin-bottom:24px;
+}
+.review-score-card{
+  padding:22px;
+  border-radius:22px;
+  border:1px solid rgba(255,236,212,.1);
+  background:rgba(255,244,230,.04);
+  box-shadow:0 18px 48px rgba(0,0,0,.16);
+}
+.review-score-card span{display:block;color:var(--soft);font-size:.82rem;text-transform:uppercase;letter-spacing:.12em}
+.review-score-card strong{display:block;margin:8px 0 4px;font-size:2.8rem;line-height:1;color:var(--cream-2)}
+.review-score-card p{margin:0;color:var(--muted);line-height:1.5}
+body.light-mode .review-score-card strong{color:var(--text)}
+.reviews-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 390px;
+  gap:24px;
+  align-items:start;
+}
+.reviews-feed{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.review-community-card{
+  min-height:210px;
+  padding:22px;
+  border-radius:22px;
+  border:1px solid rgba(255,236,212,.09);
+  background:rgba(255,244,230,.035);
+  display:grid;
+  align-content:space-between;
+  gap:18px;
+}
+.review-community-card__top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.review-community-card strong{display:block;color:var(--cream-2);font-size:1.05rem}
+.review-community-card span{display:block;margin-top:4px;color:var(--soft);font-size:.86rem}
+.review-community-card p{margin:0;color:var(--muted);line-height:1.65}
+body.light-mode .review-community-card strong{color:var(--text)}
+.review-stars{white-space:nowrap;color:#f1c56b;letter-spacing:.04em;font-size:.98rem}
+.review-form{display:grid;gap:14px}
+.review-form h3{margin:.35rem 0 0;font-size:1.5rem;color:var(--cream-2)}
+body.light-mode .review-form h3{color:var(--text)}
 .amount-grid{
   display:grid;
   grid-template-columns:repeat(2, 1fr);
@@ -957,7 +1002,7 @@ body.light-mode .chat-unread{color:#fff;background:linear-gradient(180deg,#b98c5
 .compact-actions{justify-content:flex-end}
 
 @media (max-width: 1100px){
-  .hero-inner,.page-hero__content,.browse-layout,.form-layout,.messages-layout,.modal-listing-layout,.event-board,.event-participation,.event-support{grid-template-columns:1fr}
+  .hero-inner,.page-hero__content,.browse-layout,.form-layout,.messages-layout,.modal-listing-layout,.event-board,.event-participation,.event-support,.reviews-layout,.reviews-section__head{grid-template-columns:1fr}
   .hero-visual{min-height:auto}
   .feature-grid,.app-listing-grid{grid-template-columns:1fr 1fr}
   .donate-sidebar,.browse-sidebar{order:-1}
@@ -968,7 +1013,7 @@ body.light-mode .chat-unread{color:#fff;background:linear-gradient(180deg,#b98c5
 @media (max-width: 760px){
   .site-header__inner{grid-template-columns:1fr;justify-items:start;padding-inline:12px}
   .main-nav,.header-actions{justify-content:flex-start}
-  .feature-grid,.hero-stats,.section-intro,.app-listing-grid,.upload-preview-grid,.listing-footer--actions,.message-compose--app,.review-card,.modal-meta-grid,.event-card,.event-participation{grid-template-columns:1fr}
+  .feature-grid,.hero-stats,.section-intro,.app-listing-grid,.upload-preview-grid,.listing-footer--actions,.message-compose--app,.review-card,.modal-meta-grid,.event-card,.event-participation,.reviews-feed{grid-template-columns:1fr}
   .toolbar-wrap,.panel-head--between,.input-meta-row,.step-actions{flex-direction:column;align-items:flex-start}
   .page-hero{min-height:56vh}
   .page-title{font-size:clamp(2.5rem,12vw,4rem)}

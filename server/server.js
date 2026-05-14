@@ -48,6 +48,7 @@ let conversationsCollection;
 let messagesCollection;
 let notificationsCollection;
 let suggestionsCollection;
+let reviewsCollection;
 
 function defaultUserState(user) {
   const name =
@@ -274,6 +275,10 @@ async function ensureIndexes() {
   await suggestionsCollection.createIndex({ id: 1 }, { unique: true });
   await suggestionsCollection.createIndex({ userId: 1 });
   await suggestionsCollection.createIndex({ createdAt: -1 });
+
+  await reviewsCollection.createIndex({ id: 1 }, { unique: true });
+  await reviewsCollection.createIndex({ createdAt: -1 });
+  await reviewsCollection.createIndex({ rating: 1 });
 }
 
 /**
@@ -1820,6 +1825,62 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
+    if (pathname === '/api/reviews' && req.method === 'GET') {
+      const reviews = await reviewsCollection
+        .find({})
+        .sort({ createdAt: -1 })
+        .limit(24)
+        .toArray();
+
+      return sendJson(res, 200, { reviews: reviews.map(normalizeDoc) });
+    }
+
+    if (pathname === '/api/reviews' && req.method === 'POST') {
+      const userId = getUserId(req, url);
+      const body = await readRequestBody(req);
+      const name = String(body.name || '').trim().slice(0, 120);
+      const email = String(body.email || '').trim().toLowerCase().slice(0, 160);
+      const message = String(body.message || '').trim().slice(0, 700);
+      const rating = Math.max(1, Math.min(5, Number(body.rating) || 5));
+
+      if (!message) {
+        return sendJson(res, 400, { error: 'Review message is required.' });
+      }
+
+      let user = null;
+      if (userId) {
+        user = await usersCollection.findOne({ id: userId });
+      }
+
+      const review = {
+        id: `review-${Date.now()}`,
+        userId: user?.id || userId || null,
+        name: name || getUserDisplayName(user),
+        email: email || user?.email || '',
+        rating,
+        message,
+        status: 'published',
+        createdAt: new Date().toISOString()
+      };
+
+      await reviewsCollection.insertOne(review);
+      await suggestionsCollection.insertOne({
+        id: `suggestion-review-${Date.now()}`,
+        userId: review.userId,
+        name: review.name,
+        email: review.email,
+        message: `About page review (${review.rating}/5): ${review.message}`,
+        status: 'new',
+        createdAt: review.createdAt
+      });
+      await touchMeta();
+
+      return sendJson(res, 201, {
+        review: normalizeDoc(review),
+        message: 'Thank you for sharing your review.'
+      });
+    }
+
     if (pathname === '/api/messages/conversations' && req.method === 'GET') {
       const userId = getUserId(req, url);
       if (!userId) {
@@ -2057,6 +2118,7 @@ async function startServer() {
     messagesCollection = db.collection('messages');
     notificationsCollection = db.collection('notifications');
     suggestionsCollection = db.collection('suggestions');
+    reviewsCollection = db.collection('reviews');
 
     await ensureIndexes();
     await ensureSeedData();
