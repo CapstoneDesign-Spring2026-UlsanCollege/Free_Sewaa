@@ -2185,6 +2185,8 @@
     const text = `${label} ${href || ''}`.toLowerCase();
     if (text.includes('notification')) return 'notifications';
     if (text.includes('message')) return 'messages';
+    if (text.includes('volunteer')) return 'events';
+    if (text.includes('support')) return 'donateUs';
     if (text.includes('dashboard') || text.includes('user_panel')) return 'dashboard';
     if (text.includes('admin')) return 'admin';
     if (text.includes('event')) return 'events';
@@ -2218,6 +2220,13 @@
       link.setAttribute('title', label);
       link.dataset.navTooltip = label;
       link.innerHTML = `${makeNavIcon(navIcons[key])}<span class="nav-label">${escapeHtml(label)}</span>`;
+    });
+  }
+
+  function enhancePublicActions() {
+    const member = isAuthenticated();
+    document.querySelectorAll('[data-member-href][data-guest-href]').forEach(link => {
+      link.href = member ? link.dataset.memberHref : link.dataset.guestHref;
     });
   }
 
@@ -2583,6 +2592,7 @@
     const isPublicPage = document.body.dataset.public === 'true';
     if (!isAuthenticated()) {
       if (isPublicPage) {
+        enhancePublicActions();
         enhanceNavIcons();
         initCurrentPage();
         return;
@@ -2605,6 +2615,7 @@
 
     initChatbotWidget();
     enhanceMenus();
+    enhancePublicActions();
     enhanceNavIcons();
     initCurrentPage();
   }
