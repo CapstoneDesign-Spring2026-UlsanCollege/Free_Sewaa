@@ -258,3 +258,64 @@ body{
     padding-top:132px;
   }
 }
+
+/* ===== Golden Public Landing Refinement ===== */
+:root{
+  --bg:#12100b;
+  --text:#fffaf0;
+  --muted:rgba(255,250,240,.76);
+  --soft:rgba(255,250,240,.56);
+  --cream:#f6c86f;
+  --cream-2:#fff7e4;
+  --bronze:#d99a2b;
+  --line:rgba(255,224,166,.15);
+  --shadow:0 24px 70px rgba(41,27,8,.36);
+}
+
+body{
+  background:
+    linear-gradient(135deg,rgba(217,154,43,.16),transparent 28%),
+    linear-gradient(225deg,rgba(80,132,115,.12),transparent 24%),
+    linear-gradient(180deg,#100d08 0%,#1a140c 52%,#11100d 100%);
+}
+
+.header{
+  background:rgba(18,13,7,.9);
+}
+
+.brand::before{
+  background:linear-gradient(135deg,#f7d58a,#b97612);
+  box-shadow:0 0 0 5px rgba(217,154,43,.16);
+}
+
+.btn--solid,
+.btn--hero{
+  color:#241807;
+  background:linear-gradient(135deg,#ffe0a3 0%,#d99a2b 52%,#b97612 100%);
+  box-shadow:0 18px 42px rgba(217,154,43,.28);
+}
+
+.btn--ghost{
+  background:rgba(255,232,179,.06);
+}
+
+.hero__overlay{
+  background:
+    linear-gradient(180deg,rgba(18,13,7,.22),rgba(18,13,7,.68) 54%,rgba(18,13,7,.96) 100%),
+    linear-gradient(90deg,rgba(18,13,7,.78),rgba(18,13,7,.2) 48%,rgba(18,13,7,.66));
+}
+
+.hero__glass,
+.event-mini-card,
+.story-card{
+  background:linear-gradient(180deg,rgba(255,232,179,.09),rgba(255,232,179,.035));
+}
+
+.event-date,
+.dot.is-active{
+  background:rgba(217,154,43,.2);
+}
+
+.hero__progress span{
+  background:linear-gradient(90deg,#b97612,#ffe0a3);
+}
