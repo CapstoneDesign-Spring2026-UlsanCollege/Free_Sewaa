@@ -453,6 +453,35 @@ body.light-mode .event-card__body h3{color:var(--text)}
   font-size:.86rem;
 }
 body.light-mode .event-meta span{background:rgba(42,32,23,.06)}
+.event-inline-link{
+  display:inline-flex;
+  width:max-content;
+  margin-top:18px;
+  color:var(--cream);
+  font-weight:800;
+}
+.event-participation{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:22px;
+  padding:22px 0 40px;
+}
+.event-form{
+  padding:24px;
+  border-radius:8px;
+}
+.event-form textarea{resize:vertical}
+.event-form__actions{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-top:18px;
+}
+.event-form__actions .form-status{
+  margin:0;
+  flex:1 1 220px;
+}
 .event-support{
   display:grid;
   grid-template-columns:minmax(0,1fr) auto;
@@ -749,6 +778,7 @@ body.light-mode .bubble-sent{color:#fff;background:linear-gradient(180deg,#b98c5
   .content-grid,
   .contact-band,
   .event-board,
+  .event-participation,
   .event-support,
   .pricing-grid{
     grid-template-columns:1fr;
@@ -871,7 +901,7 @@ body.light-mode .chat-unread{color:#fff;background:linear-gradient(180deg,#b98c5
 .compact-actions{justify-content:flex-end}
 
 @media (max-width: 1100px){
-  .hero-inner,.page-hero__content,.browse-layout,.form-layout,.messages-layout,.modal-listing-layout,.event-board,.event-support{grid-template-columns:1fr}
+  .hero-inner,.page-hero__content,.browse-layout,.form-layout,.messages-layout,.modal-listing-layout,.event-board,.event-participation,.event-support{grid-template-columns:1fr}
   .hero-visual{min-height:auto}
   .feature-grid,.app-listing-grid{grid-template-columns:1fr 1fr}
   .donate-sidebar,.browse-sidebar{order:-1}
@@ -882,7 +912,7 @@ body.light-mode .chat-unread{color:#fff;background:linear-gradient(180deg,#b98c5
 @media (max-width: 760px){
   .site-header__inner{grid-template-columns:1fr;justify-items:start;padding-inline:12px}
   .main-nav,.header-actions{justify-content:flex-start}
-  .feature-grid,.hero-stats,.section-intro,.app-listing-grid,.upload-preview-grid,.listing-footer--actions,.message-compose--app,.review-card,.modal-meta-grid,.event-card{grid-template-columns:1fr}
+  .feature-grid,.hero-stats,.section-intro,.app-listing-grid,.upload-preview-grid,.listing-footer--actions,.message-compose--app,.review-card,.modal-meta-grid,.event-card,.event-participation{grid-template-columns:1fr}
   .toolbar-wrap,.panel-head--between,.input-meta-row,.step-actions{flex-direction:column;align-items:flex-start}
   .page-hero{min-height:56vh}
   .page-title{font-size:clamp(2.5rem,12vw,4rem)}

@@ -5,7 +5,8 @@
     theme: 'freesewaa-theme',
     app: 'freesewaa-app-state',
     auth: 'freesewaa-auth',
-    currentUserId: 'freesewaa-current-user-id'
+    currentUserId: 'freesewaa-current-user-id',
+    user: 'freesewaa-user'
   };
 
   const defaultState = {
@@ -2230,6 +2231,93 @@
     });
   }
 
+  function setFormStatus(element, message, tone = 'default') {
+    if (!element) return;
+    element.textContent = message;
+    element.dataset.tone = tone;
+    element.classList.add('is-visible');
+  }
+
+  async function submitEventIntake(type, message, statusElement) {
+    const currentUser = getCurrentUser();
+    const fallbackName = currentUser.name || [currentUser.firstName, currentUser.lastName].filter(Boolean).join(' ').trim();
+    const payload = {
+      name: fallbackName || '',
+      email: currentUser.email || '',
+      message: `[${type}]\n${message}`
+    };
+
+    try {
+      const saved = JSON.parse(localStorage.getItem('freesewaa-event-intake') || '[]');
+      saved.unshift({ type, message, createdAt: new Date().toISOString() });
+      localStorage.setItem('freesewaa-event-intake', JSON.stringify(saved.slice(0, 20)));
+    } catch (error) {}
+
+    try {
+      await sendSuggestion(payload);
+      setFormStatus(statusElement, 'Thank you. Free Sewaa received your details.', 'success');
+    } catch (error) {
+      setFormStatus(statusElement, 'Saved on this device. We could not reach the server right now.', 'error');
+    }
+  }
+
+  function initEventsPage() {
+    const currentUser = getCurrentUser();
+    const displayName = currentUser.name || [currentUser.firstName, currentUser.lastName].filter(Boolean).join(' ').trim();
+    const contact = currentUser.email || currentUser.phone || '';
+
+    const volunteerName = document.getElementById('volunteerName');
+    const volunteerContact = document.getElementById('volunteerContact');
+    if (volunteerName && !volunteerName.value) volunteerName.value = displayName || '';
+    if (volunteerContact && !volunteerContact.value) volunteerContact.value = contact || '';
+
+    const volunteerForm = document.getElementById('eventVolunteerForm');
+    if (volunteerForm && volunteerForm.dataset.bound !== 'true') {
+      volunteerForm.dataset.bound = 'true';
+      volunteerForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        const status = document.getElementById('volunteerStatus');
+        const submitButton = volunteerForm.querySelector('button[type="submit"]');
+        if (submitButton) submitButton.disabled = true;
+        setFormStatus(status, 'Sending your volunteer details...', 'default');
+        const message = [
+          `Name: ${document.getElementById('volunteerName')?.value.trim() || ''}`,
+          `Contact: ${document.getElementById('volunteerContact')?.value.trim() || ''}`,
+          `Event: ${document.getElementById('volunteerEvent')?.value.trim() || ''}`,
+          `Available time: ${document.getElementById('volunteerTime')?.value.trim() || ''}`,
+          `How they can help: ${document.getElementById('volunteerHelp')?.value.trim() || ''}`
+        ].join('\n');
+        await submitEventIntake('Event volunteer request', message, status);
+        volunteerForm.reset();
+        if (volunteerName) volunteerName.value = displayName || '';
+        if (volunteerContact) volunteerContact.value = contact || '';
+        if (submitButton) submitButton.disabled = false;
+      });
+    }
+
+    const eventForm = document.getElementById('eventSuggestionForm');
+    if (eventForm && eventForm.dataset.bound !== 'true') {
+      eventForm.dataset.bound = 'true';
+      eventForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        const status = document.getElementById('eventSuggestionStatus');
+        const submitButton = eventForm.querySelector('button[type="submit"]');
+        if (submitButton) submitButton.disabled = true;
+        setFormStatus(status, 'Sending your event idea...', 'default');
+        const message = [
+          `Event name: ${document.getElementById('newEventName')?.value.trim() || ''}`,
+          `Date and time: ${document.getElementById('newEventDate')?.value.trim() || ''}`,
+          `Location: ${document.getElementById('newEventLocation')?.value.trim() || ''}`,
+          `Contact person: ${document.getElementById('newEventContact')?.value.trim() || ''}`,
+          `Details: ${document.getElementById('newEventDetails')?.value.trim() || ''}`
+        ].join('\n');
+        await submitEventIntake('New event suggestion', message, status);
+        eventForm.reset();
+        if (submitButton) submitButton.disabled = false;
+      });
+    }
+  }
+
   function initUserPanelPage() {
     const nameEls = document.querySelectorAll('[data-user-name]');
     nameEls.forEach(el => el.textContent = appState.user.name || 'Member');
@@ -2584,6 +2672,7 @@
     if (page === 'profile') initProfilePage();
     if (page === 'user-panel') initUserPanelPage();
     if (page === 'admin') initAdminPage();
+    if (page === 'events') initEventsPage();
     if (page === 'security-audit') initAuditPage('security');
     if (page === 'accessibility-audit') initAuditPage('accessibility');
   }

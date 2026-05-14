@@ -26,7 +26,7 @@
         <a href="signup.html" data-member-href="browse.html" data-guest-href="signup.html" class="nav-link">Browse</a>
       </nav>
       <div class="header-actions">
-        <a href="mailto:support@freesewaa.org?subject=I want to volunteer for a Free Sewaa event" class="icon-link"><span>Volunteer</span></a>
+        <a href="#eventParticipation" class="icon-link"><span>Volunteer</span></a>
         <a href="signup.html" data-member-href="donate-us.html" data-guest-href="signup.html" class="icon-link active-link"><span>Support Us</span></a>
       </div>
     </div>
@@ -70,6 +70,7 @@
             <span>Community Hall, Ulsan</span>
             <span>Free entry</span>
           </div>
+          <a href="#eventParticipation" class="event-inline-link">Volunteer for this event</a>
         </div>
       </article>
 
@@ -83,6 +84,7 @@
             <span>1:00 PM - 5:00 PM</span>
             <span>Library Support Desk</span>
           </div>
+          <a href="#eventParticipation" class="event-inline-link">Volunteer for this event</a>
         </div>
       </article>
 
@@ -96,8 +98,88 @@
             <span>4:00 PM - 6:00 PM</span>
             <span>Free Sewaa Local Desk</span>
           </div>
+          <a href="#eventParticipation" class="event-inline-link">Volunteer for this event</a>
         </div>
       </article>
+    </section>
+
+    <section class="event-participation wrap reveal-block" id="eventParticipation">
+      <form class="panel event-form" id="eventVolunteerForm">
+        <div class="panel-head">
+          <p class="eyebrow">VOLUNTEER</p>
+          <h2 class="section-title small">Tell us when you can help.</h2>
+          <p class="section-text">Choose an event, share your available time, and tell us how you want to support the team.</p>
+        </div>
+        <div class="field-grid two">
+          <label class="field">
+            <span>Your name</span>
+            <input type="text" id="volunteerName" name="name" placeholder="Your full name" required />
+          </label>
+          <label class="field">
+            <span>Email or phone</span>
+            <input type="text" id="volunteerContact" name="contact" placeholder="How we can contact you" required />
+          </label>
+        </div>
+        <div class="field-grid two">
+          <label class="field">
+            <span>Event</span>
+            <select id="volunteerEvent" name="event" required>
+              <option value="">Choose an event</option>
+              <option>Food & Essentials Donation Camp - May 24</option>
+              <option>Student Supplies Free Pickup - Jun 02</option>
+              <option>Community Volunteer Meetup - Jun 15</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Available time</span>
+            <input type="text" id="volunteerTime" name="time" placeholder="Example: 10 AM to 1 PM" required />
+          </label>
+        </div>
+        <label class="field">
+          <span>How can you help?</span>
+          <textarea id="volunteerHelp" name="help" rows="4" placeholder="Sorting items, pickup help, registration desk, food support, sharing the event..." required></textarea>
+        </label>
+        <div class="event-form__actions">
+          <button type="submit" class="btn btn-hero">Submit Volunteer Request</button>
+          <p class="form-status" id="volunteerStatus" aria-live="polite"></p>
+        </div>
+      </form>
+
+      <form class="panel event-form" id="eventSuggestionForm">
+        <div class="panel-head">
+          <p class="eyebrow">ADD AN EVENT</p>
+          <h2 class="section-title small">Suggest a free event or donation camp.</h2>
+          <p class="section-text">Share the event idea and Free Sewaa can review it before listing it publicly.</p>
+        </div>
+        <div class="field-grid two">
+          <label class="field">
+            <span>Event name</span>
+            <input type="text" id="newEventName" name="eventName" placeholder="Example: Winter Clothing Camp" required />
+          </label>
+          <label class="field">
+            <span>Date and time</span>
+            <input type="text" id="newEventDate" name="eventDate" placeholder="Example: July 5, 11 AM" required />
+          </label>
+        </div>
+        <div class="field-grid two">
+          <label class="field">
+            <span>Location</span>
+            <input type="text" id="newEventLocation" name="location" placeholder="Venue or area" required />
+          </label>
+          <label class="field">
+            <span>Contact person</span>
+            <input type="text" id="newEventContact" name="contact" placeholder="Name, email, or phone" required />
+          </label>
+        </div>
+        <label class="field">
+          <span>Event details</span>
+          <textarea id="newEventDetails" name="details" rows="4" placeholder="What is needed, who it supports, and how volunteers can help." required></textarea>
+        </label>
+        <div class="event-form__actions">
+          <button type="submit" class="btn btn-hero">Submit Event Idea</button>
+          <p class="form-status" id="eventSuggestionStatus" aria-live="polite"></p>
+        </div>
+      </form>
     </section>
 
     <section class="event-support wrap reveal-block">
@@ -107,7 +189,8 @@
         <p class="section-text">You can volunteer during the camp, help sort donated items, bring food or essentials, sponsor supplies, share the event with your community, or suggest a new donation drive for Free Sewaa to list here.</p>
       </div>
       <div class="event-support__actions">
-        <a href="mailto:support@freesewaa.org?subject=I want to volunteer for a Free Sewaa event" class="btn btn-hero">Join as Volunteer</a>
+        <a href="#eventParticipation" class="btn btn-hero">Join as Volunteer</a>
+        <a href="#eventParticipation" class="btn btn-soft">Add Event</a>
         <a href="signup.html" data-member-href="donate.html" data-guest-href="signup.html" class="btn btn-soft">Donate Items</a>
         <a href="signup.html" data-member-href="donate-us.html" data-guest-href="signup.html" class="btn btn-soft">Support Free Sewaa</a>
       </div>
