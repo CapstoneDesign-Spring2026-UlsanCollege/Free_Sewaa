@@ -15,7 +15,7 @@
       const user = JSON.parse(localStorage.getItem('freesewaa-user') || '{}');
       const authed = localStorage.getItem('freesewaa-auth') === 'true';
       if (authed && user && user.id) {
-        window.location.replace(user.role === 'admin' ? '/admin.html' : '/user_panel.html');
+        window.location.replace(user.role === 'superadmin' ? '/admin.html' : '/user_panel.html');
       }
     } catch (e) {}
   </script>
@@ -161,7 +161,7 @@
       } catch (error) {
         const fallback = await postJson('/api/auth/signin', { email, password });
         const fallbackUser = fallback.user || {};
-        if (fallbackUser.role !== 'admin' && fallback.auth?.role !== 'admin') {
+        if (fallbackUser.role !== 'superadmin' && fallback.auth?.role !== 'superadmin') {
           throw error;
         }
         return fallback;
@@ -184,8 +184,8 @@
         const user = data.user || {};
         const token = data.token || data.auth?.token || '';
         const userId = user.id || data.auth?.userId || '';
-        if (!userId || user.role !== 'admin') {
-          throw new Error('Admin response was incomplete.');
+        if (!userId || user.role !== 'superadmin') {
+          throw new Error('Super admin access required.');
         }
         localStorage.setItem('freesewaa-auth', 'true');
         localStorage.setItem('freesewaa-current-user-id', userId);

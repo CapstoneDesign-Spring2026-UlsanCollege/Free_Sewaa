@@ -52,3 +52,5 @@
 | Ownership Map | [OWNERSHIP_MAP.md](OWNERSHIP_MAP.md) |
 | Evidence Links | [EVIDENCE_LINKS.md](EVIDENCE_LINKS.md) |
 | Week 11 Evidence | [docs/evidence/week11/README.md](../../evidence/week11/README.md) |
+| Code Coverage | [CODE_COVERAGE.md](CODE_COVERAGE.md) |
+| Accessibility Testing | [ACCESSIBILITY_TESTING.md](ACCESSIBILITY_TESTING.md) |

@@ -11,20 +11,27 @@
 
   <script>
     (function () {
+      document.documentElement.classList.add('admin-locked');
+
       try {
         const storedUser = JSON.parse(localStorage.getItem('freesewaa-user') || '{}');
         const isAuthed = localStorage.getItem('freesewaa-auth') === 'true';
 
-        if (!isAuthed || !storedUser || storedUser.role !== 'admin') {
-          window.location.href = '/admin_login.html';
+        if (!isAuthed || !storedUser || storedUser.role !== 'superadmin' || !localStorage.getItem('freesewaa-current-user-id')) {
+          window.location.replace('/admin_login.html');
         }
       } catch (error) {
-        window.location.href = '/admin_login.html';
+        window.location.replace('/admin_login.html');
       }
     })();
   </script>
 
   <style>
+    html.admin-locked body {
+      opacity: 0;
+      pointer-events: none;
+    }
+
     .admin-v2-logoutlink {
       border: none;
       background: linear-gradient(135deg, #ef4444, #dc2626);
@@ -91,6 +98,7 @@
         <button type="button" class="admin-v2-nav__link" data-admin-nav="moderation">Moderation</button>
         <button type="button" class="admin-v2-nav__link" data-admin-nav="users">Users</button>
         <button type="button" class="admin-v2-nav__link" data-admin-nav="listings">Listings</button>
+        <button type="button" class="admin-v2-nav__link" data-admin-nav="suggestions">Suggestions</button>
         <button type="button" class="admin-v2-nav__link" data-admin-nav="activity">Activity</button>
       </nav>
 
@@ -160,7 +168,7 @@
         <article class="admin-v2-stat">
           <span>Inbox alerts</span>
           <strong data-admin-unread>0</strong>
-          <p><span data-admin-conversations>0</span> conversations</p>
+          <p><span data-admin-conversations>0</span> conversations 쨌 <span data-admin-suggestions>0</span> suggestions</p>
         </article>
       </section>
 
@@ -241,6 +249,39 @@
         </article>
       </section>
 
+      <section class="admin-v2-grid admin-v2-grid--top" id="section-suggestions">
+        <article class="admin-v2-panel admin-v2-panel--wide">
+          <div class="admin-v2-panel__head">
+            <div>
+              <p class="eyebrow">USER FEEDBACK</p>
+              <h2>Suggestions from dashboard contact form</h2>
+            </div>
+          </div>
+          <div id="adminSuggestionsFeed" class="admin-v2-activity"></div>
+        </article>
+
+        <article class="admin-v2-panel">
+          <div class="admin-v2-panel__head">
+            <div>
+              <p class="eyebrow">CONTACT CHANNELS</p>
+              <h2>Free Sewaa contact</h2>
+            </div>
+          </div>
+          <div class="admin-v2-audits">
+            <div class="admin-v2-audititem">
+              <span>Phone</span>
+              <strong>010-9664-6162</strong>
+              <p>Users can call directly from the dashboard contact card.</p>
+            </div>
+            <div class="admin-v2-audititem">
+              <span>Email</span>
+              <strong>support@freesewaa.org</strong>
+              <p>Users can email the organization from the dashboard contact card.</p>
+            </div>
+          </div>
+        </article>
+      </section>
+
       <section class="admin-v2-grid admin-v2-grid--bottom" id="section-activity">
         <article class="admin-v2-panel">
           <div class="admin-v2-panel__head">
@@ -284,7 +325,64 @@
   <div class="admin-toast" id="adminToast"></div>
 
   <script src="api-config.js"></script>
-  <script src="admin-panel.js?v=adminrebuild20260418"></script>
+  <script>
+    window.FREESEWAA_VERIFY_ADMIN = (async function verifyAdminAccess() {
+      function clearSessionAndRedirect() {
+        localStorage.removeItem('freesewaa-auth');
+        localStorage.removeItem('freesewaa-current-user-id');
+        localStorage.removeItem('freesewaa-token');
+        localStorage.removeItem('freesewaa-user');
+        window.location.replace('/admin_login.html');
+      }
+
+      function getApiBaseUrl() {
+        let stored = '';
+        try {
+          stored = localStorage.getItem('freesewaa-api-base-url') || '';
+        } catch (error) {}
+
+        const configured = window.FREESEWAA_API_BASE_URL || window.FREESEWAA_API_ORIGIN || stored || '';
+        return String(configured || window.location.origin).replace(/\/+$/, '');
+      }
+
+      function apiUrl(path) {
+        if (/^https?:\/\//i.test(path)) return path;
+        return new URL(String(path), getApiBaseUrl()).toString();
+      }
+
+      try {
+        const userId = localStorage.getItem('freesewaa-current-user-id') || '';
+        const token = localStorage.getItem('freesewaa-token') || '';
+
+        if (!userId) {
+          clearSessionAndRedirect();
+          throw new Error('Admin session missing.');
+        }
+
+        const response = await fetch(apiUrl('/api/auth/session'), {
+          headers: {
+            'x-user-id': userId,
+            ...(token ? { Authorization: `Bearer ${token}` } : {})
+          }
+        });
+        const data = await response.json();
+        const user = data.user || {};
+
+        if (!response.ok || user.role !== 'superadmin') {
+          clearSessionAndRedirect();
+          throw new Error('Super admin access required.');
+        }
+
+        localStorage.setItem('freesewaa-user', JSON.stringify(user));
+        document.documentElement.classList.remove('admin-locked');
+        return user;
+      } catch (error) {
+        clearSessionAndRedirect();
+        throw error;
+      }
+    })();
+  </script>
+  <script src="admin-panel.js?v=adminonly20260513"></script>
 
   <script>
     function showAdminToast(message) {

@@ -305,7 +305,7 @@
   }
 
   function isAdmin() {
-    return getCurrentUser().role === 'admin';
+    return getCurrentUser().role === 'superadmin';
   }
 
   const liveChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('freesewaa-live') : null;
@@ -382,7 +382,8 @@
       try {
         appState = normalizeState(JSON.parse(event.newValue));
         enhanceMenus();
-    initCurrentPage();
+        enhanceNavIcons();
+        initCurrentPage();
       } catch (error) {
         console.warn('Storage sync failed', error);
       }
@@ -489,6 +490,17 @@
     const data = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(data.error || 'Unable to send message.');
     return data.message;
+  }
+
+  async function sendSuggestion(payload) {
+    const response = await fetch(apiUrl('/api/suggestions'), {
+      method: 'POST',
+      headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Could not send suggestion.');
+    return data;
   }
 
   let appState = loadState();
@@ -2142,14 +2154,132 @@
     }
   }
 
+  const navIcons = {
+    home: '<path d="M3 10.8 12 3l9 7.8"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-7h6v7"/>',
+    about: '<circle cx="12" cy="12" r="9"/><path d="M12 10v6"/><path d="M12 7h.01"/>',
+    donate: '<path d="M20.8 8.6a5.2 5.2 0 0 0-7.4 0L12 10l-1.4-1.4a5.2 5.2 0 0 0-7.4 7.4L12 24l8.8-8a5.2 5.2 0 0 0 0-7.4Z"/>',
+    browse: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/><path d="M8 11h6"/><path d="M11 8v6"/>',
+    donateUs: '<path d="M12 21s-7-4.1-7-10a4 4 0 0 1 7-2.7A4 4 0 0 1 19 11c0 5.9-7 10-7 10Z"/><path d="M12 8v8"/><path d="M8 12h8"/>',
+    messages: '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/><path d="M8 9h8"/><path d="M8 13h5"/>',
+    notifications: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/>',
+    dashboard: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+    admin: '<path d="M12 3 4 6v6c0 5 3.4 8 8 9 4.6-1 8-4 8-9V6Z"/><path d="M9 12l2 2 4-5"/>',
+    saved: '<path d="M6 3h12v18l-6-4-6 4Z"/>',
+    requests: '<path d="M9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+    profile: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    settings: '<path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.04.04a2 2 0 1 1-2.83 2.83l-.04-.04A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6V20a2 2 0 1 1-4 0v-.05a1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.04.04a2 2 0 1 1-2.83-2.83l.04-.04A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1H4a2 2 0 1 1 0-4h.05a1.7 1.7 0 0 0 .6-1 1.7 1.7 0 0 0-.34-1.88l-.04-.04a2 2 0 1 1 2.83-2.83l.04.04A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6V4a2 2 0 1 1 4 0v.05a1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.04-.04a2 2 0 1 1 2.83 2.83l-.04.04A1.7 1.7 0 0 0 19.4 9c.2.35.4.67.6 1H20a2 2 0 1 1 0 4h-.05a1.7 1.7 0 0 0-.55 1Z"/>',
+    logout: '<path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M21 3v18"/>'
+  };
+
+  function navIconKey(label, href) {
+    const text = `${label} ${href || ''}`.toLowerCase();
+    if (text.includes('notification')) return 'notifications';
+    if (text.includes('message')) return 'messages';
+    if (text.includes('dashboard') || text.includes('user_panel')) return 'dashboard';
+    if (text.includes('admin')) return 'admin';
+    if (text.includes('browse')) return 'browse';
+    if (text.includes('donate-us') || text.includes('donate us')) return 'donateUs';
+    if (text.includes('donate')) return 'donate';
+    if (text.includes('about')) return 'about';
+    if (text.includes('saved')) return 'saved';
+    if (text.includes('request')) return 'requests';
+    if (text.includes('profile')) return 'profile';
+    if (text.includes('setting')) return 'settings';
+    if (text.includes('logout')) return 'logout';
+    if (text.includes('home') || text.includes('app.html')) return 'home';
+    return 'dashboard';
+  }
+
+  function makeNavIcon(paths) {
+    return `<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${paths}</svg>`;
+  }
+
+  function enhanceNavIcons() {
+    document.querySelectorAll('.main-nav .nav-link, .header-actions .icon-link').forEach(link => {
+      if (link.dataset.iconEnhanced === 'true') return;
+      const label = link.textContent.trim() || link.getAttribute('aria-label') || 'Navigation';
+      const key = navIconKey(label, link.getAttribute('href'));
+      link.dataset.iconEnhanced = 'true';
+      link.classList.add('has-nav-icon');
+      link.setAttribute('aria-label', label);
+      link.setAttribute('title', label);
+      link.dataset.navTooltip = label;
+      link.innerHTML = `${makeNavIcon(navIcons[key])}<span class="nav-label">${escapeHtml(label)}</span>`;
+    });
+  }
+
   function initUserPanelPage() {
     const nameEls = document.querySelectorAll('[data-user-name]');
     nameEls.forEach(el => el.textContent = appState.user.name || 'Member');
     const stats = getUserStats();
+    const unreadMessages = appState.conversations.reduce((sum, item) => sum + Number(item.unread || 0), 0);
+    const region = [appState.user.city, appState.user.region].filter(Boolean).join(', ') || 'Not set';
+    const profileReady = appState.user.email && appState.user.phone ? 'Complete' : 'Needs update';
     document.querySelectorAll('[data-stat-active]').forEach(el => el.textContent = stats.active);
     document.querySelectorAll('[data-stat-requested]').forEach(el => el.textContent = stats.requested);
     document.querySelectorAll('[data-stat-saved]').forEach(el => el.textContent = stats.saved);
     document.querySelectorAll('[data-stat-completed]').forEach(el => el.textContent = stats.completed);
+    document.querySelectorAll('[data-user-unread]').forEach(el => el.textContent = unreadMessages);
+    document.querySelectorAll('[data-user-region]').forEach(el => el.textContent = region);
+    document.querySelectorAll('[data-user-profile-status]').forEach(el => el.textContent = profileReady);
+    document.querySelectorAll('[data-user-role-badge]').forEach(el => el.textContent = `${appState.user.role || 'Member'} account`);
+
+    const profileSummary = document.getElementById('userProfileSummary');
+    if (profileSummary) {
+      profileSummary.innerHTML = `
+        <div class="user-summary-card__avatar">${escapeHtml(initials(appState.user.name || 'Member'))}</div>
+        <div class="user-summary-card__body">
+          <strong>${escapeHtml(appState.user.name || 'Member')}</strong>
+          <p>${escapeHtml(appState.user.email || appState.user.phone || 'No contact saved')}</p>
+          <span>${escapeHtml(region)}${appState.user.pickupAvailability ? ` - ${escapeHtml(appState.user.pickupAvailability)}` : ''}</span>
+        </div>
+      `;
+    }
+
+    const renderListingItem = (item, detail = '') => `
+      <article class="mini-panel-card mini-panel-card--dashboard">
+        <div class="mini-panel-card__thumb" style="background-image:url('${escapeHtml(item.image)}')"></div>
+        <div>
+          <strong>${escapeHtml(item.title)}</strong>
+          <p>${escapeHtml(detail || `${item.category} - ${item.status}`)}</p>
+        </div>
+      </article>
+    `;
+
+    const userPostsList = document.getElementById('userPostsList');
+    if (userPostsList) {
+      const posts = getUserListings().slice(0, 3);
+      userPostsList.innerHTML = posts.length
+        ? posts.map(item => renderListingItem(item, `${item.status} - ${item.requestCount || 0} requests`)).join('')
+        : '<p class="muted-copy">No donation posts yet. Create your first listing when you are ready.</p>';
+    }
+
+    const userRequestsList = document.getElementById('userRequestsList');
+    if (userRequestsList) {
+      const requests = getRequestedListings().slice(0, 3);
+      userRequestsList.innerHTML = requests.length
+        ? requests.map(({ request, listing }) => renderListingItem(listing, `${request.status || 'pending'} - requested ${formatCreated(request.requestedAt)}`)).join('')
+        : '<p class="muted-copy">No requests sent yet. Browse items and request anything useful.</p>';
+    }
+
+    const userSavedList = document.getElementById('userSavedList');
+    if (userSavedList) {
+      const savedItems = getSavedListings().slice(0, 2);
+      const savedMarkup = savedItems.map(item => renderListingItem(item, `${item.category} - ${item.location}`)).join('');
+      const messageMarkup = `
+        <article class="mini-panel-card mini-panel-card--dashboard mini-panel-card--message">
+          <div class="user-message-dot">${unreadMessages}</div>
+          <div>
+            <strong>${unreadMessages ? 'Unread messages waiting' : 'Messages are clear'}</strong>
+            <p>${appState.conversations.length} active conversations</p>
+          </div>
+        </article>
+      `;
+      userSavedList.innerHTML = savedItems.length
+        ? `${savedMarkup}${messageMarkup}`
+        : `${messageMarkup}<p class="muted-copy">Saved items will appear here.</p>`;
+    }
+
     const recent = document.getElementById('userPanelListings');
     if (recent) {
       const items = getUserListings().slice(0, 4);
@@ -2162,6 +2292,67 @@
           </div>
         </article>
       `).join('') : '<p class="muted-copy">No listings yet. Start with your first donation post.</p>';
+    }
+
+    const suggestionForm = document.getElementById('contactSuggestionForm');
+    const suggestionStatus = document.getElementById('suggestionStatus');
+    if (suggestionForm && suggestionForm.dataset.bound !== 'true') {
+      suggestionForm.dataset.bound = 'true';
+      const nameInput = document.getElementById('suggestionName');
+      const emailInput = document.getElementById('suggestionEmail');
+      const messageInput = document.getElementById('suggestionMessage');
+
+      if (nameInput && !nameInput.value) nameInput.value = appState.user.name || '';
+      if (emailInput && !emailInput.value) emailInput.value = appState.user.email || '';
+
+      suggestionForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        const submitButton = suggestionForm.querySelector('button[type="submit"]');
+        const previousText = submitButton?.textContent || 'Send suggestion';
+        const message = messageInput?.value.trim() || '';
+
+        if (!message) {
+          if (suggestionStatus) {
+            suggestionStatus.textContent = 'Please write your suggestion first.';
+            suggestionStatus.dataset.tone = 'error';
+            suggestionStatus.classList.add('is-visible');
+          }
+          return;
+        }
+
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = 'Sending...';
+        }
+
+        try {
+          await sendSuggestion({
+            name: nameInput?.value.trim() || appState.user.name || '',
+            email: emailInput?.value.trim() || appState.user.email || '',
+            message
+          });
+
+          if (suggestionStatus) {
+            suggestionStatus.textContent = 'Thank you. Your suggestion was sent.';
+            suggestionStatus.dataset.tone = 'success';
+            suggestionStatus.classList.add('is-visible');
+          }
+          if (messageInput) messageInput.value = '';
+          showToast('Suggestion sent.', 'success');
+        } catch (error) {
+          if (suggestionStatus) {
+            suggestionStatus.textContent = error.message || 'Could not send suggestion.';
+            suggestionStatus.dataset.tone = 'error';
+            suggestionStatus.classList.add('is-visible');
+          }
+          showToast(error.message || 'Could not send suggestion.', 'error');
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = previousText;
+          }
+        }
+      });
     }
   }
 
@@ -2217,6 +2408,148 @@
     });
   }
 
+  function initChatbotWidget() {
+    if (document.querySelector('[data-chatbot-widget]')) return;
+
+    const historyKey = 'freesewaa-chatbot-history';
+    const launcher = document.createElement('button');
+    launcher.type = 'button';
+    launcher.className = 'chatbot-launcher';
+    launcher.setAttribute('aria-label', 'Open Free Sewaa helper');
+    launcher.setAttribute('aria-expanded', 'false');
+    launcher.textContent = '?';
+
+    const widget = document.createElement('section');
+    widget.className = 'chatbot-widget';
+    widget.setAttribute('data-chatbot-widget', 'true');
+    widget.setAttribute('aria-label', 'Free Sewaa helper chat');
+    widget.innerHTML = `
+      <div class="chatbot-panel" role="dialog" aria-modal="false" aria-labelledby="chatbotTitle">
+        <div class="chatbot-panel__header">
+          <div>
+            <p class="chatbot-panel__eyebrow">AI helper</p>
+            <h2 id="chatbotTitle">Free Sewaa Chat</h2>
+          </div>
+          <button type="button" class="chatbot-icon-button" data-chatbot-close aria-label="Close chat">x</button>
+        </div>
+        <div class="chatbot-messages" data-chatbot-messages aria-live="polite"></div>
+        <form class="chatbot-form" data-chatbot-form>
+          <input type="text" data-chatbot-input maxlength="600" autocomplete="off" placeholder="Ask about donations, pickup, or listings" aria-label="Chat message" />
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    `;
+
+    document.body.appendChild(launcher);
+    document.body.appendChild(widget);
+
+    const panel = widget.querySelector('.chatbot-panel');
+    const closeButton = widget.querySelector('[data-chatbot-close]');
+    const messagesEl = widget.querySelector('[data-chatbot-messages]');
+    const form = widget.querySelector('[data-chatbot-form]');
+    const input = widget.querySelector('[data-chatbot-input]');
+
+    function loadHistory() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(historyKey) || '[]');
+        return Array.isArray(saved) ? saved.slice(-12) : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveHistory(history) {
+      try {
+        localStorage.setItem(historyKey, JSON.stringify(history.slice(-12)));
+      } catch (error) {}
+    }
+
+    let history = loadHistory();
+    if (!history.length) {
+      history = [
+        {
+          role: 'bot',
+          text: 'Hi! Ask me about donating, browsing items, requests, pickup, or messages.'
+        }
+      ];
+    }
+
+    function renderMessage(item) {
+      const bubble = document.createElement('div');
+      bubble.className = `chatbot-message chatbot-message--${item.role === 'user' ? 'user' : 'bot'}`;
+
+      const label = document.createElement('span');
+      label.textContent = item.role === 'user' ? 'You' : 'Assistant';
+
+      const text = document.createElement('p');
+      text.textContent = item.text;
+
+      bubble.appendChild(label);
+      bubble.appendChild(text);
+      messagesEl.appendChild(bubble);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      return bubble;
+    }
+
+    function renderHistory() {
+      messagesEl.innerHTML = '';
+      history.forEach(renderMessage);
+    }
+
+    function setOpen(isOpen) {
+      widget.classList.toggle('is-open', isOpen);
+      launcher.classList.toggle('is-hidden', isOpen);
+      launcher.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) {
+        window.setTimeout(() => input.focus(), 80);
+      }
+    }
+
+    async function sendChatMessage(text) {
+      const pending = renderMessage({ role: 'bot', text: 'Thinking...' });
+      try {
+        const response = await fetch(apiUrl('/api/chatbot'), {
+          method: 'POST',
+          headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+          body: JSON.stringify({ message: text })
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || 'Chatbot is unavailable.');
+        }
+        pending.querySelector('p').textContent = data.reply;
+        history.push({ role: 'bot', text: data.reply });
+        saveHistory(history);
+      } catch (error) {
+        const fallback = 'I could not reach the helper service. Please try again in a moment.';
+        pending.querySelector('p').textContent = fallback;
+        history.push({ role: 'bot', text: fallback });
+        saveHistory(history);
+      }
+    }
+
+    launcher.addEventListener('click', () => setOpen(true));
+    closeButton.addEventListener('click', () => setOpen(false));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && widget.classList.contains('is-open')) {
+        setOpen(false);
+      }
+    });
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      history.push({ role: 'user', text });
+      renderMessage({ role: 'user', text });
+      saveHistory(history);
+      sendChatMessage(text);
+    });
+
+    renderHistory();
+  }
+
 
   function initCurrentPage() {
     if (page === 'browse') initBrowsePage();
@@ -2251,6 +2584,9 @@
       localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
     }
 
+    initChatbotWidget();
+    enhanceMenus();
+    enhanceNavIcons();
     initCurrentPage();
   }
 

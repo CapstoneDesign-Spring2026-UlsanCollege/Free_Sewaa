@@ -12,7 +12,7 @@
 |--------------|--------|------|
 | Pull Request | ✅ Done | [#109](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109) |
 | Demo screenshots | ✅ Done | [Live site](https://free-sewaa-qh05.onrender.com) |
-| Test result | ❌ Not yet | [Needs implementation] |
+| Test result | ❌ Not yet | Jest not configured — guide: [CODE_COVERAGE.md](CODE_COVERAGE.md) |
 | Docs update | ✅ Done | [docs/PROGRESS/week 11/](.) |
 | Review comment | ✅ Done | [#109 review](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109) |
 | CI run | ✅ Done | [Actions](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions) |
@@ -38,6 +38,26 @@ Full details: [BUG_LIST.md](BUG_LIST.md)
 
 ---
 
+## Testing Documentation
+
+| Document | Description |
+|----------|-------------|
+| [CODE_COVERAGE.md](CODE_COVERAGE.md) | Code coverage testing guide with Jest setup, targets, and examples |
+| [ACCESSIBILITY_TESTING.md](ACCESSIBILITY_TESTING.md) | Accessibility testing checklist, tools, and standards (WCAG 2.1 AA) |
+
+---
+
+## Evidence Links
+
+| Document | Link |
+|----------|------|
+| All Evidence | [EVIDENCE_LINKS.md](EVIDENCE_LINKS.md) |
+| Code Coverage | [CODE_COVERAGE.md](CODE_COVERAGE.md) |
+| Accessibility | [ACCESSIBILITY_TESTING.md](ACCESSIBILITY_TESTING.md) |
+| Testing Log | [TESTING_LOG.md](../../PROGRESS/TESTING_LOG.md) |
+
+---
+
 ## Ownership Map
 
 | Name | Role | Key Files |
@@ -59,4 +79,8 @@ Full details: [OWNERSHIP_MAP.md](OWNERSHIP_MAP.md)
 3. Update CI to run tests automatically
 4. Add image upload preview
 5. Improve search accuracy
-6. Prepare for Track C (polish phase)
+6. Install Jest and write unit tests for auth and items endpoints
+7. Run code coverage report and aim for 70%+
+8. Run Lighthouse accessibility audit on all key pages
+9. Fix accessibility issues (alt text, contrast, keyboard nav)
+10. Prepare for Track C (polish phase)

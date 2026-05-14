@@ -44,9 +44,34 @@
     return localStorage.getItem('freesewaa-current-user-id') || '';
   }
 
+  function getCurrentUser() {
+    try {
+      return JSON.parse(localStorage.getItem('freesewaa-user') || '{}');
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function isSuperAdmin() {
+    return getCurrentUser().role === 'superadmin';
+  }
+
   function getAdminHeaders(extra = {}) {
     const userId = getCurrentUserId();
-    return userId ? { ...extra, 'x-user-id': userId } : { ...extra };
+    const token = localStorage.getItem('freesewaa-token') || '';
+    return {
+      ...extra,
+      ...(userId ? { 'x-user-id': userId } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    };
+  }
+
+  function redirectToAdminLogin() {
+    localStorage.removeItem('freesewaa-auth');
+    localStorage.removeItem('freesewaa-current-user-id');
+    localStorage.removeItem('freesewaa-token');
+    localStorage.removeItem('freesewaa-user');
+    window.location.href = '/admin_login.html';
   }
 
   function toast(message, tone = 'success') {
@@ -103,7 +128,9 @@
       throw new Error('The server returned an unexpected response.');
     }
     if (!response.ok) {
-      throw new Error(data.error || 'Admin request failed.');
+      const error = new Error(data.error || 'Admin request failed.');
+      error.status = response.status;
+      throw error;
     }
     return data;
   }
@@ -141,6 +168,7 @@
     setText('[data-admin-flagged]', summary.flaggedListings || 0);
     setText('[data-admin-featured]', summary.featuredListings || 0);
     setText('[data-admin-unread]', summary.unreadNotifications || 0);
+    setText('[data-admin-suggestions]', summary.suggestions || 0);
     setText('[data-admin-conversations]', summary.conversations || 0);
     setText('[data-admin-open-risks]', summary.openRisks || 0);
     setText('[data-admin-health-score]', `${health}/100`);
@@ -166,6 +194,14 @@
       user.isBlocked ? 'blocked' : 'active',
       `${user.listingCount || 0} listings`
     ];
+    const superAdmin = isSuperAdmin();
+    const userActionButtons = superAdmin ? `
+          <button class="admin-btn admin-btn--soft" type="button" data-user-action="${user.isBlocked ? 'unblock' : 'block'}" data-user-id="${escapeHtml(user.id)}">${user.isBlocked ? 'Unblock' : 'Block'}</button>
+          ${user.role === 'superadmin'
+            ? '<button class="admin-btn admin-btn--soft" type="button" disabled>Super Admin</button>'
+            : `<button class="admin-btn admin-btn--soft" type="button" data-user-action="${user.role === 'admin' ? 'remove-admin' : 'make-admin'}" data-user-id="${escapeHtml(user.id)}">${user.role === 'admin' ? 'Remove Admin' : 'Make Admin'}</button>`}
+          <button class="admin-btn admin-btn--danger" type="button" data-user-action="delete-user" data-user-id="${escapeHtml(user.id)}">Delete</button>
+    ` : '<p class="muted-copy">Only a super admin can block users, delete users, or change roles.</p>';
 
     return `
       <article class="admin-v2-itemcard">
@@ -178,9 +214,7 @@
           <div class="admin-v2-tags">${tags.map(tag => `<span class="admin-tag">${escapeHtml(tag)}</span>`).join('')}</div>
         </div>
         <div class="admin-row-actions">
-          <button class="admin-btn admin-btn--soft" type="button" data-user-action="${user.isBlocked ? 'unblock' : 'block'}" data-user-id="${escapeHtml(user.id)}">${user.isBlocked ? 'Unblock' : 'Block'}</button>
-          <button class="admin-btn admin-btn--soft" type="button" data-user-action="${user.role === 'admin' ? 'remove-admin' : 'make-admin'}" data-user-id="${escapeHtml(user.id)}">${user.role === 'admin' ? 'Remove Admin' : 'Make Admin'}</button>
-          <button class="admin-btn admin-btn--danger" type="button" data-user-action="delete" data-user-id="${escapeHtml(user.id)}">Delete</button>
+          ${userActionButtons}
         </div>
       </article>`;
   }
@@ -196,7 +230,7 @@
         state.userStatus === 'all' ||
         (state.userStatus === 'active' && !user.isBlocked) ||
         (state.userStatus === 'blocked' && user.isBlocked) ||
-        (state.userStatus === 'admins' && user.role === 'admin');
+        (state.userStatus === 'admins' && (user.role === 'admin' || user.role === 'superadmin'));
       return statusOk && (!query || text.includes(query));
     });
 
@@ -279,11 +313,27 @@
       : emptyCard('No recent platform activity yet.');
   }
 
+  function renderSuggestions() {
+    const target = document.getElementById('adminSuggestionsFeed');
+    if (!target) return;
+
+    const suggestions = state.dashboard?.suggestions || [];
+    target.innerHTML = suggestions.length
+      ? suggestions.map(item => `
+          <article class="admin-v2-activityitem">
+            <strong>${escapeHtml(item.name || 'Free Sewaa user')}</strong>
+            <p>${escapeHtml(item.message || 'No suggestion text available.')}</p>
+            <span>${escapeHtml(item.email || 'No email')} 쨌 ${escapeHtml(timeAgo(item.createdAt))}</span>
+          </article>`).join('')
+      : emptyCard('No dashboard suggestions yet.');
+  }
+
   function renderAll() {
     renderSummary();
     renderQueue();
     renderUsers();
     renderListings();
+    renderSuggestions();
     renderActivity();
   }
 
@@ -341,7 +391,7 @@
       try {
         if (userButton) {
           const action = userButton.dataset.userAction;
-          if (action === 'delete' && !window.confirm('Delete this user and related records?')) return;
+          if (action === 'delete-user' && !window.confirm('Delete this user and related records?')) return;
           await postAction('/api/admin/user-action', {
             targetUserId: userButton.dataset.userId,
             action
@@ -374,13 +424,16 @@
     bindActions();
 
     try {
+      if (window.FREESEWAA_VERIFY_ADMIN && typeof window.FREESEWAA_VERIFY_ADMIN.then === 'function') {
+        await window.FREESEWAA_VERIFY_ADMIN;
+      }
       await loadDashboard();
     } catch (error) {
       console.error(error);
       toast(error.message || 'Unable to load admin dashboard.', 'error');
-      if (/admin access/i.test(error.message || '')) {
+      if (error.status === 401 || error.status === 403 || /admin access|authentication required|session/i.test(error.message || '')) {
         setTimeout(() => {
-          window.location.href = '/admin_login.html';
+          redirectToAdminLogin();
         }, 900);
       }
     }

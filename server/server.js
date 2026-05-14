@@ -22,6 +22,14 @@ const PUBLIC_PAGE_ALIASES = {
 
 const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI;
 const DB_NAME = process.env.DB_NAME || 'freesewaa';
+const SUPER_ADMIN_EMAILS = String(process.env.SUPER_ADMIN_EMAILS || process.env.SUPER_ADMIN_EMAIL || '')
+  .split(',')
+  .map(email => email.trim().toLowerCase())
+  .filter(Boolean);
+const SUPER_ADMIN_USER_IDS = String(process.env.SUPER_ADMIN_USER_IDS || process.env.SUPER_ADMIN_USER_ID || '')
+  .split(',')
+  .map(id => id.trim())
+  .filter(Boolean);
 
 if (!MONGODB_URI) {
   console.error('❌ Missing MongoDB connection string. Set MONGODB_URI (or MONGO_URI) in environment variables.');
@@ -39,6 +47,7 @@ let requestsCollection;
 let conversationsCollection;
 let messagesCollection;
 let notificationsCollection;
+let suggestionsCollection;
 
 function defaultUserState(user) {
   const name =
@@ -111,6 +120,21 @@ function safeUser(user) {
   if (!user) return null;
   const { password, _id, ...rest } = user;
   return rest;
+}
+
+function isSuperAdminUser(user) {
+  if (!user) return false;
+  return user.role === 'superadmin';
+}
+
+function isConfiguredSuperAdmin(user) {
+  if (!user) return false;
+  const email = String(user.email || '').trim().toLowerCase();
+  const id = String(user.id || '').trim();
+  return (
+    (email && SUPER_ADMIN_EMAILS.includes(email)) ||
+    (id && SUPER_ADMIN_USER_IDS.includes(id))
+  );
 }
 
 function getUserId(req, url) {
@@ -246,6 +270,10 @@ async function ensureIndexes() {
   await notificationsCollection.createIndex({ id: 1 }, { unique: true });
   await notificationsCollection.createIndex({ userId: 1 });
   await notificationsCollection.createIndex({ read: 1 });
+
+  await suggestionsCollection.createIndex({ id: 1 }, { unique: true });
+  await suggestionsCollection.createIndex({ userId: 1 });
+  await suggestionsCollection.createIndex({ createdAt: -1 });
 }
 
 /**
@@ -275,6 +303,19 @@ async function ensureSeedData() {
   if (existingAdmin && !existingAdmin.role) {
     await usersCollection.updateOne({ id: existingAdmin.id }, { $set: { role: 'admin' } });
     existingAdmin.role = 'admin';
+  }
+
+  if (SUPER_ADMIN_EMAILS.length || SUPER_ADMIN_USER_IDS.length) {
+    const superAdminQuery = [];
+    if (SUPER_ADMIN_EMAILS.length) superAdminQuery.push({ email: { $in: SUPER_ADMIN_EMAILS } });
+    if (SUPER_ADMIN_USER_IDS.length) superAdminQuery.push({ id: { $in: SUPER_ADMIN_USER_IDS } });
+
+    if (superAdminQuery.length) {
+      await usersCollection.updateMany(
+        { $or: superAdminQuery },
+        { $set: { role: 'superadmin', updatedAt: new Date().toISOString() } }
+      );
+    }
   }
 
   const existingState = await statesCollection.findOne({ userId: existingUser.id });
@@ -678,17 +719,112 @@ function getListingFlags(listing) {
   return flags;
 }
 
+function normalizeChatText(value) {
+  return String(value || '').trim().replace(/\s+/g, ' ');
+}
+
+function createListingSummary(listings) {
+  if (!listings.length) {
+    return 'I could not find active listings right now. Try checking Browse again in a moment or start a new donation post.';
+  }
+
+  const topListings = listings
+    .slice(0, 4)
+    .map(listing => `${listing.title} (${listing.category}, ${listing.location})`)
+    .join('; ');
+
+  return `Here are a few active items: ${topListings}. Open Browse to view details or send a request.`;
+}
+
+async function buildChatbotReply(message) {
+  const text = normalizeChatText(message);
+  const lower = text.toLowerCase();
+
+  if (!text) {
+    return 'Ask me about donating, browsing items, requests, pickup, messages, or your account.';
+  }
+
+  const activeListings = await listingsCollection
+    .find({ status: 'active' })
+    .sort({ urgent: -1, createdAt: -1 })
+    .limit(8)
+    .toArray();
+
+  const categories = [...new Set(activeListings.map(item => item.category).filter(Boolean))];
+  const urgentListings = activeListings.filter(item => item.urgent);
+
+  if (/\b(hi|hello|hey|namaste)\b/.test(lower)) {
+    return 'Hi! I am the Free Sewaa helper. I can help you find free items, donate something, understand pickup, or manage requests.';
+  }
+
+  if (/\b(donate|give|post|upload|share)\b/.test(lower)) {
+    return 'To donate an item, go to Donate, add the title, category, condition, pickup window, notes, and a clear photo. After publishing, people can request it from Browse.';
+  }
+
+  if (/\b(find|browse|available|items?|listings?|need|search)\b/.test(lower)) {
+    return createListingSummary(activeListings);
+  }
+
+  if (/\b(food|rice|pantry|clothing|jacket|books?|desk|home|furniture|category|categories)\b/.test(lower)) {
+    const matched = activeListings.filter(listing => {
+      const haystack = `${listing.title} ${listing.category} ${listing.description}`.toLowerCase();
+      return lower.split(/\W+/).some(word => word.length > 2 && haystack.includes(word));
+    });
+
+    if (matched.length) {
+      return createListingSummary(matched);
+    }
+
+    return categories.length
+      ? `Current active categories include ${categories.join(', ')}. You can filter by category on Browse.`
+      : 'Categories will appear after active listings are published.';
+  }
+
+  if (/\b(urgent|asap|emergency|soon|today)\b/.test(lower)) {
+    return urgentListings.length
+      ? createListingSummary(urgentListings)
+      : 'I do not see urgent active listings right now. Browse still has regular active donations you can request.';
+  }
+
+  if (/\b(request|reserve|claim|interested)\b/.test(lower)) {
+    return 'Open an item on Browse and choose Request. Add a short note with your pickup availability, then check Messages for the conversation.';
+  }
+
+  if (/\b(message|chat|reply|conversation|contact)\b/.test(lower)) {
+    return 'Use Messages to continue conversations after a request is created. Keep pickup details clear and avoid sharing sensitive information.';
+  }
+
+  if (/\b(pickup|collect|delivery|meet|location|where)\b/.test(lower)) {
+    return 'Pickup details are set by the donor. Check the item location and pickup window, then confirm the exact time in Messages.';
+  }
+
+  if (/\b(account|login|signin|sign in|signup|profile|dashboard)\b/.test(lower)) {
+    return 'Use your Dashboard for profile details, active listings, saved items, and requests. If you are signed out, use Sign In or Sign Up from the home page.';
+  }
+
+  if (/\b(admin|moderation|block|review)\b/.test(lower)) {
+    return 'Admins can use the Admin panel to review users, listings, platform activity, and moderation actions.';
+  }
+
+  if (/\b(thanks|thank you)\b/.test(lower)) {
+    return 'You are welcome. I am here whenever you need help using Free Sewaa.';
+  }
+
+  return 'I can help with donating items, finding active listings, pickup, requests, messages, profile, and admin basics. Try asking "what items are available?" or "how do I donate?"';
+}
+
 /**
  * Build admin dashboard data with users, listings, requests, and notifications.
  * @returns {Object} Dashboard data with summary, users, listings, moderationQueue, activity.
  */
 async function buildAdminDashboardData() {
-  const [users, listings, requests, conversations, notifications, meta] = await Promise.all([
+  const [users, listings, requests, conversations, notifications, suggestions, meta] = await Promise.all([
     usersCollection.find({}).toArray(),
     listingsCollection.find({}).toArray(),
     requestsCollection.find({}).toArray(),
     conversationsCollection.find({}).toArray(),
     notificationsCollection.find({}).toArray(),
+    suggestionsCollection.find({}).sort({ createdAt: -1 }).limit(25).toArray(),
     metaCollection.findOne({ key: 'app-meta' })
   ]);
 
@@ -729,6 +865,7 @@ async function buildAdminDashboardData() {
   const summary = {
     users: normalizedUsers.length,
     admins: users.filter(user => user.role === 'admin').length,
+    superadmins: users.filter(user => user.role === 'superadmin').length,
     blockedUsers: users.filter(user => user.isBlocked).length,
     listings: normalizedListings.length,
     activeListings: normalizedListings.filter(item => item.status === 'active').length,
@@ -737,6 +874,7 @@ async function buildAdminDashboardData() {
     featuredListings: normalizedListings.filter(item => item.featured).length,
     flaggedListings: moderationQueue.length,
     unreadNotifications: notifications.filter(item => !item.read).length,
+    suggestions: suggestions.length,
     conversations: conversations.length,
     openRisks: moderationQueue.filter(item => item.urgent || item.status === 'hidden' || !item.reviewed).length,
     healthScore: Math.max(0, 100 - (users.filter(user => user.isBlocked).length * 12) - (moderationQueue.length * 4) - Math.min(20, notifications.filter(item => !item.read).length)),
@@ -768,6 +906,7 @@ async function buildAdminDashboardData() {
     users: normalizedUsers,
     listings: normalizedListings.map(normalizeListingForClient),
     moderationQueue,
+    suggestions: suggestions.map(normalizeDoc),
     activity
   };
 }
@@ -775,21 +914,37 @@ async function buildAdminDashboardData() {
 async function requireAdminUser(req, url) {
   const userId = getUserId(req, url);
   if (!userId) {
-    return { error: 'Admin access required.' };
+    return { error: 'Super admin access required.' };
   }
 
   const user = await usersCollection.findOne({ id: userId });
-  if (!user || user.role !== 'admin') {
-    return { error: 'Admin access required.' };
+  if (!isSuperAdminUser(user)) {
+    return { error: 'Super admin access required.' };
   }
 
   return { user };
 }
 
-async function applyAdminUserAction(targetUserId, action) {
+async function requireSuperAdminUser(req, url) {
+  return requireAdminUser(req, url);
+}
+
+async function applyAdminUserAction(targetUserId, action, actor) {
   const targetUser = await usersCollection.findOne({ id: targetUserId });
   if (!targetUser) {
     throw new Error('Target user not found.');
+  }
+
+  if (!isSuperAdminUser(actor)) {
+    throw new Error('Super admin access required for user management.');
+  }
+
+  if (isSuperAdminUser(targetUser) && targetUser.id !== actor.id) {
+    throw new Error('Another super admin cannot be changed from this panel.');
+  }
+
+  if (targetUser.id === actor.id && ['block', 'remove-admin', 'delete-user'].includes(action)) {
+    throw new Error('You cannot block, demote, or delete your own super admin account.');
   }
 
   if (action === 'block') {
@@ -1002,14 +1157,51 @@ const server = http.createServer(async (req, res) => {
         await ensureStateForUser(user);
       }
 
+      const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (role !== user.role) {
+        await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
+        user.role = role;
+      }
+
       return sendJson(res, 200, {
         user: safeUser(user),
-        auth: { userId: user.id, isAuthenticated: true, role: user.role || 'user' }
+        auth: { userId: user.id, isAuthenticated: true, role }
       });
     }
 
     if (pathname === '/api/auth/logout' && req.method === 'POST') {
       return sendJson(res, 200, { ok: true });
+    }
+
+    if (pathname === '/api/auth/session' && req.method === 'GET') {
+      const userId = getUserId(req, url);
+      if (!userId) {
+        return sendJson(res, 401, { error: 'Authentication required.' });
+      }
+
+      const user = await usersCollection.findOne({ id: userId });
+      if (!user) {
+        return sendJson(res, 401, { error: 'User session not found.' });
+      }
+
+      if (user.isBlocked) {
+        return sendJson(res, 403, { error: 'This account is blocked.' });
+      }
+
+      const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (role !== user.role) {
+        await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
+        user.role = role;
+      }
+
+      return sendJson(res, 200, {
+        user: safeUser(user),
+        auth: {
+          userId: user.id,
+          isAuthenticated: true,
+          role
+        }
+      });
     }
 
     if (pathname === '/api/auth/signup' && req.method === 'POST') {
@@ -1076,11 +1268,17 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 403, { error: 'This account is blocked.' });
       }
 
+      const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (role !== user.role) {
+        await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
+        user.role = role;
+      }
+
       await ensureStateForUser(user);
 
       return sendJson(res, 200, {
         user: safeUser(user),
-        auth: { userId: user.id, isAuthenticated: true }
+        auth: { userId: user.id, isAuthenticated: true, role }
       });
     }
 
@@ -1099,19 +1297,25 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 401, { error: 'Invalid credentials.' });
       }
 
-      if (user.role !== 'admin') {
-        return sendJson(res, 403, { error: 'Admin access required.' });
+      const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (role !== 'superadmin') {
+        return sendJson(res, 403, { error: 'Super admin access required.' });
       }
 
       if (user.isBlocked) {
         return sendJson(res, 403, { error: 'This account is blocked.' });
       }
 
+      if (role !== user.role) {
+        await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
+        user.role = role;
+      }
+
       await ensureStateForUser(user);
 
       return sendJson(res, 200, {
         user: safeUser(user),
-        auth: { userId: user.id, isAuthenticated: true, role: 'admin' }
+        auth: { userId: user.id, isAuthenticated: true, role }
       });
     }
 
@@ -1154,8 +1358,24 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
+    if (pathname === '/api/chatbot' && req.method === 'POST') {
+      const { message = '' } = await readRequestBody(req);
+      const cleanMessage = normalizeChatText(message);
+
+      if (cleanMessage.length > 600) {
+        return sendJson(res, 400, { error: 'Please keep chatbot messages under 600 characters.' });
+      }
+
+      const reply = await buildChatbotReply(cleanMessage);
+      return sendJson(res, 200, {
+        reply,
+        source: 'free-sewaa-assistant',
+        createdAt: new Date().toISOString()
+      });
+    }
+
     if (pathname === '/api/admin/user-action' && req.method === 'POST') {
-      const admin = await requireAdminUser(req, url);
+      const admin = await requireSuperAdminUser(req, url);
       if (admin.error) {
         return sendJson(res, 403, { error: admin.error });
       }
@@ -1165,7 +1385,7 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: 'targetUserId and action are required.' });
       }
 
-      const payload = await applyAdminUserAction(targetUserId, action);
+      const payload = await applyAdminUserAction(targetUserId, action, admin.user);
       return sendJson(res, 200, { payload });
     }
 
@@ -1561,6 +1781,41 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, { ok: true });
     }
 
+    if (pathname === '/api/suggestions' && req.method === 'POST') {
+      const userId = getUserId(req, url);
+      const body = await readRequestBody(req);
+      const name = String(body.name || '').trim().slice(0, 120);
+      const email = String(body.email || '').trim().toLowerCase().slice(0, 160);
+      const message = String(body.message || '').trim().slice(0, 1200);
+
+      if (!message) {
+        return sendJson(res, 400, { error: 'Suggestion message is required.' });
+      }
+
+      let user = null;
+      if (userId) {
+        user = await usersCollection.findOne({ id: userId });
+      }
+
+      const suggestion = {
+        id: `suggestion-${Date.now()}`,
+        userId: user?.id || userId || null,
+        name: name || getUserDisplayName(user),
+        email: email || user?.email || '',
+        message,
+        status: 'new',
+        createdAt: new Date().toISOString()
+      };
+
+      await suggestionsCollection.insertOne(suggestion);
+      await touchMeta();
+
+      return sendJson(res, 201, {
+        suggestion: normalizeDoc(suggestion),
+        message: 'Thank you for sharing your suggestion.'
+      });
+    }
+
     if (pathname === '/api/messages/conversations' && req.method === 'GET') {
       const userId = getUserId(req, url);
       if (!userId) {
@@ -1797,6 +2052,7 @@ async function startServer() {
     conversationsCollection = db.collection('conversations');
     messagesCollection = db.collection('messages');
     notificationsCollection = db.collection('notifications');
+    suggestionsCollection = db.collection('suggestions');
 
     await ensureIndexes();
     await ensureSeedData();
