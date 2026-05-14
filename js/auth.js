@@ -89,6 +89,7 @@ const phoneAuthState = {
 };
 
 const GMAIL_ONLY_MESSAGE = 'Please use a valid Gmail address ending in @gmail.com.';
+const PASSWORD_POLICY_MESSAGE = 'Password must be 8-10 characters and include uppercase, lowercase, and a number.';
 
 function getApiBaseUrl() {
   let stored = '';
@@ -116,6 +117,17 @@ function apiUrl(path) {
 
 function isGmailAddress(email = '') {
   return /^[a-z0-9._%+-]+@gmail\.com$/i.test(String(email || '').trim());
+}
+
+function isStrongPassword(password = '') {
+  const value = String(password || '');
+  return (
+    value.length >= 8 &&
+    value.length <= 10 &&
+    /[a-z]/.test(value) &&
+    /[A-Z]/.test(value) &&
+    /\d/.test(value)
+  );
 }
 
 function getPageMode() {
@@ -218,7 +230,7 @@ function validateSignupEmailForm(form, values) {
   if (!lastName) throw new Error('Please enter your last name.');
   if (!email) throw new Error('Please enter your email address.');
   if (!isGmailAddress(email)) throw new Error(GMAIL_ONLY_MESSAGE);
-  if (!password || password.length < 8) throw new Error('Password must be at least 8 characters.');
+  if (!isStrongPassword(password)) throw new Error(PASSWORD_POLICY_MESSAGE);
   if (!agreed) throw new Error('Please agree to the Terms and Privacy Policy.');
 }
 
