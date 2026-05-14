@@ -33,6 +33,7 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
   <header class="header" id="header">
     <a href="index.html" class="brand">Free Sewaa</a>
     <nav class="header__actions" aria-label="Authentication navigation">
+      <a href="events.html" class="btn btn--ghost">Events</a>
       <a href="/auth_choice.html" class="btn btn--ghost">Sign In</a>
       <a href="/signup.html" class="btn btn--solid">Sign Up</a>
     </nav>
@@ -59,7 +60,7 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
           </p>
           <div class="hero__cta reveal reveal--3">
             <a href="/signup.html" class="btn btn--hero">Start Sharing</a>
-            <a href="#stories" class="text-link">Explore stories</a>
+            <a href="events.html" class="text-link">View free events</a>
           </div>
         </div>
 
@@ -101,6 +102,33 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
       <p class="section-copy">
         Sign In, Sign Up, and the hero CTA are all linked so users can move naturally from discovery into account creation or login.
       </p>
+    </section>
+
+    <section class="events-preview wrap reveal-block" id="events">
+      <div class="events-preview__header">
+        <div>
+          <p class="eyebrow">Upcoming free events</p>
+          <h2 class="section-title">Donation camps, community drives, and free support days.</h2>
+        </div>
+        <a href="events.html" class="btn btn--hero">See Events</a>
+      </div>
+      <div class="events-preview__grid">
+        <article class="event-mini-card reveal-card">
+          <span class="event-date">May 24</span>
+          <h3>Food & Essentials Donation Camp</h3>
+          <p>Collecting rice, pantry items, blankets, hygiene kits, and clean reusable clothing for local families.</p>
+        </article>
+        <article class="event-mini-card reveal-card">
+          <span class="event-date">Jun 02</span>
+          <h3>Student Supplies Free Pickup</h3>
+          <p>Free notebooks, story books, stationery, bags, and study materials for children and students.</p>
+        </article>
+        <article class="event-mini-card reveal-card">
+          <span class="event-date">Jun 15</span>
+          <h3>Community Volunteer Meetup</h3>
+          <p>A planning day for donors, volunteers, and organizers who want to support future Free Sewaa events.</p>
+        </article>
+      </div>
     </section>
 
     <section class="stories wrap" id="stories">

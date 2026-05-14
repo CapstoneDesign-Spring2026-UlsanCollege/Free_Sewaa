@@ -2144,6 +2144,13 @@
       settingsMenu.prepend(panelLink);
     }
     const nav = document.querySelector('.main-nav');
+    if (nav && !nav.querySelector('a[href$="events.html"]')) {
+      const eventLink = document.createElement('a');
+      eventLink.href = '/events.html';
+      eventLink.className = 'nav-link';
+      eventLink.textContent = 'Events';
+      nav.appendChild(eventLink);
+    }
     if (nav && !nav.querySelector('[data-dynamic-audit-link]')) {
       const link = document.createElement('a');
       link.href = isAdmin() ? '/admin.html' : '/user_panel.html';
@@ -2159,6 +2166,7 @@
     about: '<circle cx="12" cy="12" r="9"/><path d="M12 10v6"/><path d="M12 7h.01"/>',
     donate: '<path d="M20.8 8.6a5.2 5.2 0 0 0-7.4 0L12 10l-1.4-1.4a5.2 5.2 0 0 0-7.4 7.4L12 24l8.8-8a5.2 5.2 0 0 0 0-7.4Z"/>',
     browse: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/><path d="M8 11h6"/><path d="M11 8v6"/>',
+    events: '<path d="M7 3v3"/><path d="M17 3v3"/><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/>',
     donateUs: '<path d="M12 21s-7-4.1-7-10a4 4 0 0 1 7-2.7A4 4 0 0 1 19 11c0 5.9-7 10-7 10Z"/><path d="M12 8v8"/><path d="M8 12h8"/>',
     messages: '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/><path d="M8 9h8"/><path d="M8 13h5"/>',
     notifications: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/>',
@@ -2167,6 +2175,8 @@
     saved: '<path d="M6 3h12v18l-6-4-6 4Z"/>',
     requests: '<path d="M9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
     profile: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    signin: '<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/>',
+    signup: '<circle cx="9" cy="8" r="4"/><path d="M3 21a6 6 0 0 1 12 0"/><path d="M19 8v6"/><path d="M16 11h6"/>',
     settings: '<path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.04.04a2 2 0 1 1-2.83 2.83l-.04-.04A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6V20a2 2 0 1 1-4 0v-.05a1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.04.04a2 2 0 1 1-2.83-2.83l.04-.04A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1H4a2 2 0 1 1 0-4h.05a1.7 1.7 0 0 0 .6-1 1.7 1.7 0 0 0-.34-1.88l-.04-.04a2 2 0 1 1 2.83-2.83l.04.04A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6V4a2 2 0 1 1 4 0v.05a1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.04-.04a2 2 0 1 1 2.83 2.83l-.04.04A1.7 1.7 0 0 0 19.4 9c.2.35.4.67.6 1H20a2 2 0 1 1 0 4h-.05a1.7 1.7 0 0 0-.55 1Z"/>',
     logout: '<path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M21 3v18"/>'
   };
@@ -2175,8 +2185,11 @@
     const text = `${label} ${href || ''}`.toLowerCase();
     if (text.includes('notification')) return 'notifications';
     if (text.includes('message')) return 'messages';
+    if (text.includes('volunteer')) return 'events';
+    if (text.includes('support')) return 'donateUs';
     if (text.includes('dashboard') || text.includes('user_panel')) return 'dashboard';
     if (text.includes('admin')) return 'admin';
+    if (text.includes('event')) return 'events';
     if (text.includes('browse')) return 'browse';
     if (text.includes('donate-us') || text.includes('donate us')) return 'donateUs';
     if (text.includes('donate')) return 'donate';
@@ -2184,6 +2197,8 @@
     if (text.includes('saved')) return 'saved';
     if (text.includes('request')) return 'requests';
     if (text.includes('profile')) return 'profile';
+    if (text.includes('sign in') || text.includes('signin')) return 'signin';
+    if (text.includes('sign up') || text.includes('signup')) return 'signup';
     if (text.includes('setting')) return 'settings';
     if (text.includes('logout')) return 'logout';
     if (text.includes('home') || text.includes('app.html')) return 'home';
@@ -2205,6 +2220,13 @@
       link.setAttribute('title', label);
       link.dataset.navTooltip = label;
       link.innerHTML = `${makeNavIcon(navIcons[key])}<span class="nav-label">${escapeHtml(label)}</span>`;
+    });
+  }
+
+  function enhancePublicActions() {
+    const member = isAuthenticated();
+    document.querySelectorAll('[data-member-href][data-guest-href]').forEach(link => {
+      link.href = member ? link.dataset.memberHref : link.dataset.guestHref;
     });
   }
 
@@ -2567,7 +2589,14 @@
   }
 
   async function bootApp() {
+    const isPublicPage = document.body.dataset.public === 'true';
     if (!isAuthenticated()) {
+      if (isPublicPage) {
+        enhancePublicActions();
+        enhanceNavIcons();
+        initCurrentPage();
+        return;
+      }
       window.location.replace('/signin.html');
       return;
     }
@@ -2586,6 +2615,7 @@
 
     initChatbotWidget();
     enhanceMenus();
+    enhancePublicActions();
     enhanceNavIcons();
     initCurrentPage();
   }
