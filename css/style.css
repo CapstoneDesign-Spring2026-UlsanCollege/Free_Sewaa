@@ -259,63 +259,63 @@ body{
   }
 }
 
-/* ===== Golden Public Landing Refinement ===== */
+/* ===== Green Blue Public Landing Refinement ===== */
 :root{
-  --bg:#12100b;
-  --text:#fffaf0;
-  --muted:rgba(255,250,240,.76);
-  --soft:rgba(255,250,240,.56);
-  --cream:#f6c86f;
-  --cream-2:#fff7e4;
-  --bronze:#d99a2b;
-  --line:rgba(255,224,166,.15);
-  --shadow:0 24px 70px rgba(41,27,8,.36);
+  --bg:#08151c;
+  --text:#f3fbf9;
+  --muted:rgba(243,251,249,.76);
+  --soft:rgba(243,251,249,.56);
+  --cream:#9ce8d5;
+  --cream-2:#f4fffb;
+  --bronze:#2bb9d6;
+  --line:rgba(156,232,213,.16);
+  --shadow:0 24px 70px rgba(3,19,28,.38);
 }
 
 body{
   background:
-    linear-gradient(135deg,rgba(217,154,43,.16),transparent 28%),
-    linear-gradient(225deg,rgba(80,132,115,.12),transparent 24%),
-    linear-gradient(180deg,#100d08 0%,#1a140c 52%,#11100d 100%);
+    linear-gradient(135deg,rgba(38,190,151,.18),transparent 28%),
+    linear-gradient(225deg,rgba(43,185,214,.16),transparent 25%),
+    linear-gradient(180deg,#071219 0%,#0d2530 52%,#091820 100%);
 }
 
 .header{
-  background:rgba(18,13,7,.9);
+  background:rgba(5,18,26,.9);
 }
 
 .brand::before{
-  background:linear-gradient(135deg,#f7d58a,#b97612);
-  box-shadow:0 0 0 5px rgba(217,154,43,.16);
+  background:linear-gradient(135deg,#9ce8d5,#2bb9d6);
+  box-shadow:0 0 0 5px rgba(43,185,214,.16);
 }
 
 .btn--solid,
 .btn--hero{
-  color:#241807;
-  background:linear-gradient(135deg,#ffe0a3 0%,#d99a2b 52%,#b97612 100%);
-  box-shadow:0 18px 42px rgba(217,154,43,.28);
+  color:#052027;
+  background:linear-gradient(135deg,#b8f4e4 0%,#35c7aa 48%,#2bb9d6 100%);
+  box-shadow:0 18px 42px rgba(43,185,214,.26);
 }
 
 .btn--ghost{
-  background:rgba(255,232,179,.06);
+  background:rgba(156,232,213,.065);
 }
 
 .hero__overlay{
   background:
-    linear-gradient(180deg,rgba(18,13,7,.22),rgba(18,13,7,.68) 54%,rgba(18,13,7,.96) 100%),
-    linear-gradient(90deg,rgba(18,13,7,.78),rgba(18,13,7,.2) 48%,rgba(18,13,7,.66));
+    linear-gradient(180deg,rgba(5,18,26,.24),rgba(5,18,26,.7) 54%,rgba(5,18,26,.96) 100%),
+    linear-gradient(90deg,rgba(5,18,26,.78),rgba(5,18,26,.2) 48%,rgba(5,18,26,.66));
 }
 
 .hero__glass,
 .event-mini-card,
 .story-card{
-  background:linear-gradient(180deg,rgba(255,232,179,.09),rgba(255,232,179,.035));
+  background:linear-gradient(180deg,rgba(156,232,213,.095),rgba(43,185,214,.035));
 }
 
 .event-date,
 .dot.is-active{
-  background:rgba(217,154,43,.2);
+  background:rgba(43,185,214,.2);
 }
 
 .hero__progress span{
-  background:linear-gradient(90deg,#b97612,#ffe0a3);
+  background:linear-gradient(90deg,#35c7aa,#9ce8d5);
 }

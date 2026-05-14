@@ -1686,42 +1686,42 @@ body.light-mode .page-badge{
   .listing-footer--actions{grid-template-columns:1fr}
 }
 
-/* ===== Golden Theme Refinement ===== */
+/* ===== Green Blue Theme Refinement ===== */
 :root{
-  --bg:#12100b;
-  --bg-2:#1b1710;
-  --panel:#211b12;
-  --text:#fffaf0;
-  --muted:rgba(255,250,240,.76);
-  --soft:rgba(255,250,240,.56);
-  --cream:#f6c86f;
-  --cream-2:#fff7e4;
-  --bronze:#d99a2b;
-  --line:rgba(255,224,166,.15);
-  --glass:rgba(255,232,179,.06);
-  --shadow:0 24px 70px rgba(41,27,8,.36);
+  --bg:#08151c;
+  --bg-2:#0d2029;
+  --panel:#122a34;
+  --text:#f3fbf9;
+  --muted:rgba(243,251,249,.76);
+  --soft:rgba(243,251,249,.56);
+  --cream:#9ce8d5;
+  --cream-2:#f4fffb;
+  --bronze:#2bb9d6;
+  --line:rgba(156,232,213,.16);
+  --glass:rgba(156,232,213,.065);
+  --shadow:0 24px 70px rgba(3,19,28,.38);
 }
 
 body{
   background:
-    linear-gradient(135deg,rgba(217,154,43,.16),transparent 28%),
-    linear-gradient(225deg,rgba(80,132,115,.12),transparent 24%),
-    linear-gradient(180deg,#100d08 0%,#1a140c 52%,#11100d 100%);
+    linear-gradient(135deg,rgba(38,190,151,.18),transparent 28%),
+    linear-gradient(225deg,rgba(43,185,214,.16),transparent 25%),
+    linear-gradient(180deg,#071219 0%,#0d2530 52%,#091820 100%);
 }
 
 body.light-mode{
-  --bg:#fbf7ee;
-  --bg-2:#f3ead9;
+  --bg:#f3fbf8;
+  --bg-2:#e5f3f2;
   --panel:#ffffff;
-  --text:#231b10;
-  --muted:rgba(35,27,16,.72);
-  --soft:rgba(35,27,16,.52);
-  --cream:#d99a2b;
-  --cream-2:#231b10;
-  --bronze:#b97612;
-  --line:rgba(93,65,18,.14);
+  --text:#10242c;
+  --muted:rgba(16,36,44,.72);
+  --soft:rgba(16,36,44,.52);
+  --cream:#188d7a;
+  --cream-2:#10242c;
+  --bronze:#147ea3;
+  --line:rgba(20,126,163,.14);
   --glass:rgba(255,255,255,.82);
-  --shadow:0 18px 45px rgba(83,58,18,.14);
+  --shadow:0 18px 45px rgba(17,83,91,.14);
 }
 
 .site-header{
@@ -1729,8 +1729,8 @@ body.light-mode{
 }
 
 .brand::before{
-  background:linear-gradient(135deg,#f7d58a,#b97612);
-  box-shadow:0 0 0 5px rgba(217,154,43,.16);
+  background:linear-gradient(135deg,#9ce8d5,#2bb9d6);
+  box-shadow:0 0 0 5px rgba(43,185,214,.16);
 }
 
 .nav-link.has-nav-icon,
@@ -1768,12 +1768,12 @@ body.light-mode{
 .nav-link.active,
 .active-link,
 .icon-link:hover{
-  background:rgba(217,154,43,.15);
-  border-color:rgba(246,200,111,.22);
+  background:rgba(43,185,214,.15);
+  border-color:rgba(156,232,213,.22);
 }
 
 .header-actions .icon-link.has-nav-icon{
-  background:rgba(255,232,179,.055);
+  background:rgba(156,232,213,.06);
 }
 
 .btn-hero,
@@ -1782,19 +1782,19 @@ body.light-mode .btn-hero,
 body.light-mode .bubble-sent,
 .step-dot.is-active,
 body.light-mode .step-dot.is-active{
-  color:#241807;
-  background:linear-gradient(135deg,#ffe0a3 0%,#d99a2b 52%,#b97612 100%);
-  box-shadow:0 18px 42px rgba(217,154,43,.28);
+  color:#052027;
+  background:linear-gradient(135deg,#b8f4e4 0%,#35c7aa 48%,#2bb9d6 100%);
+  box-shadow:0 18px 42px rgba(43,185,214,.26);
 }
 
 .btn-soft{
-  background:rgba(255,232,179,.07);
+  background:rgba(156,232,213,.075);
 }
 
 .hero-overlay{
   background:
-    linear-gradient(180deg,rgba(18,13,7,.22),rgba(18,13,7,.68) 54%,rgba(18,13,7,.96) 100%),
-    linear-gradient(90deg,rgba(18,13,7,.78),rgba(18,13,7,.2) 48%,rgba(18,13,7,.66));
+    linear-gradient(180deg,rgba(5,18,26,.24),rgba(5,18,26,.7) 54%,rgba(5,18,26,.96) 100%),
+    linear-gradient(90deg,rgba(5,18,26,.78),rgba(5,18,26,.2) 48%,rgba(5,18,26,.66));
 }
 
 .showcase-card,
@@ -1809,7 +1809,7 @@ body.light-mode .step-dot.is-active{
 .review-score-card,
 .review-community-card,
 .chatbot-panel{
-  background:linear-gradient(180deg,rgba(255,232,179,.09),rgba(255,232,179,.035));
+  background:linear-gradient(180deg,rgba(156,232,213,.095),rgba(43,185,214,.035));
 }
 
 .field input:focus,
@@ -1817,13 +1817,13 @@ body.light-mode .step-dot.is-active{
 .field select:focus,
 .message-compose input:focus,
 .chatbot-form input:focus{
-  border-color:rgba(217,154,43,.58);
-  box-shadow:0 0 0 4px rgba(217,154,43,.14);
+  border-color:rgba(43,185,214,.58);
+  box-shadow:0 0 0 4px rgba(43,185,214,.14);
 }
 
 .chatbot-launcher{
-  background:#d99a2b;
-  color:#241807;
+  background:#35c7aa;
+  color:#052027;
 }
 
 .listing-pill--urgent{
