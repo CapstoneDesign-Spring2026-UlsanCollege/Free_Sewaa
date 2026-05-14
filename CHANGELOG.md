@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - MongoDB production connection pending
 - Messaging feature UI in progress
+- Professional green-blue UI theme refresh tracked in issue #120
 
 ---
 
