@@ -30,6 +30,8 @@ const SUPER_ADMIN_USER_IDS = String(process.env.SUPER_ADMIN_USER_IDS || process.
   .split(',')
   .map(id => id.trim())
   .filter(Boolean);
+const GMAIL_ONLY_MESSAGE = 'Please use a valid Gmail address ending in @gmail.com.';
+const VERIFIED_GMAIL_ONLY_MESSAGE = 'Please sign in with a verified Gmail account.';
 
 if (!MONGODB_URI) {
   console.error('❌ Missing MongoDB connection string. Set MONGODB_URI (or MONGO_URI) in environment variables.');
@@ -920,6 +922,10 @@ async function buildAdminDashboardData() {
   };
 }
 
+function isGmailAddress(email = '') {
+  return /^[a-z0-9._%+-]+@gmail\.com$/i.test(String(email || '').trim());
+}
+
 async function requireAdminUser(req, url) {
   const userId = getUserId(req, url);
   if (!userId) {
@@ -1075,15 +1081,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/auth/google-demo' && req.method === 'POST') {
-      const user = await usersCollection.findOne({ id: 'user-demo' });
-      if (!user) {
-        return sendJson(res, 404, { error: 'Demo user not found.' });
-      }
-      await ensureStateForUser(user);
-      return sendJson(res, 200, {
-        user: safeUser(user),
-        auth: { userId: user.id, isAuthenticated: true }
-      });
+      return sendJson(res, 410, { error: 'Demo login is disabled. Please sign in with a verified Gmail account.' });
     }
 
     if (pathname === '/api/auth/firebase' && req.method === 'POST') {
@@ -1108,9 +1106,14 @@ const server = http.createServer(async (req, res) => {
       const email = String(claims.email || '').trim().toLowerCase();
       const tokenPhone = String(claims.phone_number || phone || '').replace(/\s+/g, '');
       const authProvider = String(provider || claims.firebase?.sign_in_provider || 'firebase').trim() || 'firebase';
+      const emailVerified = claims.email_verified === true || claims.email_verified === 'true';
 
       if (!firebaseUid) {
         return sendJson(res, 400, { error: 'Firebase token is missing a user id.' });
+      }
+
+      if (!email || !isGmailAddress(email) || !emailVerified) {
+        return sendJson(res, 403, { error: VERIFIED_GMAIL_ONLY_MESSAGE });
       }
 
       const lookup = [{ firebaseUid }];
@@ -1198,6 +1201,10 @@ const server = http.createServer(async (req, res) => {
       }
 
       const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (role !== 'superadmin' && !isGmailAddress(user.email || '')) {
+        return sendJson(res, 403, { error: VERIFIED_GMAIL_ONLY_MESSAGE });
+      }
+
       if (role !== user.role) {
         await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
         user.role = role;
@@ -1214,15 +1221,19 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/auth/signup' && req.method === 'POST') {
-      const { firstName = '', lastName = '', email = '', password = '', phone = '' } = await readRequestBody(req);
+      const { firstName = '', lastName = '', email = '', password = '' } = await readRequestBody(req);
 
-      if ((!email && !phone) || !password || !firstName.trim()) {
+      if (!email || !password || !firstName.trim()) {
         return sendJson(res, 400, {
-          error: 'First name, password, and either email or phone are required.'
+          error: 'First name, Gmail address, and password are required.'
         });
       }
 
-      const { normalizedEmail, normalizedPhone, query } = buildAuthQuery(email, phone);
+      const { normalizedEmail, query } = buildAuthQuery(email, '');
+
+      if (!isGmailAddress(normalizedEmail)) {
+        return sendJson(res, 400, { error: GMAIL_ONLY_MESSAGE });
+      }
 
       const existing = query.length
         ? await usersCollection.findOne({ $or: query })
@@ -1247,7 +1258,6 @@ const server = http.createServer(async (req, res) => {
       };
 
       if (normalizedEmail) user.email = normalizedEmail;
-      if (normalizedPhone) user.phone = normalizedPhone;
 
       await usersCollection.insertOne(user);
       await setUserState(user.id, defaultUserState(user));
@@ -1259,12 +1269,16 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/auth/signin' && req.method === 'POST') {
-      const { email = '', password = '', phone = '' } = await readRequestBody(req);
+      const { email = '', password = '' } = await readRequestBody(req);
 
-      const { query } = buildAuthQuery(email, phone);
+      const { normalizedEmail, query } = buildAuthQuery(email, '');
 
-      if (!query.length) {
-        return sendJson(res, 400, { error: 'Email or phone is required.' });
+      if (!normalizedEmail) {
+        return sendJson(res, 400, { error: 'Gmail address is required.' });
+      }
+
+      if (!isGmailAddress(normalizedEmail)) {
+        return sendJson(res, 400, { error: GMAIL_ONLY_MESSAGE });
       }
 
       const user = await usersCollection.findOne({ $or: query });
@@ -1292,12 +1306,16 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/auth/admin/signin' && req.method === 'POST') {
-      const { email = '', password = '', phone = '' } = await readRequestBody(req);
+      const { email = '', password = '' } = await readRequestBody(req);
 
-      const { query } = buildAuthQuery(email, phone);
+      const { normalizedEmail, query } = buildAuthQuery(email, '');
 
-      if (!query.length) {
-        return sendJson(res, 400, { error: 'Email or phone is required.' });
+      if (!normalizedEmail) {
+        return sendJson(res, 400, { error: 'Admin Gmail address is required.' });
+      }
+
+      if (!isGmailAddress(normalizedEmail)) {
+        return sendJson(res, 400, { error: GMAIL_ONLY_MESSAGE });
       }
 
       const user = await usersCollection.findOne({ $or: query });

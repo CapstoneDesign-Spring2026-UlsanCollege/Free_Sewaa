@@ -88,6 +88,8 @@ const phoneAuthState = {
   sendingForForm: null
 };
 
+const GMAIL_ONLY_MESSAGE = 'Please use a valid Gmail address ending in @gmail.com.';
+
 function getApiBaseUrl() {
   let stored = '';
   try {
@@ -110,6 +112,10 @@ function apiUrl(path) {
   if (/^https?:\/\//i.test(path)) return path;
   if (String(path).startsWith('//')) return `${window.location.protocol}${path}`;
   return new URL(String(path), getApiBaseUrl()).toString();
+}
+
+function isGmailAddress(email = '') {
+  return /^[a-z0-9._%+-]+@gmail\.com$/i.test(String(email || '').trim());
 }
 
 function getPageMode() {
@@ -211,6 +217,7 @@ function validateSignupEmailForm(form, values) {
   if (!firstName) throw new Error('Please enter your first name.');
   if (!lastName) throw new Error('Please enter your last name.');
   if (!email) throw new Error('Please enter your email address.');
+  if (!isGmailAddress(email)) throw new Error(GMAIL_ONLY_MESSAGE);
   if (!password || password.length < 8) throw new Error('Password must be at least 8 characters.');
   if (!agreed) throw new Error('Please agree to the Terms and Privacy Policy.');
 }
@@ -218,6 +225,7 @@ function validateSignupEmailForm(form, values) {
 function validateSigninEmailForm(values) {
   const [email, password] = values;
   if (!email) throw new Error('Please enter your email address.');
+  if (!isGmailAddress(email)) throw new Error(GMAIL_ONLY_MESSAGE);
   if (!password) throw new Error('Please enter your password.');
 }
 
@@ -281,6 +289,10 @@ async function signInWithGoogle(button) {
 
     if (!firebaseUser) {
       throw new Error('Google sign in did not return a user.');
+    }
+
+    if (!isGmailAddress(firebaseUser.email || '') || firebaseUser.emailVerified !== true) {
+      throw new Error('Please choose a verified Gmail account ending in @gmail.com.');
     }
 
     const token = await firebaseUser.getIdToken(true);
