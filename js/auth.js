@@ -130,6 +130,28 @@ function isStrongPassword(password = '') {
   );
 }
 
+function generateStrongPassword() {
+  const lower = 'abcdefghijkmnopqrstuvwxyz';
+  const upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  const digits = '23456789';
+  const all = `${lower}${upper}${digits}`;
+  const required = [
+    lower[Math.floor(Math.random() * lower.length)],
+    upper[Math.floor(Math.random() * upper.length)],
+    digits[Math.floor(Math.random() * digits.length)]
+  ];
+
+  while (required.length < 10) {
+    required.push(all[Math.floor(Math.random() * all.length)]);
+  }
+
+  return required
+    .map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(item => item.value)
+    .join('');
+}
+
 function getPageMode() {
   const path = window.location.pathname.toLowerCase();
   if (path.includes('signup')) return 'signup';
@@ -514,6 +536,19 @@ document.querySelectorAll('.secondary-btn[data-phone-action="send-code"]').forEa
   btn.addEventListener('click', async e => {
     e.preventDefault();
     await sendPhoneCode(btn);
+  });
+});
+
+document.querySelectorAll('[data-password-action="generate"]').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    const form = btn.closest('.auth-form');
+    const passwordInput = form?.querySelector('input[type="password"]');
+    if (!passwordInput) return;
+
+    passwordInput.value = generateStrongPassword();
+    passwordInput.type = 'text';
+    showInlineMessage(form, 'Generated a strong 10-character password.', 'success');
   });
 });
 
