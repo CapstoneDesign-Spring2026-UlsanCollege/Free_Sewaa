@@ -5,9 +5,9 @@
 ### Authentication
 | Feature | Status | Notes |
 |---------|--------|-------|
-| User Sign Up | ✅ Done | Email + phone |
-| User Sign In | ✅ Done | Credentials |
-| Demo Login | ✅ Done | alisha@example.com |
+| User Sign Up | ✅ Done | Gmail-only credentials |
+| User Sign In | ✅ Done | Gmail-only credentials |
+| Demo Login | ✅ Disabled | Real Gmail sign-in required |
 | Logout | ✅ Done | Session clear |
 | Password Security | ⚠️ Pending | Needs hashing for prod |
 
