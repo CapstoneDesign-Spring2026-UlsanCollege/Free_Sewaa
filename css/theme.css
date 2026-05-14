@@ -1850,3 +1850,121 @@ body.light-mode .step-dot.is-active{
     flex-basis:148px;
   }
 }
+
+/* ===== Professional Background System ===== */
+body{
+  background:
+    linear-gradient(135deg,rgba(48,197,163,.18),transparent 24%),
+    linear-gradient(225deg,rgba(50,150,214,.15),transparent 28%),
+    linear-gradient(180deg,#07141b 0%,#0b2029 42%,#eef7f4 42%,#eef7f4 100%);
+  background-attachment:fixed;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.72),transparent 68%);
+}
+
+body.light-mode{
+  background:
+    linear-gradient(135deg,rgba(48,197,163,.16),transparent 25%),
+    linear-gradient(225deg,rgba(50,150,214,.14),transparent 28%),
+    linear-gradient(180deg,#f4fbf8 0%,#e7f4f3 100%);
+}
+
+.grain{
+  opacity:.028;
+}
+
+.particles{
+  opacity:.16;
+}
+
+.hero,
+.page-hero{
+  background:
+    linear-gradient(180deg,rgba(7,20,27,.18),rgba(7,20,27,.78)),
+    radial-gradient(circle at 18% 20%,rgba(156,232,213,.18),transparent 28%),
+    radial-gradient(circle at 82% 8%,rgba(43,185,214,.16),transparent 24%);
+}
+
+.hero-bg,
+.page-hero__bg{
+  filter:saturate(.82) contrast(.96);
+  opacity:.42;
+}
+
+.hero-home-bg{
+  background:
+    linear-gradient(135deg,rgba(48,197,163,.22),transparent 34%),
+    linear-gradient(225deg,rgba(50,150,214,.18),transparent 32%),
+    linear-gradient(180deg,#07141b 0%,#0b2029 100%);
+}
+
+.hero-home-bg::before{
+  opacity:.28;
+  box-shadow:0 28px 80px rgba(0,0,0,.28);
+}
+
+.hero-overlay,
+body.light-mode .hero-overlay{
+  background:
+    linear-gradient(180deg,rgba(5,18,26,.12),rgba(5,18,26,.62) 58%,rgba(5,18,26,.91) 100%),
+    linear-gradient(90deg,rgba(5,18,26,.78),rgba(5,18,26,.18) 52%,rgba(5,18,26,.58));
+}
+
+.page-badge,
+.panel,
+.listing-card,
+.showcase-card,
+.feature-card,
+.event-card,
+.event-support,
+.review-score-card,
+.review-community-card,
+.stat-card,
+.pricing-card{
+  background:linear-gradient(180deg,rgba(255,255,255,.105),rgba(255,255,255,.045));
+  backdrop-filter:blur(16px) saturate(130%);
+}
+
+body.light-mode .page-badge,
+body.light-mode .panel,
+body.light-mode .listing-card,
+body.light-mode .showcase-card,
+body.light-mode .feature-card,
+body.light-mode .event-card,
+body.light-mode .event-support,
+body.light-mode .review-score-card,
+body.light-mode .review-community-card,
+body.light-mode .stat-card,
+body.light-mode .pricing-card{
+  background:rgba(255,255,255,.88);
+}
+
+.about-hero-bg,
+.events-hero-bg,
+.donate-hero-bg,
+.browse-hero-bg,
+.messages-hero-bg,
+.notifications-hero-bg,
+.donateus-hero-bg,
+.premium-hero-bg,
+.orders-hero-bg,
+.profile-hero-bg,
+.region-hero-bg,
+.posts-hero-bg,
+.saved-hero-bg,
+.requests-hero-bg,
+.logout-hero-bg,
+.signup-hero-bg{
+  background-blend-mode:soft-light;
+}
