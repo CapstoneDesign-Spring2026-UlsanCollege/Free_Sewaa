@@ -2364,6 +2364,62 @@
     }
   }
 
+  function initDonateUsPage() {
+    const form = document.getElementById('moneySupportForm');
+    if (!form || form.dataset.bound === 'true') return;
+    form.dataset.bound = 'true';
+
+    const currentUser = getCurrentUser();
+    const nameInput = document.getElementById('supportName');
+    const contactInput = document.getElementById('supportContact');
+    const amountInput = document.getElementById('supportAmount');
+    const status = document.getElementById('supportStatus');
+
+    const displayName = currentUser.name || [currentUser.firstName, currentUser.lastName].filter(Boolean).join(' ').trim();
+    if (nameInput && !nameInput.value) nameInput.value = displayName || '';
+    if (contactInput && !contactInput.value) contactInput.value = currentUser.email || currentUser.phone || '';
+
+    document.querySelectorAll('[data-amount]').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('[data-amount]').forEach(item => item.classList.remove('is-selected'));
+        button.classList.add('is-selected');
+        if (amountInput) amountInput.value = button.dataset.amount || '';
+      });
+    });
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      const submitButton = form.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.disabled = true;
+      setFormStatus(status, 'Sending your support details...', 'default');
+
+      const message = [
+        `Amount: ${document.getElementById('supportAmount')?.value.trim() || ''}`,
+        `Purpose: ${document.getElementById('supportPurpose')?.value.trim() || ''}`,
+        `Name: ${document.getElementById('supportName')?.value.trim() || ''}`,
+        `Contact: ${document.getElementById('supportContact')?.value.trim() || ''}`,
+        `Note: ${document.getElementById('supportNote')?.value.trim() || ''}`
+      ].join('\n');
+
+      try {
+        await sendSuggestion({
+          name: nameInput?.value.trim() || displayName || '',
+          email: currentUser.email || '',
+          message: `[Free Sewaa support intent]\n${message}`
+        });
+        setFormStatus(status, 'Thank you. Free Sewaa received your support details.', 'success');
+        form.reset();
+        if (nameInput) nameInput.value = displayName || '';
+        if (contactInput) contactInput.value = currentUser.email || currentUser.phone || '';
+        document.querySelectorAll('[data-amount]').forEach(item => item.classList.remove('is-selected'));
+      } catch (error) {
+        setFormStatus(status, error.message || 'Could not send support details right now.', 'error');
+      } finally {
+        if (submitButton) submitButton.disabled = false;
+      }
+    });
+  }
+
   function initUserPanelPage() {
     const nameEls = document.querySelectorAll('[data-user-name]');
     nameEls.forEach(el => el.textContent = appState.user.name || 'Member');
@@ -2710,6 +2766,7 @@
   function initCurrentPage() {
     if (page === 'browse') initBrowsePage();
     if (page === 'donate') initDonatePage();
+    if (page === 'donate-us') initDonateUsPage();
     if (page === 'messages') initMessagesPage();
     if (page === 'my-posts') initMyPostsPage();
     if (page === 'saved') initSavedPage();

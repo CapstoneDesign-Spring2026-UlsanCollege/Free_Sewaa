@@ -668,6 +668,56 @@ body.light-mode .upload-box strong, body.light-mode .pricing-card .price{color:v
   color:var(--cream-2);
 }
 body.light-mode .amount-card{color:var(--text)}
+.support-impact-strip{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  padding:32px 0 20px;
+}
+.support-impact-strip article{
+  min-height:170px;
+  padding:20px;
+  border-radius:8px;
+  border:1px solid rgba(255,236,212,.09);
+  background:rgba(255,244,230,.04);
+  box-shadow:0 16px 44px rgba(0,0,0,.16);
+}
+.support-impact-strip strong{display:block;margin:10px 0 8px;color:var(--cream-2);font-size:1.08rem}
+.support-impact-strip p{margin:0;color:var(--muted);line-height:1.65}
+.support-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 390px;
+  gap:24px;
+  padding:18px 0 28px;
+  align-items:start;
+}
+.support-layout--secondary{grid-template-columns:1fr 1fr;padding-bottom:90px}
+.support-card--primary,.support-side-card{border-radius:8px}
+.support-form{display:grid;gap:16px;margin-top:20px}
+.support-amount-grid .amount-card{
+  display:grid;
+  gap:6px;
+  text-align:left;
+  cursor:pointer;
+}
+.support-amount-grid .amount-card span{color:var(--soft);font-size:.9rem}
+.support-amount-grid .amount-card.is-selected{
+  border-color:rgba(234,216,191,.38);
+  background:rgba(234,216,191,.12);
+}
+.support-bank-details span{text-align:right;color:var(--muted)}
+.support-action-list{display:grid;gap:12px;margin-top:18px}
+.support-action-list a{
+  display:grid;
+  gap:6px;
+  padding:16px;
+  border-radius:8px;
+  border:1px solid rgba(255,236,212,.09);
+  background:rgba(255,244,230,.035);
+}
+.support-action-list strong{color:var(--cream-2)}
+.support-action-list span{color:var(--muted);line-height:1.55}
+.support-check-list{margin-top:18px}
 .impact-list{
   margin:0;
   padding-left:18px;
@@ -783,6 +833,9 @@ body.light-mode .bubble-sent{color:#fff;background:linear-gradient(180deg,#b98c5
   .event-board,
   .event-participation,
   .event-support,
+  .support-impact-strip,
+  .support-layout,
+  .support-layout--secondary,
   .pricing-grid{
     grid-template-columns:1fr;
   }
@@ -803,7 +856,7 @@ body.light-mode .bubble-sent{color:#fff;background:linear-gradient(180deg,#b98c5
   .hero,.page-hero{padding-top:24px}
   .hero-title,.page-title{max-width:none}
   .hero-cta,.form-actions{flex-direction:column;align-items:flex-start}
-  .hero-stats,.showcase-grid,.amount-grid{grid-template-columns:1fr}
+  .hero-stats,.showcase-grid,.amount-grid,.support-impact-strip,.support-layout,.support-layout--secondary{grid-template-columns:1fr}
   .event-card{grid-template-columns:1fr}
   .event-card__date{width:76px;height:76px}
   .event-support{padding:22px}
