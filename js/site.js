@@ -21,6 +21,7 @@
       region: 'Nam-gu',
       joinedAt: '2025-06-01T09:00:00',
       bio: 'ECE graduate and community donor who shares useful items with families and students.',
+      avatar: '',
       pickupAvailability: 'Weekdays after 6 PM · Saturday afternoon',
       savedListingIds: [102, 104],
       requestedListingIds: [104, 105],
@@ -530,6 +531,15 @@
 
   function initials(name) {
     return name.split(' ').map(part => part[0]).join('').slice(0, 2).toUpperCase();
+  }
+
+  function renderAvatar(name, avatar = '', className = 'avatar-generated') {
+    const safeName = escapeHtml(initials(name || 'Member'));
+    const safeAvatar = String(avatar || '').startsWith('data:image/') ? escapeHtml(avatar) : '';
+    if (safeAvatar) {
+      return `<div class="${className} avatar-with-photo" style="background-image:url('${safeAvatar}')" aria-label="${escapeHtml(name || 'Member')} profile picture"></div>`;
+    }
+    return `<div class="${className}">${safeName}</div>`;
   }
 
   function escapeHtml(text) {
@@ -2090,6 +2100,10 @@
       city: document.getElementById('profileCity'),
       region: document.getElementById('profileRegion'),
       bio: document.getElementById('profileBio'),
+      photoInput: document.getElementById('profilePhotoInput'),
+      photoHelp: document.getElementById('profilePhotoHelp'),
+      photoPreview: document.getElementById('profilePhotoPreview'),
+      photoRemove: document.getElementById('profilePhotoRemove'),
       pickupAvailability: document.getElementById('profilePickupAvailability'),
       language: document.getElementById('profileLanguage'),
       notifications: document.getElementById('profileNotifications'),
@@ -2106,8 +2120,40 @@
       });
       const userStats = getUserStats();
       summary.innerHTML = `<div class="profile-avatar-large">${initials(appState.user.name)}</div><div><p class="eyebrow">COMMUNITY PROFILE</p><h2>${escapeHtml(appState.user.name)}</h2><p class="helper-text">Member since ${formatCreated(appState.user.joinedAt)} · ${escapeHtml(appState.user.city)}, ${escapeHtml(appState.user.region)}</p><p class="helper-text">${escapeHtml(appState.user.bio)}</p></div>`;
+      const avatarMarkup = renderAvatar(appState.user.name, appState.user.avatar, 'profile-avatar-large');
+      if (fields.photoPreview) fields.photoPreview.innerHTML = avatarMarkup;
+      summary.innerHTML = `${avatarMarkup}<div><p class="eyebrow">COMMUNITY PROFILE</p><h2>${escapeHtml(appState.user.name)}</h2><p class="helper-text">Member since ${formatCreated(appState.user.joinedAt)} - ${escapeHtml(appState.user.city)}, ${escapeHtml(appState.user.region)}</p><p class="helper-text">${escapeHtml(appState.user.bio)}</p></div>`;
       stats.innerHTML = `<div><span class="mini-label">Donations completed</span><strong>${userStats.completed}</strong></div><div><span class="mini-label">Active listings</span><strong>${userStats.active}</strong></div><div><span class="mini-label">Saved items</span><strong>${userStats.saved}</strong></div><div><span class="mini-label">Requests sent</span><strong>${userStats.requested}</strong></div>`;
     }
+
+    fields.photoInput?.addEventListener('change', event => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        if (fields.photoHelp) fields.photoHelp.textContent = 'Please choose an image file.';
+        fields.photoInput.value = '';
+        return;
+      }
+      if (file.size > 1024 * 1024) {
+        if (fields.photoHelp) fields.photoHelp.textContent = 'Please choose an image under 1 MB.';
+        fields.photoInput.value = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        appState.user.avatar = String(reader.result || '');
+        if (fields.photoHelp) fields.photoHelp.textContent = 'Photo selected. Save changes to keep it on your profile.';
+        if (fields.photoPreview) fields.photoPreview.innerHTML = renderAvatar(appState.user.name, appState.user.avatar, 'profile-avatar-large');
+      };
+      reader.readAsDataURL(file);
+    });
+
+    fields.photoRemove?.addEventListener('click', () => {
+      appState.user.avatar = '';
+      if (fields.photoInput) fields.photoInput.value = '';
+      if (fields.photoHelp) fields.photoHelp.textContent = 'Profile photo removed. Save changes to keep this update.';
+      if (fields.photoPreview) fields.photoPreview.innerHTML = renderAvatar(appState.user.name, '', 'profile-avatar-large');
+    });
 
     form.addEventListener('submit', event => {
       event.preventDefault();
@@ -2337,7 +2383,7 @@
     const profileSummary = document.getElementById('userProfileSummary');
     if (profileSummary) {
       profileSummary.innerHTML = `
-        <div class="user-summary-card__avatar">${escapeHtml(initials(appState.user.name || 'Member'))}</div>
+        ${renderAvatar(appState.user.name || 'Member', appState.user.avatar, 'user-summary-card__avatar')}
         <div class="user-summary-card__body">
           <strong>${escapeHtml(appState.user.name || 'Member')}</strong>
           <p>${escapeHtml(appState.user.email || appState.user.phone || 'No contact saved')}</p>

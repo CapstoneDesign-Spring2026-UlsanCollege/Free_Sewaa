@@ -58,6 +58,21 @@
           </div>
         </div>
         <form class="premium-form" id="profileForm">
+          <div class="profile-photo-editor">
+            <div class="profile-photo-preview" id="profilePhotoPreview" aria-hidden="true"></div>
+            <div>
+              <p class="eyebrow">PROFILE PICTURE</p>
+              <p class="helper-text">Add a clear photo so donors, receivers, and volunteers can recognize your account more easily.</p>
+              <div class="profile-photo-actions">
+                <label class="btn btn-soft profile-photo-button">
+                  Upload Photo
+                  <input id="profilePhotoInput" type="file" accept="image/*" />
+                </label>
+                <button class="btn btn-soft" id="profilePhotoRemove" type="button">Remove</button>
+              </div>
+              <p class="helper-text" id="profilePhotoHelp">Use JPG, PNG, or WebP under 1 MB.</p>
+            </div>
+          </div>
           <div class="field-grid two">
             <label class="field"><span>First Name</span><input id="profileFirstName" type="text" /></label>
             <label class="field"><span>Last Name</span><input id="profileLastName" type="text" /></label>
