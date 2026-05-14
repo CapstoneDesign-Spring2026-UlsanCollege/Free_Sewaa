@@ -657,35 +657,36 @@ body.light-mode .upload-box strong, body.light-mode .pricing-card .price{color:v
 .reviews-section{padding:0 0 96px}
 .reviews-section__head{
   display:grid;
-  grid-template-columns:minmax(0,1fr) 240px;
-  gap:24px;
-  align-items:end;
-  margin-bottom:24px;
+  grid-template-columns:minmax(0,1fr) 280px;
+  gap:28px;
+  align-items:stretch;
+  margin-bottom:28px;
 }
 .review-score-card{
-  padding:22px;
-  border-radius:22px;
+  padding:24px;
+  border-radius:8px;
   border:1px solid rgba(255,236,212,.1);
-  background:rgba(255,244,230,.04);
+  background:linear-gradient(180deg,rgba(255,244,230,.065),rgba(255,244,230,.028));
   box-shadow:0 18px 48px rgba(0,0,0,.16);
+  display:grid;
+  align-content:center;
 }
 .review-score-card span{display:block;color:var(--soft);font-size:.82rem;text-transform:uppercase;letter-spacing:.12em}
-.review-score-card strong{display:block;margin:8px 0 4px;font-size:2.8rem;line-height:1;color:var(--cream-2)}
+.review-score-card strong{display:block;margin:10px 0 6px;font-size:3.1rem;line-height:1;color:var(--cream-2)}
 .review-score-card p{margin:0;color:var(--muted);line-height:1.5}
 body.light-mode .review-score-card strong{color:var(--text)}
 .reviews-layout{
   display:grid;
-  grid-template-columns:minmax(0,1fr) 390px;
-  gap:24px;
-  align-items:start;
+  grid-template-columns:1fr;
+  gap:22px;
 }
-.reviews-feed{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.reviews-feed{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .review-community-card{
-  min-height:210px;
+  min-height:230px;
   padding:22px;
-  border-radius:22px;
+  border-radius:8px;
   border:1px solid rgba(255,236,212,.09);
-  background:rgba(255,244,230,.035);
+  background:linear-gradient(180deg,rgba(255,244,230,.046),rgba(255,244,230,.022));
   display:grid;
   align-content:space-between;
   gap:18px;
@@ -696,8 +697,25 @@ body.light-mode .review-score-card strong{color:var(--text)}
 .review-community-card p{margin:0;color:var(--muted);line-height:1.65}
 body.light-mode .review-community-card strong{color:var(--text)}
 .review-stars{white-space:nowrap;color:#f1c56b;letter-spacing:.04em;font-size:.98rem}
-.review-form{display:grid;gap:14px}
-.review-form h3{margin:.35rem 0 0;font-size:1.5rem;color:var(--cream-2)}
+.review-form{
+  display:grid;
+  gap:18px;
+  border-radius:8px;
+  background:linear-gradient(135deg,rgba(255,244,230,.06),rgba(255,244,230,.025));
+}
+.review-form__header{
+  display:grid;
+  grid-template-columns:minmax(0,.9fr) minmax(260px,1fr);
+  gap:22px;
+  align-items:end;
+  padding-bottom:18px;
+  border-bottom:1px solid rgba(255,236,212,.08);
+}
+.review-form h3{margin:.35rem 0 0;font-size:1.7rem;color:var(--cream-2)}
+.review-form__header p:last-child{margin:0;color:var(--muted);line-height:1.65}
+.review-form__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.review-form__message{grid-column:1 / -1}
+.review-form textarea{min-height:128px;resize:vertical}
 body.light-mode .review-form h3{color:var(--text)}
 .amount-grid{
   display:grid;
@@ -1002,9 +1020,9 @@ body.light-mode .chat-unread{color:#fff;background:linear-gradient(180deg,#b98c5
 .compact-actions{justify-content:flex-end}
 
 @media (max-width: 1100px){
-  .hero-inner,.page-hero__content,.browse-layout,.form-layout,.messages-layout,.modal-listing-layout,.event-board,.event-participation,.event-support,.reviews-layout,.reviews-section__head{grid-template-columns:1fr}
+  .hero-inner,.page-hero__content,.browse-layout,.form-layout,.messages-layout,.modal-listing-layout,.event-board,.event-participation,.event-support,.reviews-layout,.reviews-section__head,.review-form__header{grid-template-columns:1fr}
   .hero-visual{min-height:auto}
-  .feature-grid,.app-listing-grid{grid-template-columns:1fr 1fr}
+  .feature-grid,.app-listing-grid,.reviews-feed{grid-template-columns:1fr 1fr}
   .donate-sidebar,.browse-sidebar{order:-1}
   .event-card--featured{grid-row:auto; min-height:420px}
   .event-support__actions{justify-content:flex-start}
@@ -1013,7 +1031,7 @@ body.light-mode .chat-unread{color:#fff;background:linear-gradient(180deg,#b98c5
 @media (max-width: 760px){
   .site-header__inner{grid-template-columns:1fr;justify-items:start;padding-inline:12px}
   .main-nav,.header-actions{justify-content:flex-start}
-  .feature-grid,.hero-stats,.section-intro,.app-listing-grid,.upload-preview-grid,.listing-footer--actions,.message-compose--app,.review-card,.modal-meta-grid,.event-card,.event-participation,.reviews-feed{grid-template-columns:1fr}
+  .feature-grid,.hero-stats,.section-intro,.app-listing-grid,.upload-preview-grid,.listing-footer--actions,.message-compose--app,.review-card,.modal-meta-grid,.event-card,.event-participation,.reviews-feed,.review-form__grid{grid-template-columns:1fr}
   .toolbar-wrap,.panel-head--between,.input-meta-row,.step-actions{flex-direction:column;align-items:flex-start}
   .page-hero{min-height:56vh}
   .page-title{font-size:clamp(2.5rem,12vw,4rem)}

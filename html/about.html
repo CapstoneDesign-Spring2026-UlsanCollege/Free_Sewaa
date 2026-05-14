@@ -119,32 +119,37 @@
       <div class="reviews-feed" id="reviewsFeed" aria-live="polite"></div>
 
       <form class="panel review-form" id="aboutReviewForm">
-        <div class="panel-head">
-          <p class="eyebrow">ADD YOUR REVIEW</p>
-          <h3>Rate your Free Sewaa experience</h3>
+        <div class="review-form__header">
+          <div>
+            <p class="eyebrow">ADD YOUR REVIEW</p>
+            <h3>Rate your Free Sewaa experience</h3>
+          </div>
+          <p>Reviews help Free Sewaa improve trust, pickup coordination, events, and community support.</p>
         </div>
-        <label class="field">
-          <span>Your name</span>
-          <input id="reviewName" type="text" autocomplete="name" placeholder="Your name" required />
-        </label>
-        <label class="field">
-          <span>Email</span>
-          <input id="reviewEmail" type="email" autocomplete="email" placeholder="you@example.com" />
-        </label>
-        <label class="field">
-          <span>Rating</span>
-          <select id="reviewRating" required>
-            <option value="5">5 stars - Excellent</option>
-            <option value="4">4 stars - Very good</option>
-            <option value="3">3 stars - Good</option>
-            <option value="2">2 stars - Needs work</option>
-            <option value="1">1 star - Poor</option>
-          </select>
-        </label>
-        <label class="field">
-          <span>Review</span>
-          <textarea id="reviewMessage" rows="5" maxlength="700" placeholder="Tell us what you liked or what we can improve." required></textarea>
-        </label>
+        <div class="review-form__grid">
+          <label class="field">
+            <span>Your name</span>
+            <input id="reviewName" type="text" autocomplete="name" placeholder="Your name" required />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input id="reviewEmail" type="email" autocomplete="email" placeholder="you@example.com" />
+          </label>
+          <label class="field">
+            <span>Rating</span>
+            <select id="reviewRating" required>
+              <option value="5">5 stars - Excellent</option>
+              <option value="4">4 stars - Very good</option>
+              <option value="3">3 stars - Good</option>
+              <option value="2">2 stars - Needs work</option>
+              <option value="1">1 star - Poor</option>
+            </select>
+          </label>
+          <label class="field review-form__message">
+            <span>Review</span>
+            <textarea id="reviewMessage" rows="5" maxlength="700" placeholder="Tell us what you liked or what we can improve." required></textarea>
+          </label>
+        </div>
         <div class="form-actions">
           <button class="btn btn-hero" type="submit">Submit Review</button>
         </div>
