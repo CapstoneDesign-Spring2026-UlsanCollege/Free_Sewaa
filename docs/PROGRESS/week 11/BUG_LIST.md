@@ -12,7 +12,7 @@
 
 | ID | Priority | Title | Status | Owner |
 |----|----------|-------|--------|-------|
-| BUG-001 | P0 | Password stored in plaintext (no bcrypt) | Open | Swarnim Jung Karki |
+| BUG-001 | P0 | Password stored in plaintext (no bcrypt) | Fixed | Swarnim Jung Karki |
 | BUG-002 | P1 | Login requires page restart after signup | Open | Sujan Tamang |
 | BUG-003 | P1 | No validation on signup form (empty fields accepted) | Open | Sujan Tamang |
 | BUG-004 | P2 | Image upload has no preview | Open | Mohan Khadka |
@@ -29,7 +29,7 @@
 
 | ID | Description | Impact |
 |----|-------------|--------|
-| BUG-001 | Password stored in plaintext | Security risk, professor will notice |
+| BUG-001 | Password stored in plaintext | ✅ Fixed — bcryptjs implemented in server.js |
 
 ## P1 Bugs (Core Feature Broken)
 
