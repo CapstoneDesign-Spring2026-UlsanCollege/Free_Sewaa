@@ -88,7 +88,7 @@ const phoneAuthState = {
   sendingForForm: null
 };
 
-const EMAIL_ONLY_MESSAGE = 'Please use a real email address, not a demo or test email.';
+const EMAIL_ONLY_MESSAGE = 'Please use a real email address from a recognized email provider.';
 const PASSWORD_POLICY_MESSAGE = 'Password must be 8-10 characters and include uppercase, lowercase, and a number.';
 const DEMO_EMAIL_DOMAINS = new Set([
   'demo.com',
@@ -98,6 +98,27 @@ const DEMO_EMAIL_DOMAINS = new Set([
   'freesewaa.local',
   'localhost',
   'test.com'
+]);
+const RECOGNIZED_EMAIL_DOMAINS = new Set([
+  'aol.com',
+  'daum.net',
+  'gmail.com',
+  'hanmail.net',
+  'hotmail.com',
+  'icloud.com',
+  'kakao.com',
+  'live.com',
+  'mac.com',
+  'me.com',
+  'msn.com',
+  'nate.com',
+  'naver.com',
+  'outlook.com',
+  'proton.me',
+  'protonmail.com',
+  'yahoo.com',
+  'yandex.com',
+  'zoho.com'
 ]);
 
 function getApiBaseUrl() {
@@ -127,7 +148,14 @@ function apiUrl(path) {
 function isRealEmailAddress(email = '') {
   const value = String(email || '').trim().toLowerCase();
   const domain = value.split('@')[1] || '';
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) && !DEMO_EMAIL_DOMAINS.has(domain);
+  const hasValidFormat = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(value);
+  const isRecognizedDomain =
+    RECOGNIZED_EMAIL_DOMAINS.has(domain) ||
+    domain.endsWith('.edu') ||
+    domain.endsWith('.edu.kr') ||
+    domain.endsWith('.ac.kr');
+
+  return hasValidFormat && isRecognizedDomain && !DEMO_EMAIL_DOMAINS.has(domain);
 }
 
 function isValidPhoneInput(phone = '') {
