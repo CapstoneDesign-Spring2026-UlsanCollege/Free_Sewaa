@@ -88,8 +88,17 @@ const phoneAuthState = {
   sendingForForm: null
 };
 
-const GMAIL_ONLY_MESSAGE = 'Please use a valid Gmail address ending in @gmail.com.';
+const EMAIL_ONLY_MESSAGE = 'Please use a real email address, not a demo or test email.';
 const PASSWORD_POLICY_MESSAGE = 'Password must be 8-10 characters and include uppercase, lowercase, and a number.';
+const DEMO_EMAIL_DOMAINS = new Set([
+  'demo.com',
+  'example.com',
+  'example.net',
+  'example.org',
+  'freesewaa.local',
+  'localhost',
+  'test.com'
+]);
 
 function getApiBaseUrl() {
   let stored = '';
@@ -115,8 +124,15 @@ function apiUrl(path) {
   return new URL(String(path), getApiBaseUrl()).toString();
 }
 
-function isGmailAddress(email = '') {
-  return /^[a-z0-9._%+-]+@gmail\.com$/i.test(String(email || '').trim());
+function isRealEmailAddress(email = '') {
+  const value = String(email || '').trim().toLowerCase();
+  const domain = value.split('@')[1] || '';
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) && !DEMO_EMAIL_DOMAINS.has(domain);
+}
+
+function isValidPhoneInput(phone = '') {
+  const value = String(phone || '').trim();
+  return /^\+?[0-9][0-9\s().-]{6,19}$/.test(value);
 }
 
 function isStrongPassword(password = '') {
@@ -245,13 +261,15 @@ function setSession(data) {
 }
 
 function validateSignupEmailForm(form, values) {
-  const [firstName, lastName, email, password] = values;
+  const [firstName, lastName, email, phone, password] = values;
   const agreed = form.querySelector('input[type="checkbox"]')?.checked;
 
   if (!firstName) throw new Error('Please enter your first name.');
   if (!lastName) throw new Error('Please enter your last name.');
   if (!email) throw new Error('Please enter your email address.');
-  if (!isGmailAddress(email)) throw new Error(GMAIL_ONLY_MESSAGE);
+  if (!isRealEmailAddress(email)) throw new Error(EMAIL_ONLY_MESSAGE);
+  if (!phone) throw new Error('Please enter your phone number.');
+  if (!isValidPhoneInput(phone)) throw new Error('Please enter a valid phone number.');
   if (!isStrongPassword(password)) throw new Error(PASSWORD_POLICY_MESSAGE);
   if (!agreed) throw new Error('Please agree to the Terms and Privacy Policy.');
 }
@@ -259,7 +277,7 @@ function validateSignupEmailForm(form, values) {
 function validateSigninEmailForm(values) {
   const [email, password] = values;
   if (!email) throw new Error('Please enter your email address.');
-  if (!isGmailAddress(email)) throw new Error(GMAIL_ONLY_MESSAGE);
+  if (!isRealEmailAddress(email)) throw new Error(EMAIL_ONLY_MESSAGE);
   if (!password) throw new Error('Please enter your password.');
 }
 
@@ -325,8 +343,8 @@ async function signInWithGoogle(button) {
       throw new Error('Google sign in did not return a user.');
     }
 
-    if (!isGmailAddress(firebaseUser.email || '') || firebaseUser.emailVerified !== true) {
-      throw new Error('Please choose a verified Gmail account ending in @gmail.com.');
+    if (!isRealEmailAddress(firebaseUser.email || '') || firebaseUser.emailVerified !== true) {
+      throw new Error('Please choose a verified real email account.');
     }
 
     const token = await firebaseUser.getIdToken(true);
@@ -578,8 +596,8 @@ document.querySelectorAll('.auth-form').forEach(form => {
 
       if (pageMode === 'signup') {
         validateSignupEmailForm(form, raw);
-        const [firstName, lastName, email, password] = raw;
-        payload = { firstName, lastName, email, password };
+        const [firstName, lastName, email, phone, password] = raw;
+        payload = { firstName, lastName, email, phone, password };
         endpoint = apiUrl('/api/auth/signup');
       } else if (pageMode === 'signin') {
         validateSigninEmailForm(raw);

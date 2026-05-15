@@ -42,7 +42,7 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
       <div class="auth-card__top">
         <p class="eyebrow">SIGN IN</p>
         <h2>Welcome back</h2>
-        <p class="auth-card__text">Sign in with your verified Gmail account.</p>
+        <p class="auth-card__text">Sign in with your real email account.</p>
       </div>
 
       <div class="social-row">
@@ -57,14 +57,14 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
       <div class="divider"><span>or</span></div>
 
       <div class="auth-toggle">
-        <button class="toggle-btn is-active" data-panel-target="emailPanel">Gmail</button>
+        <button class="toggle-btn is-active" data-panel-target="emailPanel">Email</button>
       </div>
 
       <div class="auth-panel is-active" id="emailPanel">
         <form class="auth-form" data-auth-panel="email">
           <label class="field">
-            <span>Gmail address</span>
-            <input type="email" placeholder="you@gmail.com" autocomplete="email" />
+            <span>Email address</span>
+            <input type="email" placeholder="you@yourmail.com" autocomplete="email" />
           </label>
           <label class="field">
             <span>Password</span>
