@@ -54,8 +54,8 @@
 
       <form class="auth-form" id="adminLoginForm" novalidate>
         <label class="field">
-          <span>Admin Gmail address</span>
-          <input id="adminEmail" type="email" placeholder="admin@gmail.com" autocomplete="username" required />
+          <span>Admin email address</span>
+          <input id="adminEmail" type="email" placeholder="admin@yourmail.com" autocomplete="username" required />
         </label>
         <label class="field">
           <span>Password</span>
@@ -130,6 +130,14 @@
     const form = document.getElementById('adminLoginForm');
     const submitBtn = document.getElementById('adminSubmit');
     const message = document.getElementById('adminMessage');
+    const demoEmailDomains = new Set(['demo.com', 'example.com', 'example.net', 'example.org', 'freesewaa.local', 'localhost', 'test.com']);
+
+    function isRealEmailAddress(email = '') {
+      const value = String(email || '').trim().toLowerCase();
+      const domain = value.split('@')[1] || '';
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) && !demoEmailDomains.has(domain);
+    }
+
     function showMessage(text, tone = 'error') {
       message.style.display = 'block';
       message.textContent = text;
@@ -174,11 +182,11 @@
       const email = document.getElementById('adminEmail').value.trim();
       const password = document.getElementById('adminPassword').value;
       if (!email || !password) {
-        showMessage('Please enter your admin Gmail address and password.');
+        showMessage('Please enter your admin email address and password.');
         return;
       }
-      if (!/^[a-z0-9._%+-]+@gmail\.com$/i.test(email)) {
-        showMessage('Please use an admin Gmail address ending in @gmail.com.');
+      if (!isRealEmailAddress(email)) {
+        showMessage('Please use a real admin email address, not a demo or test email.');
         return;
       }
       submitBtn.disabled = true;

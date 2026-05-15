@@ -30,9 +30,18 @@ const SUPER_ADMIN_USER_IDS = String(process.env.SUPER_ADMIN_USER_IDS || process.
   .split(',')
   .map(id => id.trim())
   .filter(Boolean);
-const GMAIL_ONLY_MESSAGE = 'Please use a valid Gmail address ending in @gmail.com.';
-const VERIFIED_GMAIL_ONLY_MESSAGE = 'Please sign in with a verified Gmail account.';
+const EMAIL_ONLY_MESSAGE = 'Please use a real email address, not a demo or test email.';
+const VERIFIED_EMAIL_ONLY_MESSAGE = 'Please sign in with a verified real email account.';
 const PASSWORD_POLICY_MESSAGE = 'Password must be 8-10 characters and include uppercase, lowercase, and a number.';
+const DEMO_EMAIL_DOMAINS = new Set([
+  'demo.com',
+  'example.com',
+  'example.net',
+  'example.org',
+  'freesewaa.local',
+  'localhost',
+  'test.com'
+]);
 
 if (!MONGODB_URI) {
   console.error('❌ Missing MongoDB connection string. Set MONGODB_URI (or MONGO_URI) in environment variables.');
@@ -191,7 +200,7 @@ function sanitizeListingImage(image) {
 
 function buildAuthQuery(email = '', phone = '') {
   const normalizedEmail = String(email || '').trim().toLowerCase();
-  const normalizedPhone = String(phone || '').replace(/\s+/g, '');
+  const normalizedPhone = normalizeUserPhone(phone);
 
   const query = [];
   if (normalizedEmail) query.push({ email: normalizedEmail });
@@ -923,8 +932,18 @@ async function buildAdminDashboardData() {
   };
 }
 
-function isGmailAddress(email = '') {
-  return /^[a-z0-9._%+-]+@gmail\.com$/i.test(String(email || '').trim());
+function isRealEmailAddress(email = '') {
+  const value = String(email || '').trim().toLowerCase();
+  const domain = value.split('@')[1] || '';
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) && !DEMO_EMAIL_DOMAINS.has(domain);
+}
+
+function normalizeUserPhone(phone = '') {
+  return String(phone || '').trim().replace(/[\s().-]+/g, '');
+}
+
+function isValidPhoneInput(phone = '') {
+  return /^\+?[0-9][0-9\s().-]{6,19}$/.test(String(phone || '').trim());
 }
 
 function isStrongPassword(password = '') {
@@ -1093,7 +1112,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/auth/google-demo' && req.method === 'POST') {
-      return sendJson(res, 410, { error: 'Demo login is disabled. Please sign in with a verified Gmail account.' });
+      return sendJson(res, 410, { error: 'Demo login is disabled. Please sign in with a real email account.' });
     }
 
     if (pathname === '/api/auth/firebase' && req.method === 'POST') {
@@ -1116,7 +1135,7 @@ const server = http.createServer(async (req, res) => {
 
       const firebaseUid = String(claims.user_id || claims.sub || '').trim();
       const email = String(claims.email || '').trim().toLowerCase();
-      const tokenPhone = String(claims.phone_number || phone || '').replace(/\s+/g, '');
+      const tokenPhone = normalizeUserPhone(claims.phone_number || phone || '');
       const authProvider = String(provider || claims.firebase?.sign_in_provider || 'firebase').trim() || 'firebase';
       const emailVerified = claims.email_verified === true || claims.email_verified === 'true';
 
@@ -1124,8 +1143,8 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: 'Firebase token is missing a user id.' });
       }
 
-      if (!email || !isGmailAddress(email) || !emailVerified) {
-        return sendJson(res, 403, { error: VERIFIED_GMAIL_ONLY_MESSAGE });
+      if (!email || !isRealEmailAddress(email) || !emailVerified) {
+        return sendJson(res, 403, { error: VERIFIED_EMAIL_ONLY_MESSAGE });
       }
 
       const lookup = [{ firebaseUid }];
@@ -1213,8 +1232,8 @@ const server = http.createServer(async (req, res) => {
       }
 
       const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
-      if (role !== 'superadmin' && !isGmailAddress(user.email || '')) {
-        return sendJson(res, 403, { error: VERIFIED_GMAIL_ONLY_MESSAGE });
+      if (role !== 'superadmin' && !isRealEmailAddress(user.email || '')) {
+        return sendJson(res, 403, { error: VERIFIED_EMAIL_ONLY_MESSAGE });
       }
 
       if (role !== user.role) {
@@ -1233,18 +1252,22 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/auth/signup' && req.method === 'POST') {
-      const { firstName = '', lastName = '', email = '', password = '' } = await readRequestBody(req);
+      const { firstName = '', lastName = '', email = '', phone = '', password = '' } = await readRequestBody(req);
 
-      if (!email || !password || !firstName.trim()) {
+      if (!email || !phone || !password || !firstName.trim()) {
         return sendJson(res, 400, {
-          error: 'First name, Gmail address, and password are required.'
+          error: 'First name, email address, phone number, and password are required.'
         });
       }
 
-      const { normalizedEmail, query } = buildAuthQuery(email, '');
+      const { normalizedEmail, normalizedPhone, query } = buildAuthQuery(email, phone);
 
-      if (!isGmailAddress(normalizedEmail)) {
-        return sendJson(res, 400, { error: GMAIL_ONLY_MESSAGE });
+      if (!isRealEmailAddress(normalizedEmail)) {
+        return sendJson(res, 400, { error: EMAIL_ONLY_MESSAGE });
+      }
+
+      if (!isValidPhoneInput(phone)) {
+        return sendJson(res, 400, { error: 'Please enter a valid phone number.' });
       }
 
       if (!isStrongPassword(password)) {
@@ -1274,6 +1297,7 @@ const server = http.createServer(async (req, res) => {
       };
 
       if (normalizedEmail) user.email = normalizedEmail;
+      if (normalizedPhone) user.phone = normalizedPhone;
 
       await usersCollection.insertOne(user);
       await setUserState(user.id, defaultUserState(user));
@@ -1290,11 +1314,11 @@ const server = http.createServer(async (req, res) => {
       const { normalizedEmail, query } = buildAuthQuery(email, '');
 
       if (!normalizedEmail) {
-        return sendJson(res, 400, { error: 'Gmail address is required.' });
+        return sendJson(res, 400, { error: 'Email address is required.' });
       }
 
-      if (!isGmailAddress(normalizedEmail)) {
-        return sendJson(res, 400, { error: GMAIL_ONLY_MESSAGE });
+      if (!isRealEmailAddress(normalizedEmail)) {
+        return sendJson(res, 400, { error: EMAIL_ONLY_MESSAGE });
       }
 
       const user = await usersCollection.findOne({ $or: query });
@@ -1327,11 +1351,11 @@ const server = http.createServer(async (req, res) => {
       const { normalizedEmail, query } = buildAuthQuery(email, '');
 
       if (!normalizedEmail) {
-        return sendJson(res, 400, { error: 'Admin Gmail address is required.' });
+        return sendJson(res, 400, { error: 'Admin email address is required.' });
       }
 
-      if (!isGmailAddress(normalizedEmail)) {
-        return sendJson(res, 400, { error: GMAIL_ONLY_MESSAGE });
+      if (!isRealEmailAddress(normalizedEmail)) {
+        return sendJson(res, 400, { error: EMAIL_ONLY_MESSAGE });
       }
 
       const user = await usersCollection.findOne({ $or: query });
@@ -1408,7 +1432,8 @@ const server = http.createServer(async (req, res) => {
       if (cleanMessage.length > 600) {
         return sendJson(res, 400, { error: 'Please keep chatbot messages under 600 characters.' });
       }
-
+   
+      
       const reply = await buildChatbotReply(cleanMessage);
       return sendJson(res, 200, {
         reply,
