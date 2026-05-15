@@ -32,6 +32,7 @@ const SUPER_ADMIN_USER_IDS = String(process.env.SUPER_ADMIN_USER_IDS || process.
   .filter(Boolean);
 const GMAIL_ONLY_MESSAGE = 'Please use a valid Gmail address ending in @gmail.com.';
 const VERIFIED_GMAIL_ONLY_MESSAGE = 'Please sign in with a verified Gmail account.';
+const PASSWORD_POLICY_MESSAGE = 'Password must be 8-10 characters and include uppercase, lowercase, and a number.';
 
 if (!MONGODB_URI) {
   console.error('❌ Missing MongoDB connection string. Set MONGODB_URI (or MONGO_URI) in environment variables.');
@@ -926,6 +927,17 @@ function isGmailAddress(email = '') {
   return /^[a-z0-9._%+-]+@gmail\.com$/i.test(String(email || '').trim());
 }
 
+function isStrongPassword(password = '') {
+  const value = String(password || '');
+  return (
+    value.length >= 8 &&
+    value.length <= 10 &&
+    /[a-z]/.test(value) &&
+    /[A-Z]/.test(value) &&
+    /\d/.test(value)
+  );
+}
+
 async function requireAdminUser(req, url) {
   const userId = getUserId(req, url);
   if (!userId) {
@@ -1233,6 +1245,10 @@ const server = http.createServer(async (req, res) => {
 
       if (!isGmailAddress(normalizedEmail)) {
         return sendJson(res, 400, { error: GMAIL_ONLY_MESSAGE });
+      }
+
+      if (!isStrongPassword(password)) {
+        return sendJson(res, 400, { error: PASSWORD_POLICY_MESSAGE });
       }
 
       const existing = query.length

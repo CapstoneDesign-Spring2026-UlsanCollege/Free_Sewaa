@@ -89,6 +89,7 @@ const phoneAuthState = {
 };
 
 const GMAIL_ONLY_MESSAGE = 'Please use a valid Gmail address ending in @gmail.com.';
+const PASSWORD_POLICY_MESSAGE = 'Password must be 8-10 characters and include uppercase, lowercase, and a number.';
 
 function getApiBaseUrl() {
   let stored = '';
@@ -116,6 +117,39 @@ function apiUrl(path) {
 
 function isGmailAddress(email = '') {
   return /^[a-z0-9._%+-]+@gmail\.com$/i.test(String(email || '').trim());
+}
+
+function isStrongPassword(password = '') {
+  const value = String(password || '');
+  return (
+    value.length >= 8 &&
+    value.length <= 10 &&
+    /[a-z]/.test(value) &&
+    /[A-Z]/.test(value) &&
+    /\d/.test(value)
+  );
+}
+
+function generateStrongPassword() {
+  const lower = 'abcdefghijkmnopqrstuvwxyz';
+  const upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  const digits = '23456789';
+  const all = `${lower}${upper}${digits}`;
+  const required = [
+    lower[Math.floor(Math.random() * lower.length)],
+    upper[Math.floor(Math.random() * upper.length)],
+    digits[Math.floor(Math.random() * digits.length)]
+  ];
+
+  while (required.length < 10) {
+    required.push(all[Math.floor(Math.random() * all.length)]);
+  }
+
+  return required
+    .map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(item => item.value)
+    .join('');
 }
 
 function getPageMode() {
@@ -218,7 +252,7 @@ function validateSignupEmailForm(form, values) {
   if (!lastName) throw new Error('Please enter your last name.');
   if (!email) throw new Error('Please enter your email address.');
   if (!isGmailAddress(email)) throw new Error(GMAIL_ONLY_MESSAGE);
-  if (!password || password.length < 8) throw new Error('Password must be at least 8 characters.');
+  if (!isStrongPassword(password)) throw new Error(PASSWORD_POLICY_MESSAGE);
   if (!agreed) throw new Error('Please agree to the Terms and Privacy Policy.');
 }
 
@@ -502,6 +536,19 @@ document.querySelectorAll('.secondary-btn[data-phone-action="send-code"]').forEa
   btn.addEventListener('click', async e => {
     e.preventDefault();
     await sendPhoneCode(btn);
+  });
+});
+
+document.querySelectorAll('[data-password-action="generate"]').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    const form = btn.closest('.auth-form');
+    const passwordInput = form?.querySelector('input[type="password"]');
+    if (!passwordInput) return;
+
+    passwordInput.value = generateStrongPassword();
+    passwordInput.type = 'text';
+    showInlineMessage(form, 'Generated a strong 10-character password.', 'success');
   });
 });
 
