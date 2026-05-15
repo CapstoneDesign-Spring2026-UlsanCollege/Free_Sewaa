@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
 const { MongoClient, ObjectId } = require('mongodb');
+const bcrypt = require('bcryptjs');
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
@@ -120,13 +121,14 @@ function defaultUserState(user) {
 }
 
 function defaultDemoUser() {
+  const hash = bcrypt.hashSync('123456', 10);
   return {
     id: 'user-demo',
     firstName: 'Ram',
     lastName: 'Pathak',
     name: 'Ram Pathak',
     email: 'ram@example.com',
-    password: '123456',
+    password: hash,
     phone: '+8201096646162',
     city: 'Ulsan',
     region: 'Nam-gu',
@@ -136,13 +138,14 @@ function defaultDemoUser() {
 }
 
 function defaultDemoAdmin() {
+  const hash = bcrypt.hashSync('admin12345', 10);
   return {
     id: 'admin-demo',
     firstName: 'Admin',
     lastName: 'User',
     name: 'Admin User',
     email: 'admin@freesewaa.local',
-    password: 'admin12345',
+    password: hash,
     city: 'Ulsan',
     region: 'Nam-gu',
     role: 'admin',
@@ -1322,12 +1325,14 @@ const server = http.createServer(async (req, res) => {
         });
       }
 
+      const hashedPassword = await bcrypt.hash(password, 10);
+
       const user = {
         id: `user-${Date.now()}`,
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         name: `${firstName.trim()} ${lastName.trim()}`.trim(),
-        password,
+        password: hashedPassword,
         city: 'Ulsan',
         region: 'Nam-gu',
         role: 'user',
@@ -1361,7 +1366,12 @@ const server = http.createServer(async (req, res) => {
 
       const user = await usersCollection.findOne({ $or: query });
 
-      if (!user || user.password !== password) {
+      if (!user) {
+        return sendJson(res, 401, { error: 'Invalid credentials.' });
+      }
+
+      const passwordValid = await bcrypt.compare(password, user.password);
+      if (!passwordValid) {
         return sendJson(res, 401, { error: 'Invalid credentials.' });
       }
 
@@ -1398,7 +1408,12 @@ const server = http.createServer(async (req, res) => {
 
       const user = await usersCollection.findOne({ $or: query });
 
-      if (!user || user.password !== password) {
+      if (!user) {
+        return sendJson(res, 401, { error: 'Invalid credentials.' });
+      }
+
+      const passwordValid = await bcrypt.compare(password, user.password);
+      if (!passwordValid) {
         return sendJson(res, 401, { error: 'Invalid credentials.' });
       }
 
