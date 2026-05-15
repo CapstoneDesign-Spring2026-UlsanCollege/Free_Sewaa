@@ -6,15 +6,15 @@
 
 ## Evidence Checklist
 
-- [ ] Screenshot of landing page
-- [ ] Screenshot of signup flow
-- [ ] Screenshot of browse page
-- [ ] Screenshot of donate form
-- [ ] Screenshot of messages page
-- [ ] Screenshot of admin panel
-- [ ] Test result screenshot
-- [ ] CI run screenshot
-- [ ] PR review comment screenshot
+- [x] Screenshot of landing page — `week11-landing.png`
+- [x] Screenshot of signup flow — `week11-signup.png`
+- [x] Screenshot of browse page — `week11-browse.png`
+- [x] Screenshot of donate form — `week11-donate.png`
+- [x] Screenshot of messages page — `week11-messages.png`
+- [x] Screenshot of admin panel — `week11-admin.png`
+- [ ] Test result screenshot — pending Jest setup
+- [ ] CI run screenshot — pending test integration
+- [ ] PR review comment screenshot — pending professor review
 
 ---
 
