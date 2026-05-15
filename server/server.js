@@ -974,6 +974,10 @@ function isValidPhoneInput(phone = '') {
   return /^\+?[0-9][0-9\s().-]{6,19}$/.test(String(phone || '').trim());
 }
 
+function hasValidUserIdentifier(user = {}) {
+  return isRealEmailAddress(user.email || '') || Boolean(normalizeUserPhone(user.phone || ''));
+}
+
 function isStrongPassword(password = '') {
   const value = String(password || '');
   return (
@@ -1171,7 +1175,13 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: 'Firebase token is missing a user id.' });
       }
 
-      if (!email || !isRealEmailAddress(email) || !emailVerified) {
+      const isPhoneProvider = authProvider === 'phone' || claims.firebase?.sign_in_provider === 'phone';
+
+      if (isPhoneProvider) {
+        if (!tokenPhone) {
+          return sendJson(res, 403, { error: 'Please verify a real phone number.' });
+        }
+      } else if (!email || !isRealEmailAddress(email) || !emailVerified) {
         return sendJson(res, 403, { error: VERIFIED_EMAIL_ONLY_MESSAGE });
       }
 
@@ -1260,7 +1270,7 @@ const server = http.createServer(async (req, res) => {
       }
 
       const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
-      if (role !== 'superadmin' && !isRealEmailAddress(user.email || '')) {
+      if (role !== 'superadmin' && !hasValidUserIdentifier(user)) {
         return sendJson(res, 403, { error: VERIFIED_EMAIL_ONLY_MESSAGE });
       }
 
@@ -1282,9 +1292,9 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/auth/signup' && req.method === 'POST') {
       const { firstName = '', lastName = '', email = '', phone = '', password = '' } = await readRequestBody(req);
 
-      if (!email || !phone || !password || !firstName.trim()) {
+      if (!email || !password || !firstName.trim()) {
         return sendJson(res, 400, {
-          error: 'First name, email address, phone number, and password are required.'
+          error: 'First name, email address, and password are required.'
         });
       }
 
@@ -1294,7 +1304,7 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: EMAIL_ONLY_MESSAGE });
       }
 
-      if (!isValidPhoneInput(phone)) {
+      if (phone && !isValidPhoneInput(phone)) {
         return sendJson(res, 400, { error: 'Please enter a valid phone number.' });
       }
 

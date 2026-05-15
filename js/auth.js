@@ -289,15 +289,13 @@ function setSession(data) {
 }
 
 function validateSignupEmailForm(form, values) {
-  const [firstName, lastName, email, phone, password] = values;
+  const [firstName, lastName, email, password] = values;
   const agreed = form.querySelector('input[type="checkbox"]')?.checked;
 
   if (!firstName) throw new Error('Please enter your first name.');
   if (!lastName) throw new Error('Please enter your last name.');
   if (!email) throw new Error('Please enter your email address.');
   if (!isRealEmailAddress(email)) throw new Error(EMAIL_ONLY_MESSAGE);
-  if (!phone) throw new Error('Please enter your phone number.');
-  if (!isValidPhoneInput(phone)) throw new Error('Please enter a valid phone number.');
   if (!isStrongPassword(password)) throw new Error(PASSWORD_POLICY_MESSAGE);
   if (!agreed) throw new Error('Please agree to the Terms and Privacy Policy.');
 }
@@ -624,8 +622,8 @@ document.querySelectorAll('.auth-form').forEach(form => {
 
       if (pageMode === 'signup') {
         validateSignupEmailForm(form, raw);
-        const [firstName, lastName, email, phone, password] = raw;
-        payload = { firstName, lastName, email, phone, password };
+        const [firstName, lastName, email, password] = raw;
+        payload = { firstName, lastName, email, password };
         endpoint = apiUrl('/api/auth/signup');
       } else if (pageMode === 'signin') {
         validateSigninEmailForm(raw);
