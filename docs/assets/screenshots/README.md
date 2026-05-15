@@ -18,9 +18,3 @@ This folder contains screenshots used as evidence in documentation.
 
 ---
 
-## How to Update
-
-1. Take a screenshot (Mac: Cmd+Shift+4, Windows: Win+Shift+S)
-2. Save the PNG file here with a descriptive name
-3. Update this README if adding a new screenshot
-4. Commit and push
