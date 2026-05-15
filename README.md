@@ -53,8 +53,8 @@ Password: admin12345
 - 🔧 Backend API (Node.js/Express + MongoDB)
 - 🔎 Admin dashboard for management
 - 📊 User profile dashboard (My Items/My Requests)
-- 🔔 Password hashing with bcrypt (in progress)
-- ✅ Unit testing with Jest (in progress)
+- 🔔 Password hashing with bcrypt
+- ✅ Unit testing with Jest
 
 ---
 
@@ -282,6 +282,7 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 | | [Week 9 - Polish](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) | Testing & fixes |
 | | [Week 10 - Bug Triage](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) | AI workflow & bugs |
 | | [Week 11 - MVP Verification](docs/PROGRESS/week%2011/README.md) | MVP verification, demo script, bug list, ownership |
+| | [Week 12 - Final Presentation](docs/PROGRESS/week12/README.md) | Final demo, submission checklist, project close |
 | **Management** | [PROJECT_BOARD.md](PROJECT_BOARD.md) | Project board and task tracking |
 | | [RISK_REGISTER.md](docs/PROJECT/RISK_REGISTER.md) | Project risks, impact, and mitigation |
 | | [LESSONS_LEARNED.md](docs/PROJECT/LESSONS_LEARNED.md) | Retrospective and improvements |

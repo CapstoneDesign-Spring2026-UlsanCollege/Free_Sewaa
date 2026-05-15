@@ -7,11 +7,33 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:7
+        ports:
+          - 27017:27017
+
     steps:
       - uses: actions/checkout@v4
-      
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: server
+
+      - name: Run tests
+        run: npm test
+        working-directory: server
+        env:
+          MONGO_URI: mongodb://localhost:27017/freesewaa_test
+          CI: true
+
       - name: Check folders exist
         run: |
           test -d html && test -d css && test -d js && test -d server
@@ -24,6 +46,3 @@ jobs:
 
       - name: Verify server.js
         run: test -f server/server.js
-
-      - name: Echo success
-        run: echo "✅ All checks passed"
