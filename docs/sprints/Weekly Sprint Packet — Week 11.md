@@ -15,11 +15,11 @@ https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/d
 
 | Role            | Team Member        |
 | --------------- | ------------------ |
-| Project Manager | Swarnim Jung Karki |
-| Scribe          | Ram Pathak         |
-| QA Lead         | Sujan Shrestha     |
-| Demo Driver     | Mohan Khadka       |
-| Developer       | Sujan Tamang       |
+| Project Manager | Sujan Tamang       |
+| Scribe          | Sujan Shrestha     |
+| QA Lead         | Ram Pathak         |
+| Demo Driver     | Swarnim Jung Karki |
+| Developer       | Mohan Khadka       |
 
 ---
 
@@ -85,11 +85,11 @@ If live demo fails:
 
 | Responsibility                    | Owner               |
 | --------------------------------- | ------------------- |
-| Sprint coordination & deployment  | Swarnim Jung Karki |
-| Backend security & password fix   | Ram Pathak          |
-| Input validation & API testing    | Sujan Shrestha     |
-| Demo preparation and presentation | Mohan Khadka       |
-| Unit tests & CI configuration     | Sujan Tamang       |
+| Sprint coordination & deployment  | Sujan Tamang        |
+| Backend security & password fix   | Sujan Shrestha      |
+| Input validation & API testing    | Ram Pathak          |
+| Demo preparation and presentation | Swarnim Jung Karki  |
+| Unit tests & CI configuration     | Mohan khdaka        |
 
 ---
 
