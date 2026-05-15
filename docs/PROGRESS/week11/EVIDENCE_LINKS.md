@@ -7,7 +7,7 @@
 | Pull Request | ✅ Done | [#109 - Week 11 MVP Verification](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109) |
 | Demo screenshots | ✅ Done | [Screenshots folder](../../evidence/week11/README.md) |
 | Test results | ❌ Not yet | Jest not configured — see [CODE_COVERAGE.md](CODE_COVERAGE.md) |
-| Docs update | ✅ Done | [docs/PROGRESS/week 11/](.) |
+| Docs update | ✅ Done | [docs/PROGRESS/week11/](.) |
 | Review comment | ✅ Done | [#109 review](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109) |
 | CI run | ✅ Done | [GitHub Actions](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions) |
 

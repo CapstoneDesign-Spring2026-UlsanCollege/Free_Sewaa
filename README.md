@@ -257,19 +257,23 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 | | [USER_STORIES.md](docs/PROJECT/USER_STORIES.md) | User stories and flows |
 | | [GLOSSARY.md](docs/PROJECT/GLOSSARY.md) | Domain and technical terms defined |
 | | [FINAL_SUBMISSION_INDEX.md](docs/PROJECT/FINAL_SUBMISSION_INDEX.md) | Master index of all submission links |
+| | [USER_GUIDE.md](docs/USER_GUIDE.md) | End-user guide: signup, browse, donate, message |
 | **Architecture** | [SYSTEM_ARCHITECTURE.md](docs/DESIGN/SYSTEM_ARCHITECTURE.md) | System architecture overview |
 | | [BACKEND_PLAN.md](docs/DESIGN/BACKEND_PLAN.md) | Backend development plan |
 | | [DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md) | Data models, collections, relationships |
 | | [API_REFERENCE.md](docs/API_REFERENCE.md) | Complete API endpoint reference |
+| | [DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md) | Local setup, folder structure, env vars, common errors |
 | **Deployment** | [DEPLOYMENT.md](docs/DESIGN/DEPLOYMENT.md) | Deployment guide and configuration |
 | | [DEPLOYMENT_CHECKLIST.md](docs/DEPLOYMENT_CHECKLIST.md) | Step-by-step deploy checklist |
 | | [MONGODB_SETUP.md](docs/DESIGN/MONGODB_SETUP.md) | MongoDB Atlas setup guide |
 | **Testing** | [TESTING_STRATEGY.md](docs/TESTING_STRATEGY.md) | Overall test plan: unit, integration, UI, a11y |
 | | [TEST_CHECKLIST.md](docs/PROJECT/TEST_CHECKLIST.md) | MVP test checklist with evidence |
-| | [CODE_COVERAGE.md](docs/PROGRESS/week%2011/CODE_COVERAGE.md) | Jest setup, test plan, 70% coverage target |
-| | [ACCESSIBILITY_TESTING.md](docs/PROGRESS/week%2011/ACCESSIBILITY_TESTING.md) | WCAG 2.1 AA audit, keyboard nav, screen reader |
+| | [CODE_COVERAGE.md](docs/PROGRESS/week11/CODE_COVERAGE.md) | Jest setup, test plan, 70% coverage target |
+| | [ACCESSIBILITY_TESTING.md](docs/PROGRESS/week11/ACCESSIBILITY_TESTING.md) | WCAG 2.1 AA audit, keyboard nav, screen reader |
 | | [BUG_TRIAGE.md](docs/PROJECT/BUG_TRIAGE.md) | Bug triage with severity guide |
-| | [BUG_LIST.md](docs/PROGRESS/week%2011/BUG_LIST.md) | Current bug list (P0-P2) |
+| | [BUG_LIST.md](docs/PROGRESS/week11/BUG_LIST.md) | Current bug list (P0-P2) |
+| | [TEST_EVIDENCE.md](docs/week11/TEST_EVIDENCE.md) | Week 11 test results and screenshot placeholders |
+| | [Screenshots](docs/assets/screenshots/) | Evidence screenshots of core flows |
 | **Sprints** | [Weekly Sprint Packets](docs/sprints/) | All weekly sprint packets |
 | | [Week 1 - Onboarding](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%201.md) | Setup & planning |
 | | [Week 2 - Reset](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%202.md) | Planning & frontend |
@@ -281,13 +285,14 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 | | [Week 8 - Midterm](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) | Presented successfully |
 | | [Week 9 - Polish](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) | Testing & fixes |
 | | [Week 10 - Bug Triage](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) | AI workflow & bugs |
-| | [Week 11 - MVP Verification](docs/PROGRESS/week%2011/README.md) | MVP verification, demo script, bug list, ownership |
+| | [Week 11 - MVP Verification](docs/PROGRESS/week11/README.md) | MVP verification, demo script, bug list, ownership |
 | | [Week 12 - Final Presentation](docs/PROGRESS/week12/README.md) | Final demo, submission checklist, project close |
 | **Management** | [PROJECT_BOARD.md](PROJECT_BOARD.md) | Project board and task tracking |
 | | [RISK_REGISTER.md](docs/PROJECT/RISK_REGISTER.md) | Project risks, impact, and mitigation |
 | | [LESSONS_LEARNED.md](docs/PROJECT/LESSONS_LEARNED.md) | Retrospective and improvements |
 | | [TEAM_CONTRIBUTIONS.md](docs/PROJECT/TEAM_CONTRIBUTIONS.md) | Team contribution receipts |
 | | [AI_CODE_OWNERSHIP_AUDIT.md](docs/AI_CODE_OWNERSHIP_AUDIT.md) | AI use and code ownership check |
+| | [RELEASE_NOTES.md](docs/RELEASE_NOTES.md) | Week 11 MVP Verification release notes |
 | **Templates** | [.github/ISSUE_TEMPLATE/bug_report.md](.github/ISSUE_TEMPLATE/bug_report.md) | Bug report template |
 | | [.github/pull_request_template.md](.github/pull_request_template.md) | Pull request template with AI note |
 
@@ -345,7 +350,7 @@ Issue → Branch → Code → PR → Review → Merge
 | 8 | Midterm Presentation | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) |
 | 9 | Polish & Testing | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) |
 | 10 | Bug Triage & AI Workflow | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) |
-| 11 | MVP Verification | [Overview](docs/PROGRESS/week%2011/README.md) |
+| 11 | MVP Verification | [Overview](docs/PROGRESS/week11/README.md) |
 
 ---
 

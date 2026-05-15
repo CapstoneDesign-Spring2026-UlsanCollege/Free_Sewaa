@@ -19,7 +19,7 @@
 | POST /api/auth/logout | Medium | ❌ Not started |
 | GET /api/health | Low | ❌ Not started |
 
-Setup guide: [CODE_COVERAGE.md](../docs/PROGRESS/week%2011/CODE_COVERAGE.md)
+Setup guide: [CODE_COVERAGE.md](../docs/PROGRESS/week11/CODE_COVERAGE.md)
 
 ### 2. Integration Tests — API + State
 
@@ -45,7 +45,7 @@ Performed each sprint before demo. See [TESTING_LOG.md](PROGRESS/TESTING_LOG.md)
 
 **Tool:** Chrome Lighthouse, manual keyboard test
 **Standard:** WCAG 2.1 Level AA
-**Details:** [ACCESSIBILITY_TESTING.md](../docs/PROGRESS/week%2011/ACCESSIBILITY_TESTING.md)
+**Details:** [ACCESSIBILITY_TESTING.md](../docs/PROGRESS/week11/ACCESSIBILITY_TESTING.md)
 
 ### 5. Regression Testing
 
@@ -94,7 +94,7 @@ jobs:
 | P2 | Within 2 sprints | 2 weeks |
 | P3 | When time permits | Backlog |
 
-Full bug list: [BUG_LIST.md](PROGRESS/week%2011/BUG_LIST.md)
+Full bug list: [BUG_LIST.md](PROGRESS/week11/BUG_LIST.md)
 
 ---
 

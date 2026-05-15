@@ -13,7 +13,7 @@
 | Pull Request | ✅ Done | [#109](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109) |
 | Demo screenshots | ✅ Done | [Live site](https://free-sewaa-qh05.onrender.com) |
 | Test result | ❌ Not yet | Jest not configured — guide: [CODE_COVERAGE.md](CODE_COVERAGE.md) |
-| Docs update | ✅ Done | [docs/PROGRESS/week 11/](.) |
+| Docs update | ✅ Done | [docs/PROGRESS/week11/](.) |
 | Review comment | ✅ Done | [#109 review](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109) |
 | CI run | ✅ Done | [Actions](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions) |
 

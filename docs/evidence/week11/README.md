@@ -42,7 +42,7 @@
 
 | Document | Link |
 |----------|------|
-| Week 11 Overview | [docs/PROGRESS/week 11/README.md](../../PROGRESS/week%2011/README.md) |
-| Sprint Packet | [docs/PROGRESS/week 11/WEEK_11_SPRINT_PACKET.md](../../PROGRESS/week%2011/WEEK_11_SPRINT_PACKET.md) |
-| Evidence Links | [docs/PROGRESS/week 11/EVIDENCE_LINKS.md](../../PROGRESS/week%2011/EVIDENCE_LINKS.md) |
+| Week 11 Overview | [docs/PROGRESS/week11/README.md](../../PROGRESS/week11/README.md) |
+| Sprint Packet | [docs/PROGRESS/week11/WEEK_11_SPRINT_PACKET.md](../../PROGRESS/week11/WEEK_11_SPRINT_PACKET.md) |
+| Evidence Links | [docs/PROGRESS/week11/EVIDENCE_LINKS.md](../../PROGRESS/week11/EVIDENCE_LINKS.md) |
 | Live Demo | https://free-sewaa-qh05.onrender.com |

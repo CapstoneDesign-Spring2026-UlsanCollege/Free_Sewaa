@@ -23,7 +23,7 @@
 - [x] Pull Request created and reviewed — [#109](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/109)
 - [ ] Demo video or screenshots saved — live URLs work, need actual screenshot files
 - [ ] Test results documented — Jest not yet configured
-- [x] Docs updated for Week 11 — all files in `docs/PROGRESS/week 11/`
+- [x] Docs updated for Week 11 — all files in `docs/PROGRESS/week11/`
 - [ ] Review comment added on PR — PR #109 is open, awaiting review
 - [x] CI run completed — [Actions](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions) passing
 
