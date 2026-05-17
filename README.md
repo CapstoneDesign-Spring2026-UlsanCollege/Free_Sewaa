@@ -83,21 +83,6 @@ npm start
 
 The backend runs on `http://localhost:3000`
 
-### 3. Access the App
-Open your browser and go to:
-- **Landing page:** http://localhost:3000
-- **Sign in:** http://localhost:3000/signin.html
-- **App:** http://localhost:3000/app.html
-
-**Demo Account (for presentation):**
-```text
-Email: pathakram09555@gmail.com
-Password: 123456
-```
-
-> **Tip:** Use this account for presentation demo.
-
----
 
 ## 📖 API Documentation
 
