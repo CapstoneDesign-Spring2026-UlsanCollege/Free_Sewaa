@@ -30,7 +30,7 @@ const SUPER_ADMIN_USER_IDS = String(process.env.SUPER_ADMIN_USER_IDS || process.
   .split(',')
   .map(id => id.trim())
   .filter(Boolean);
-const EMAIL_ONLY_MESSAGE = 'Please use a real email address, not a demo or test email.';
+const EMAIL_ONLY_MESSAGE = 'Please use a real email address from a recognized email provider.';
 const VERIFIED_EMAIL_ONLY_MESSAGE = 'Please sign in with a verified real email account.';
 const PASSWORD_POLICY_MESSAGE = 'Password must be 8-10 characters and include uppercase, lowercase, and a number.';
 const DEMO_EMAIL_DOMAINS = new Set([
@@ -41,6 +41,27 @@ const DEMO_EMAIL_DOMAINS = new Set([
   'freesewaa.local',
   'localhost',
   'test.com'
+]);
+const RECOGNIZED_EMAIL_DOMAINS = new Set([
+  'aol.com',
+  'daum.net',
+  'gmail.com',
+  'hanmail.net',
+  'hotmail.com',
+  'icloud.com',
+  'kakao.com',
+  'live.com',
+  'mac.com',
+  'me.com',
+  'msn.com',
+  'nate.com',
+  'naver.com',
+  'outlook.com',
+  'proton.me',
+  'protonmail.com',
+  'yahoo.com',
+  'yandex.com',
+  'zoho.com'
 ]);
 
 if (!MONGODB_URI) {
@@ -935,7 +956,14 @@ async function buildAdminDashboardData() {
 function isRealEmailAddress(email = '') {
   const value = String(email || '').trim().toLowerCase();
   const domain = value.split('@')[1] || '';
-  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) && !DEMO_EMAIL_DOMAINS.has(domain);
+  const hasValidFormat = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(value);
+  const isRecognizedDomain =
+    RECOGNIZED_EMAIL_DOMAINS.has(domain) ||
+    domain.endsWith('.edu') ||
+    domain.endsWith('.edu.kr') ||
+    domain.endsWith('.ac.kr');
+
+  return hasValidFormat && isRecognizedDomain && !DEMO_EMAIL_DOMAINS.has(domain);
 }
 
 function normalizeUserPhone(phone = '') {
@@ -944,6 +972,10 @@ function normalizeUserPhone(phone = '') {
 
 function isValidPhoneInput(phone = '') {
   return /^\+?[0-9][0-9\s().-]{6,19}$/.test(String(phone || '').trim());
+}
+
+function hasValidUserIdentifier(user = {}) {
+  return isRealEmailAddress(user.email || '') || Boolean(normalizeUserPhone(user.phone || ''));
 }
 
 function isStrongPassword(password = '') {
@@ -1143,7 +1175,13 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: 'Firebase token is missing a user id.' });
       }
 
-      if (!email || !isRealEmailAddress(email) || !emailVerified) {
+      const isPhoneProvider = authProvider === 'phone' || claims.firebase?.sign_in_provider === 'phone';
+
+      if (isPhoneProvider) {
+        if (!tokenPhone) {
+          return sendJson(res, 403, { error: 'Please verify a real phone number.' });
+        }
+      } else if (!email || !isRealEmailAddress(email) || !emailVerified) {
         return sendJson(res, 403, { error: VERIFIED_EMAIL_ONLY_MESSAGE });
       }
 
@@ -1232,7 +1270,7 @@ const server = http.createServer(async (req, res) => {
       }
 
       const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
-      if (role !== 'superadmin' && !isRealEmailAddress(user.email || '')) {
+      if (role !== 'superadmin' && !hasValidUserIdentifier(user)) {
         return sendJson(res, 403, { error: VERIFIED_EMAIL_ONLY_MESSAGE });
       }
 
@@ -1254,9 +1292,9 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/auth/signup' && req.method === 'POST') {
       const { firstName = '', lastName = '', email = '', phone = '', password = '' } = await readRequestBody(req);
 
-      if (!email || !phone || !password || !firstName.trim()) {
+      if (!email || !password || !firstName.trim()) {
         return sendJson(res, 400, {
-          error: 'First name, email address, phone number, and password are required.'
+          error: 'First name, email address, and password are required.'
         });
       }
 
@@ -1266,7 +1304,7 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: EMAIL_ONLY_MESSAGE });
       }
 
-      if (!isValidPhoneInput(phone)) {
+      if (phone && !isValidPhoneInput(phone)) {
         return sendJson(res, 400, { error: 'Please enter a valid phone number.' });
       }
 
@@ -2138,6 +2176,16 @@ const server = http.createServer(async (req, res) => {
     const aliasTarget = PUBLIC_PAGE_ALIASES[normalizedPath.toLowerCase()];
     const relativePath = (aliasTarget || normalizedPath).replace(/^\/+/, '');
 
+    const pagePath = path.resolve(PUBLIC_ROOT, 'html', relativePath);
+    if (
+      path.extname(relativePath).toLowerCase() === '.html' &&
+      pagePath.startsWith(path.resolve(PUBLIC_ROOT, 'html')) &&
+      fs.existsSync(pagePath) &&
+      fs.statSync(pagePath).isFile()
+    ) {
+      return sendFile(res, pagePath);
+    }
+
     let filePath = path.resolve(PUBLIC_ROOT, relativePath);
     if (!filePath.startsWith(PUBLIC_ROOT)) {
       return sendJson(res, 403, { error: 'Forbidden' });
@@ -2145,15 +2193,6 @@ const server = http.createServer(async (req, res) => {
 
     if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
       return sendFile(res, filePath);
-    }
-
-    const pagePath = path.resolve(PUBLIC_ROOT, 'html', relativePath);
-    if (
-      pagePath.startsWith(path.resolve(PUBLIC_ROOT, 'html')) &&
-      fs.existsSync(pagePath) &&
-      fs.statSync(pagePath).isFile()
-    ) {
-      return sendFile(res, pagePath);
     }
 
     return sendFile(res, path.resolve(PUBLIC_ROOT, 'html', 'index.html'));
