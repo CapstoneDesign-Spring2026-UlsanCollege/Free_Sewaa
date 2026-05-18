@@ -42,7 +42,7 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
       <div class="auth-card__top">
         <p class="eyebrow">SIGN IN</p>
         <h2>Welcome back</h2>
-        <p class="auth-card__text">Sign in with your real email account.</p>
+        <p class="auth-card__text">Sign in with your real email account or verified phone number.</p>
       </div>
 
       <div class="social-row">
@@ -58,6 +58,7 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
 
       <div class="auth-toggle">
         <button class="toggle-btn is-active" data-panel-target="emailPanel">Email</button>
+        <button class="toggle-btn" data-panel-target="phonePanel">Phone</button>
       </div>
 
       <div class="auth-panel is-active" id="emailPanel">
@@ -74,6 +75,28 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
             <label class="checkbox"><input type="checkbox" /><span>Remember me</span></label>
             <a href="#" class="text-link">Forgot password?</a>
           </div>
+          <button class="primary-btn" type="submit">Sign In</button>
+        </form>
+      </div>
+
+      <div class="auth-panel" id="phonePanel">
+        <form class="auth-form" data-auth-panel="phone">
+          <div class="field-grid">
+            <label class="field">
+              <span>Country</span>
+              <select>
+                <option value="+82">Korea +82</option>
+                <option value="+1">US/Canada +1</option>
+                <option value="+44">UK +44</option>
+                <option value="+91">India +91</option>
+                <option value="+977">Nepal +977</option>
+              </select>
+            </label>
+            <label class="field"><span>Phone number</span><input type="tel" placeholder="010-1234-5678" autocomplete="tel" /></label>
+          </div>
+          <button class="secondary-btn" type="button" data-phone-action="send-code">Send Verification Code</button>
+          <label class="field"><span>Verification code</span><input type="text" placeholder="6-digit code" inputmode="numeric" /></label>
+          <div id="recaptcha-container"></div>
           <button class="primary-btn" type="submit">Sign In</button>
         </form>
       </div>

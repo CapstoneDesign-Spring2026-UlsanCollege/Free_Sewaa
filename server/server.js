@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
 const { MongoClient, ObjectId } = require('mongodb');
-const bcrypt = require('bcryptjs');
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
@@ -121,14 +120,13 @@ function defaultUserState(user) {
 }
 
 function defaultDemoUser() {
-  const hash = bcrypt.hashSync('123456', 10);
   return {
     id: 'user-demo',
     firstName: 'Ram',
     lastName: 'Pathak',
     name: 'Ram Pathak',
     email: 'ram@example.com',
-    password: hash,
+    password: '123456',
     phone: '+8201096646162',
     city: 'Ulsan',
     region: 'Nam-gu',
@@ -138,14 +136,13 @@ function defaultDemoUser() {
 }
 
 function defaultDemoAdmin() {
-  const hash = bcrypt.hashSync('admin12345', 10);
   return {
     id: 'admin-demo',
     firstName: 'Admin',
     lastName: 'User',
     name: 'Admin User',
     email: 'admin@freesewaa.local',
-    password: hash,
+    password: 'admin12345',
     city: 'Ulsan',
     region: 'Nam-gu',
     role: 'admin',
@@ -1325,14 +1322,12 @@ const server = http.createServer(async (req, res) => {
         });
       }
 
-      const hashedPassword = await bcrypt.hash(password, 10);
-
       const user = {
         id: `user-${Date.now()}`,
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         name: `${firstName.trim()} ${lastName.trim()}`.trim(),
-        password: hashedPassword,
+        password,
         city: 'Ulsan',
         region: 'Nam-gu',
         role: 'user',
@@ -1366,12 +1361,7 @@ const server = http.createServer(async (req, res) => {
 
       const user = await usersCollection.findOne({ $or: query });
 
-      if (!user) {
-        return sendJson(res, 401, { error: 'Invalid credentials.' });
-      }
-
-      const passwordValid = await bcrypt.compare(password, user.password);
-      if (!passwordValid) {
+      if (!user || user.password !== password) {
         return sendJson(res, 401, { error: 'Invalid credentials.' });
       }
 
@@ -1408,12 +1398,7 @@ const server = http.createServer(async (req, res) => {
 
       const user = await usersCollection.findOne({ $or: query });
 
-      if (!user) {
-        return sendJson(res, 401, { error: 'Invalid credentials.' });
-      }
-
-      const passwordValid = await bcrypt.compare(password, user.password);
-      if (!passwordValid) {
+      if (!user || user.password !== password) {
         return sendJson(res, 401, { error: 'Invalid credentials.' });
       }
 
@@ -2191,6 +2176,16 @@ const server = http.createServer(async (req, res) => {
     const aliasTarget = PUBLIC_PAGE_ALIASES[normalizedPath.toLowerCase()];
     const relativePath = (aliasTarget || normalizedPath).replace(/^\/+/, '');
 
+    const pagePath = path.resolve(PUBLIC_ROOT, 'html', relativePath);
+    if (
+      path.extname(relativePath).toLowerCase() === '.html' &&
+      pagePath.startsWith(path.resolve(PUBLIC_ROOT, 'html')) &&
+      fs.existsSync(pagePath) &&
+      fs.statSync(pagePath).isFile()
+    ) {
+      return sendFile(res, pagePath);
+    }
+
     let filePath = path.resolve(PUBLIC_ROOT, relativePath);
     if (!filePath.startsWith(PUBLIC_ROOT)) {
       return sendJson(res, 403, { error: 'Forbidden' });
@@ -2198,15 +2193,6 @@ const server = http.createServer(async (req, res) => {
 
     if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
       return sendFile(res, filePath);
-    }
-
-    const pagePath = path.resolve(PUBLIC_ROOT, 'html', relativePath);
-    if (
-      pagePath.startsWith(path.resolve(PUBLIC_ROOT, 'html')) &&
-      fs.existsSync(pagePath) &&
-      fs.statSync(pagePath).isFile()
-    ) {
-      return sendFile(res, pagePath);
     }
 
     return sendFile(res, path.resolve(PUBLIC_ROOT, 'html', 'index.html'));
