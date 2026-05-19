@@ -280,26 +280,6 @@ Issue → Branch → Code → PR → Review → Merge
 4. Create PR with description
 5. Team reviews and merges
 
----
-
-## 📅 Weekly Sprints
-
-| Week | Title | Link |
-|------|-------|------|
-| 1 | Onboarding & Setup | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%201.md) |
-| 2 | Reset Week & Planning | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%202.md) |
-| 3 | Frontend MVP | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%203%20.md) |
-| 4 | Browse & Filtering | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%204.md) |
-| 5 | Premium UI Redesign | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%205.md) |
-| 6 | Backend Foundation | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%206.md) |
-| 7 | Midterm Preparation | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%207.md) |
-| 8 | Midterm Presentation | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) |
-| 9 | Polish & Testing | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) |
-| 10 | Bug Triage & AI Workflow | [Sprint Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) |
-| 11 | MVP Verification | [Overview](docs/PROGRESS/week11/README.md) |
-
----
-
 ## 📜 License
 
 This project is licensed under the MIT License.
