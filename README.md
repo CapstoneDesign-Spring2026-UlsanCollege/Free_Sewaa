@@ -83,65 +83,7 @@ npm start
 
 The backend runs on `http://localhost:3000`
 
-
-## 📖 API Documentation
-
-### Base URL
-```
-http://localhost:3000/api
-```
-
-### Authentication Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/auth/signup` | Register new user |
-| POST | `/auth/signin` | Login user |
-| POST | `/auth/google-demo` | Demo Google login |
-| POST | `/auth/logout` | Logout user |
-
-### State Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/state?userId={id}` | Get user state |
-| PUT | `/state?userId={id}` | Update user state |
-
-### Health Check
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/health` | Server health status |
-
-### Request/Response Examples
-
-**Signup:**
-```json
-POST /api/auth/signup
-{
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john@example.com",
-  "password": "password123"
-}
-```
-
-**Signin:**
-```json
-POST /api/auth/signin
-{
-  "email": "john@example.com",
-  "password": "password123"
-}
-```
-
-**Response:**
-```json
-{
-  "user": { "id": "user-123", "name": "John Doe", ... },
-  "auth": { "userId": "user-123", "isAuthenticated": true }
-}
-```
+> Full API docs at [docs/API_REFERENCE.md](docs/API_REFERENCE.md)
 
 ---
 
