@@ -232,9 +232,6 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 - **Q&A:** All team members
 - **Brochure:** Swarnim Jung Karki
 
----
-
-## 📚 Documentation
 
 > **Start here:** [User Guide](docs/USER_GUIDE.md) · [Developer Guide](docs/DEVELOPER_GUIDE.md) · [API Reference](docs/API_REFERENCE.md)
 
