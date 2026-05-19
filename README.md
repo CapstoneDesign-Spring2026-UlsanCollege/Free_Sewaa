@@ -89,12 +89,7 @@ The backend runs on `http://localhost:3000`
 
 ## 🛠 Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| **Frontend** | HTML5, CSS3, Vanilla JavaScript |
-| **Backend** | Node.js, Express.js |
-| **Database** | JSON file storage (production: MongoDB ready) |
-| **Deployment** | Ready for Vercel, Render, Railway |
+**Frontend:** HTML5, CSS3, Vanilla JS · **Backend:** Node.js, Express.js · **Database:** MongoDB
 
 ---
 
