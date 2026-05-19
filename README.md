@@ -234,54 +234,89 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 
 ---
 
-## 📄 Documentation
+## 📚 Documentation
 
-| Category | Document | Description |
-|----------|----------|-------------|
-| **Overview** | [PROJECT_IDEA_PITCH.md](docs/PROJECT/PROJECT_IDEA_PITCH.md) | Project concept and goals |
-| | [USER_STORIES.md](docs/PROJECT/USER_STORIES.md) | User stories and flows |
-| | [GLOSSARY.md](docs/PROJECT/GLOSSARY.md) | Domain and technical terms defined |
-| | [FINAL_SUBMISSION_INDEX.md](docs/PROJECT/FINAL_SUBMISSION_INDEX.md) | Master index of all submission links |
-| | [USER_GUIDE.md](docs/USER_GUIDE.md) | End-user guide: signup, browse, donate, message |
-| **Architecture** | [SYSTEM_ARCHITECTURE.md](docs/DESIGN/SYSTEM_ARCHITECTURE.md) | System architecture overview |
-| | [BACKEND_PLAN.md](docs/DESIGN/BACKEND_PLAN.md) | Backend development plan |
-| | [DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md) | Data models, collections, relationships |
-| | [API_REFERENCE.md](docs/API_REFERENCE.md) | Complete API endpoint reference |
-| | [DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md) | Local setup, folder structure, env vars, common errors |
-| **Deployment** | [DEPLOYMENT.md](docs/DESIGN/DEPLOYMENT.md) | Deployment guide and configuration |
-| | [DEPLOYMENT_CHECKLIST.md](docs/DEPLOYMENT_CHECKLIST.md) | Step-by-step deploy checklist |
-| | [MONGODB_SETUP.md](docs/DESIGN/MONGODB_SETUP.md) | MongoDB Atlas setup guide |
-| **Testing** | [TESTING_STRATEGY.md](docs/TESTING_STRATEGY.md) | Overall test plan: unit, integration, UI, a11y |
-| | [TEST_CHECKLIST.md](docs/PROJECT/TEST_CHECKLIST.md) | MVP test checklist with evidence |
-| | [CODE_COVERAGE.md](docs/PROGRESS/week11/CODE_COVERAGE.md) | Jest setup, test plan, 70% coverage target |
-| | [ACCESSIBILITY_TESTING.md](docs/PROGRESS/week11/ACCESSIBILITY_TESTING.md) | WCAG 2.1 AA audit, keyboard nav, screen reader |
-| | [BUG_TRIAGE.md](docs/PROJECT/BUG_TRIAGE.md) | Bug triage with severity guide |
-| | [BUG_LIST.md](docs/PROGRESS/week11/BUG_LIST.md) | Current bug list (P0-P2) |
-| | [TEST_EVIDENCE.md](docs/week11/TEST_EVIDENCE.md) | Week 11 test results and screenshot placeholders |
-| | [Screenshots](docs/assets/screenshots/) | Evidence screenshots of core flows |
-| **Sprints** | [Weekly Sprint Packets](docs/sprints/) | All weekly sprint packets |
-| | [Week 1 - Onboarding](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%201.md) | Setup & planning |
-| | [Week 2 - Reset](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%202.md) | Planning & frontend |
-| | [Week 3 - Frontend MVP](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%203%20.md) | MVP demo ready |
-| | [Week 4 - Browse](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%204.md) | Browse & filtering |
-| | [Week 5 - Premium UI](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%205.md) | Redesign complete |
-| | [Week 6 - Backend](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%206.md) | API & MongoDB |
-| | [Week 7 - Midterm Prep](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%207.md) | Presentation ready |
-| | [Week 8 - Midterm](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) | Presented successfully |
-| | [Week 9 - Polish](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) | Testing & fixes |
-| | [Week 10 - Bug Triage](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) | AI workflow & bugs |
-| | [Week 11 - MVP Verification](docs/PROGRESS/week11/README.md) | MVP verification, demo script, bug list, ownership |
-| | [Week 12 - Final Presentation](docs/PROGRESS/week12/README.md) | Final demo, submission checklist, project close |
-| **Management** | [PROJECT_BOARD.md](PROJECT_BOARD.md) | Project board and task tracking |
-| | [RISK_REGISTER.md](docs/PROJECT/RISK_REGISTER.md) | Project risks, impact, and mitigation |
-| | [LESSONS_LEARNED.md](docs/PROJECT/LESSONS_LEARNED.md) | Retrospective and improvements |
-| | [TEAM_CONTRIBUTIONS.md](docs/PROJECT/TEAM_CONTRIBUTIONS.md) | Team contribution receipts |
-| | [AI_CODE_OWNERSHIP_AUDIT.md](docs/AI_CODE_OWNERSHIP_AUDIT.md) | AI use and code ownership check |
-| | [RELEASE_NOTES.md](docs/RELEASE_NOTES.md) | Week 11 MVP Verification release notes |
-| **Templates** | [.github/ISSUE_TEMPLATE/bug_report.md](.github/ISSUE_TEMPLATE/bug_report.md) | Bug report template |
-| | [.github/pull_request_template.md](.github/pull_request_template.md) | Pull request template with AI note |
+> **New here?** Start with → [User Guide](docs/USER_GUIDE.md) · [Developer Guide](docs/DEVELOPER_GUIDE.md) · [API Reference](docs/API_REFERENCE.md)
 
-> **Weekly Role Rotation:** Roles (Project Manager, Scribe, QA Lead, Demo Driver) rotate each sprint per class policy.
+---
+
+### 🗺️ Overview
+
+| Document | Description |
+|----------|-------------|
+| 📋 [Project Idea Pitch](docs/PROJECT/PROJECT_IDEA_PITCH.md) | What we are building and why |
+| 👤 [User Stories](docs/PROJECT/USER_STORIES.md) | User flows and use cases |
+| 📖 [Glossary](docs/PROJECT/GLOSSARY.md) | Domain and technical terms |
+| 📑 [Final Submission Index](docs/PROJECT/FINAL_SUBMISSION_INDEX.md) | Master index of all deliverables |
+| 📘 [User Guide](docs/USER_GUIDE.md) | How to use Free Sewaa |
+
+### 🏗️ Architecture
+
+| Document | Description |
+|----------|-------------|
+| 🏛️ [System Architecture](docs/DESIGN/SYSTEM_ARCHITECTURE.md) | How the system is designed |
+| ⚙️ [Backend Plan](docs/DESIGN/BACKEND_PLAN.md) | Server and API design |
+| 🗃️ [Database Schema](docs/DATABASE_SCHEMA.md) | Collections, fields, relationships |
+| 🔌 [API Reference](docs/API_REFERENCE.md) | All 27+ API endpoints documented |
+| 💻 [Developer Guide](docs/DEVELOPER_GUIDE.md) | Setup, structure, env vars, common errors |
+
+### 🚀 Deployment
+
+| Document | Description |
+|----------|-------------|
+| 📡 [Deployment Guide](docs/DESIGN/DEPLOYMENT.md) | How to deploy the app |
+| ✅ [Deployment Checklist](docs/DEPLOYMENT_CHECKLIST.md) | Pre-launch checklist |
+| 🍃 [MongoDB Setup](docs/DESIGN/MONGODB_SETUP.md) | Database configuration |
+
+### 🧪 Testing & Quality
+
+| Document | Description |
+|----------|-------------|
+| 📝 [Testing Strategy](docs/TESTING_STRATEGY.md) | Test plan across all levels |
+| ☑️ [Test Checklist](docs/PROJECT/TEST_CHECKLIST.md) | MVP test checklist with evidence |
+| 📊 [Code Coverage](docs/PROGRESS/week11/CODE_COVERAGE.md) | Jest setup, 70% coverage target |
+| ♿ [Accessibility Testing](docs/PROGRESS/week11/ACCESSIBILITY_TESTING.md) | WCAG 2.1 AA audit |
+| 🐛 [Bug Triage](docs/PROJECT/BUG_TRIAGE.md) | Bug severity classification |
+| 📋 [Bug List](docs/PROGRESS/week11/BUG_LIST.md) | Current open and fixed bugs |
+| 📸 [Test Evidence](docs/week11/TEST_EVIDENCE.md) | Test results and screenshots |
+| 🖼️ [Screenshots](docs/assets/screenshots/) | Evidence images of core flows |
+
+### 📅 Sprints
+
+| Week | Title | Link |
+|------|-------|------|
+| 1 | Onboarding & Setup | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%201.md) |
+| 2 | Reset & Planning | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%202.md) |
+| 3 | Frontend MVP | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%203%20.md) |
+| 4 | Browse & Filtering | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%204.md) |
+| 5 | Premium UI Redesign | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%205.md) |
+| 6 | Backend Foundation | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%206.md) |
+| 7 | Midterm Prep | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%207.md) |
+| 8 | Midterm Presentation | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) |
+| 9 | Polish & Testing | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) |
+| 10 | Bug Triage & AI Workflow | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) |
+| 11 | MVP Verification | [Overview](docs/PROGRESS/week11/README.md) · [Demo](docs/week11/DEMO_SCRIPT.md) · [Checklist](docs/week11/MVP_CHECKLIST.md) |
+| 12 | Final Presentation | [Overview](docs/PROGRESS/week12/README.md) · [Demo](docs/PROGRESS/week12/FINAL_DEMO_SCRIPT.md) · [Checklist](docs/PROGRESS/week12/FINAL_SUBMISSION_CHECKLIST.md) |
+
+### 📊 Management
+
+| Document | Description |
+|----------|-------------|
+| 📌 [Project Board](PROJECT_BOARD.md) | Task tracking and progress |
+| ⚠️ [Risk Register](docs/PROJECT/RISK_REGISTER.md) | Risks and mitigations |
+| 📝 [Lessons Learned](docs/PROJECT/LESSONS_LEARNED.md) | Retrospective and improvements |
+| 👥 [Team Contributions](docs/PROJECT/TEAM_CONTRIBUTIONS.md) | Contribution receipts |
+| 🤖 [AI Code Audit](docs/AI_CODE_OWNERSHIP_AUDIT.md) | AI use and ownership check |
+| 📢 [Release Notes](docs/RELEASE_NOTES.md) | Week 11 MVP release notes |
+
+### 📝 Templates
+
+| Template | Use |
+|----------|-----|
+| 🐛 [Bug Report](.github/ISSUE_TEMPLATE/bug_report.md) | Report a bug |
+| 🔀 [Pull Request](.github/pull_request_template.md) | Submit a PR |
+
+> **Weekly Role Rotation:** Roles (PM, Scribe, QA Lead, Demo Driver) rotate each sprint per class policy.
 
 ---
 
