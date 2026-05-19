@@ -97,59 +97,26 @@ The backend runs on `http://localhost:3000`
 
 ```
 Free_Sewaa/
-├── .github/                    # GitHub templates & workflows
-│   ├── ISSUE_TEMPLATE/         # Issue templates
-│   ├── pull_request_template.md
-│   └── workflows/              # CI/CD workflows
-├── docs/                       # Documentation
-│   ├── DESIGN/                 # Design documents
-│   ├── ISSUES/                 # Issue tracking
-│   ├── PROGRESS/               # MVP progress
-│   ├── PROJECT/                # Project docs
-│   └── sprints/                # Sprint packets
-├── server/                     # Node.js backend
-│   ├── server.js               # Express server
-│   └── package.json            # Dependencies
-├── html/                       # Frontend pages (18 pages)
-│   ├── index.html              # Landing page
-│   ├── signin.html             # Sign in
-│   ├── signup.html             # Sign up
-│   ├── app.html                # Main app after login
-│   ├── browse.html             # Browse items
-│   ├── donate.html             # Post donation
-│   └── ... (12 more pages)
-├── css/                        # Stylesheets
-│   ├── style.css               # Landing page styles
-│   ├── theme.css               # App pages styles
-│   └── auth.css                # Auth pages styles
-├── js/                         # Frontend scripts
-│   ├── index.js                # Landing page JS
-│   ├── site.js                 # App pages JS
-│   └── auth.js                 # Auth pages JS
-├── README.md
-├── CONTRIBUTING.md
-├── CODE_OF_CONDUCT.md
-└── ROADMAP.md
+├── server/        # Node.js backend (server.js + package.json)
+├── html/          # 18 frontend pages
+├── css/           # Stylesheets
+├── js/            # Frontend scripts
+├── docs/          # Documentation
+└── .github/       # CI/CD workflows
 ```
+
+Full breakdown in [DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md).
 
 ---
 
 ## 🔧 Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file in root. Key vars:
 
-```env
-# Server Configuration
-PORT=3000
+- `PORT` — server port (default 3000)
+- `MONGO_URI` — MongoDB connection string (optional, works without it)
 
-# Database (optional - uses local JSON if not set)
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
-
-# For MySQL (alternative)
-# MYSQL_URI=mysql://user:password@localhost:3306/freesewaa
-```
-
-> **Note:** The app works without any environment variables for local demo. Add database connection strings when ready for production.
+Full list in [DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md).
 
 ---
 
