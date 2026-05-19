@@ -244,11 +244,9 @@ MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/free-sewaa
 ## 📋 Quick Reference
 
 - **Live site:** https://free-sewaa-qh05.onrender.com
-- **Signup page:** https://free-sewaa-qh05.onrender.com/signup.html
 - **Admin login:** https://free-sewaa-qh05.onrender.com/admin_login.html
 - **Demo account:** `pathakram09555@gmail.com` / `123456`
-- **Key commands:** `npm install`, `npm start`
-- **Key pages:** `html/index.html`, `html/app.html`, `html/browse.html`, `html/donate.html`
+- **Commands:** `npm install`, `npm start`
 
 ---
 
