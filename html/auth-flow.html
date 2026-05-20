@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Sewaa — Authentication Flow</title>
+  <meta name="description" content="Auth flow diagram showing user journey from signup to dashboard" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/theme.css" />
+  <style>
+    .flow-wrap {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 40px 0 80px;
+    }
+
+    .flow-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .flow-header h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2rem, 3.6vw, 3rem);
+      font-weight: 700;
+      color: var(--cream-2);
+      margin: 0 0 8px;
+    }
+
+    .flow-header p {
+      color: var(--soft);
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    /* ---- start node ---- */
+    .start-node {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .start-node .node {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bronze);
+      color: #0a0907;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 14px 36px;
+      border-radius: 999px;
+      box-shadow: 0 4px 20px rgba(185, 140, 90, 0.25);
+    }
+
+    .arrow-down {
+      text-align: center;
+      color: var(--soft);
+      font-size: 1.5rem;
+      margin: 8px 0;
+    }
+
+    /* ---- branch row ---- */
+    .branch-row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .branch-card {
+      flex: 1;
+      min-width: 200px;
+      max-width: 320px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px 24px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: border-color 0.25s ease;
+    }
+
+    .branch-card.existing {
+      border-color: rgba(56, 189, 248, 0.25);
+    }
+
+    .branch-card.new {
+      border-color: rgba(52, 211, 153, 0.25);
+    }
+
+    .branch-card .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .branch-card.existing .badge {
+      background: rgba(56, 189, 248, 0.12);
+      color: #38bdf8;
+    }
+
+    .branch-card.new .badge {
+      background: rgba(52, 211, 153, 0.12);
+      color: #34d399;
+    }
+
+    .branch-card h3 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--cream-2);
+    }
+
+    .branch-card p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--soft);
+    }
+
+    /* ---- flow sections ---- */
+    .flow-section {
+      margin-bottom: 44px;
+    }
+
+    .flow-section h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin: 0 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .flow-section h2 .hl-existing { color: #38bdf8; }
+    .flow-section h2 .hl-new { color: #34d399; }
+
+    .step-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .step-card {
+      flex: 1;
+      min-width: 140px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+      transition: border-color 0.2s ease;
+    }
+
+    .step-card.existing-step {
+      border-color: rgba(56, 189, 248, 0.15);
+    }
+
+    .step-card.new-step {
+      border-color: rgba(52, 211, 153, 0.15);
+    }
+
+    .step-card.success-step {
+      border-color: rgba(52, 211, 153, 0.35);
+      background: rgba(52, 211, 153, 0.04);
+    }
+
+    .step-card.forgot-step {
+      border-color: rgba(251, 191, 36, 0.2);
+      background: rgba(251, 191, 36, 0.04);
+    }
+
+    .step-num {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .step-card.existing-step .step-num { color: #38bdf8; }
+    .step-card.new-step .step-num { color: #34d399; }
+    .step-card.success-step .step-num { color: #34d399; }
+    .step-card.forgot-step .step-num { color: #fbbf24; }
+
+    .step-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--cream-2);
+      margin: 0 0 4px;
+    }
+
+    .step-desc {
+      font-size: 0.82rem;
+      color: var(--soft);
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .step-arrow {
+      font-size: 1.3rem;
+      color: var(--soft);
+      flex-shrink: 0;
+    }
+
+    .step-arrow.arrow-existing { color: #38bdf8; }
+    .step-arrow.arrow-new { color: #34d399; }
+    .step-arrow.arrow-forgot { color: #fbbf24; }
+
+    /* ---- new user sub-steps ---- */
+    .substep-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .substep-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 12px;
+      text-align: center;
+      transition: border-color 0.2s ease;
+    }
+
+    .substep-card:hover {
+      border-color: rgba(52, 211, 153, 0.2);
+    }
+
+    .substep-card .step-num-sm {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #34d399;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .substep-card .step-title-sm {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--cream-2);
+      margin: 0 0 2px;
+    }
+
+    .substep-card .step-desc-sm {
+      font-size: 0.75rem;
+      color: var(--soft);
+      margin: 0;
+    }
+
+    .substep-connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .substep-connector .line {
+      height: 2px;
+      flex: 1;
+      background: rgba(52, 211, 153, 0.2);
+    }
+
+    .substep-connector .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34d399;
+      flex-shrink: 0;
+    }
+
+    /* ---- forgot password row ---- */
+    .forgot-row {
+      margin-top: 16px;
+    }
+
+    /* ---- end nodes ---- */
+    .end-row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .end-node {
+      padding: 16px 32px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    .end-node.success-end {
+      background: rgba(52, 211, 153, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.2);
+    }
+
+    .end-node.reset-end {
+      background: rgba(251, 191, 36, 0.1);
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.15);
+    }
+
+    /* ---- legend ---- */
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 48px;
+      padding: 20px 24px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    .legend-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .legend-swatch.existing-swatch { background: #38bdf8; }
+    .legend-swatch.new-swatch { background: #34d399; }
+    .legend-swatch.forgot-swatch { background: #fbbf24; }
+    .legend-swatch.success-swatch { background: #22c55e; }
+
+    /* ---- responsive ---- */
+    @media (max-width: 800px) {
+      .step-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .step-arrow {
+        transform: rotate(90deg);
+        text-align: center;
+      }
+      .substep-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .branch-row {
+        flex-direction: column;
+        align-items: center;
+      }
+      .branch-card {
+        max-width: 100%;
+        width: 100%;
+      }
+      .end-row {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .substep-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body data-page="auth-flow">
+  <div class="grain"></div>
+  <canvas id="particles" class="particles"></canvas>
+
+  <header class="site-header" id="siteHeader">
+    <div class="site-header__inner">
+      <a href="app.html" class="brand">Free Sewaa</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="app.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="donate.html" class="nav-link">Donate</a>
+        <a href="browse.html" class="nav-link">Browse</a>
+        <a href="signup.html" class="nav-link">Sign Up</a>
+        <a href="signin.html" class="nav-link">Sign In</a>
+        <a href="auth-flow.html" class="nav-link active">Auth Flow</a>
+      </nav>
+      <div class="header-actions">
+        <a href="notifications.html" class="icon-link"><span class="icon-badge"></span><span>Notifications</span></a>
+        <a href="messages.html" class="icon-link"><span class="icon-dot"></span><span>Messages</span></a>
+        <div class="settings-dropdown">
+          <button class="icon-link settings-trigger" type="button" aria-expanded="false">
+            <span class="icon-gear">⚙</span><span>Settings</span>
+          </button>
+          <div class="settings-menu">
+            <a href="my-posts.html">My Posts</a>
+            <a href="orders.html">Track Your Order</a>
+            <a href="premium.html">Premium Plans</a>
+            <a href="profile.html">Personal Information</a>
+            <a href="profile.html#edit">Edit Profile</a>
+            <a href="region.html">Change Region</a>
+            <a href="saved.html">Saved Items</a>
+            <a href="requests.html">My Requests</a>
+            <button type="button" class="settings-button" data-theme-toggle="true">Toggle Dark Mode</button>
+            <a href="logout.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="flow-wrap">
+      <div class="flow-header">
+        <h1>Authentication Flow</h1>
+        <p>User journey from start to dashboard — existing user and new user paths</p>
+      </div>
+
+      <!-- Start -->
+      <div class="start-node">
+        <div class="node">▶ Start</div>
+      </div>
+      <div class="arrow-down">▼</div>
+
+      <!-- Choose user type -->
+      <div class="branch-row">
+        <div class="branch-card existing">
+          <div class="badge">Existing user</div>
+          <h3>I already have an account</h3>
+          <p>Sign in with your email and password</p>
+        </div>
+        <div class="branch-card new">
+          <div class="badge">New user</div>
+          <h3>I need to create an account</h3>
+          <p>Register in a few simple steps</p>
+        </div>
+      </div>
+
+      <!-- Existing User Path -->
+      <div class="flow-section">
+        <h2><span class="hl-existing">Existing User</span> — Sign In</h2>
+        <div class="step-row">
+          <div class="step-card existing-step">
+            <div class="step-num">Step 1</div>
+            <div class="step-title">Enter username</div>
+            <div class="step-desc">Type your registered email or login name</div>
+          </div>
+          <div class="step-arrow arrow-existing">→</div>
+          <div class="step-card existing-step">
+            <div class="step-num">Step 2</div>
+            <div class="step-title">Enter password</div>
+            <div class="step-desc">Type your account password</div>
+          </div>
+          <div class="step-arrow arrow-existing">→</div>
+          <div class="step-card existing-step">
+            <div class="step-num">Step 3</div>
+            <div class="step-title">Verify credentials</div>
+            <div class="step-desc">System checks email + password match</div>
+          </div>
+        </div>
+
+        <!-- Existing User: success or forgot branch -->
+        <div class="step-row" style="margin-top:16px;">
+          <div class="step-arrow arrow-existing">✔</div>
+          <div class="step-card success-step" style="flex:1;">
+            <div class="step-num">Success</div>
+            <div class="step-title">Redirect to dashboard</div>
+            <div class="step-desc">User lands on the home / browse page</div>
+          </div>
+        </div>
+
+        <div class="step-row forgot-row">
+          <div class="step-arrow arrow-forgot">✘</div>
+          <div class="step-card forgot-step" style="flex:1;">
+            <div class="step-num">Password problem</div>
+            <div class="step-title">Forgot password?</div>
+            <div class="step-desc">Show reset option — user can request a password reset link</div>
+          </div>
+          <div class="step-arrow arrow-forgot">→</div>
+          <div class="step-card forgot-step" style="flex:1;">
+            <div class="step-num">Reset</div>
+            <div class="step-title">Reset password</div>
+            <div class="step-desc">Email with reset link sent to user</div>
+          </div>
+          <div class="step-arrow arrow-forgot">→</div>
+          <div class="step-card success-step" style="flex:1;">
+            <div class="step-num">Done</div>
+            <div class="step-title">Password updated</div>
+            <div class="step-desc">User can sign in with new password</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- New User Path -->
+      <div class="flow-section">
+        <h2><span class="hl-new">New User</span> — Create Account</h2>
+        <div class="step-row">
+          <div class="step-card new-step">
+            <div class="step-num">Step 1</div>
+            <div class="step-title">Basic information</div>
+            <div class="step-desc">First name, last name, region</div>
+          </div>
+          <div class="step-arrow arrow-new">→</div>
+          <div class="step-card new-step">
+            <div class="step-num">Step 2</div>
+            <div class="step-title">Email / Phone</div>
+            <div class="step-desc">Enter email address and phone number</div>
+          </div>
+          <div class="step-arrow arrow-new">→</div>
+          <div class="step-card new-step">
+            <div class="step-num">Step 3</div>
+            <div class="step-title">Create password</div>
+            <div class="step-desc">Set a strong password (8+ chars, mixed case, number)</div>
+          </div>
+          <div class="step-arrow arrow-new">→</div>
+          <div class="step-card new-step">
+            <div class="step-num">Step 4</div>
+            <div class="step-title">Confirm account</div>
+            <div class="step-desc">Verify email or phone with a code</div>
+          </div>
+          <div class="step-arrow arrow-new">→</div>
+          <div class="step-card success-step" style="min-width:160px;">
+            <div class="step-num">Step 5</div>
+            <div class="step-title">Account created</div>
+            <div class="step-desc">Redirect to dashboard</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- End nodes -->
+      <div class="flow-section">
+        <h2>End States</h2>
+        <div class="end-row">
+          <div class="end-node success-end">✔ Dashboard / Home</div>
+          <div class="end-node reset-end">✉ Password reset email</div>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="legend">
+        <div class="legend-item"><span class="legend-swatch existing-swatch"></span> Existing user path</div>
+        <div class="legend-item"><span class="legend-swatch new-swatch"></span> New user path</div>
+        <div class="legend-item"><span class="legend-swatch forgot-swatch"></span> Forgot password path</div>
+        <div class="legend-item"><span class="legend-swatch success-swatch"></span> Success state</div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/site.js"></script>
+</body>
+</html>

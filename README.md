@@ -171,6 +171,7 @@ Full list in [DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md).
 - [Database Schema](docs/DATABASE_SCHEMA.md) — collections and fields
 - [API Reference](docs/API_REFERENCE.md) — all endpoints
 - [Developer Guide](docs/DEVELOPER_GUIDE.md) — setup and common errors
+- [Auth Flow Diagram](html/auth-flow.html) — user journey from signup to dashboard
 
 ### Deployment
 
