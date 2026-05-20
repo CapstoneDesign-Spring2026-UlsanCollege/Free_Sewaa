@@ -2,12 +2,34 @@
 
 ## Core MVP Flow
 
-1. User signs up
-2. User logs in
-3. User browses donation items
-4. User posts a donation item
-5. Another user requests the item
-6. User/admin verifies saved data or request status
+```mermaid
+flowchart LR
+  A[Sign up] --> B[Log in]
+  B --> C[Browse items]
+  C --> D[Post a donation]
+  D --> E[Request an item]
+  E --> F[Verify data / status]
+```
+
+## QA Day Workflow
+
+```mermaid
+flowchart TD
+  Start([Start QA Day]) --> A[Review QA checklist]
+  A --> B[Run Jest tests]
+  B --> C{Tests pass?}
+  C -->|Yes| D[Log evidence]
+  C -->|No| E[Log bug with severity]
+  E --> F{P0 or P1?}
+  F -->|Yes| G[Create GitHub Issue]
+  F -->|No| H[Add to bug list]
+  G --> I[Assign owner]
+  I --> J[Fix bug]
+  J --> B
+  D --> K[Update sprint board]
+  H --> K
+  K --> L([Done])
+```
 
 ---
 

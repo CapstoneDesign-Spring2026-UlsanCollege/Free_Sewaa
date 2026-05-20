@@ -58,6 +58,20 @@ Password: admin12345
 
 ---
 
+## User Flow
+
+```mermaid
+flowchart LR
+  A[Sign up] --> B[Log in]
+  B --> C[Browse items]
+  C --> D[Donate item]
+  D --> E[Request item]
+  E --> F[Message donor]
+  F --> G[Admin panel]
+```
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
