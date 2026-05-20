@@ -16,7 +16,7 @@
       name: 'Pathak Ram',
       firstName: 'Ram',
       lastName: 'Pathak',
-      email: 'ram@example.com',
+      email: 'pathakram09555@gmail.com',
       phone: '+82 010-9664-6162',
       city: 'Ulsan',
       region: 'Nam-gu',

@@ -38,30 +38,30 @@ const DEMO_EMAIL_DOMAINS = new Set([
   'example.com',
   'example.net',
   'example.org',
-  'freesewaa.local',
   'localhost',
   'test.com'
 ]);
 const RECOGNIZED_EMAIL_DOMAINS = new Set([
-  'aol.com',
-  'daum.net',
-  'gmail.com',
-  'hanmail.net',
-  'hotmail.com',
-  'icloud.com',
-  'kakao.com',
-  'live.com',
-  'mac.com',
-  'me.com',
-  'msn.com',
-  'nate.com',
-  'naver.com',
-  'outlook.com',
-  'proton.me',
-  'protonmail.com',
-  'yahoo.com',
-  'yandex.com',
-  'zoho.com'
+    'aol.com',
+    'daum.net',
+    'freesewaa.local',
+    'gmail.com',
+    'hanmail.net',
+    'hotmail.com',
+    'icloud.com',
+    'kakao.com',
+    'live.com',
+    'mac.com',
+    'me.com',
+    'msn.com',
+    'nate.com',
+    'naver.com',
+    'outlook.com',
+    'proton.me',
+    'protonmail.com',
+    'yahoo.com',
+    'yandex.com',
+    'zoho.com'
 ]);
 
 if (!MONGODB_URI) {
@@ -125,7 +125,7 @@ function defaultDemoUser() {
     firstName: 'Ram',
     lastName: 'Pathak',
     name: 'Ram Pathak',
-    email: 'ram@example.com',
+    email: 'pathakram09555@gmail.com',
     password: '123456',
     phone: '+8201096646162',
     city: 'Ulsan',
@@ -145,7 +145,7 @@ function defaultDemoAdmin() {
     password: 'admin12345',
     city: 'Ulsan',
     region: 'Nam-gu',
-    role: 'admin',
+    role: 'superadmin',
     createdAt: new Date().toISOString()
   };
 }
@@ -326,9 +326,11 @@ async function ensureSeedData() {
     existingUser = demoUser;
   }
 
-  if (existingUser && !existingUser.role) {
-    await usersCollection.updateOne({ id: existingUser.id }, { $set: { role: 'user' } });
-    existingUser.role = 'user';
+  if (existingUser) {
+    if (existingUser.role !== 'user') {
+      await usersCollection.updateOne({ id: existingUser.id }, { $set: { role: 'user', updatedAt: new Date().toISOString() } });
+      existingUser.role = 'user';
+    }
   }
 
   let existingAdmin = await usersCollection.findOne({ id: 'admin-demo' });
@@ -338,9 +340,11 @@ async function ensureSeedData() {
     existingAdmin = demoAdmin;
   }
 
-  if (existingAdmin && !existingAdmin.role) {
-    await usersCollection.updateOne({ id: existingAdmin.id }, { $set: { role: 'admin' } });
-    existingAdmin.role = 'admin';
+  if (existingAdmin) {
+    if (existingAdmin.role !== 'superadmin') {
+      await usersCollection.updateOne({ id: existingAdmin.id }, { $set: { role: 'superadmin', updatedAt: new Date().toISOString() } });
+      existingAdmin.role = 'superadmin';
+    }
   }
 
   if (SUPER_ADMIN_EMAILS.length || SUPER_ADMIN_USER_IDS.length) {
