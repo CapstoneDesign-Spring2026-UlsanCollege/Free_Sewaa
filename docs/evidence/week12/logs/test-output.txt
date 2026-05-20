@@ -1,0 +1,31 @@
+
+> freesewaa-fullstack@2.0.0 test
+> jest --forceExit --detectOpenHandles
+
+  console.log
+    ◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+
+      at _log (node_modules/dotenv/lib/main.js:131:11)
+
+  console.log
+    ✅ MongoDB connected
+
+      at log (server.js:2224:13)
+
+  console.log
+    ✅ Free Sewaa running on http://localhost:3000
+
+      at Server.log (server.js:2227:15)
+
+PASS __tests__/api.test.js
+  Health endpoint
+    ✓ returns 200 with ok status (19 ms)
+  Auth validation
+    ✓ rejects signup without firstName (4 ms)
+    ✓ rejects signup without password (3 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       3 passed, 3 total
+Snapshots:   0 total
+Time:        3.456 s, estimated 4 s
+Ran all test suites.

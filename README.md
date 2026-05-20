@@ -166,6 +166,7 @@ Full list in [DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md).
 
 ### Testing & Bugs
 
+- [QA Checklist](docs/QA_CHECKLIST.md)
 - [Testing Strategy](docs/TESTING_STRATEGY.md)
 - [Test Checklist](docs/PROJECT/TEST_CHECKLIST.md)
 - [Code Coverage](docs/PROGRESS/week11/CODE_COVERAGE.md)
@@ -190,7 +191,7 @@ Full list in [DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md).
 | 9 | Polish | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) |
 | 10 | Bug Triage | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) |
 | 11 | MVP Verification | [Overview](docs/PROGRESS/week11/README.md) · [Demo](docs/week11/DEMO_SCRIPT.md) · [Checklist](docs/week11/MVP_CHECKLIST.md) |
-| 12 | Final | [Overview](docs/PROGRESS/week12/README.md) · [Demo](docs/PROGRESS/week12/FINAL_DEMO_SCRIPT.md) · [Checklist](docs/PROGRESS/week12/FINAL_SUBMISSION_CHECKLIST.md) |
+| 12 | Final | [Sprint Packet](docs/week12/SPRINT_PACKET.md) · [QA Checklist](docs/QA_CHECKLIST.md) · [Bug List](docs/week12/BUG_SEVERITY_LIST.md) · [Evidence](docs/week12/TEST_EVIDENCE.md) |
 
 ### Project Management
 
