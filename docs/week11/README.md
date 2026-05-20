@@ -44,7 +44,7 @@ We focused on verifying our MVP core flow. That means:
 
 | Item | Status |
 |------|--------|
-| Password hashing with bcrypt | Fixed |
+| Password hashing with bcrypt | Pending (stored in plaintext) |
 | Jest tests for health + auth endpoints | Passing |
 | CI workflow with MongoDB service | Configured |
 | 6 screenshots of core flows | Taken |

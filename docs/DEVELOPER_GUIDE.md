@@ -47,7 +47,7 @@ SUPER_ADMIN_USER_IDS=
 | `SUPER_ADMIN_EMAILS` | No | — | Comma-separated admin emails |
 | `SUPER_ADMIN_USER_IDS` | No | — | Comma-separated admin user IDs |
 
-If no `MONGO_URI` is set, the app uses in-memory storage with JSON file fallback.
+If no `MONGO_URI` is set, the server will exit with an error. MongoDB is required.
 
 ---
 
@@ -101,7 +101,7 @@ Tests use Jest + Supertest. They connect to a MongoDB instance at `localhost:270
 ### "MongoDB connection failed"
 - Make sure MongoDB is running: `mongod` or `brew services start mongodb-community`
 - Check your `MONGO_URI` in `.env`
-- The app falls back to JSON storage if MongoDB is not available
+- MongoDB is required — the server exits if no connection string is provided
 
 ### "Email domain not recognized"
 - Use a real email provider: @gmail.com, @naver.com, @daum.net, etc.
@@ -119,6 +119,7 @@ Tests use Jest + Supertest. They connect to a MongoDB instance at `localhost:270
 ### "bcryptjs not found"
 - Run `npm install` in the server folder
 - bcryptjs is a pure JS library, no native compilation needed
+- Note: bcryptjs is installed but not yet used for password hashing
 
 ### Tests fail with "ECONNREFUSED"
 - Make sure MongoDB is running locally on port 27017

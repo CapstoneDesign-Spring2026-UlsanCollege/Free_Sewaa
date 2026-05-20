@@ -24,7 +24,7 @@ Instead, contact the team via the repository Discussions tab or reach out to the
 We will respond within 3 business days and credit responsible disclosures.
 
 ## Known Limitations
-- Passwords are stored with basic hashing (demo only — not production-grade)
+- Passwords are stored in plaintext (demo only — not production-grade; bcryptjs available for future use)
 - Admin credentials are demo-only and should never be used in real deployments
 - No HTTPS enforced on local development builds
 
