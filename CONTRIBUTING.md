@@ -1,4 +1,4 @@
-`# Contributing to Free Sewaa
+# Contributing to Free Sewaa
 
 ## Introduction
 
@@ -19,7 +19,7 @@ Free Sewaa is a community donation platform that allows users to share reusable 
 ### Testing
 Run backend tests:
 ```bash
-cd backend
+cd server
 npm test
 ```
 
