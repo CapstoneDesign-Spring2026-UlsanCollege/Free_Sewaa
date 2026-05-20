@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Free Sewaa — User Dashboard</title>
+  <title>Free Sewaa - User Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme.css?v=dashboardsticky20260514" />
 </head>
 <body data-page="user-panel">
   <div class="grain"></div>
@@ -25,7 +25,7 @@
       <div class="header-actions">
         <a href="notifications.html" class="icon-link"><span class="icon-dot"></span><span>Notifications</span></a>
         <div class="settings-dropdown">
-          <button class="icon-link settings-trigger" type="button"><span class="icon-gear">⚙</span><span>Settings</span></button>
+          <button class="icon-link settings-trigger" type="button"><span class="icon-gear" aria-hidden="true"></span><span>Settings</span></button>
           <div class="settings-menu">
             <a href="profile.html">Profile</a>
             <a href="logout.html">Logout</a>
@@ -35,68 +35,120 @@
     </div>
   </header>
 
-  <main class="user-dashboard">
-    <section class="page-hero generic-hero app-shell-hero user-hero">
+  <main class="user-dashboard user-dashboard--pro">
+    <section class="page-hero generic-hero app-shell-hero user-hero user-hero--pro">
       <div class="hero-overlay"></div>
       <div class="page-hero__content wrap user-hero__grid">
-        <div>
-          <p class="eyebrow">USER DASHBOARD</p>
+        <div class="user-hero__copy">
+          <p class="eyebrow">MEMBER WORKSPACE</p>
           <h1 class="page-title">Welcome back, <span data-user-name>Member</span>.</h1>
-          <p class="page-text">This page is only for normal users. Here you can manage your own donations, requests, saved items, profile, and messages — but you cannot control other users or marketplace-wide posts.</p>
-          <div class="action-stack">
+          <p class="page-text">Manage your donations, requests, saved items, profile, and conversations from one focused dashboard.</p>
+          <div class="action-stack user-hero-actions">
             <a class="btn btn-hero" href="donate.html">Create donation post</a>
             <a class="btn btn-soft" href="browse.html">Browse items</a>
           </div>
         </div>
-        <aside class="page-badge">
-          <span class="mini-label">ACCOUNT STATUS</span>
-          <strong data-user-role-badge>User member</strong>
-          <p>Your dashboard is limited to your own account and activity.</p>
+        <aside class="page-badge user-command-card">
+          <span class="mini-label">ACCOUNT OVERVIEW</span>
+          <strong data-user-role-badge>Member account</strong>
+          <p>Your workspace shows only your own listings, requests, saved items, and private messages.</p>
+          <div class="user-command-card__meta">
+            <div><span>Region</span><strong data-user-region>Ulsan</strong></div>
+            <div><span>Profile</span><strong data-user-profile-status>Active</strong></div>
+          </div>
         </aside>
       </div>
     </section>
 
-    <section class="wrap panel-grid-4">
-      <article class="metric-panel"><span>My active posts</span><strong data-user-active>0</strong></article>
-      <article class="metric-panel"><span>My requests</span><strong data-user-requests>0</strong></article>
-      <article class="metric-panel"><span>Saved items</span><strong data-user-saved>0</strong></article>
-      <article class="metric-panel"><span>Unread messages</span><strong data-user-unread>0</strong></article>
+    <section class="wrap user-kpi-grid" aria-label="Dashboard summary">
+      <article class="user-kpi-card"><span>Active posts</span><strong data-user-active data-stat-active>0</strong><p>Live donations you manage</p></article>
+      <article class="user-kpi-card"><span>Requests sent</span><strong data-user-requests data-stat-requested>0</strong><p>Items you asked for</p></article>
+      <article class="user-kpi-card"><span>Saved items</span><strong data-user-saved data-stat-saved>0</strong><p>Your shortlist</p></article>
+      <article class="user-kpi-card"><span>Unread messages</span><strong data-user-unread>0</strong><p>Conversation updates</p></article>
     </section>
 
-    <section class="wrap dashboard-grid">
-      <article class="panel reveal-card">
+    <section class="wrap user-workspace-grid">
+      <article class="panel reveal-card user-profile-panel">
         <div class="panel-head"><div><p class="eyebrow">MY ACCOUNT</p><h2 class="section-title small">Profile snapshot</h2></div></div>
         <div id="userProfileSummary" class="user-summary-card"></div>
       </article>
-      <article class="panel reveal-card">
-        <div class="panel-head"><div><p class="eyebrow">QUICK ACCESS</p><h2 class="section-title small">Things you can do</h2></div></div>
-        <div class="action-stack user-shortcuts">
-          <a class="btn btn-soft" href="my-posts.html">Manage my posts</a>
-          <a class="btn btn-soft" href="requests.html">My requests</a>
-          <a class="btn btn-soft" href="saved.html">Saved items</a>
-          <a class="btn btn-soft" href="profile.html">Edit profile</a>
+      <article class="panel reveal-card user-actions-panel">
+        <div class="panel-head"><div><p class="eyebrow">QUICK ACCESS</p><h2 class="section-title small">Primary actions</h2></div></div>
+        <div class="user-action-grid">
+          <a class="user-action-card" href="my-posts.html"><span>01</span><strong>Manage posts</strong><p>Edit, reserve, or remove your donations.</p></a>
+          <a class="user-action-card" href="requests.html"><span>02</span><strong>Track requests</strong><p>Review the items you asked for.</p></a>
+          <a class="user-action-card" href="saved.html"><span>03</span><strong>Saved items</strong><p>Return to listings you are considering.</p></a>
+          <a class="user-action-card" href="profile.html"><span>04</span><strong>Edit profile</strong><p>Update contact and pickup details.</p></a>
         </div>
       </article>
     </section>
 
-    <section class="wrap dashboard-grid user-dashboard-grid--three">
-      <article class="panel reveal-card">
-        <div class="panel-head"><div><p class="eyebrow">MY POSTS</p><h2 class="section-title small">Your current listings</h2></div></div>
+    <section class="wrap user-activity-grid">
+      <article class="panel reveal-card user-activity-panel">
+        <div class="panel-head"><div><p class="eyebrow">MY POSTS</p><h2 class="section-title small">Current listings</h2></div></div>
         <div id="userPostsList" class="stack-list"></div>
       </article>
-      <article class="panel reveal-card">
-        <div class="panel-head"><div><p class="eyebrow">MY REQUESTS</p><h2 class="section-title small">Items you asked for</h2></div></div>
+      <article class="panel reveal-card user-activity-panel">
+        <div class="panel-head"><div><p class="eyebrow">MY REQUESTS</p><h2 class="section-title small">Items requested</h2></div></div>
         <div id="userRequestsList" class="stack-list"></div>
       </article>
-      <article class="panel reveal-card">
-        <div class="panel-head"><div><p class="eyebrow">SAVED & MESSAGES</p><h2 class="section-title small">Your private activity</h2></div></div>
+      <article class="panel reveal-card user-activity-panel">
+        <div class="panel-head"><div><p class="eyebrow">SAVED & MESSAGES</p><h2 class="section-title small">Private activity</h2></div></div>
         <div id="userSavedList" class="stack-list"></div>
+      </article>
+    </section>
+
+    <section class="wrap user-contact-grid">
+      <article class="panel reveal-card user-contact-card">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">CONTACT</p>
+            <h2 class="section-title small">Get in touch with Free Sewaa</h2>
+          </div>
+        </div>
+        <p class="section-text">Questions, support, partnerships, or community collaboration - we'd love to hear from you.</p>
+        <div class="contact-action-grid">
+          <a class="contact-action" href="tel:01096646162">
+            <span>Call</span>
+            <strong>010-9664-6162</strong>
+          </a>
+          <a class="contact-action" href="mailto:support@freesewaa.org">
+            <span>Email</span>
+            <strong>support@freesewaa.org</strong>
+          </a>
+        </div>
+      </article>
+
+      <article class="panel reveal-card user-contact-card user-suggestion-card">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">SUGGESTIONS</p>
+            <h2 class="section-title small">Share your idea</h2>
+          </div>
+        </div>
+        <form class="contact-suggestion-form" id="contactSuggestionForm">
+          <label class="field">
+            <span>Your name</span>
+            <input id="suggestionName" type="text" autocomplete="name" placeholder="Your name" />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input id="suggestionEmail" type="email" autocomplete="email" placeholder="you@example.com" />
+          </label>
+          <label class="field">
+            <span>Suggestion</span>
+            <textarea id="suggestionMessage" rows="5" maxlength="1200" placeholder="Tell us what would make Free Sewaa better." required></textarea>
+          </label>
+          <div class="form-actions contact-form-actions">
+            <button class="btn btn-hero" type="submit">Send suggestion</button>
+            <p class="form-status" id="suggestionStatus" data-tone="default"></p>
+          </div>
+        </form>
       </article>
     </section>
   </main>
 
   <script src="api-config.js"></script>
-  <script src="../js/site.js?v=20260418"></script>
-  <script src="user_panel.js"></script>
+  <script src="../js/site.js?v=dashboardsticky20260514"></script>
 </body>
 </html>

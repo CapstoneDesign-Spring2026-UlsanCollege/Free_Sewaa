@@ -1,171 +1,74 @@
-# Database Schema
+# Database Schema — Free Sewaa#
 
-Free Sewaa uses MongoDB (local or Atlas).
-
-## Collections
-
-### 1. users
-```javascript
-{
-  id: String (unique),
-  name: String,
-  email: String (unique),
-  phone: String (unique),
-  password: String (hashed),
-  location: String,
-  bio: String,
-  role: String ('user' | 'admin'),
-  isBlocked: Boolean,
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-**Indexes:**
-- `email` (unique)
-- `phone` (unique)
-- `id` (unique)
-
-### 2. states
-```javascript
-{
-  userId: String,
-  currentListings: Number,
-  completedDonations: Number,
-  receivedItems: Number,
-  rating: Number,
-  lastActive: Date
-}
-```
-
-### 3. listings
-```javascript
-{
-  id: String (unique),
-  userId: String,
-  title: String,
-  description: String,
-  category: String (Electronics | Furniture | Clothing | Books | Other),
-  condition: String (New | Like New | Good | Fair),
-  imageUrl: String,
-  status: String (available | reserved | given),
-  requestCount: Number,
-  views: Number,
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-**Indexes:**
-- `userId`
-- `category`
-- `status`
-
-### 4. requests
-```javascript
-{
-  id: String (unique),
-  listingId: String,
-  requesterId: String,
-  message: String,
-  status: String (pending | accepted | declined),
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-**Indexes:**
-- `listingId`
-- `requesterId`
-- `status`
-
-### 5. conversations
-```javascript
-{
-  id: String (unique),
-  listingId: String,
-  buyerId: String,
-  sellerId: String,
-  lastMessage: String,
-  lastMessageAt: Date,
-  createdAt: Date
-}
-```
-
-**Indexes:**
-- `listingId`
-- `buyerId`
-- `sellerId`
-
-### 6. messages
-```javascript
-{
-  id: String (unique),
-  conversationId: String,
-  senderId: String,
-  content: String,
-  read: Boolean,
-  createdAt: Date
-}
-```
-
-**Indexes:**
-- `conversationId`
-- `senderId`
-
-### 7. notifications
-```javascript
-{
-  id: String (unique),
-  userId: String,
-  type: String (request | message | status | system),
-  title: String,
-  message: String,
-  read: Boolean,
-  link: String,
-  createdAt: Date
-}
-```
-
-**Indexes:**
-- `userId`
-- `read`
-
-### 8. meta
-```javascript
-{
-  key: String (unique),
-  value: String
-}
-```
+## Storage Strategy
+- **Development/Demo:** JSON file storage (`server/data/*.json`)
+- **Production:** MongoDB Atlas (configured via `MONGO_URI` environment variable)
 
 ---
 
-## Relationships
+## Collections#
 
-```
-users ───< listings (one-to-many)
-users ───< requests (one-to-many)
-users ───< conversations (one-to-many)
-listings ───< requests (one-to-many)
-listings ───< conversations (one-to-many)
-conversations ───< messages (one-to-many)
-notifications ───< users (many-to-one)
-```
+### users#
+Stores registered user accounts.#
 
----
-
-## API Endpoints
-
-| Collection | Methods |
-|------------|---------|
-| users | GET, POST, PUT, DELETE |
-| listings | GET, POST, PUT, DELETE |
-| requests | GET, POST, PUT |
-| conversations | GET, POST |
-| messages | GET, POST |
-| notifications | GET, PUT |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `_id` | String | ✅ | Auto-generated unique user ID |
+| `firstName` | String | ✅ | User's first name |
+| `lastName` | String | ✅ | User's last name |
+| `email` | String | ✅ | Unique email address (used for login) |
+| `password` | String | ✅ | Hashed password |
+| `isAdmin` | Boolean | ❌ | Defaults to false. True for admin accounts |
+| `joinedAt` | Date | ✅ | Account creation timestamp |
+| `avatarUrl` | String | ❌ | Optional profile picture URL |
 
 ---
 
-*Last Updated: Week 8 - Midterm*
+### items#
+Stores donation items posted by users.#
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `_id` | String | ✅ | Auto-generated item ID |
+| `title` | String | ✅ | Item name/title |
+| `description` | String | ✅ | Item description |
+| `category` | String | ✅ | e.g. "Clothing", "Electronics", "Furniture" |
+| `condition` | String | ✅ | e.g. "New", "Good", "Fair" |
+| `donorId` | String | ✅ | Reference to `users._id` |
+| `status` | String | ✅ | "available", "requested", "given" |
+| `imageUrl` | String | ❌ | Optional item photo URL |
+| `postedAt` | Date | ✅ | When the item was listed |
+| `location` | String | ❌ | General area/city of the donor |
+
+---
+
+### requests#
+Stores requests made by users for available items.#
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `_id` | String | ✅ | Auto-generated request ID |
+| `itemId` | String | ✅ | Reference to `items._id` |
+| `requesterId` | String | ✅ | Reference to `users._id` |
+| `message` | String | ❌ | Optional message to the donor |
+| `status` | String | ✅ | "pending", "accepted", "declined" |
+| `requestedAt` | Date | ✅ | Timestamp of the request |
+
+---
+
+### messages#
+Stores direct messages between users.#
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `_id` | String | ✅ | Auto-generated message ID |
+| `senderId` | String | ✅ | Reference to `users._id` |
+| `receiverId` | String | ✅ | Reference to `users._id` |
+| `itemId` | String | ❌ | Optional — related donation item |
+| `content` | String | ✅ | Message text |
+| `sentAt` | Date | ✅ | Timestamp |
+| `read` | Boolean | ✅ | Whether recipient has read the message |
+
+---
+
+*Last updated: May 2026*

@@ -1,7 +1,7 @@
 # Weekly Sprint Packet — Week 6
 
-## MVP Link
-https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/releases/tag/v1.0
+## MVP Week 6
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/b01200e696ecf02c6bca2b11392290116f5081fa/docs/PROGRESS/MVP_WEEK_6.md
 
 ## Team
 
@@ -258,11 +258,15 @@ If the live demo fails, present:
 
 **Pull Requests:**
 - https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/40 — [WIP] Connect Post Item, Browse Items, and Request Item in a user flow
+  
+### Sujan Tamang
+**Commits**
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/b519cae0fd3cb3f65e232a93e1c7854921a6136b
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a7b65adbbf8d8473fdafbc68424ee5a6f65f59a1
 
-**Issues:**
-- *(add issue links)*
-
----
+ **Pull Requests:**
+- [PR #47: Fixed CSS and JS linking](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/47)
+ ---
 
 ### Mohan Khadka
 
@@ -277,12 +281,5 @@ If the live demo fails, present:
 
 ---
 
-### Sujan Tamang
-Commit
-
-[b519cae0fd3cb3f65e232a93e1c7854921a6136b: Delete docs/sprints directory](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/b519cae0fd3cb3f65e232a93e1c7854921a6136b)
-- [a7b65adbbf8d8473fdafbc68424ee5a6f65f59a1: Create Weekly Sprint Packet Week 7](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a7b65adbbf8d8473fdafbc68424ee5a6f65f59a1)
-
-- [PR #47: Fixed CSS and JS linking](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/47)
 
 

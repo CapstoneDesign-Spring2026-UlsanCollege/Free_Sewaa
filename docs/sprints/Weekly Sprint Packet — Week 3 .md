@@ -240,9 +240,9 @@ Ram Pathak
 - https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/33329fd84113f2e5e896dbc106807a1d62dc689e — Update WEEK_2.md
 
 
-MOHAN KHADKA 
+## MOHAN KHADKA 
 
-Commits:
+**Commits:**
 https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/520169a
 https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c569313
 https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/ca3cc6d
@@ -251,13 +251,12 @@ Issue :
 https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/20
 
 ---
+## Sujan Tamang
+**Commits:**
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/ae0cd8d8fa5d2cb800eee20c2658c28eef7cc5ef
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/79833bb420ded05dee9e1b0d6e64d937c9dcc329
 
-# Demo
-
-Provide a **working demo link or short video**.
-
-
-
+## Demo Video
 
 https://github.com/user-attachments/assets/9f6c1e9b-d3c7-449e-bbc9-97d46b6d07a7
 

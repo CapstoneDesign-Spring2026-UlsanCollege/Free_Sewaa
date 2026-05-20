@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Free Sewaa — About Us</title>
-  <meta name="description" content="Free Sewaa premium page" />
+  <title>Free Sewaa - About Us</title>
+  <meta name="description" content="Learn about Free Sewaa, a community platform for free donations, local support, and volunteer-led care." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/theme.css" />
 </head>
-<body>
+<body data-page="about">
   <div class="grain"></div>
   <canvas id="particles" class="particles"></canvas>
 
@@ -24,6 +24,7 @@
       <a href="about.html" class="nav-link active">About Us</a>
       <a href="donate.html" class="nav-link">Donate</a>
       <a href="browse.html" class="nav-link">Browse</a>
+      <a href="events.html" class="nav-link">Events</a>
       <a href="donate-us.html" class="nav-link">Donate Us</a>
     </nav>
     <div class="header-actions">
@@ -58,13 +59,13 @@
     <div class="page-hero__content wrap">
       <div>
         <p class="eyebrow reveal">ABOUT FREE SEWAA</p>
-        <h1 class="page-title reveal reveal-1">A platform built to<br>share dignity.</h1>
-        <p class="page-text reveal reveal-2">Free Sewaa exists to make community support easier, more respectful, and more human by connecting people who have usable items with people who genuinely need them.</p>
+        <h1 class="page-title reveal reveal-1">Helping communities<br>share with dignity.</h1>
+        <p class="page-text reveal reveal-2">Free Sewaa is built around one simple idea: useful items, local support, and volunteer time should reach people who need them in a respectful and organized way.</p>
       </div>
       <div class="page-badge reveal reveal-3">
         <span class="mini-label">OUR PURPOSE</span>
         <strong>Reduce waste. Increase care.</strong>
-        <p>We believe useful items should keep helping, not sit unused or get thrown away.</p>
+        <p>We help everyday generosity become practical support for families, students, and neighbors.</p>
       </div>
     </div>
   </section>
@@ -73,17 +74,17 @@
     <article class="panel reveal-card">
       <p class="eyebrow">WHO WE ARE</p>
       <h2 class="section-title small">A community-focused giving platform</h2>
-      <p class="section-text">Free Sewaa is designed for people who want to donate clothing, books, household essentials, school supplies, and other useful items in a simple and respectful way. Instead of making support feel complicated or transactional, the platform is designed to feel calm, premium, and trustworthy.</p>
+      <p class="section-text">Free Sewaa helps people donate clothing, books, household essentials, school supplies, food support, and other useful items without making the process feel complicated or transactional.</p>
     </article>
     <article class="panel reveal-card">
       <p class="eyebrow">WHAT WE DO</p>
-      <h2 class="section-title small">Connecting donors and receivers</h2>
-      <p class="section-text">We help donors create clear listings, help users browse items more easily, and make pickup communication more organized through notifications, messages, and tracking tools. The goal is to make practical support easier for everyone.</p>
+      <h2 class="section-title small">Connecting donors, receivers, and volunteers</h2>
+      <p class="section-text">We bring donations, requests, pickup messages, free events, and volunteer opportunities into one place so people can help locally with more clarity and trust.</p>
     </article>
     <article class="panel reveal-card">
       <p class="eyebrow">WHY IT MATTERS</p>
       <h2 class="section-title small">Support should feel dignified</h2>
-      <p class="section-text">Many families need clothing, food support, school materials, or simple essentials. Free Sewaa aims to build a platform where giving feels thoughtful and receiving feels respectful.</p>
+      <p class="section-text">Many families need clothing, food support, school materials, or simple essentials. Free Sewaa creates a calmer path where giving feels thoughtful and receiving feels respectful.</p>
     </article>
   </section>
 
@@ -91,12 +92,69 @@
     <div class="contact-band__left">
       <p class="eyebrow">CONTACT</p>
       <h2 class="section-title small">Get in touch with Free Sewaa</h2>
-      <p class="section-text">Questions, support, partnerships, or community collaboration — we’d love to hear from you.</p>
+      <p class="section-text">Questions, support, partnerships, or community collaboration - we would love to hear from you.</p>
     </div>
     <div class="contact-list">
       <div><strong>Email</strong><span>support@freesewaa.org</span></div>
       <div><strong>Phone</strong><span>+1 (555) 210-9090</span></div>
       <div><strong>Location</strong><span>Brampton, Ontario, Canada</span></div>
+    </div>
+  </section>
+
+  <section class="reviews-section wrap reveal-block" id="communityReviews">
+    <div class="reviews-section__head">
+      <div>
+        <p class="eyebrow">COMMUNITY REVIEWS</p>
+        <h2 class="section-title small">What people think about Free Sewaa</h2>
+        <p class="section-text">Share your experience, rate the platform, and help us understand what is working well for the community.</p>
+      </div>
+      <div class="review-score-card">
+        <span>Average Rating</span>
+        <strong id="reviewAverage">4.8</strong>
+        <p id="reviewCount">Based on 3 community reviews</p>
+      </div>
+    </div>
+
+    <div class="reviews-layout">
+      <div class="reviews-feed" id="reviewsFeed" aria-live="polite"></div>
+
+      <form class="panel review-form" id="aboutReviewForm">
+        <div class="review-form__header">
+          <div>
+            <p class="eyebrow">ADD YOUR REVIEW</p>
+            <h3>Rate your Free Sewaa experience</h3>
+          </div>
+          <p>Reviews help Free Sewaa improve trust, pickup coordination, events, and community support.</p>
+        </div>
+        <div class="review-form__grid">
+          <label class="field">
+            <span>Your name</span>
+            <input id="reviewName" type="text" autocomplete="name" placeholder="Your name" required />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input id="reviewEmail" type="email" autocomplete="email" placeholder="you@example.com" />
+          </label>
+          <label class="field">
+            <span>Rating</span>
+            <select id="reviewRating" required>
+              <option value="5">5 stars - Excellent</option>
+              <option value="4">4 stars - Very good</option>
+              <option value="3">3 stars - Good</option>
+              <option value="2">2 stars - Needs work</option>
+              <option value="1">1 star - Poor</option>
+            </select>
+          </label>
+          <label class="field review-form__message">
+            <span>Review</span>
+            <textarea id="reviewMessage" rows="5" maxlength="700" placeholder="Tell us what you liked or what we can improve." required></textarea>
+          </label>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-hero" type="submit">Submit Review</button>
+        </div>
+        <p class="form-status" id="reviewStatus" aria-live="polite"></p>
+      </form>
     </div>
   </section>
 </main>

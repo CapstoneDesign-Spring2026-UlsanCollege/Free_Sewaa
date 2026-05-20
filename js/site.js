@@ -5,7 +5,9 @@
     theme: 'freesewaa-theme',
     app: 'freesewaa-app-state',
     auth: 'freesewaa-auth',
-    currentUserId: 'freesewaa-current-user-id'
+    currentUserId: 'freesewaa-current-user-id',
+    user: 'freesewaa-user',
+    reviews: 'freesewaa-about-reviews'
   };
 
   const defaultState = {
@@ -20,6 +22,7 @@
       region: 'Nam-gu',
       joinedAt: '2025-06-01T09:00:00',
       bio: 'ECE graduate and community donor who shares useful items with families and students.',
+      avatar: '',
       pickupAvailability: 'Weekdays after 6 PM · Saturday afternoon',
       savedListingIds: [102, 104],
       requestedListingIds: [104, 105],
@@ -235,17 +238,17 @@
       }
     };
 
-    state.listings = Array.isArray(parsed.listings) ? parsed.listings.map(listing => ({
+    state.listings = dedupeListings(Array.isArray(parsed.listings) ? parsed.listings.map(listing => ({
       ...listing,
       ownerId: listing.ownerId || ([101, 102, 103].includes(listing.id) ? state.user.id : `community-${listing.id}`),
       ownerName: listing.ownerName || (((listing.ownerId || ([101, 102, 103].includes(listing.id) ? state.user.id : `community-${listing.id}`)) === state.user.id) ? state.user.name : 'Community Member'),
       status: listing.status || 'active'
-    })) : base.listings;
+    })) : base.listings);
 
-    const validIds = new Set(state.listings.map(item => item.id));
-    state.user.savedListingIds = (state.user.savedListingIds || []).filter(id => validIds.has(id));
-    state.user.requestedListingIds = (state.user.requestedListingIds || []).filter(id => validIds.has(id));
-    state.requests = Array.isArray(parsed.requests) ? parsed.requests.filter(item => validIds.has(item.listingId)) : base.requests;
+    const validIds = new Set(state.listings.map(item => String(item.id)));
+    state.user.savedListingIds = (state.user.savedListingIds || []).filter(id => validIds.has(String(id)));
+    state.user.requestedListingIds = (state.user.requestedListingIds || []).filter(id => validIds.has(String(id)));
+    state.requests = Array.isArray(parsed.requests) ? parsed.requests.filter(item => validIds.has(String(item.listingId))) : base.requests;
     if (!state.requests.length && state.user.requestedListingIds.length) {
       state.requests = state.user.requestedListingIds.map(id => ({
         id: `req-${id}`,
@@ -305,14 +308,19 @@
   }
 
   function isAdmin() {
-    return getCurrentUser().role === 'admin';
+    return getCurrentUser().role === 'superadmin';
   }
 
   const liveChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('freesewaa-live') : null;
 
   function getSessionHeaders(extra = {}) {
     const token = localStorage.getItem('freesewaa-token') || '';
-    return token ? { ...extra, Authorization: `Bearer ${token}` } : { ...extra };
+    const userId = getCurrentUserId();
+    return {
+      ...extra,
+      ...(userId ? { 'x-user-id': userId } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    };
   }
   let suppressBroadcast = false;
 
@@ -377,7 +385,8 @@
       try {
         appState = normalizeState(JSON.parse(event.newValue));
         enhanceMenus();
-    initCurrentPage();
+        enhanceNavIcons();
+        initCurrentPage();
       } catch (error) {
         console.warn('Storage sync failed', error);
       }
@@ -420,6 +429,83 @@
     }
   }
 
+  async function fetchRemoteListings() {
+    try {
+      const response = await fetch(apiUrl('/api/listings?status=all'), { headers: getSessionHeaders() });
+      if (!response.ok) throw new Error('Unable to load listings.');
+      const data = await response.json();
+      return Array.isArray(data.listings) ? data.listings : [];
+    } catch (error) {
+      console.warn(error);
+      return null;
+    }
+  }
+
+  async function createRemoteListing(payload) {
+    const response = await fetch(apiUrl('/api/listings'), {
+      method: 'POST',
+      headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Unable to publish listing.');
+    return data.listing;
+  }
+
+  async function createRemoteRequest(listingId, note = '') {
+    const response = await fetch(apiUrl('/api/requests'), {
+      method: 'POST',
+      headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ listingId, note })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Unable to request listing.');
+    return data;
+  }
+
+  async function fetchRemoteConversations() {
+    try {
+      const response = await fetch(apiUrl('/api/messages/conversations'), { headers: getSessionHeaders() });
+      if (!response.ok) throw new Error('Unable to load conversations.');
+      const data = await response.json();
+      return Array.isArray(data.conversations) ? data.conversations : [];
+    } catch (error) {
+      console.warn(error);
+      return null;
+    }
+  }
+
+  async function fetchRemoteMessages(conversationId) {
+    const response = await fetch(apiUrl(`/api/messages/conversations/${encodeURIComponent(conversationId)}/messages`), {
+      headers: getSessionHeaders()
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Unable to load messages.');
+    return Array.isArray(data.messages) ? data.messages : [];
+  }
+
+  async function sendRemoteMessage(conversationId, text) {
+    const response = await fetch(apiUrl(`/api/messages/conversations/${encodeURIComponent(conversationId)}/messages`), {
+      method: 'POST',
+      headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ text })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Unable to send message.');
+    return data.message;
+  }
+
+  async function sendSuggestion(payload) {
+    const response = await fetch(apiUrl('/api/suggestions'), {
+      method: 'POST',
+      headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Could not send suggestion.');
+    return data;
+  }
+
   let appState = loadState();
 
   function saveState() {
@@ -446,6 +532,15 @@
 
   function initials(name) {
     return name.split(' ').map(part => part[0]).join('').slice(0, 2).toUpperCase();
+  }
+
+  function renderAvatar(name, avatar = '', className = 'avatar-generated') {
+    const safeName = escapeHtml(initials(name || 'Member'));
+    const safeAvatar = String(avatar || '').startsWith('data:image/') ? escapeHtml(avatar) : '';
+    if (safeAvatar) {
+      return `<div class="${className} avatar-with-photo" style="background-image:url('${safeAvatar}')" aria-label="${escapeHtml(name || 'Member')} profile picture"></div>`;
+    }
+    return `<div class="${className}">${safeName}</div>`;
   }
 
   function escapeHtml(text) {
@@ -488,7 +583,7 @@
     document.body.classList.remove('modal-open');
   }
 
-  document.addEventListener('click', event => {
+  document.addEventListener('click', async event => {
     if (event.target.matches('[data-close-modal]')) {
       closeModals();
     }
@@ -497,19 +592,19 @@
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') closeModals();
   });
-  document.addEventListener('click', event => {
+  document.addEventListener('click', async event => {
     const accountModal = event.target.closest('#accountListingModal');
     if (!accountModal) return;
     const saveButton = event.target.closest('.modal-save-button');
     const requestButton = event.target.closest('.modal-request-button');
     if (saveButton) {
-      const id = Number(saveButton.dataset.id);
+      const id = saveButton.dataset.id;
       toggleSaveListing(id);
       renderListingModal(getListingById(id), 'accountListingContent');
     }
     if (requestButton) {
-      const id = Number(requestButton.dataset.id);
-      const conversationId = requestListing(id);
+      const id = requestButton.dataset.id;
+      const conversationId = await requestListing(id);
       if (conversationId) {
         sessionStorage.setItem('freesewaa-open-conversation', conversationId);
         window.location.href = 'messages.html';
@@ -657,8 +752,30 @@
     saveState();
   }
 
+  function idsMatch(left, right) {
+    return String(left) === String(right);
+  }
+
+  function dedupeListings(listings = []) {
+    const seen = new Set();
+    return listings.filter(listing => {
+      const key = String(listing?.id || '');
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  function listIncludesId(list, id) {
+    return (list || []).some(item => idsMatch(item, id));
+  }
+
+  function removeIdFromList(list, id) {
+    return (list || []).filter(item => !idsMatch(item, id));
+  }
+
   function getListingById(id) {
-    return appState.listings.find(listing => listing.id === id);
+    return appState.listings.find(listing => idsMatch(listing.id, id));
   }
 
   function getSavedCount() {
@@ -679,7 +796,7 @@
   }
 
   function getRequestRecord(listingId) {
-    return appState.requests.find(item => item.listingId === listingId);
+    return appState.requests.find(item => idsMatch(item.listingId, listingId));
   }
 
   function getRequestedListings() {
@@ -689,7 +806,50 @@
   }
 
   function getConversationByListingId(listingId) {
-    return appState.conversations.find(item => item.listingId === listingId);
+    return appState.conversations.find(item => idsMatch(item.listingId, listingId));
+  }
+
+  function normalizeRemoteConversation(conversation, messages = null) {
+    const currentUserId = getCurrentUserId();
+    const listing = conversation.listing || getListingById(conversation.listingId) || null;
+    const participant =
+      conversation.participant ||
+      conversation.participantName ||
+      'Community Member';
+    const normalizedMessages = Array.isArray(messages)
+      ? messages.map(message => ({
+          id: message.id || message._id || `${message.conversationId}-${message.createdAt}`,
+          sender: message.senderName || (message.senderId === currentUserId ? 'You' : participant),
+          text: message.text || '',
+          time: new Date(message.createdAt || Date.now()).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+          type: message.senderId === currentUserId ? 'sent' : 'received',
+          createdAt: message.createdAt || new Date().toISOString()
+        }))
+      : [];
+
+    return {
+      id: conversation.id,
+      listingId: conversation.listingId,
+      participant,
+      participantCity: conversation.participantCity || listing?.location?.split(',')[0] || 'Ulsan',
+      unread: Number(conversation.unread || 0),
+      updatedAt: conversation.updatedAt || conversation.lastMessage?.createdAt || new Date().toISOString(),
+      messages: normalizedMessages,
+      lastMessage: conversation.lastMessage || null
+    };
+  }
+
+  function upsertConversation(conversation) {
+    const index = appState.conversations.findIndex(item => item.id === conversation.id);
+    if (index >= 0) {
+      appState.conversations[index] = {
+        ...appState.conversations[index],
+        ...conversation,
+        messages: conversation.messages?.length ? conversation.messages : appState.conversations[index].messages
+      };
+    } else {
+      appState.conversations.unshift(conversation);
+    }
   }
 
   function createConversationForListing(listingId, introText) {
@@ -731,7 +891,7 @@
       request.status = status;
       if (note) request.note = note;
     }
-    if (!appState.user.requestedListingIds.includes(listingId)) {
+    if (!listIncludesId(appState.user.requestedListingIds, listingId)) {
       appState.user.requestedListingIds.unshift(listingId);
     }
     saveState();
@@ -739,8 +899,8 @@
   }
 
   function removeRequest(listingId) {
-    appState.requests = appState.requests.filter(item => item.listingId !== listingId);
-    appState.user.requestedListingIds = appState.user.requestedListingIds.filter(id => id !== listingId);
+    appState.requests = appState.requests.filter(item => !idsMatch(item.listingId, listingId));
+    appState.user.requestedListingIds = removeIdFromList(appState.user.requestedListingIds, listingId);
     addNotification(`You cancelled your request for ${getListingById(listingId)?.title || 'a listing'}.`);
     saveState();
   }
@@ -757,11 +917,11 @@
   function deleteListingById(listingId) {
     const listing = getListingById(listingId);
     if (!listing) return;
-    appState.listings = appState.listings.filter(item => item.id !== listingId);
-    appState.user.savedListingIds = appState.user.savedListingIds.filter(id => id !== listingId);
-    appState.user.requestedListingIds = appState.user.requestedListingIds.filter(id => id !== listingId);
-    appState.requests = appState.requests.filter(item => item.listingId !== listingId);
-    appState.conversations = appState.conversations.filter(item => item.listingId !== listingId);
+    appState.listings = appState.listings.filter(item => !idsMatch(item.id, listingId));
+    appState.user.savedListingIds = removeIdFromList(appState.user.savedListingIds, listingId);
+    appState.user.requestedListingIds = removeIdFromList(appState.user.requestedListingIds, listingId);
+    appState.requests = appState.requests.filter(item => !idsMatch(item.listingId, listingId));
+    appState.conversations = appState.conversations.filter(item => !idsMatch(item.listingId, listingId));
     addNotification(`You removed the listing ${listing.title}.`);
     saveState();
   }
@@ -787,7 +947,7 @@
     const savedIds = appState.user.savedListingIds;
     const listing = getListingById(id);
     if (!listing) return false;
-    const index = savedIds.indexOf(id);
+    const index = savedIds.findIndex(savedId => idsMatch(savedId, id));
     if (index >= 0) {
       savedIds.splice(index, 1);
       listing.saveCount = Math.max(0, listing.saveCount - 1);
@@ -799,10 +959,10 @@
       showToast('Saved to your items.', 'success');
     }
     saveState();
-    return savedIds.includes(id);
+    return listIncludesId(savedIds, id);
   }
 
-  function requestListing(id) {
+  async function requestListing(id) {
     const listing = getListingById(id);
     if (!listing) return;
     if (listing.ownerId === appState.user.id) {
@@ -811,6 +971,31 @@
     }
     const existingRequest = getRequestRecord(id);
     if (!existingRequest) {
+      const introText = `Hi! I am interested in your ${listing.title}. Is it still available?`;
+      try {
+        const data = await createRemoteRequest(id, introText);
+        if (data.request) {
+          createOrUpdateRequest(id, data.request.status || 'pending', data.request.note || introText);
+        }
+        if (data.conversation) {
+          upsertConversation(normalizeRemoteConversation(data.conversation, data.message ? [data.message] : []));
+        } else {
+          upsertConversation(createConversationForListing(id, introText));
+        }
+        addNotification(`Your request for ${listing.title} was sent.`);
+        saveState();
+        showToast('Request sent. Conversation added to Messages.', 'success');
+        return data.conversation?.id || getConversationByListingId(id)?.id;
+      } catch (error) {
+        console.warn(error);
+        listing.requestCount += 1;
+        createOrUpdateRequest(id, 'pending');
+        const conversation = createConversationForListing(id, introText);
+        addNotification(`Your request for ${listing.title} was saved locally.`);
+        saveState();
+        showToast(error.message || 'Request saved locally. Server chat may be unavailable.', 'error');
+        return conversation?.id;
+      }
       listing.requestCount += 1;
       createOrUpdateRequest(id, 'pending');
       const conversation = createConversationForListing(id, `Hi! I’m interested in your ${listing.title}. Is it still available?`);
@@ -826,20 +1011,31 @@
   function renderListingModal(listing, containerId) {
     const container = document.getElementById(containerId);
     if (!container || !listing) return;
-    const isSaved = appState.user.savedListingIds.includes(listing.id);
-    const requested = appState.user.requestedListingIds.includes(listing.id);
+    const isSaved = listIncludesId(appState.user.savedListingIds, listing.id);
+    const requested = listIncludesId(appState.user.requestedListingIds, listing.id);
     container.innerHTML = `
       <div class="modal-listing-layout">
         <div class="modal-listing-image" style="background-image:url('${escapeHtml(listing.image)}')"></div>
         <div class="modal-listing-copy">
-          <p class="eyebrow">${escapeHtml(listing.category)} · ${escapeHtml(listing.condition)}</p>
+          <div class="listing-detail-kicker">
+            <span class="listing-pill">${escapeHtml(listing.category)}</span>
+            <span class="listing-pill listing-pill--soft">${escapeHtml(listing.condition)}</span>
+            ${listing.urgent ? '<span class="listing-pill listing-pill--urgent">Urgent support</span>' : ''}
+          </div>
           <h2>${escapeHtml(listing.title)}</h2>
           <p>${escapeHtml(listing.description)}</p>
+          <div class="listing-owner-strip">
+            ${renderAvatar(listing.ownerName || 'Community Member', '', 'listing-owner-avatar')}
+            <div>
+              <span class="mini-label">Shared by</span>
+              <strong>${escapeHtml(listing.ownerName || 'Community Member')}</strong>
+            </div>
+          </div>
           <div class="modal-meta-grid">
             <div><span class="mini-label">Location</span><strong>${escapeHtml(listing.location)}</strong></div>
             <div><span class="mini-label">Pickup</span><strong>${escapeHtml(listing.pickup)}</strong></div>
             <div><span class="mini-label">Distance</span><strong>${listing.distanceKm} km away</strong></div>
-            <div><span class="mini-label">Posted</span><strong>${formatCreated(listing.createdAt)}</strong></div>
+            <div><span class="mini-label">Best time</span><strong>${escapeHtml(listing.pickupWindow || 'Flexible')}</strong></div>
           </div>
           <p class="helper-text">${escapeHtml(listing.notes || 'No extra pickup notes.')}</p>
           <div class="form-actions stack-mobile">
@@ -854,6 +1050,9 @@
   function initBrowsePage() {
     const listingGrid = document.getElementById('listingGrid');
     if (!listingGrid) return;
+    if (listingGrid.dataset.browseBound === 'true') return;
+    listingGrid.dataset.browseBound = 'true';
+    appState.listings = dedupeListings(appState.listings);
 
     const state = {
       search: '',
@@ -910,25 +1109,36 @@
     }
 
     function renderListings() {
+      appState.listings = dedupeListings(appState.listings);
       const listings = getFilteredListings();
       listingGrid.innerHTML = listings.map(listing => {
-        const saved = appState.user.savedListingIds.includes(listing.id);
-        const requested = appState.user.requestedListingIds.includes(listing.id);
+        const saved = listIncludesId(appState.user.savedListingIds, listing.id);
+        const requested = listIncludesId(appState.user.requestedListingIds, listing.id);
         return `
           <article class="listing-card reveal-card app-listing-card is-visible">
             <div class="listing-card__media app-listing-media" style="background-image:url('${escapeHtml(listing.image)}')">
               <div class="listing-card__topbar">
                 <span class="listing-pill">${escapeHtml(listing.category)}</span>
-                ${listing.urgent ? '<span class="listing-pill listing-pill--urgent">Urgent</span>' : ''}
+                ${listing.urgent ? '<span class="listing-pill listing-pill--urgent">Urgent support</span>' : `<span class="listing-pill listing-pill--soft">${escapeHtml(listing.condition)}</span>`}
               </div>
             </div>
             <div class="listing-card__body">
-              <div class="listing-meta"><span>${escapeHtml(listing.condition)}</span><span>${listing.distanceKm} km away</span></div>
+              <div class="listing-meta"><span>${escapeHtml(listing.location)}</span><span>${listing.distanceKm} km away</span></div>
               <h3>${escapeHtml(listing.title)}</h3>
               <p>${escapeHtml(listing.description)}</p>
+              <div class="listing-trust-row">
+                <div>
+                  <span>Pickup</span>
+                  <strong>${escapeHtml(listing.pickupWindow || listing.pickup || 'Flexible')}</strong>
+                </div>
+                <div>
+                  <span>Shared by</span>
+                  <strong>${escapeHtml(listing.ownerName || 'Community Member')}</strong>
+                </div>
+              </div>
               <div class="listing-stats-row">
-                <span>${escapeHtml(listing.location)}</span>
-                <span>${listing.requestCount} requests · ${listing.saveCount} saves</span>
+                <span>${listing.requestCount} requests</span>
+                <span>${listing.saveCount} saves</span>
               </div>
               <div class="listing-footer listing-footer--actions">
                 <button class="btn btn-soft listing-action" type="button" data-action="preview" data-id="${listing.id}">Preview</button>
@@ -945,7 +1155,7 @@
       savedSummary.textContent = `${getSavedCount()} Saved`;
       requestsSummary.textContent = `${getRequestedCount()} Requested`;
       headline.textContent = `${listings.length} listings available`;
-      subline.textContent = listings.length ? 'Updated instantly as you search and filter.' : 'Try changing the filters to reveal more listings.';
+      subline.textContent = listings.length ? 'Updated as you search and refine the listing details.' : 'Try changing the filters to reveal more listings.';
       savedCountBadge.textContent = getSavedCount();
       requestCountBadge.textContent = getRequestedCount();
       renderActiveFilters();
@@ -996,10 +1206,10 @@
     document.getElementById('resetFilters')?.addEventListener('click', resetFilters);
     document.getElementById('emptyResetButton')?.addEventListener('click', resetFilters);
 
-    listingGrid.addEventListener('click', event => {
+    listingGrid.addEventListener('click', async event => {
       const actionButton = event.target.closest('[data-action]');
       if (!actionButton) return;
-      const id = Number(actionButton.dataset.id);
+      const id = actionButton.dataset.id;
       const listing = getListingById(id);
       if (!listing) return;
       if (actionButton.dataset.action === 'preview') {
@@ -1013,7 +1223,7 @@
         return;
       }
       if (actionButton.dataset.action === 'request') {
-        const conversationId = requestListing(id);
+        const conversationId = await requestListing(id);
         renderListings();
         if (actionButton.textContent.includes('Open') || conversationId) {
           if (conversationId) sessionStorage.setItem('freesewaa-open-conversation', conversationId);
@@ -1022,18 +1232,18 @@
       }
     });
 
-    modal?.addEventListener('click', event => {
+    modal?.addEventListener('click', async event => {
       const saveButton = event.target.closest('.modal-save-button');
       const requestButton = event.target.closest('.modal-request-button');
       if (saveButton) {
-        const id = Number(saveButton.dataset.id);
+        const id = saveButton.dataset.id;
         toggleSaveListing(id);
         renderListingModal(getListingById(id), 'listingModalContent');
         renderListings();
       }
       if (requestButton) {
-        const id = Number(requestButton.dataset.id);
-        const conversationId = requestListing(id);
+        const id = requestButton.dataset.id;
+        const conversationId = await requestListing(id);
         renderListings();
         closeModals();
         if (conversationId) sessionStorage.setItem('freesewaa-open-conversation', conversationId);
@@ -1151,30 +1361,55 @@
       return Math.ceil((base64.length * 3) / 4);
     }
 
+    function drawScaledImage(image, maxEdge) {
+      const scale = Math.min(1, maxEdge / Math.max(image.width, image.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(image.width * scale));
+      canvas.height = Math.max(1, Math.round(image.height * scale));
+      const context = canvas.getContext('2d');
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      return canvas;
+    }
+
     function compressImageFile(file) {
+      const maxListingImageChars = 170000;
+      const maxEdges = [900, 720, 560, 420, 320, 240, 180];
+      const qualities = [0.78, 0.68, 0.58, 0.48, 0.38, 0.3];
+
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = () => {
           const image = new Image();
           image.onload = () => {
-            const maxEdge = 1600;
-            const scale = Math.min(1, maxEdge / Math.max(image.width, image.height));
-            const canvas = document.createElement('canvas');
-            canvas.width = Math.max(1, Math.round(image.width * scale));
-            canvas.height = Math.max(1, Math.round(image.height * scale));
-            const context = canvas.getContext('2d');
-            context.drawImage(image, 0, 0, canvas.width, canvas.height);
-            let quality = 0.82;
-            let dataUrl = canvas.toDataURL('image/jpeg', quality);
-            while (dataUrlSize(dataUrl) > 700 * 1024 && quality > 0.5) {
-              quality -= 0.08;
-              dataUrl = canvas.toDataURL('image/jpeg', quality);
+            let smallestDataUrl = '';
+            for (const maxEdge of maxEdges) {
+              const canvas = drawScaledImage(image, maxEdge);
+              for (const quality of qualities) {
+                const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                smallestDataUrl = !smallestDataUrl || dataUrl.length < smallestDataUrl.length ? dataUrl : smallestDataUrl;
+                if (dataUrl.length <= maxListingImageChars) {
+                  resolve({
+                    dataUrl,
+                    originalBytes: file.size,
+                    compressedBytes: dataUrlSize(dataUrl)
+                  });
+                  return;
+                }
+              }
             }
-            resolve({
-              dataUrl,
-              originalBytes: file.size,
-              compressedBytes: dataUrlSize(dataUrl)
-            });
+            if (smallestDataUrl) {
+              if (smallestDataUrl.length <= maxListingImageChars) {
+                resolve({
+                  dataUrl: smallestDataUrl,
+                  originalBytes: file.size,
+                  compressedBytes: dataUrlSize(smallestDataUrl)
+                });
+                return;
+              }
+              reject(new Error(`${file.name} is too large to use. Try a simpler or smaller photo.`));
+              return;
+            }
+            reject(new Error(`${file.name} could not be prepared for upload.`));
           };
           image.onerror = () => reject(new Error(`Could not load ${file.name}.`));
           image.src = reader.result;
@@ -1184,6 +1419,29 @@
       });
     }
 
+    async function prepareUploadImages(files) {
+      const prepared = await Promise.all(files.map(compressImageFile));
+      return {
+        images: prepared.map(item => item.dataUrl),
+        originalBytes: prepared.reduce((sum, item) => sum + item.originalBytes, 0),
+        compressedBytes: prepared.reduce((sum, item) => sum + item.compressedBytes, 0)
+      };
+    }
+
+    function getUploadLimitMessage(files) {
+      const remainingSlots = Math.max(0, 5 - imagePreviews.length);
+      if (files.length > remainingSlots) {
+        return `Only ${remainingSlots} more image${remainingSlots === 1 ? '' : 's'} can be added.`;
+      }
+      return '';
+    }
+
+    function buildUploadSuccessMessage(originalBytes, compressedBytes) {
+      if (originalBytes > compressedBytes) {
+        return `Images optimized from ${formatFileSize(originalBytes)} to ${formatFileSize(compressedBytes)}.`;
+      }
+      return 'Images added to your listing draft.';
+    }
 
     function updatePreview() {
       const data = getFormData();
@@ -1270,7 +1528,7 @@
       renderStep();
     }
 
-    function publishListing() {
+    async function publishListing() {
       const data = getFormData();
       const listing = {
         id: Date.now(),
@@ -1292,7 +1550,14 @@
         urgent: data.urgent,
         status: 'active'
       };
-      appState.listings.unshift(listing);
+      try {
+        const remoteListing = await createRemoteListing(listing);
+        appState.listings.unshift(remoteListing || listing);
+      } catch (error) {
+        console.warn(error);
+        appState.listings.unshift(listing);
+        showToast(error.message || 'Listing saved locally. Server publish may be unavailable.', 'error');
+      }
       delete appState.user.drafts.donate;
       addNotification(`Your listing "${listing.title}" is now live.`);
       saveState();
@@ -1305,20 +1570,30 @@
     }
 
     uploadTrigger.addEventListener('click', () => uploadInput.click());
-    uploadInput.addEventListener('change', event => {
-      const files = Array.from(event.target.files || []).slice(0, 5);
-      if (!files.length) return;
-      const readers = files.map(file => new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onload = e => resolve(e.target.result);
-        reader.readAsDataURL(file);
-      }));
-      Promise.all(readers).then(images => {
-        imagePreviews = [...imagePreviews, ...images].slice(0, 5);
+    uploadInput.addEventListener('change', async event => {
+      const selectedFiles = Array.from(event.target.files || []).filter(file => file.type.startsWith('image/'));
+      const limitMessage = getUploadLimitMessage(selectedFiles);
+      const files = selectedFiles.slice(0, Math.max(0, 5 - imagePreviews.length));
+      if (!files.length) {
+        setStatus(limitMessage || 'Choose an image file to add to your listing.', 'error');
+        uploadInput.value = '';
+        return;
+      }
+
+      setStatus('Preparing images for Browse...', 'default');
+      try {
+        const upload = await prepareUploadImages(files);
+        imagePreviews = [...imagePreviews, ...upload.images].slice(0, 5);
         renderUploadPreviews();
         updatePreview();
-        setStatus('Images added to your listing draft.', 'success');
-      });
+        setStatus(limitMessage || buildUploadSuccessMessage(upload.originalBytes, upload.compressedBytes), 'success');
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || 'Could not prepare that image. Try a different photo.', 'error');
+        showToast(error.message || 'Could not prepare that image.', 'error');
+      } finally {
+        uploadInput.value = '';
+      }
     });
 
     uploadPreviewGrid.addEventListener('click', event => {
@@ -1344,7 +1619,7 @@
       }
     });
 
-    nextButton.addEventListener('click', () => {
+    nextButton.addEventListener('click', async () => {
       const error = validateStep(currentStep);
       if (error) {
         setStatus(error, 'error');
@@ -1356,7 +1631,7 @@
         renderStep();
         return;
       }
-      publishListing();
+      await publishListing();
     });
 
     createAnotherButton?.addEventListener('click', () => {
@@ -1373,6 +1648,12 @@
   function initMessagesPage() {
     const conversationList = document.getElementById('conversationList');
     if (!conversationList) return;
+    if (conversationList.dataset.liveChatBound === 'true') return;
+    conversationList.dataset.liveChatBound = 'true';
+    if (window.freesewaaMessagePollTimer) {
+      clearInterval(window.freesewaaMessagePollTimer);
+      window.freesewaaMessagePollTimer = null;
+    }
 
     const messageThread = document.getElementById('messageThread');
     const conversationHead = document.getElementById('conversationHead');
@@ -1386,7 +1667,48 @@
     const listingContent = document.getElementById('conversationListingContent');
 
     let activeConversationId = sessionStorage.getItem('freesewaa-open-conversation') || appState.conversations[0]?.id;
+    let isSendingMessage = false;
+    let isRefreshingMessages = false;
     sessionStorage.removeItem('freesewaa-open-conversation');
+
+    async function refreshRemoteConversations(renderAfter = true) {
+      if (isRefreshingMessages) return;
+      isRefreshingMessages = true;
+      try {
+      const remoteConversations = await fetchRemoteConversations();
+      if (!remoteConversations) return;
+
+      remoteConversations.forEach(conversation => {
+        const existing = appState.conversations.find(item => item.id === conversation.id);
+        upsertConversation({
+          ...normalizeRemoteConversation(conversation),
+          messages: existing?.messages || []
+        });
+      });
+
+      if (!activeConversationId && remoteConversations[0]) {
+        activeConversationId = remoteConversations[0].id;
+      }
+
+      if (activeConversationId) {
+        try {
+          const messages = await fetchRemoteMessages(activeConversationId);
+          const activeRemote = remoteConversations.find(item => item.id === activeConversationId) ||
+            appState.conversations.find(item => item.id === activeConversationId);
+          if (activeRemote) {
+            upsertConversation(normalizeRemoteConversation(activeRemote, messages));
+          }
+        } catch (error) {
+          console.warn(error);
+        }
+      }
+
+      localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
+      if (renderAfter) renderConversationList();
+      } finally {
+        isRefreshingMessages = false;
+      }
+    }
 
     function getFilteredConversations() {
       const term = conversationSearch.value.trim().toLowerCase();
@@ -1409,7 +1731,7 @@
 
       conversationList.innerHTML = conversations.map(conversation => {
         const listing = getListingById(conversation.listingId);
-        const latest = conversation.messages[conversation.messages.length - 1];
+        const latest = conversation.messages[conversation.messages.length - 1] || conversation.lastMessage;
         return `
           <button class="chat-item ${conversation.id === activeConversationId ? 'active-chat' : ''}" data-conversation-id="${conversation.id}">
             <div class="chat-avatar avatar-generated">${initials(conversation.participant)}</div>
@@ -1444,7 +1766,7 @@
       const conversation = appState.conversations.find(item => item.id === activeConversationId);
       if (!conversation) return;
       conversation.unread = 0;
-      saveState();
+      localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
       const listing = getListingById(conversation.listingId);
       conversationHead.innerHTML = `
         <div class="conversation-user">
@@ -1472,8 +1794,8 @@
         renderListingModal(listing, 'conversationListingContent');
         openModal('conversationListingModal');
       });
-      document.getElementById('markReadyButton')?.addEventListener('click', () => {
-        pushMessage('Your item is packed and ready for pickup.', 'sent');
+      document.getElementById('markReadyButton')?.addEventListener('click', async () => {
+        await pushMessage('Your item is packed and ready for pickup.', 'sent');
       });
 
       renderConversationListMetaOnly();
@@ -1487,15 +1809,39 @@
       });
     }
 
-    function pushMessage(text, type = 'sent') {
+    async function pushMessage(text, type = 'sent') {
       const conversation = appState.conversations.find(item => item.id === activeConversationId);
       if (!conversation || !text.trim()) return;
-      conversation.messages.push({
-        sender: type === 'sent' ? 'You' : conversation.participant,
-        text: text.trim(),
-        time: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
-        type
-      });
+      const trimmed = text.trim();
+      if (type === 'sent' && isSendingMessage) return;
+      if (type === 'sent') isSendingMessage = true;
+      if (type === 'sent') {
+        try {
+          const remoteMessage = await sendRemoteMessage(activeConversationId, trimmed);
+          const normalizedMessage = normalizeRemoteConversation(conversation, [remoteMessage]).messages[0];
+          const duplicate = conversation.messages.some(message =>
+            (normalizedMessage.id && message.id === normalizedMessage.id) ||
+            (message.text === normalizedMessage.text && message.createdAt === normalizedMessage.createdAt)
+          );
+          if (!duplicate) conversation.messages.push(normalizedMessage);
+        } catch (error) {
+          console.warn(error);
+          conversation.messages.push({
+            sender: 'You',
+            text: trimmed,
+            time: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+            type: 'sent'
+          });
+          showToast(error.message || 'Message saved locally. Server chat may be unavailable.', 'error');
+        }
+      } else {
+        conversation.messages.push({
+          sender: conversation.participant,
+          text: trimmed,
+          time: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+          type
+        });
+      }
       conversation.updatedAt = new Date().toISOString();
       if (type === 'sent') {
         addNotification(`You replied to ${conversation.participant}.`);
@@ -1503,26 +1849,29 @@
       saveState();
       renderConversationList();
       showToast('Message sent.', 'success');
+      if (type === 'sent') {
+        isSendingMessage = false;
+      }
     }
 
-    conversationList.addEventListener('click', event => {
+    conversationList.addEventListener('click', async event => {
       const button = event.target.closest('[data-conversation-id]');
       if (!button) return;
       activeConversationId = button.dataset.conversationId;
-      renderConversationList();
+      await refreshRemoteConversations(true);
     });
 
     conversationSearch.addEventListener('input', renderConversationList);
 
-    messageForm.addEventListener('submit', event => {
+    messageForm.addEventListener('submit', async event => {
       event.preventDefault();
       const text = messageInput.value.trim();
       if (!text) {
         showToast('Write a message first.', 'error');
         return;
       }
-      pushMessage(text, 'sent');
       messageInput.value = '';
+      await pushMessage(text, 'sent');
     });
 
     document.querySelectorAll('[data-quick-message]').forEach(button => {
@@ -1532,28 +1881,31 @@
       });
     });
 
-    confirmPickupButton.addEventListener('click', () => {
-      pushMessage('Pickup is confirmed. I will be there at the agreed time.', 'sent');
+    confirmPickupButton.addEventListener('click', async () => {
+      await pushMessage('Pickup is confirmed. I will be there at the agreed time.', 'sent');
     });
 
     document.getElementById('conversationListingModal')?.addEventListener('click', event => {
       const saveButton = event.target.closest('.modal-save-button');
       const requestButton = event.target.closest('.modal-request-button');
       if (saveButton) {
-        const id = Number(saveButton.dataset.id);
+        const id = saveButton.dataset.id;
         toggleSaveListing(id);
         const listing = getListingById(id);
         renderListingModal(listing, 'conversationListingContent');
       }
       if (requestButton) {
-        const id = Number(requestButton.dataset.id);
+        const id = requestButton.dataset.id;
         sessionStorage.setItem('freesewaa-open-conversation', activeConversationId);
         closeModals();
         window.location.href = 'browse.html';
       }
     });
 
-    renderConversationList();
+    refreshRemoteConversations(true).then(() => {
+      if (!appState.conversations.length) renderConversationList();
+    });
+    window.freesewaaMessagePollTimer = setInterval(() => refreshRemoteConversations(true), 3500);
   }
 
   function initMyPostsPage() {
@@ -1596,21 +1948,21 @@
       render();
     }));
 
-    grid.addEventListener('click', event => {
+    grid.addEventListener('click', async event => {
       const actionButton = event.target.closest('[data-post-action]');
       const previewButton = event.target.closest('[data-post-open]');
       const deleteButton = event.target.closest('[data-post-delete]');
       if (actionButton) {
-        markListingStatus(Number(actionButton.dataset.id), actionButton.dataset.postAction);
+        markListingStatus(actionButton.dataset.id, actionButton.dataset.postAction);
         showToast('Listing status updated.', 'success');
         render();
       }
       if (previewButton) {
-        renderListingModal(getListingById(Number(previewButton.dataset.postOpen)), 'accountListingContent');
+        renderListingModal(getListingById(previewButton.dataset.postOpen), 'accountListingContent');
         openModal('accountListingModal');
       }
       if (deleteButton) {
-        deleteListingById(Number(deleteButton.dataset.postDelete));
+        deleteListingById(deleteButton.dataset.postDelete);
         showToast('Listing deleted.', 'success');
         render();
       }
@@ -1636,24 +1988,24 @@
       }).join('');
     }
 
-    grid.addEventListener('click', event => {
+    grid.addEventListener('click', async event => {
       const preview = event.target.closest('[data-saved-open]');
       const request = event.target.closest('[data-saved-request]');
       const remove = event.target.closest('[data-saved-remove]');
       if (preview) {
-        renderListingModal(getListingById(Number(preview.dataset.savedOpen)), 'accountListingContent');
+        renderListingModal(getListingById(preview.dataset.savedOpen), 'accountListingContent');
         openModal('accountListingModal');
       }
       if (request) {
-        const id = Number(request.dataset.savedRequest);
-        const conversationId = requestListing(id) || getConversationByListingId(id)?.id;
+        const id = request.dataset.savedRequest;
+        const conversationId = await requestListing(id) || getConversationByListingId(id)?.id;
         if (conversationId) {
           sessionStorage.setItem('freesewaa-open-conversation', conversationId);
           window.location.href = 'messages.html';
         }
       }
       if (remove) {
-        toggleSaveListing(Number(remove.dataset.savedRemove));
+        toggleSaveListing(remove.dataset.savedRemove);
         render();
       }
     });
@@ -1698,20 +2050,20 @@
       const setStatus = event.target.closest('[data-request-status]');
       const cancel = event.target.closest('[data-request-cancel]');
       if (msg) {
-        const listingId = Number(msg.dataset.requestMessage);
+        const listingId = msg.dataset.requestMessage;
         const conversation = createConversationForListing(listingId, 'Hi again — following up on my request.');
         sessionStorage.setItem('freesewaa-open-conversation', conversation.id);
         window.location.href = 'messages.html';
       }
       if (setStatus) {
-        const listingId = Number(setStatus.dataset.id);
+        const listingId = setStatus.dataset.id;
         const request = createOrUpdateRequest(listingId, setStatus.dataset.requestStatus);
         if (request.status === 'completed') addNotification(`You marked ${getListingById(listingId)?.title || 'a listing'} as received.`);
         render();
         showToast('Request updated.', 'success');
       }
       if (cancel) {
-        removeRequest(Number(cancel.dataset.requestCancel));
+        removeRequest(cancel.dataset.requestCancel);
         render();
         showToast('Request cancelled.', 'success');
       }
@@ -1770,6 +2122,10 @@
       city: document.getElementById('profileCity'),
       region: document.getElementById('profileRegion'),
       bio: document.getElementById('profileBio'),
+      photoInput: document.getElementById('profilePhotoInput'),
+      photoHelp: document.getElementById('profilePhotoHelp'),
+      photoPreview: document.getElementById('profilePhotoPreview'),
+      photoRemove: document.getElementById('profilePhotoRemove'),
       pickupAvailability: document.getElementById('profilePickupAvailability'),
       language: document.getElementById('profileLanguage'),
       notifications: document.getElementById('profileNotifications'),
@@ -1786,8 +2142,40 @@
       });
       const userStats = getUserStats();
       summary.innerHTML = `<div class="profile-avatar-large">${initials(appState.user.name)}</div><div><p class="eyebrow">COMMUNITY PROFILE</p><h2>${escapeHtml(appState.user.name)}</h2><p class="helper-text">Member since ${formatCreated(appState.user.joinedAt)} · ${escapeHtml(appState.user.city)}, ${escapeHtml(appState.user.region)}</p><p class="helper-text">${escapeHtml(appState.user.bio)}</p></div>`;
+      const avatarMarkup = renderAvatar(appState.user.name, appState.user.avatar, 'profile-avatar-large');
+      if (fields.photoPreview) fields.photoPreview.innerHTML = avatarMarkup;
+      summary.innerHTML = `${avatarMarkup}<div><p class="eyebrow">COMMUNITY PROFILE</p><h2>${escapeHtml(appState.user.name)}</h2><p class="helper-text">Member since ${formatCreated(appState.user.joinedAt)} - ${escapeHtml(appState.user.city)}, ${escapeHtml(appState.user.region)}</p><p class="helper-text">${escapeHtml(appState.user.bio)}</p></div>`;
       stats.innerHTML = `<div><span class="mini-label">Donations completed</span><strong>${userStats.completed}</strong></div><div><span class="mini-label">Active listings</span><strong>${userStats.active}</strong></div><div><span class="mini-label">Saved items</span><strong>${userStats.saved}</strong></div><div><span class="mini-label">Requests sent</span><strong>${userStats.requested}</strong></div>`;
     }
+
+    fields.photoInput?.addEventListener('change', event => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        if (fields.photoHelp) fields.photoHelp.textContent = 'Please choose an image file.';
+        fields.photoInput.value = '';
+        return;
+      }
+      if (file.size > 1024 * 1024) {
+        if (fields.photoHelp) fields.photoHelp.textContent = 'Please choose an image under 1 MB.';
+        fields.photoInput.value = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        appState.user.avatar = String(reader.result || '');
+        if (fields.photoHelp) fields.photoHelp.textContent = 'Photo selected. Save changes to keep it on your profile.';
+        if (fields.photoPreview) fields.photoPreview.innerHTML = renderAvatar(appState.user.name, appState.user.avatar, 'profile-avatar-large');
+      };
+      reader.readAsDataURL(file);
+    });
+
+    fields.photoRemove?.addEventListener('click', () => {
+      appState.user.avatar = '';
+      if (fields.photoInput) fields.photoInput.value = '';
+      if (fields.photoHelp) fields.photoHelp.textContent = 'Profile photo removed. Save changes to keep this update.';
+      if (fields.photoPreview) fields.photoPreview.innerHTML = renderAvatar(appState.user.name, '', 'profile-avatar-large');
+    });
 
     form.addEventListener('submit', event => {
       event.preventDefault();
@@ -1825,6 +2213,13 @@
       settingsMenu.prepend(panelLink);
     }
     const nav = document.querySelector('.main-nav');
+    if (nav && !nav.querySelector('a[href$="events.html"]')) {
+      const eventLink = document.createElement('a');
+      eventLink.href = '/events.html';
+      eventLink.className = 'nav-link';
+      eventLink.textContent = 'Events';
+      nav.appendChild(eventLink);
+    }
     if (nav && !nav.querySelector('[data-dynamic-audit-link]')) {
       const link = document.createElement('a');
       link.href = isAdmin() ? '/admin.html' : '/user_panel.html';
@@ -1835,14 +2230,446 @@
     }
   }
 
+  const navIcons = {
+    home: '<path d="M3 10.8 12 3l9 7.8"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-7h6v7"/>',
+    about: '<circle cx="12" cy="12" r="9"/><path d="M12 10v6"/><path d="M12 7h.01"/>',
+    donate: '<path d="M20.8 8.6a5.2 5.2 0 0 0-7.4 0L12 10l-1.4-1.4a5.2 5.2 0 0 0-7.4 7.4L12 24l8.8-8a5.2 5.2 0 0 0 0-7.4Z"/>',
+    browse: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/><path d="M8 11h6"/><path d="M11 8v6"/>',
+    events: '<path d="M7 3v3"/><path d="M17 3v3"/><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/>',
+    donateUs: '<path d="M12 21s-7-4.1-7-10a4 4 0 0 1 7-2.7A4 4 0 0 1 19 11c0 5.9-7 10-7 10Z"/><path d="M12 8v8"/><path d="M8 12h8"/>',
+    messages: '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/><path d="M8 9h8"/><path d="M8 13h5"/>',
+    notifications: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/>',
+    dashboard: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+    admin: '<path d="M12 3 4 6v6c0 5 3.4 8 8 9 4.6-1 8-4 8-9V6Z"/><path d="M9 12l2 2 4-5"/>',
+    saved: '<path d="M6 3h12v18l-6-4-6 4Z"/>',
+    requests: '<path d="M9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+    profile: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    signin: '<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/>',
+    signup: '<circle cx="9" cy="8" r="4"/><path d="M3 21a6 6 0 0 1 12 0"/><path d="M19 8v6"/><path d="M16 11h6"/>',
+    settings: '<path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.04.04a2 2 0 1 1-2.83 2.83l-.04-.04A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6V20a2 2 0 1 1-4 0v-.05a1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.04.04a2 2 0 1 1-2.83-2.83l.04-.04A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1H4a2 2 0 1 1 0-4h.05a1.7 1.7 0 0 0 .6-1 1.7 1.7 0 0 0-.34-1.88l-.04-.04a2 2 0 1 1 2.83-2.83l.04.04A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6V4a2 2 0 1 1 4 0v.05a1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.04-.04a2 2 0 1 1 2.83 2.83l-.04.04A1.7 1.7 0 0 0 19.4 9c.2.35.4.67.6 1H20a2 2 0 1 1 0 4h-.05a1.7 1.7 0 0 0-.55 1Z"/>',
+    logout: '<path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M21 3v18"/>'
+  };
+
+  function navIconKey(label, href) {
+    const text = `${label} ${href || ''}`.toLowerCase();
+    if (text.includes('notification')) return 'notifications';
+    if (text.includes('message')) return 'messages';
+    if (text.includes('volunteer')) return 'events';
+    if (text.includes('support')) return 'donateUs';
+    if (text.includes('dashboard') || text.includes('user_panel')) return 'dashboard';
+    if (text.includes('admin')) return 'admin';
+    if (text.includes('event')) return 'events';
+    if (text.includes('browse')) return 'browse';
+    if (text.includes('donate-us') || text.includes('donate us')) return 'donateUs';
+    if (text.includes('donate')) return 'donate';
+    if (text.includes('about')) return 'about';
+    if (text.includes('saved')) return 'saved';
+    if (text.includes('request')) return 'requests';
+    if (text.includes('profile')) return 'profile';
+    if (text.includes('sign in') || text.includes('signin')) return 'signin';
+    if (text.includes('sign up') || text.includes('signup')) return 'signup';
+    if (text.includes('setting')) return 'settings';
+    if (text.includes('logout')) return 'logout';
+    if (text.includes('home') || text.includes('app.html')) return 'home';
+    return 'dashboard';
+  }
+
+  function makeNavIcon(paths) {
+    return `<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${paths}</svg>`;
+  }
+
+  function enhanceNavIcons() {
+    document.querySelectorAll('.main-nav .nav-link, .header-actions .icon-link').forEach(link => {
+      if (link.dataset.iconEnhanced === 'true') return;
+      const label = link.textContent.trim() || link.getAttribute('aria-label') || 'Navigation';
+      const key = navIconKey(label, link.getAttribute('href'));
+      link.dataset.iconEnhanced = 'true';
+      link.classList.add('has-nav-icon');
+      link.setAttribute('aria-label', label);
+      link.setAttribute('title', label);
+      link.dataset.navTooltip = label;
+      link.innerHTML = `${makeNavIcon(navIcons[key])}<span class="nav-label">${escapeHtml(label)}</span>`;
+    });
+  }
+
+  function enhancePublicActions() {
+    const member = isAuthenticated();
+    document.querySelectorAll('[data-member-href][data-guest-href]').forEach(link => {
+      link.href = member ? link.dataset.memberHref : link.dataset.guestHref;
+    });
+  }
+
+  function setFormStatus(element, message, tone = 'default') {
+    if (!element) return;
+    element.textContent = message;
+    element.dataset.tone = tone;
+    element.classList.add('is-visible');
+  }
+
+  async function submitEventIntake(type, message, statusElement) {
+    const currentUser = getCurrentUser();
+    const fallbackName = currentUser.name || [currentUser.firstName, currentUser.lastName].filter(Boolean).join(' ').trim();
+    const payload = {
+      name: fallbackName || '',
+      email: currentUser.email || '',
+      message: `[${type}]\n${message}`
+    };
+
+    try {
+      const saved = JSON.parse(localStorage.getItem('freesewaa-event-intake') || '[]');
+      saved.unshift({ type, message, createdAt: new Date().toISOString() });
+      localStorage.setItem('freesewaa-event-intake', JSON.stringify(saved.slice(0, 20)));
+    } catch (error) {}
+
+    try {
+      await sendSuggestion(payload);
+      setFormStatus(statusElement, 'Thank you. Free Sewaa received your details.', 'success');
+    } catch (error) {
+      setFormStatus(statusElement, 'Saved on this device. We could not reach the server right now.', 'error');
+    }
+  }
+
+  function initEventsPage() {
+    const currentUser = getCurrentUser();
+    const displayName = currentUser.name || [currentUser.firstName, currentUser.lastName].filter(Boolean).join(' ').trim();
+    const contact = currentUser.email || currentUser.phone || '';
+
+    const volunteerName = document.getElementById('volunteerName');
+    const volunteerContact = document.getElementById('volunteerContact');
+    if (volunteerName && !volunteerName.value) volunteerName.value = displayName || '';
+    if (volunteerContact && !volunteerContact.value) volunteerContact.value = contact || '';
+
+    const volunteerForm = document.getElementById('eventVolunteerForm');
+    if (volunteerForm && volunteerForm.dataset.bound !== 'true') {
+      volunteerForm.dataset.bound = 'true';
+      volunteerForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        const status = document.getElementById('volunteerStatus');
+        const submitButton = volunteerForm.querySelector('button[type="submit"]');
+        if (submitButton) submitButton.disabled = true;
+        setFormStatus(status, 'Sending your volunteer details...', 'default');
+        const message = [
+          `Name: ${document.getElementById('volunteerName')?.value.trim() || ''}`,
+          `Contact: ${document.getElementById('volunteerContact')?.value.trim() || ''}`,
+          `Event: ${document.getElementById('volunteerEvent')?.value.trim() || ''}`,
+          `Available time: ${document.getElementById('volunteerTime')?.value.trim() || ''}`,
+          `How they can help: ${document.getElementById('volunteerHelp')?.value.trim() || ''}`
+        ].join('\n');
+        await submitEventIntake('Event volunteer request', message, status);
+        volunteerForm.reset();
+        if (volunteerName) volunteerName.value = displayName || '';
+        if (volunteerContact) volunteerContact.value = contact || '';
+        if (submitButton) submitButton.disabled = false;
+      });
+    }
+
+    const eventForm = document.getElementById('eventSuggestionForm');
+    if (eventForm && eventForm.dataset.bound !== 'true') {
+      eventForm.dataset.bound = 'true';
+      eventForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        const status = document.getElementById('eventSuggestionStatus');
+        const submitButton = eventForm.querySelector('button[type="submit"]');
+        if (submitButton) submitButton.disabled = true;
+        setFormStatus(status, 'Sending your event idea...', 'default');
+        const message = [
+          `Event name: ${document.getElementById('newEventName')?.value.trim() || ''}`,
+          `Date and time: ${document.getElementById('newEventDate')?.value.trim() || ''}`,
+          `Location: ${document.getElementById('newEventLocation')?.value.trim() || ''}`,
+          `Contact person: ${document.getElementById('newEventContact')?.value.trim() || ''}`,
+          `Details: ${document.getElementById('newEventDetails')?.value.trim() || ''}`
+        ].join('\n');
+        await submitEventIntake('New event suggestion', message, status);
+        eventForm.reset();
+        if (submitButton) submitButton.disabled = false;
+      });
+    }
+  }
+
+  function initDonateUsPage() {
+    const form = document.getElementById('moneySupportForm');
+    if (!form || form.dataset.bound === 'true') return;
+    form.dataset.bound = 'true';
+
+    const currentUser = getCurrentUser();
+    const nameInput = document.getElementById('supportName');
+    const contactInput = document.getElementById('supportContact');
+    const amountInput = document.getElementById('supportAmount');
+    const status = document.getElementById('supportStatus');
+
+    const displayName = currentUser.name || [currentUser.firstName, currentUser.lastName].filter(Boolean).join(' ').trim();
+    if (nameInput && !nameInput.value) nameInput.value = displayName || '';
+    if (contactInput && !contactInput.value) contactInput.value = currentUser.email || currentUser.phone || '';
+
+    document.querySelectorAll('[data-amount]').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('[data-amount]').forEach(item => item.classList.remove('is-selected'));
+        button.classList.add('is-selected');
+        if (amountInput) amountInput.value = button.dataset.amount || '';
+      });
+    });
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      const submitButton = form.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.disabled = true;
+      setFormStatus(status, 'Sending your support details...', 'default');
+
+      const message = [
+        `Amount: ${document.getElementById('supportAmount')?.value.trim() || ''}`,
+        `Purpose: ${document.getElementById('supportPurpose')?.value.trim() || ''}`,
+        `Name: ${document.getElementById('supportName')?.value.trim() || ''}`,
+        `Contact: ${document.getElementById('supportContact')?.value.trim() || ''}`,
+        `Note: ${document.getElementById('supportNote')?.value.trim() || ''}`
+      ].join('\n');
+
+      try {
+        await sendSuggestion({
+          name: nameInput?.value.trim() || displayName || '',
+          email: currentUser.email || '',
+          message: `[Free Sewaa support intent]\n${message}`
+        });
+        setFormStatus(status, 'Thank you. Free Sewaa received your support details.', 'success');
+        form.reset();
+        if (nameInput) nameInput.value = displayName || '';
+        if (contactInput) contactInput.value = currentUser.email || currentUser.phone || '';
+        document.querySelectorAll('[data-amount]').forEach(item => item.classList.remove('is-selected'));
+      } catch (error) {
+        setFormStatus(status, error.message || 'Could not send support details right now.', 'error');
+      } finally {
+        if (submitButton) submitButton.disabled = false;
+      }
+    });
+  }
+
+  const defaultAboutReviews = [
+    {
+      name: 'Mina Park',
+      rating: 5,
+      message: 'Free Sewaa made it simple to donate household items without wasting time. The pickup details and messages felt organized.',
+      createdAt: '2026-04-22T10:00:00'
+    },
+    {
+      name: 'Rohan Patel',
+      rating: 5,
+      message: 'I found study books and school supplies quickly. The platform feels respectful, which matters when someone is asking for support.',
+      createdAt: '2026-04-28T14:20:00'
+    },
+    {
+      name: 'Ana Lopez',
+      rating: 4,
+      message: 'The donation camps and volunteer options make the project feel connected to real community work, not just item listings.',
+      createdAt: '2026-05-03T09:15:00'
+    }
+  ];
+
+  function loadAboutReviews() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEYS.reviews) || '[]');
+      return Array.isArray(saved) && saved.length ? saved : defaultAboutReviews;
+    } catch (error) {
+      return defaultAboutReviews;
+    }
+  }
+
+  function saveAboutReviews(reviews) {
+    localStorage.setItem(STORAGE_KEYS.reviews, JSON.stringify(reviews));
+  }
+
+  async function fetchAboutReviews() {
+    try {
+      const response = await fetch(apiUrl('/api/reviews'), { headers: getSessionHeaders() });
+      if (!response.ok) throw new Error('Unable to load reviews.');
+      const data = await response.json();
+      return Array.isArray(data.reviews) ? data.reviews : null;
+    } catch (error) {
+      console.warn(error);
+      return null;
+    }
+  }
+
+  async function createAboutReview(review) {
+    const response = await fetch(apiUrl('/api/reviews'), {
+      method: 'POST',
+      headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify(review)
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Could not submit review.');
+    return data.review;
+  }
+
+  function renderStars(rating) {
+    const value = Math.max(1, Math.min(5, Number(rating) || 5));
+    return `${'★'.repeat(value)}${'☆'.repeat(5 - value)}`;
+  }
+
+  function renderAboutReviews() {
+    const feed = document.getElementById('reviewsFeed');
+    if (!feed) return;
+
+    const reviews = loadAboutReviews();
+    const average = reviews.reduce((sum, review) => sum + (Number(review.rating) || 0), 0) / Math.max(1, reviews.length);
+    const averageEl = document.getElementById('reviewAverage');
+    const countEl = document.getElementById('reviewCount');
+
+    if (averageEl) averageEl.textContent = average.toFixed(1);
+    if (countEl) countEl.textContent = `Based on ${reviews.length} community review${reviews.length === 1 ? '' : 's'}`;
+
+    feed.innerHTML = reviews.map(review => `
+      <article class="review-community-card">
+        <div class="review-community-card__top">
+          <div>
+            <strong>${escapeHtml(review.name || 'Community Member')}</strong>
+            <span>${escapeHtml(formatCreated(review.createdAt || new Date().toISOString()))}</span>
+          </div>
+          <div class="review-stars" aria-label="${Number(review.rating) || 5} out of 5 stars">${renderStars(review.rating)}</div>
+        </div>
+        <p>${escapeHtml(review.message || '')}</p>
+      </article>
+    `).join('');
+  }
+
+  function initAboutPage() {
+    renderAboutReviews();
+    fetchAboutReviews().then(reviews => {
+      if (reviews && reviews.length) {
+        saveAboutReviews(reviews);
+        renderAboutReviews();
+      }
+    });
+
+    const form = document.getElementById('aboutReviewForm');
+    if (!form || form.dataset.bound === 'true') return;
+    form.dataset.bound = 'true';
+
+    const nameInput = document.getElementById('reviewName');
+    const emailInput = document.getElementById('reviewEmail');
+    const ratingInput = document.getElementById('reviewRating');
+    const messageInput = document.getElementById('reviewMessage');
+    const status = document.getElementById('reviewStatus');
+
+    if (nameInput && !nameInput.value) nameInput.value = appState.user.name || getCurrentUser().name || '';
+    if (emailInput && !emailInput.value) emailInput.value = appState.user.email || getCurrentUser().email || '';
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      const submitButton = form.querySelector('button[type="submit"]');
+      const previousText = submitButton?.textContent || 'Submit Review';
+      const review = {
+        name: nameInput?.value.trim() || 'Community Member',
+        email: emailInput?.value.trim() || '',
+        rating: Number(ratingInput?.value || 5),
+        message: messageInput?.value.trim() || '',
+        createdAt: new Date().toISOString()
+      };
+
+      if (!review.message) {
+        setFormStatus(status, 'Please write your review first.', 'error');
+        return;
+      }
+
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Submitting...';
+      }
+
+      let reviews = [review, ...loadAboutReviews()].slice(0, 12);
+      saveAboutReviews(reviews);
+      renderAboutReviews();
+
+      try {
+        const savedReview = await createAboutReview(review);
+        reviews = [savedReview || review, ...loadAboutReviews().filter(item => item.createdAt !== review.createdAt)].slice(0, 12);
+        saveAboutReviews(reviews);
+        renderAboutReviews();
+        setFormStatus(status, 'Thank you. Your review was added.', 'success');
+        showToast('Review added.', 'success');
+      } catch (error) {
+        setFormStatus(status, 'Review added here. Admin sync will retry when the server is reachable.', 'success');
+        showToast('Review added locally.', 'success');
+      } finally {
+        if (messageInput) messageInput.value = '';
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = previousText;
+        }
+      }
+    });
+  }
+
   function initUserPanelPage() {
     const nameEls = document.querySelectorAll('[data-user-name]');
     nameEls.forEach(el => el.textContent = appState.user.name || 'Member');
     const stats = getUserStats();
+    const unreadMessages = appState.conversations.reduce((sum, item) => sum + Number(item.unread || 0), 0);
+    const region = [appState.user.city, appState.user.region].filter(Boolean).join(', ') || 'Not set';
+    const profileReady = appState.user.email && appState.user.phone ? 'Complete' : 'Needs update';
     document.querySelectorAll('[data-stat-active]').forEach(el => el.textContent = stats.active);
     document.querySelectorAll('[data-stat-requested]').forEach(el => el.textContent = stats.requested);
     document.querySelectorAll('[data-stat-saved]').forEach(el => el.textContent = stats.saved);
     document.querySelectorAll('[data-stat-completed]').forEach(el => el.textContent = stats.completed);
+    document.querySelectorAll('[data-user-unread]').forEach(el => el.textContent = unreadMessages);
+    document.querySelectorAll('[data-user-region]').forEach(el => el.textContent = region);
+    document.querySelectorAll('[data-user-profile-status]').forEach(el => el.textContent = profileReady);
+    document.querySelectorAll('[data-user-role-badge]').forEach(el => el.textContent = `${appState.user.role || 'Member'} account`);
+
+    const profileSummary = document.getElementById('userProfileSummary');
+    if (profileSummary) {
+      profileSummary.innerHTML = `
+        ${renderAvatar(appState.user.name || 'Member', appState.user.avatar, 'user-summary-card__avatar')}
+        <div class="user-summary-card__body">
+          <strong>${escapeHtml(appState.user.name || 'Member')}</strong>
+          <p>${escapeHtml(appState.user.email || appState.user.phone || 'No contact saved')}</p>
+          <span>${escapeHtml(region)}${appState.user.pickupAvailability ? ` - ${escapeHtml(appState.user.pickupAvailability)}` : ''}</span>
+        </div>
+      `;
+    }
+
+    const renderListingItem = (item, detail = '') => `
+      <article class="mini-panel-card mini-panel-card--dashboard">
+        <div class="mini-panel-card__thumb" style="background-image:url('${escapeHtml(item.image)}')"></div>
+        <div>
+          <strong>${escapeHtml(item.title)}</strong>
+          <p>${escapeHtml(detail || `${item.category} - ${item.status}`)}</p>
+        </div>
+      </article>
+    `;
+
+    const userPostsList = document.getElementById('userPostsList');
+    if (userPostsList) {
+      const posts = getUserListings().slice(0, 3);
+      userPostsList.innerHTML = posts.length
+        ? posts.map(item => renderListingItem(item, `${item.status} - ${item.requestCount || 0} requests`)).join('')
+        : '<p class="muted-copy">No donation posts yet. Create your first listing when you are ready.</p>';
+    }
+
+    const userRequestsList = document.getElementById('userRequestsList');
+    if (userRequestsList) {
+      const requests = getRequestedListings().slice(0, 3);
+      userRequestsList.innerHTML = requests.length
+        ? requests.map(({ request, listing }) => renderListingItem(listing, `${request.status || 'pending'} - requested ${formatCreated(request.requestedAt)}`)).join('')
+        : '<p class="muted-copy">No requests sent yet. Browse items and request anything useful.</p>';
+    }
+
+    const userSavedList = document.getElementById('userSavedList');
+    if (userSavedList) {
+      const savedItems = getSavedListings().slice(0, 2);
+      const savedMarkup = savedItems.map(item => renderListingItem(item, `${item.category} - ${item.location}`)).join('');
+      const messageMarkup = `
+        <article class="mini-panel-card mini-panel-card--dashboard mini-panel-card--message">
+          <div class="user-message-dot">${unreadMessages}</div>
+          <div>
+            <strong>${unreadMessages ? 'Unread messages waiting' : 'Messages are clear'}</strong>
+            <p>${appState.conversations.length} active conversations</p>
+          </div>
+        </article>
+      `;
+      userSavedList.innerHTML = savedItems.length
+        ? `${savedMarkup}${messageMarkup}`
+        : `${messageMarkup}<p class="muted-copy">Saved items will appear here.</p>`;
+    }
+
     const recent = document.getElementById('userPanelListings');
     if (recent) {
       const items = getUserListings().slice(0, 4);
@@ -1855,6 +2682,67 @@
           </div>
         </article>
       `).join('') : '<p class="muted-copy">No listings yet. Start with your first donation post.</p>';
+    }
+
+    const suggestionForm = document.getElementById('contactSuggestionForm');
+    const suggestionStatus = document.getElementById('suggestionStatus');
+    if (suggestionForm && suggestionForm.dataset.bound !== 'true') {
+      suggestionForm.dataset.bound = 'true';
+      const nameInput = document.getElementById('suggestionName');
+      const emailInput = document.getElementById('suggestionEmail');
+      const messageInput = document.getElementById('suggestionMessage');
+
+      if (nameInput && !nameInput.value) nameInput.value = appState.user.name || '';
+      if (emailInput && !emailInput.value) emailInput.value = appState.user.email || '';
+
+      suggestionForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        const submitButton = suggestionForm.querySelector('button[type="submit"]');
+        const previousText = submitButton?.textContent || 'Send suggestion';
+        const message = messageInput?.value.trim() || '';
+
+        if (!message) {
+          if (suggestionStatus) {
+            suggestionStatus.textContent = 'Please write your suggestion first.';
+            suggestionStatus.dataset.tone = 'error';
+            suggestionStatus.classList.add('is-visible');
+          }
+          return;
+        }
+
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = 'Sending...';
+        }
+
+        try {
+          await sendSuggestion({
+            name: nameInput?.value.trim() || appState.user.name || '',
+            email: emailInput?.value.trim() || appState.user.email || '',
+            message
+          });
+
+          if (suggestionStatus) {
+            suggestionStatus.textContent = 'Thank you. Your suggestion was sent.';
+            suggestionStatus.dataset.tone = 'success';
+            suggestionStatus.classList.add('is-visible');
+          }
+          if (messageInput) messageInput.value = '';
+          showToast('Suggestion sent.', 'success');
+        } catch (error) {
+          if (suggestionStatus) {
+            suggestionStatus.textContent = error.message || 'Could not send suggestion.';
+            suggestionStatus.dataset.tone = 'error';
+            suggestionStatus.classList.add('is-visible');
+          }
+          showToast(error.message || 'Could not send suggestion.', 'error');
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = previousText;
+          }
+        }
+      });
     }
   }
 
@@ -1910,10 +2798,154 @@
     });
   }
 
+  function initChatbotWidget() {
+    if (document.querySelector('[data-chatbot-widget]')) return;
+
+    const historyKey = 'freesewaa-chatbot-history';
+    const launcher = document.createElement('button');
+    launcher.type = 'button';
+    launcher.className = 'chatbot-launcher';
+    launcher.setAttribute('aria-label', 'Open Free Sewaa helper');
+    launcher.setAttribute('aria-expanded', 'false');
+    launcher.textContent = '?';
+
+    const widget = document.createElement('section');
+    widget.className = 'chatbot-widget';
+    widget.setAttribute('data-chatbot-widget', 'true');
+    widget.setAttribute('aria-label', 'Free Sewaa helper chat');
+    widget.innerHTML = `
+      <div class="chatbot-panel" role="dialog" aria-modal="false" aria-labelledby="chatbotTitle">
+        <div class="chatbot-panel__header">
+          <div>
+            <p class="chatbot-panel__eyebrow">AI helper</p>
+            <h2 id="chatbotTitle">Free Sewaa Chat</h2>
+          </div>
+          <button type="button" class="chatbot-icon-button" data-chatbot-close aria-label="Close chat">x</button>
+        </div>
+        <div class="chatbot-messages" data-chatbot-messages aria-live="polite"></div>
+        <form class="chatbot-form" data-chatbot-form>
+          <input type="text" data-chatbot-input maxlength="600" autocomplete="off" placeholder="Ask about donations, pickup, or listings" aria-label="Chat message" />
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    `;
+
+    document.body.appendChild(launcher);
+    document.body.appendChild(widget);
+
+    const panel = widget.querySelector('.chatbot-panel');
+    const closeButton = widget.querySelector('[data-chatbot-close]');
+    const messagesEl = widget.querySelector('[data-chatbot-messages]');
+    const form = widget.querySelector('[data-chatbot-form]');
+    const input = widget.querySelector('[data-chatbot-input]');
+
+    function loadHistory() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(historyKey) || '[]');
+        return Array.isArray(saved) ? saved.slice(-12) : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveHistory(history) {
+      try {
+        localStorage.setItem(historyKey, JSON.stringify(history.slice(-12)));
+      } catch (error) {}
+    }
+
+    let history = loadHistory();
+    if (!history.length) {
+      history = [
+        {
+          role: 'bot',
+          text: 'Hi! Ask me about donating, browsing items, requests, pickup, or messages.'
+        }
+      ];
+    }
+
+    function renderMessage(item) {
+      const bubble = document.createElement('div');
+      bubble.className = `chatbot-message chatbot-message--${item.role === 'user' ? 'user' : 'bot'}`;
+
+      const label = document.createElement('span');
+      label.textContent = item.role === 'user' ? 'You' : 'Assistant';
+
+      const text = document.createElement('p');
+      text.textContent = item.text;
+
+      bubble.appendChild(label);
+      bubble.appendChild(text);
+      messagesEl.appendChild(bubble);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      return bubble;
+    }
+
+    function renderHistory() {
+      messagesEl.innerHTML = '';
+      history.forEach(renderMessage);
+    }
+
+    function setOpen(isOpen) {
+      widget.classList.toggle('is-open', isOpen);
+      launcher.classList.toggle('is-hidden', isOpen);
+      launcher.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) {
+        window.setTimeout(() => input.focus(), 80);
+      }
+    }
+
+    async function sendChatMessage(text) {
+      const pending = renderMessage({ role: 'bot', text: 'Thinking...' });
+      try {
+        const response = await fetch(apiUrl('/api/chatbot'), {
+          method: 'POST',
+          headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+          body: JSON.stringify({ message: text })
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || 'Chatbot is unavailable.');
+        }
+        pending.querySelector('p').textContent = data.reply;
+        history.push({ role: 'bot', text: data.reply });
+        saveHistory(history);
+      } catch (error) {
+        const fallback = 'I could not reach the helper service. Please try again in a moment.';
+        pending.querySelector('p').textContent = fallback;
+        history.push({ role: 'bot', text: fallback });
+        saveHistory(history);
+      }
+    }
+
+    launcher.addEventListener('click', () => setOpen(true));
+    closeButton.addEventListener('click', () => setOpen(false));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && widget.classList.contains('is-open')) {
+        setOpen(false);
+      }
+    });
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      history.push({ role: 'user', text });
+      renderMessage({ role: 'user', text });
+      saveHistory(history);
+      sendChatMessage(text);
+    });
+
+    renderHistory();
+  }
+
 
   function initCurrentPage() {
+    if (page === 'about') initAboutPage();
     if (page === 'browse') initBrowsePage();
     if (page === 'donate') initDonatePage();
+    if (page === 'donate-us') initDonateUsPage();
     if (page === 'messages') initMessagesPage();
     if (page === 'my-posts') initMyPostsPage();
     if (page === 'saved') initSavedPage();
@@ -1922,12 +2954,20 @@
     if (page === 'profile') initProfilePage();
     if (page === 'user-panel') initUserPanelPage();
     if (page === 'admin') initAdminPage();
+    if (page === 'events') initEventsPage();
     if (page === 'security-audit') initAuditPage('security');
     if (page === 'accessibility-audit') initAuditPage('accessibility');
   }
 
   async function bootApp() {
+    const isPublicPage = document.body.dataset.public === 'true';
     if (!isAuthenticated()) {
+      if (isPublicPage) {
+        enhancePublicActions();
+        enhanceNavIcons();
+        initCurrentPage();
+        return;
+      }
       window.location.replace('/signin.html');
       return;
     }
@@ -1938,6 +2978,16 @@
       localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
     }
 
+    const remoteListings = await fetchRemoteListings();
+    if (remoteListings?.length) {
+      appState.listings = dedupeListings(remoteListings);
+      localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
+    }
+
+    initChatbotWidget();
+    enhanceMenus();
+    enhancePublicActions();
+    enhanceNavIcons();
     initCurrentPage();
   }
 

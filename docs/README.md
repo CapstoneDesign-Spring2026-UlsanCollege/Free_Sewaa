@@ -1,102 +1,63 @@
-# Free Sewaa — documentation index
+# Documentation Index — Free Sewaa
 
-This folder follows the **engineering-studio** layout described in the [capstone team startup / professor template](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/capstone-team-startup-documents): **GitHub is the source of truth**, weekly **Sprint Packet** issues, and **evidence links** on those issues.
-
-**Repository:** https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa  
+This folder contains all project documentation.
 
 ---
 
-## Required course-style documents (template alignment)
+## Week 12 — QA Day & Final Sprint
 
-| Document | Purpose |
-| --- | --- |
-| [`PROJECT.md`](PROJECT.md) | What we build, for whom, demo, MVP, stack, weekly process |
-| [`TEAM_AGREEMENT.md`](TEAM_AGREEMENT.md) | How we collaborate, roles, evidence, conflicts |
-| [`POLICY - Evidence & Receipt.md`](POLICY%20-%20Evidence%20&%20Receipt.md) | Receipt rules (`POLICY — Evidence & Receipts` from class library) |
+| Document | Description |
+|----------|-------------|
+| [QA Checklist](../QA_CHECKLIST.md) | 10 test cases with pass/fail, evidence, owners |
+| [Sprint Packet](week12/SPRINT_PACKET.md) | Week 12 sprint overview and goals |
+| [Bug Severity List](week12/BUG_SEVERITY_LIST.md) | P0/P1/P2 bugs from QA Day |
+| [Test Evidence](week12/TEST_EVIDENCE.md) | Screenshots, logs, CI results |
+| [AI Use & Ownership](week12/AI_USE_AND_OWNERSHIP.md) | AI usage notes |
+| [Individual Receipts](week12/INDIVIDUAL_RECEIPTS.md) | Team member contributions |
+| [Board Snapshot](week12/BOARD_SNAPSHOT.md) | Sprint board status |
 
----
+## Week 11 — MVP Verification
 
-## Extended project docs
+| Document | Description |
+|----------|-------------|
+| [Week 11 Overview](../week11/README.md) | Demo overview and track targets |
+| [Demo Script](../week11/DEMO_SCRIPT.md) | Step-by-step demo flow |
+| [MVP Checklist](../week11/MVP_CHECKLIST.md) | Professor criteria checklist |
+| [Test Evidence](../week11/TEST_EVIDENCE.md) | Test results and screenshots |
+| [Sprint Packet](PROGRESS/week11/WEEK_11_SPRINT_PACKET.md) | Week 11 sprint details |
+| [Bug List](PROGRESS/week11/BUG_LIST.md) | All bugs with priorities |
+| [Code Coverage](PROGRESS/week11/CODE_COVERAGE.md) | Jest setup guide |
 
-| Path | Purpose |
-| --- | --- |
-| [`PROJECT/PROJECT.md`](PROJECT/PROJECT.md) | Long-form project description |
-| [`PROJECT/PROJECT_IDEA_PITCH.md`](PROJECT/PROJECT_IDEA_PITCH.md) | Original pitch |
-| [`PROJECT/USER_STORIES.md`](PROJECT/USER_STORIES.md) | User stories |
-| [`PROJECT/TEAM_AGREEMENT.md`](PROJECT/TEAM_AGREEMENT.md) | Full team agreement (mirror of constitution) |
+## Architecture
 
----
+| Document | Description |
+|----------|-------------|
+| [System Architecture](DESIGN/SYSTEM_ARCHITECTURE.md) | System overview |
+| [API Reference](../API_REFERENCE.md) | All API endpoints |
+| [Database Schema](../DATABASE_SCHEMA.md) | Data models |
+| [Developer Guide](../DEVELOPER_GUIDE.md) | Local setup and common errors |
 
-## Design & architecture
+## Deployment
 
-| Path | Purpose |
-| --- | --- |
-| [`DESIGN/SYSTEM_ARCHITECTURE.md`](DESIGN/SYSTEM_ARCHITECTURE.md) | System architecture |
-| [`DESIGN/BACKEND_PLAN.md`](DESIGN/BACKEND_PLAN.md) | Backend plan |
-| [`DESIGN/DEPLOYMENT.md`](DESIGN/DEPLOYMENT.md) | Deployment |
-| [`DESIGN/MONGODB_SETUP.md`](DESIGN/MONGODB_SETUP.md) | MongoDB setup |
-| [`DESIGN/DATABASE_SCHEMA.md`](DESIGN/DATABASE_SCHEMA.md) | Schema notes |
-| [`DESIGN/WIREFRAMES .md`](DESIGN/WIREFRAMES%20.md) | Wireframes |
+| Document | Description |
+|----------|-------------|
+| [Deployment Guide](DESIGN/DEPLOYMENT.md) | How to deploy |
+| [Deployment Checklist](../DEPLOYMENT_CHECKLIST.md) | Pre-launch checklist |
+| [MongoDB Setup](DESIGN/MONGODB_SETUP.md) | Database configuration |
 
----
+## Project Management
 
-## Progress & testing
+| Document | Description |
+|----------|-------------|
+| [Project Board](https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/14) | Task tracking |
+| [Risk Register](../PROJECT/RISK_REGISTER.md) | Risks and mitigations |
+| [Lessons Learned](../PROJECT/LESSONS_LEARNED.md) | Retrospective |
+| [Release Notes](../RELEASE_NOTES.md) | Week 11 release notes |
 
-| Path | Purpose |
-| --- | --- |
-| [`PROGRESS/MVP_CHECKLIST.md`](PROGRESS/MVP_CHECKLIST.md) | MVP checklist |
-| [`PROGRESS/TESTING_LOG.md`](PROGRESS/TESTING_LOG.md) | Testing log |
-| [`PROGRESS/MVP_WEEK_*.md`](PROGRESS/) | Week-by-week MVP notes |
-| [`sprints/TESTING_PLAN.md`](sprints/TESTING_PLAN.md) | Testing plan |
+## Sprints
 
----
-
-## Weekly rhythm (course)
-
-1. **Wednesday —** plan, unblock, teach / work time  
-2. **Following Friday —** **Sprint Packet** due for the **prior** sprint window (demo link, **board snapshot**, sprint notes)  
-3. **Every student —** **2–3 receipts** on the Sprint Packet issue  
-
-Sprint packet copies and notes: [`sprints/`](sprints/) (`Weekly Sprint Packet — Week N.md`, etc.).
-
----
-
-## Reflection & instructor questions
-
-| Path | Purpose |
-| --- | --- |
-| [`question.md`](question.md) | Weekly questions, concerns, commitments |
+See [sprints/](sprints/) for all 12 weekly sprint packets.
 
 ---
 
-## Issues, risks, bugs
-
-| Path | Purpose |
-| --- | --- |
-| [`ISSUES/RISK_BLOCKER.md`](ISSUES/RISK_BLOCKER.md) | Risks / blockers |
-| [`ISSUES/RETRO.md`](ISSUES/RETRO.md) | Retrospective |
-| [`ISSUES/BUGS/`](ISSUES/BUGS/) | Bug logs |
-
----
-
-## Midterm & evidence
-
-| Path | Purpose |
-| --- | --- |
-| [`MID-TERM/`](MID-TERM/) | Demo link, repo link, slides, brochure, sprint/MVP pointers |
-| [`evidence/`](evidence/) | Packaged evidence folders |
-
----
-
-## Other policies
-
-| Path | Purpose |
-| --- | --- |
-| [`POLICY.md`](POLICY.md) | Coding standards & Git conventions |
-| [`AI_CODE_OWNERSHIP_AUDIT.md`](AI_CODE_OWNERSHIP_AUDIT.md) | AI / authorship audit |
-
----
-
-## Status (documentation pass — May 2026)
-
-Template-aligned **PROJECT**, **TEAM_AGREEMENT**, and **Evidence policy** files are present at this `docs/` root. Deeper design and sprint history remain in the subfolders above. Update this index when you add major new docs.
+*Last updated: May 2026*

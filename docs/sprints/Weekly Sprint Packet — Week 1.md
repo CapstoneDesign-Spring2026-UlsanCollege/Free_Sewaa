@@ -180,6 +180,11 @@ sujan shrestha
 **Issue Created / Updated:**
 - https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/51#issue-4198526690
 
+Sujan Tamang
+**Commits:**   
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/d057e13bb2fc2ea22424b83983205d78d9d14381
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a0ed22f2833f8777ea7e11f386ed5381a2053f42
+
 **Documentation Update:**  
 Updated PROJECT.md / TEAM_AGREEMENT.md / README.md
 

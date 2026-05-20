@@ -165,6 +165,21 @@ The team will manage these risks through communication and collaborative trouble
 
 # Individual Contribution Receipts
 
+**PM for this week**
+
+## Sujan Tamang 
+
+**Pull Request**
+[#47](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/12)
+
+**Contribution:**
+- Updated donate page
+- Fixed CSS path issue
+
+ **Commits:**
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/7fb12f1217de9dfa5ca460281ff60b84a72282af
+- https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/3722825609b9c0ebda3fb11671eb0f6d98df1a78
+
 ## Swarnim Jung Karki
 
 **Pull Request:**
@@ -183,22 +198,7 @@ The team will manage these risks through communication and collaborative trouble
 
 https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa
 
-**PM for this Sprint**
-
-Name: Sujan Tamang
-
-**Pull Request**
-[#47](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/12)
-
-**Contribution:**
-- Updated donate page
-- Fixed CSS path issue
-
-Commit:
-https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c2abbc84c647eef57c2db62cb2a338b00b907e1f
-
-
-## sujan shrestha 
+## Sujan shrestha 
  
 **Pull Request:**
 - https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/40 — [WIP] Connect Post Item, Browse Items, and Request Item in a user flow
@@ -209,8 +209,6 @@ https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c2ab
 
 **Issue:**
 - https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/54#issue-4198681805
-
-
 
 ## Contributor links (Ram Pathak)
 

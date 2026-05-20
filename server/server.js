@@ -8,7 +8,10 @@ const { MongoClient, ObjectId } = require('mongodb');
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
+const PUBLIC_ROOT = path.resolve(__dirname, '..');
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'free-sewaa';
+const FALLBACK_LISTING_IMAGE = 'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80';
+const MAX_INLINE_IMAGE_LENGTH = 180000;
 
 const PUBLIC_PAGE_ALIASES = {
   '/auth-choice.html': 'auth_choice.html',
@@ -19,6 +22,47 @@ const PUBLIC_PAGE_ALIASES = {
 
 const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI;
 const DB_NAME = process.env.DB_NAME || 'freesewaa';
+const SUPER_ADMIN_EMAILS = String(process.env.SUPER_ADMIN_EMAILS || process.env.SUPER_ADMIN_EMAIL || '')
+  .split(',')
+  .map(email => email.trim().toLowerCase())
+  .filter(Boolean);
+const SUPER_ADMIN_USER_IDS = String(process.env.SUPER_ADMIN_USER_IDS || process.env.SUPER_ADMIN_USER_ID || '')
+  .split(',')
+  .map(id => id.trim())
+  .filter(Boolean);
+const EMAIL_ONLY_MESSAGE = 'Please use a real email address from a recognized email provider.';
+const VERIFIED_EMAIL_ONLY_MESSAGE = 'Please sign in with a verified real email account.';
+const PASSWORD_POLICY_MESSAGE = 'Password must be 8-10 characters and include uppercase, lowercase, and a number.';
+const DEMO_EMAIL_DOMAINS = new Set([
+  'demo.com',
+  'example.com',
+  'example.net',
+  'example.org',
+  'freesewaa.local',
+  'localhost',
+  'test.com'
+]);
+const RECOGNIZED_EMAIL_DOMAINS = new Set([
+  'aol.com',
+  'daum.net',
+  'gmail.com',
+  'hanmail.net',
+  'hotmail.com',
+  'icloud.com',
+  'kakao.com',
+  'live.com',
+  'mac.com',
+  'me.com',
+  'msn.com',
+  'nate.com',
+  'naver.com',
+  'outlook.com',
+  'proton.me',
+  'protonmail.com',
+  'yahoo.com',
+  'yandex.com',
+  'zoho.com'
+]);
 
 if (!MONGODB_URI) {
   console.error('❌ Missing MongoDB connection string. Set MONGODB_URI (or MONGO_URI) in environment variables.');
@@ -36,6 +80,8 @@ let requestsCollection;
 let conversationsCollection;
 let messagesCollection;
 let notificationsCollection;
+let suggestionsCollection;
+let reviewsCollection;
 
 function defaultUserState(user) {
   const name =
@@ -110,12 +156,38 @@ function safeUser(user) {
   return rest;
 }
 
+function isSuperAdminUser(user) {
+  if (!user) return false;
+  return user.role === 'superadmin';
+}
+
+function isConfiguredSuperAdmin(user) {
+  if (!user) return false;
+  const email = String(user.email || '').trim().toLowerCase();
+  const id = String(user.id || '').trim();
+  return (
+    (email && SUPER_ADMIN_EMAILS.includes(email)) ||
+    (id && SUPER_ADMIN_USER_IDS.includes(id))
+  );
+}
+
 function getUserId(req, url) {
   return (
     url.searchParams.get('userId') ||
     req.headers['x-user-id'] ||
     req.headers['userid'] ||
     null
+  );
+}
+
+function getUserDisplayName(user) {
+  if (!user) return 'Free Sewaa Member';
+  return (
+    user.name ||
+    [user.firstName, user.lastName].filter(Boolean).join(' ').trim() ||
+    user.email ||
+    user.phone ||
+    'Free Sewaa Member'
   );
 }
 
@@ -128,9 +200,28 @@ function normalizeDoc(doc) {
   return clone;
 }
 
+function normalizeListingForClient(listing) {
+  const normalized = normalizeDoc(listing);
+  if (!normalized) return null;
+
+  if (typeof normalized.image === 'string' && normalized.image.length > MAX_INLINE_IMAGE_LENGTH) {
+    normalized.image = FALLBACK_LISTING_IMAGE;
+    normalized.imageWasTooLarge = true;
+  }
+
+  return normalized;
+}
+
+function sanitizeListingImage(image) {
+  const value = String(image || '').trim();
+  if (!value) return FALLBACK_LISTING_IMAGE;
+  if (value.length > MAX_INLINE_IMAGE_LENGTH) return FALLBACK_LISTING_IMAGE;
+  return value;
+}
+
 function buildAuthQuery(email = '', phone = '') {
   const normalizedEmail = String(email || '').trim().toLowerCase();
-  const normalizedPhone = String(phone || '').replace(/\s+/g, '');
+  const normalizedPhone = normalizeUserPhone(phone);
 
   const query = [];
   if (normalizedEmail) query.push({ email: normalizedEmail });
@@ -213,8 +304,19 @@ async function ensureIndexes() {
   await notificationsCollection.createIndex({ id: 1 }, { unique: true });
   await notificationsCollection.createIndex({ userId: 1 });
   await notificationsCollection.createIndex({ read: 1 });
+
+  await suggestionsCollection.createIndex({ id: 1 }, { unique: true });
+  await suggestionsCollection.createIndex({ userId: 1 });
+  await suggestionsCollection.createIndex({ createdAt: -1 });
+
+  await reviewsCollection.createIndex({ id: 1 }, { unique: true });
+  await reviewsCollection.createIndex({ createdAt: -1 });
+  await reviewsCollection.createIndex({ rating: 1 });
 }
 
+/**
+ * Seed demo user, admin, and sample data if they don't exist.
+ */
 async function ensureSeedData() {
   let existingUser = await usersCollection.findOne({ id: 'user-demo' });
 
@@ -239,6 +341,19 @@ async function ensureSeedData() {
   if (existingAdmin && !existingAdmin.role) {
     await usersCollection.updateOne({ id: existingAdmin.id }, { $set: { role: 'admin' } });
     existingAdmin.role = 'admin';
+  }
+
+  if (SUPER_ADMIN_EMAILS.length || SUPER_ADMIN_USER_IDS.length) {
+    const superAdminQuery = [];
+    if (SUPER_ADMIN_EMAILS.length) superAdminQuery.push({ email: { $in: SUPER_ADMIN_EMAILS } });
+    if (SUPER_ADMIN_USER_IDS.length) superAdminQuery.push({ id: { $in: SUPER_ADMIN_USER_IDS } });
+
+    if (superAdminQuery.length) {
+      await usersCollection.updateMany(
+        { $or: superAdminQuery },
+        { $set: { role: 'superadmin', updatedAt: new Date().toISOString() } }
+      );
+    }
   }
 
   const existingState = await statesCollection.findOne({ userId: existingUser.id });
@@ -485,10 +600,21 @@ async function ensureSeedData() {
   );
 }
 
+/**
+ * Get user application state by userId.
+ * @param {string} userId - The user ID.
+ * @returns {Object|null} User state object or null.
+ */
 async function getUserState(userId) {
   return statesCollection.findOne({ userId });
 }
 
+/**
+ * Set or update user application state.
+ * @param {string} userId - The user ID.
+ * @param {Object} state - The state object to save.
+ * @returns {Object} Result of the update operation.
+ */
 async function setUserState(userId, state) {
   await statesCollection.updateOne(
     { userId },
@@ -529,9 +655,35 @@ function sendJson(res, statusCode, payload) {
     'Content-Type': 'application/json; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, x-user-id'
+    'Access-Control-Allow-Headers': 'Content-Type, x-user-id, Authorization'
   });
   res.end(body);
+}
+
+function sendJavaScript(res, body) {
+  res.writeHead(200, {
+    'Content-Type': 'application/javascript; charset=utf-8',
+    'Cache-Control': 'no-store'
+  });
+  res.end(body);
+}
+
+function getFirebaseWebConfig() {
+  const projectId = process.env.FIREBASE_PROJECT_ID || 'free-sewaa';
+  const authDomain = process.env.FIREBASE_AUTH_DOMAIN || `${projectId}.firebaseapp.com`;
+
+  if (!process.env.FIREBASE_API_KEY) {
+    return null;
+  }
+
+  return {
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain,
+    projectId,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET || `${projectId}.appspot.com`,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || '',
+    appId: process.env.FIREBASE_APP_ID || ''
+  };
 }
 
 function sendFile(res, filePath) {
@@ -556,7 +708,11 @@ function sendFile(res, filePath) {
       res.end('Not found');
       return;
     }
-    res.writeHead(200, { 'Content-Type': contentTypes[ext] || 'application/octet-stream' });
+    const headers = { 'Content-Type': contentTypes[ext] || 'application/octet-stream' };
+    if (['.html', '.css', '.js'].includes(ext)) {
+      headers['Cache-Control'] = 'no-store';
+    }
+    res.writeHead(200, headers);
     res.end(data);
   });
 }
@@ -605,13 +761,112 @@ function getListingFlags(listing) {
   return flags;
 }
 
+function normalizeChatText(value) {
+  return String(value || '').trim().replace(/\s+/g, ' ');
+}
+
+function createListingSummary(listings) {
+  if (!listings.length) {
+    return 'I could not find active listings right now. Try checking Browse again in a moment or start a new donation post.';
+  }
+
+  const topListings = listings
+    .slice(0, 4)
+    .map(listing => `${listing.title} (${listing.category}, ${listing.location})`)
+    .join('; ');
+
+  return `Here are a few active items: ${topListings}. Open Browse to view details or send a request.`;
+}
+
+async function buildChatbotReply(message) {
+  const text = normalizeChatText(message);
+  const lower = text.toLowerCase();
+
+  if (!text) {
+    return 'Ask me about donating, browsing items, requests, pickup, messages, or your account.';
+  }
+
+  const activeListings = await listingsCollection
+    .find({ status: 'active' })
+    .sort({ urgent: -1, createdAt: -1 })
+    .limit(8)
+    .toArray();
+
+  const categories = [...new Set(activeListings.map(item => item.category).filter(Boolean))];
+  const urgentListings = activeListings.filter(item => item.urgent);
+
+  if (/\b(hi|hello|hey|namaste)\b/.test(lower)) {
+    return 'Hi! I am the Free Sewaa helper. I can help you find free items, donate something, understand pickup, or manage requests.';
+  }
+
+  if (/\b(donate|give|post|upload|share)\b/.test(lower)) {
+    return 'To donate an item, go to Donate, add the title, category, condition, pickup window, notes, and a clear photo. After publishing, people can request it from Browse.';
+  }
+
+  if (/\b(find|browse|available|items?|listings?|need|search)\b/.test(lower)) {
+    return createListingSummary(activeListings);
+  }
+
+  if (/\b(food|rice|pantry|clothing|jacket|books?|desk|home|furniture|category|categories)\b/.test(lower)) {
+    const matched = activeListings.filter(listing => {
+      const haystack = `${listing.title} ${listing.category} ${listing.description}`.toLowerCase();
+      return lower.split(/\W+/).some(word => word.length > 2 && haystack.includes(word));
+    });
+
+    if (matched.length) {
+      return createListingSummary(matched);
+    }
+
+    return categories.length
+      ? `Current active categories include ${categories.join(', ')}. You can filter by category on Browse.`
+      : 'Categories will appear after active listings are published.';
+  }
+
+  if (/\b(urgent|asap|emergency|soon|today)\b/.test(lower)) {
+    return urgentListings.length
+      ? createListingSummary(urgentListings)
+      : 'I do not see urgent active listings right now. Browse still has regular active donations you can request.';
+  }
+
+  if (/\b(request|reserve|claim|interested)\b/.test(lower)) {
+    return 'Open an item on Browse and choose Request. Add a short note with your pickup availability, then check Messages for the conversation.';
+  }
+
+  if (/\b(message|chat|reply|conversation|contact)\b/.test(lower)) {
+    return 'Use Messages to continue conversations after a request is created. Keep pickup details clear and avoid sharing sensitive information.';
+  }
+
+  if (/\b(pickup|collect|delivery|meet|location|where)\b/.test(lower)) {
+    return 'Pickup details are set by the donor. Check the item location and pickup window, then confirm the exact time in Messages.';
+  }
+
+  if (/\b(account|login|signin|sign in|signup|profile|dashboard)\b/.test(lower)) {
+    return 'Use your Dashboard for profile details, active listings, saved items, and requests. If you are signed out, use Sign In or Sign Up from the home page.';
+  }
+
+  if (/\b(admin|moderation|block|review)\b/.test(lower)) {
+    return 'Admins can use the Admin panel to review users, listings, platform activity, and moderation actions.';
+  }
+
+  if (/\b(thanks|thank you)\b/.test(lower)) {
+    return 'You are welcome. I am here whenever you need help using Free Sewaa.';
+  }
+
+  return 'I can help with donating items, finding active listings, pickup, requests, messages, profile, and admin basics. Try asking "what items are available?" or "how do I donate?"';
+}
+
+/**
+ * Build admin dashboard data with users, listings, requests, and notifications.
+ * @returns {Object} Dashboard data with summary, users, listings, moderationQueue, activity.
+ */
 async function buildAdminDashboardData() {
-  const [users, listings, requests, conversations, notifications, meta] = await Promise.all([
+  const [users, listings, requests, conversations, notifications, suggestions, meta] = await Promise.all([
     usersCollection.find({}).toArray(),
     listingsCollection.find({}).toArray(),
     requestsCollection.find({}).toArray(),
     conversationsCollection.find({}).toArray(),
     notificationsCollection.find({}).toArray(),
+    suggestionsCollection.find({}).sort({ createdAt: -1 }).limit(25).toArray(),
     metaCollection.findOne({ key: 'app-meta' })
   ]);
 
@@ -652,6 +907,7 @@ async function buildAdminDashboardData() {
   const summary = {
     users: normalizedUsers.length,
     admins: users.filter(user => user.role === 'admin').length,
+    superadmins: users.filter(user => user.role === 'superadmin').length,
     blockedUsers: users.filter(user => user.isBlocked).length,
     listings: normalizedListings.length,
     activeListings: normalizedListings.filter(item => item.status === 'active').length,
@@ -660,6 +916,7 @@ async function buildAdminDashboardData() {
     featuredListings: normalizedListings.filter(item => item.featured).length,
     flaggedListings: moderationQueue.length,
     unreadNotifications: notifications.filter(item => !item.read).length,
+    suggestions: suggestions.length,
     conversations: conversations.length,
     openRisks: moderationQueue.filter(item => item.urgent || item.status === 'hidden' || !item.reviewed).length,
     healthScore: Math.max(0, 100 - (users.filter(user => user.isBlocked).length * 12) - (moderationQueue.length * 4) - Math.min(20, notifications.filter(item => !item.read).length)),
@@ -689,30 +946,83 @@ async function buildAdminDashboardData() {
   return {
     summary,
     users: normalizedUsers,
-    listings: normalizedListings,
+    listings: normalizedListings.map(normalizeListingForClient),
     moderationQueue,
+    suggestions: suggestions.map(normalizeDoc),
     activity
   };
+}
+
+function isRealEmailAddress(email = '') {
+  const value = String(email || '').trim().toLowerCase();
+  const domain = value.split('@')[1] || '';
+  const hasValidFormat = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(value);
+  const isRecognizedDomain =
+    RECOGNIZED_EMAIL_DOMAINS.has(domain) ||
+    domain.endsWith('.edu') ||
+    domain.endsWith('.edu.kr') ||
+    domain.endsWith('.ac.kr');
+
+  return hasValidFormat && isRecognizedDomain && !DEMO_EMAIL_DOMAINS.has(domain);
+}
+
+function normalizeUserPhone(phone = '') {
+  return String(phone || '').trim().replace(/[\s().-]+/g, '');
+}
+
+function isValidPhoneInput(phone = '') {
+  return /^\+?[0-9][0-9\s().-]{6,19}$/.test(String(phone || '').trim());
+}
+
+function hasValidUserIdentifier(user = {}) {
+  return isRealEmailAddress(user.email || '') || Boolean(normalizeUserPhone(user.phone || ''));
+}
+
+function isStrongPassword(password = '') {
+  const value = String(password || '');
+  return (
+    value.length >= 8 &&
+    value.length <= 10 &&
+    /[a-z]/.test(value) &&
+    /[A-Z]/.test(value) &&
+    /\d/.test(value)
+  );
 }
 
 async function requireAdminUser(req, url) {
   const userId = getUserId(req, url);
   if (!userId) {
-    return { error: 'Admin access required.' };
+    return { error: 'Super admin access required.' };
   }
 
   const user = await usersCollection.findOne({ id: userId });
-  if (!user || user.role !== 'admin') {
-    return { error: 'Admin access required.' };
+  if (!isSuperAdminUser(user)) {
+    return { error: 'Super admin access required.' };
   }
 
   return { user };
 }
 
-async function applyAdminUserAction(targetUserId, action) {
+async function requireSuperAdminUser(req, url) {
+  return requireAdminUser(req, url);
+}
+
+async function applyAdminUserAction(targetUserId, action, actor) {
   const targetUser = await usersCollection.findOne({ id: targetUserId });
   if (!targetUser) {
     throw new Error('Target user not found.');
+  }
+
+  if (!isSuperAdminUser(actor)) {
+    throw new Error('Super admin access required for user management.');
+  }
+
+  if (isSuperAdminUser(targetUser) && targetUser.id !== actor.id) {
+    throw new Error('Another super admin cannot be changed from this panel.');
+  }
+
+  if (targetUser.id === actor.id && ['block', 'remove-admin', 'delete-user'].includes(action)) {
+    throw new Error('You cannot block, demote, or delete your own super admin account.');
   }
 
   if (action === 'block') {
@@ -815,7 +1125,7 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, x-user-id'
+      'Access-Control-Allow-Headers': 'Content-Type, x-user-id, Authorization'
     });
     return res.end();
   }
@@ -825,16 +1135,16 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, { ok: true, service: 'freesewaa-backend-mongodb' });
     }
 
+    if (pathname === '/firebase-config.js' && req.method === 'GET') {
+      const config = getFirebaseWebConfig();
+      return sendJavaScript(
+        res,
+        `(function () {\n  window.FREESEWAA_FIREBASE_CONFIG = ${JSON.stringify(config)};\n})();\n`
+      );
+    }
+
     if (pathname === '/api/auth/google-demo' && req.method === 'POST') {
-      const user = await usersCollection.findOne({ id: 'user-demo' });
-      if (!user) {
-        return sendJson(res, 404, { error: 'Demo user not found.' });
-      }
-      await ensureStateForUser(user);
-      return sendJson(res, 200, {
-        user: safeUser(user),
-        auth: { userId: user.id, isAuthenticated: true }
-      });
+      return sendJson(res, 410, { error: 'Demo login is disabled. Please sign in with a real email account.' });
     }
 
     if (pathname === '/api/auth/firebase' && req.method === 'POST') {
@@ -857,11 +1167,22 @@ const server = http.createServer(async (req, res) => {
 
       const firebaseUid = String(claims.user_id || claims.sub || '').trim();
       const email = String(claims.email || '').trim().toLowerCase();
-      const tokenPhone = String(claims.phone_number || phone || '').replace(/\s+/g, '');
+      const tokenPhone = normalizeUserPhone(claims.phone_number || phone || '');
       const authProvider = String(provider || claims.firebase?.sign_in_provider || 'firebase').trim() || 'firebase';
+      const emailVerified = claims.email_verified === true || claims.email_verified === 'true';
 
       if (!firebaseUid) {
         return sendJson(res, 400, { error: 'Firebase token is missing a user id.' });
+      }
+
+      const isPhoneProvider = authProvider === 'phone' || claims.firebase?.sign_in_provider === 'phone';
+
+      if (isPhoneProvider) {
+        if (!tokenPhone) {
+          return sendJson(res, 403, { error: 'Please verify a real phone number.' });
+        }
+      } else if (!email || !isRealEmailAddress(email) || !emailVerified) {
+        return sendJson(res, 403, { error: VERIFIED_EMAIL_ONLY_MESSAGE });
       }
 
       const lookup = [{ firebaseUid }];
@@ -917,9 +1238,15 @@ const server = http.createServer(async (req, res) => {
         await ensureStateForUser(user);
       }
 
+      const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (role !== user.role) {
+        await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
+        user.role = role;
+      }
+
       return sendJson(res, 200, {
         user: safeUser(user),
-        auth: { userId: user.id, isAuthenticated: true, role: user.role || 'user' }
+        auth: { userId: user.id, isAuthenticated: true, role }
       });
     }
 
@@ -927,16 +1254,63 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, { ok: true });
     }
 
-    if (pathname === '/api/auth/signup' && req.method === 'POST') {
-      const { firstName = '', lastName = '', email = '', password = '', phone = '' } = await readRequestBody(req);
+    if (pathname === '/api/auth/session' && req.method === 'GET') {
+      const userId = getUserId(req, url);
+      if (!userId) {
+        return sendJson(res, 401, { error: 'Authentication required.' });
+      }
 
-      if ((!email && !phone) || !password || !firstName.trim()) {
+      const user = await usersCollection.findOne({ id: userId });
+      if (!user) {
+        return sendJson(res, 401, { error: 'User session not found.' });
+      }
+
+      if (user.isBlocked) {
+        return sendJson(res, 403, { error: 'This account is blocked.' });
+      }
+
+      const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (role !== 'superadmin' && !hasValidUserIdentifier(user)) {
+        return sendJson(res, 403, { error: VERIFIED_EMAIL_ONLY_MESSAGE });
+      }
+
+      if (role !== user.role) {
+        await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
+        user.role = role;
+      }
+
+      return sendJson(res, 200, {
+        user: safeUser(user),
+        auth: {
+          userId: user.id,
+          isAuthenticated: true,
+          role
+        }
+      });
+    }
+
+    if (pathname === '/api/auth/signup' && req.method === 'POST') {
+      const { firstName = '', lastName = '', email = '', phone = '', password = '' } = await readRequestBody(req);
+
+      if (!email || !password || !firstName.trim()) {
         return sendJson(res, 400, {
-          error: 'First name, password, and either email or phone are required.'
+          error: 'First name, email address, and password are required.'
         });
       }
 
       const { normalizedEmail, normalizedPhone, query } = buildAuthQuery(email, phone);
+
+      if (!isRealEmailAddress(normalizedEmail)) {
+        return sendJson(res, 400, { error: EMAIL_ONLY_MESSAGE });
+      }
+
+      if (phone && !isValidPhoneInput(phone)) {
+        return sendJson(res, 400, { error: 'Please enter a valid phone number.' });
+      }
+
+      if (!isStrongPassword(password)) {
+        return sendJson(res, 400, { error: PASSWORD_POLICY_MESSAGE });
+      }
 
       const existing = query.length
         ? await usersCollection.findOne({ $or: query })
@@ -973,12 +1347,16 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/auth/signin' && req.method === 'POST') {
-      const { email = '', password = '', phone = '' } = await readRequestBody(req);
+      const { email = '', password = '' } = await readRequestBody(req);
 
-      const { query } = buildAuthQuery(email, phone);
+      const { normalizedEmail, query } = buildAuthQuery(email, '');
 
-      if (!query.length) {
-        return sendJson(res, 400, { error: 'Email or phone is required.' });
+      if (!normalizedEmail) {
+        return sendJson(res, 400, { error: 'Email address is required.' });
+      }
+
+      if (!isRealEmailAddress(normalizedEmail)) {
+        return sendJson(res, 400, { error: EMAIL_ONLY_MESSAGE });
       }
 
       const user = await usersCollection.findOne({ $or: query });
@@ -991,21 +1369,31 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 403, { error: 'This account is blocked.' });
       }
 
+      const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (role !== user.role) {
+        await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
+        user.role = role;
+      }
+
       await ensureStateForUser(user);
 
       return sendJson(res, 200, {
         user: safeUser(user),
-        auth: { userId: user.id, isAuthenticated: true }
+        auth: { userId: user.id, isAuthenticated: true, role }
       });
     }
 
     if (pathname === '/api/auth/admin/signin' && req.method === 'POST') {
-      const { email = '', password = '', phone = '' } = await readRequestBody(req);
+      const { email = '', password = '' } = await readRequestBody(req);
 
-      const { query } = buildAuthQuery(email, phone);
+      const { normalizedEmail, query } = buildAuthQuery(email, '');
 
-      if (!query.length) {
-        return sendJson(res, 400, { error: 'Email or phone is required.' });
+      if (!normalizedEmail) {
+        return sendJson(res, 400, { error: 'Admin email address is required.' });
+      }
+
+      if (!isRealEmailAddress(normalizedEmail)) {
+        return sendJson(res, 400, { error: EMAIL_ONLY_MESSAGE });
       }
 
       const user = await usersCollection.findOne({ $or: query });
@@ -1014,19 +1402,25 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 401, { error: 'Invalid credentials.' });
       }
 
-      if (user.role !== 'admin') {
-        return sendJson(res, 403, { error: 'Admin access required.' });
+      const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (role !== 'superadmin') {
+        return sendJson(res, 403, { error: 'Super admin access required.' });
       }
 
       if (user.isBlocked) {
         return sendJson(res, 403, { error: 'This account is blocked.' });
       }
 
+      if (role !== user.role) {
+        await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
+        user.role = role;
+      }
+
       await ensureStateForUser(user);
 
       return sendJson(res, 200, {
         user: safeUser(user),
-        auth: { userId: user.id, isAuthenticated: true, role: 'admin' }
+        auth: { userId: user.id, isAuthenticated: true, role }
       });
     }
 
@@ -1069,8 +1463,25 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
+    if (pathname === '/api/chatbot' && req.method === 'POST') {
+      const { message = '' } = await readRequestBody(req);
+      const cleanMessage = normalizeChatText(message);
+
+      if (cleanMessage.length > 600) {
+        return sendJson(res, 400, { error: 'Please keep chatbot messages under 600 characters.' });
+      }
+   
+      
+      const reply = await buildChatbotReply(cleanMessage);
+      return sendJson(res, 200, {
+        reply,
+        source: 'free-sewaa-assistant',
+        createdAt: new Date().toISOString()
+      });
+    }
+
     if (pathname === '/api/admin/user-action' && req.method === 'POST') {
-      const admin = await requireAdminUser(req, url);
+      const admin = await requireSuperAdminUser(req, url);
       if (admin.error) {
         return sendJson(res, 403, { error: admin.error });
       }
@@ -1080,7 +1491,7 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: 'targetUserId and action are required.' });
       }
 
-      const payload = await applyAdminUserAction(targetUserId, action);
+      const payload = await applyAdminUserAction(targetUserId, action, admin.user);
       return sendJson(res, 200, { payload });
     }
 
@@ -1158,7 +1569,7 @@ const server = http.createServer(async (req, res) => {
         .sort({ createdAt: -1 })
         .toArray();
 
-      return sendJson(res, 200, { listings: listings.map(normalizeDoc) });
+      return sendJson(res, 200, { listings: listings.map(normalizeListingForClient) });
     }
 
     if (pathname.match(/^\/api\/listings\/[^/]+$/) && req.method === 'GET') {
@@ -1167,7 +1578,7 @@ const server = http.createServer(async (req, res) => {
       if (!listing) {
         return sendJson(res, 404, { error: 'Listing not found.' });
       }
-      return sendJson(res, 200, { listing: normalizeDoc(listing) });
+      return sendJson(res, 200, { listing: normalizeListingForClient(listing) });
     }
 
     if (pathname === '/api/listings' && req.method === 'POST') {
@@ -1200,7 +1611,7 @@ const server = http.createServer(async (req, res) => {
         pickupWindow: body.pickupWindow || '',
         description: body.description || '',
         notes: body.notes || '',
-        image: body.image || '',
+        image: sanitizeListingImage(body.image),
         requestCount: 0,
         saveCount: 0,
         urgent: Boolean(body.urgent),
@@ -1212,7 +1623,7 @@ const server = http.createServer(async (req, res) => {
       await listingsCollection.insertOne(listing);
       await touchMeta();
 
-      return sendJson(res, 201, { listing: normalizeDoc(listing) });
+      return sendJson(res, 201, { listing: normalizeListingForClient(listing) });
     }
 
     if (pathname.match(/^\/api\/listings\/[^/]+$/) && req.method === 'PUT') {
@@ -1244,7 +1655,7 @@ const server = http.createServer(async (req, res) => {
         ...(body.pickupWindow !== undefined ? { pickupWindow: body.pickupWindow } : {}),
         ...(body.description !== undefined ? { description: body.description } : {}),
         ...(body.notes !== undefined ? { notes: body.notes } : {}),
-        ...(body.image !== undefined ? { image: body.image } : {}),
+        ...(body.image !== undefined ? { image: sanitizeListingImage(body.image) } : {}),
         ...(body.urgent !== undefined ? { urgent: Boolean(body.urgent) } : {}),
         ...(body.status !== undefined ? { status: body.status } : {}),
         updatedAt: new Date().toISOString()
@@ -1254,7 +1665,7 @@ const server = http.createServer(async (req, res) => {
       const updated = await listingsCollection.findOne({ id });
 
       await touchMeta();
-      return sendJson(res, 200, { listing: normalizeDoc(updated) });
+      return sendJson(res, 200, { listing: normalizeListingForClient(updated) });
     }
 
     if (pathname.match(/^\/api\/listings\/[^/]+$/) && req.method === 'DELETE') {
@@ -1315,39 +1726,87 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 404, { error: 'Listing not found.' });
       }
 
+      if (listing.ownerId === userId) {
+        return sendJson(res, 400, { error: 'You cannot request your own listing.' });
+      }
+
       const existing = await requestsCollection.findOne({ listingId, requesterId: userId });
       if (existing) {
-        return sendJson(res, 409, { error: 'You already requested this listing.' });
+        const existingConversation = await conversationsCollection.findOne({
+          listingId,
+          participantIds: { $all: [userId, listing.ownerId] }
+        });
+        return sendJson(res, 200, {
+          request: normalizeDoc(existing),
+          conversation: existingConversation ? normalizeDoc(existingConversation) : null
+        });
       }
 
       const requestDoc = {
         id: `req-${Date.now()}`,
         listingId,
-        requesterId: userId,
-        requesterName: user.name || user.firstName || 'User',
+        requesterId: user.id,
+        requesterName: getUserDisplayName(user),
         ownerId: listing.ownerId,
         status: 'pending',
         requestedAt: new Date().toISOString(),
         note: String(note)
       };
 
-      await requestsCollection.insertOne(requestDoc);
-      await listingsCollection.updateOne(
-        { id: listingId },
-        { $inc: { requestCount: 1 }, $set: { updatedAt: new Date().toISOString() } }
-      );
+      const owner = await usersCollection.findOne({ id: listing.ownerId });
+      const ownerName = listing.ownerName || getUserDisplayName(owner);
+      const conversation = {
+        id: `conv-${Date.now()}`,
+        listingId,
+        participantIds: [user.id, listing.ownerId],
+        participantNames: {
+          [user.id]: requestDoc.requesterName,
+          [listing.ownerId]: ownerName
+        },
+        participantCities: {
+          [user.id]: user.city || 'Ulsan',
+          [listing.ownerId]: owner?.city || String(listing.location || '').split(',')[0] || 'Ulsan'
+        },
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      const introText = String(note || `Hi! I am interested in your ${listing.title}. Is it still available?`).trim();
+      const firstMessage = {
+        conversationId: conversation.id,
+        senderId: user.id,
+        senderName: requestDoc.requesterName,
+        text: introText,
+        type: 'sent',
+        createdAt: new Date().toISOString()
+      };
+
+      await Promise.all([
+        requestsCollection.insertOne(requestDoc),
+        conversationsCollection.insertOne(conversation),
+        messagesCollection.insertOne(firstMessage),
+        listingsCollection.updateOne(
+          { id: listingId },
+          { $inc: { requestCount: 1 }, $set: { updatedAt: new Date().toISOString() } }
+        )
+      ]);
 
       await notificationsCollection.insertOne({
         id: `notif-${Date.now()}`,
         userId: listing.ownerId,
+        conversationId: conversation.id,
         text: `${requestDoc.requesterName} requested your ${listing.title} listing.`,
-        type: 'request',
+        type: 'message',
         read: false,
         createdAt: new Date().toISOString()
       });
 
       await touchMeta();
-      return sendJson(res, 201, { request: normalizeDoc(requestDoc) });
+      return sendJson(res, 201, {
+        request: normalizeDoc(requestDoc),
+        conversation: normalizeDoc(conversation),
+        message: normalizeDoc(firstMessage)
+      });
     }
 
     if (pathname.match(/^\/api\/requests\/[^/]+\/status$/) && req.method === 'PATCH') {
@@ -1428,6 +1887,97 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, { ok: true });
     }
 
+    if (pathname === '/api/suggestions' && req.method === 'POST') {
+      const userId = getUserId(req, url);
+      const body = await readRequestBody(req);
+      const name = String(body.name || '').trim().slice(0, 120);
+      const email = String(body.email || '').trim().toLowerCase().slice(0, 160);
+      const message = String(body.message || '').trim().slice(0, 1200);
+
+      if (!message) {
+        return sendJson(res, 400, { error: 'Suggestion message is required.' });
+      }
+
+      let user = null;
+      if (userId) {
+        user = await usersCollection.findOne({ id: userId });
+      }
+
+      const suggestion = {
+        id: `suggestion-${Date.now()}`,
+        userId: user?.id || userId || null,
+        name: name || getUserDisplayName(user),
+        email: email || user?.email || '',
+        message,
+        status: 'new',
+        createdAt: new Date().toISOString()
+      };
+
+      await suggestionsCollection.insertOne(suggestion);
+      await touchMeta();
+
+      return sendJson(res, 201, {
+        suggestion: normalizeDoc(suggestion),
+        message: 'Thank you for sharing your suggestion.'
+      });
+    }
+
+    if (pathname === '/api/reviews' && req.method === 'GET') {
+      const reviews = await reviewsCollection
+        .find({})
+        .sort({ createdAt: -1 })
+        .limit(24)
+        .toArray();
+
+      return sendJson(res, 200, { reviews: reviews.map(normalizeDoc) });
+    }
+
+    if (pathname === '/api/reviews' && req.method === 'POST') {
+      const userId = getUserId(req, url);
+      const body = await readRequestBody(req);
+      const name = String(body.name || '').trim().slice(0, 120);
+      const email = String(body.email || '').trim().toLowerCase().slice(0, 160);
+      const message = String(body.message || '').trim().slice(0, 700);
+      const rating = Math.max(1, Math.min(5, Number(body.rating) || 5));
+
+      if (!message) {
+        return sendJson(res, 400, { error: 'Review message is required.' });
+      }
+
+      let user = null;
+      if (userId) {
+        user = await usersCollection.findOne({ id: userId });
+      }
+
+      const review = {
+        id: `review-${Date.now()}`,
+        userId: user?.id || userId || null,
+        name: name || getUserDisplayName(user),
+        email: email || user?.email || '',
+        rating,
+        message,
+        status: 'published',
+        createdAt: new Date().toISOString()
+      };
+
+      await reviewsCollection.insertOne(review);
+      await suggestionsCollection.insertOne({
+        id: `suggestion-review-${Date.now()}`,
+        userId: review.userId,
+        name: review.name,
+        email: review.email,
+        message: `About page review (${review.rating}/5): ${review.message}`,
+        status: 'new',
+        createdAt: review.createdAt
+      });
+      await touchMeta();
+
+      return sendJson(res, 201, {
+        review: normalizeDoc(review),
+        message: 'Thank you for sharing your review.'
+      });
+    }
+
     if (pathname === '/api/messages/conversations' && req.method === 'GET') {
       const userId = getUserId(req, url);
       if (!userId) {
@@ -1444,13 +1994,24 @@ const server = http.createServer(async (req, res) => {
         const lastMessage = await messagesCollection.find({ conversationId: conv.id }).sort({ createdAt: -1 }).limit(1).toArray();
         const unreadCount = await notificationsCollection.countDocuments({
           userId,
+          conversationId: conv.id,
           type: 'message',
           read: false
         });
+        const listing = conv.listingId ? await listingsCollection.findOne({ id: conv.listingId }) : null;
+        const otherUserId = (conv.participantIds || []).find(id => id !== userId);
+        const otherUser = otherUserId ? await usersCollection.findOne({ id: otherUserId }) : null;
+        const participantNames = conv.participantNames && typeof conv.participantNames === 'object' && !Array.isArray(conv.participantNames)
+          ? conv.participantNames
+          : {};
 
         enriched.push({
           ...normalizeDoc(conv),
+          participantId: otherUserId || '',
+          participant: participantNames[otherUserId] || conv.participant || getUserDisplayName(otherUser),
+          participantCity: conv.participantCities?.[otherUserId] || otherUser?.city || 'Ulsan',
           unread: unreadCount,
+          listing: listing ? normalizeListingForClient(listing) : null,
           lastMessage: lastMessage[0] ? normalizeDoc(lastMessage[0]) : null
         });
       }
@@ -1464,14 +2025,25 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: 'userId is required.' });
       }
 
-      const { participantId, participantName, listingId = null } = await readRequestBody(req);
-      if (!participantId || !participantName) {
-        return sendJson(res, 400, { error: 'participantId and participantName are required.' });
+      const { participantId = '', participantName = '', listingId = null } = await readRequestBody(req);
+      const listing = listingId ? await listingsCollection.findOne({ id: listingId }) : null;
+      const resolvedParticipantId = participantId || listing?.ownerId || '';
+      if (!resolvedParticipantId) {
+        return sendJson(res, 400, { error: 'participantId or listingId is required.' });
+      }
+      if (resolvedParticipantId === userId) {
+        return sendJson(res, 400, { error: 'You cannot start a conversation with yourself.' });
+      }
+
+      const currentUser = await usersCollection.findOne({ id: userId });
+      const participantUser = await usersCollection.findOne({ id: resolvedParticipantId });
+      if (!currentUser || !participantUser) {
+        return sendJson(res, 404, { error: 'Conversation participant not found.' });
       }
 
       const existing = await conversationsCollection.findOne({
         listingId,
-        participantIds: { $all: [userId, participantId] }
+        participantIds: { $all: [userId, resolvedParticipantId] }
       });
 
       if (existing) {
@@ -1481,10 +2053,15 @@ const server = http.createServer(async (req, res) => {
       const conversation = {
         id: `conv-${Date.now()}`,
         listingId,
-        participantIds: [userId, participantId],
-        participantNames: [userId, participantName],
-        participant: participantName,
-        participantCity: 'Ulsan',
+        participantIds: [userId, resolvedParticipantId],
+        participantNames: {
+          [userId]: getUserDisplayName(currentUser),
+          [resolvedParticipantId]: participantName || getUserDisplayName(participantUser)
+        },
+        participantCities: {
+          [userId]: currentUser.city || 'Ulsan',
+          [resolvedParticipantId]: participantUser.city || String(listing?.location || '').split(',')[0] || 'Ulsan'
+        },
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
@@ -1497,10 +2074,25 @@ const server = http.createServer(async (req, res) => {
 
     if (pathname.match(/^\/api\/messages\/conversations\/[^/]+\/messages$/) && req.method === 'GET') {
       const conversationId = pathname.split('/')[4];
+      const userId = getUserId(req, url);
+      const conversation = await conversationsCollection.findOne({ id: conversationId });
+      if (!conversation) {
+        return sendJson(res, 404, { error: 'Conversation not found.' });
+      }
+      if (userId && !(conversation.participantIds || []).includes(userId)) {
+        return sendJson(res, 403, { error: 'You are not part of this conversation.' });
+      }
       const messages = await messagesCollection
         .find({ conversationId })
         .sort({ createdAt: 1 })
         .toArray();
+
+      if (userId) {
+        await notificationsCollection.updateMany(
+          { userId, conversationId, type: 'message', read: false },
+          { $set: { read: true } }
+        );
+      }
 
       return sendJson(res, 200, { messages: messages.map(normalizeDoc) });
     }
@@ -1522,17 +2114,33 @@ const server = http.createServer(async (req, res) => {
       if (!conversation) {
         return sendJson(res, 404, { error: 'Conversation not found.' });
       }
+      if (!(conversation.participantIds || []).includes(userId)) {
+        return sendJson(res, 403, { error: 'You are not part of this conversation.' });
+      }
 
       const { text = '' } = await readRequestBody(req);
       if (!String(text).trim()) {
         return sendJson(res, 400, { error: 'Message text is required.' });
       }
 
+      const messageText = String(text).trim();
+      const duplicateWindow = new Date(Date.now() - 8000).toISOString();
+      const recentDuplicate = await messagesCollection.findOne({
+        conversationId,
+        senderId: userId,
+        text: messageText,
+        createdAt: { $gte: duplicateWindow }
+      });
+
+      if (recentDuplicate) {
+        return sendJson(res, 200, { message: normalizeDoc(recentDuplicate), duplicate: true });
+      }
+
       const message = {
         conversationId,
         senderId: userId,
         senderName: user.name || user.firstName || 'You',
-        text: String(text).trim(),
+        text: messageText,
         type: 'sent',
         createdAt: new Date().toISOString()
       };
@@ -1548,6 +2156,7 @@ const server = http.createServer(async (req, res) => {
         await notificationsCollection.insertOne({
           id: `notif-${Date.now()}`,
           userId: recipientId,
+          conversationId,
           text: `${message.senderName} sent you a new message.`,
           type: 'message',
           read: false,
@@ -1567,8 +2176,18 @@ const server = http.createServer(async (req, res) => {
     const aliasTarget = PUBLIC_PAGE_ALIASES[normalizedPath.toLowerCase()];
     const relativePath = (aliasTarget || normalizedPath).replace(/^\/+/, '');
 
-    let filePath = path.join(ROOT, relativePath);
-    if (!filePath.startsWith(ROOT)) {
+    const pagePath = path.resolve(PUBLIC_ROOT, 'html', relativePath);
+    if (
+      path.extname(relativePath).toLowerCase() === '.html' &&
+      pagePath.startsWith(path.resolve(PUBLIC_ROOT, 'html')) &&
+      fs.existsSync(pagePath) &&
+      fs.statSync(pagePath).isFile()
+    ) {
+      return sendFile(res, pagePath);
+    }
+
+    let filePath = path.resolve(PUBLIC_ROOT, relativePath);
+    if (!filePath.startsWith(PUBLIC_ROOT)) {
       return sendJson(res, 403, { error: 'Forbidden' });
     }
 
@@ -1576,7 +2195,7 @@ const server = http.createServer(async (req, res) => {
       return sendFile(res, filePath);
     }
 
-    return sendFile(res, path.join(ROOT, 'index.html'));
+    return sendFile(res, path.resolve(PUBLIC_ROOT, 'html', 'index.html'));
   } catch (error) {
     console.error(error);
     return sendJson(res, 500, { error: error.message || 'Server error' });
@@ -1596,6 +2215,8 @@ async function startServer() {
     conversationsCollection = db.collection('conversations');
     messagesCollection = db.collection('messages');
     notificationsCollection = db.collection('notifications');
+    suggestionsCollection = db.collection('suggestions');
+    reviewsCollection = db.collection('reviews');
 
     await ensureIndexes();
     await ensureSeedData();

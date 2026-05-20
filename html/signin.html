@@ -12,7 +12,7 @@
 
 <script>
 if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('freesewaa-current-user-id')) {
-  try { const u = JSON.parse(localStorage.getItem('freesewaa-user') || '{}'); window.location.replace(u.role === 'admin' ? '/admin.html' : '/user_panel.html'); } catch(e) { window.location.replace('/app.html'); }
+  try { const u = JSON.parse(localStorage.getItem('freesewaa-user') || '{}'); window.location.replace(u.role === 'superadmin' ? '/admin.html' : '/user_panel.html'); } catch(e) { window.location.replace('/app.html'); }
 }
 </script>
 </head>
@@ -42,7 +42,7 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
       <div class="auth-card__top">
         <p class="eyebrow">SIGN IN</p>
         <h2>Welcome back</h2>
-        <p class="auth-card__text">Choose the way you want to sign in.</p>
+        <p class="auth-card__text">Sign in with your real email account or verified phone number.</p>
       </div>
 
       <div class="social-row">
@@ -58,14 +58,14 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
 
       <div class="auth-toggle">
         <button class="toggle-btn is-active" data-panel-target="emailPanel">Email</button>
-        <button class="toggle-btn" data-panel-target="phonePanel">Phone Number</button>
+        <button class="toggle-btn" data-panel-target="phonePanel">Phone</button>
       </div>
 
       <div class="auth-panel is-active" id="emailPanel">
         <form class="auth-form" data-auth-panel="email">
           <label class="field">
             <span>Email address</span>
-            <input type="email" placeholder="you@example.com" />
+            <input type="email" placeholder="you@yourmail.com" autocomplete="email" />
           </label>
           <label class="field">
             <span>Password</span>
@@ -81,20 +81,23 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
 
       <div class="auth-panel" id="phonePanel">
         <form class="auth-form" data-auth-panel="phone">
-          <label class="field">
-            <span>Phone number</span>
-            <div class="phone-group">
-              <select><option>+1</option><option>+82</option><option>+977</option><option>+44</option><option>+61</option></select>
-              <input type="tel" placeholder="Enter your phone number" />
-            </div>
-          </label>
+          <div class="field-grid">
+            <label class="field">
+              <span>Country</span>
+              <select>
+                <option value="+82">Korea +82</option>
+                <option value="+1">US/Canada +1</option>
+                <option value="+44">UK +44</option>
+                <option value="+91">India +91</option>
+                <option value="+977">Nepal +977</option>
+              </select>
+            </label>
+            <label class="field"><span>Phone number</span><input type="tel" placeholder="010-1234-5678" autocomplete="tel" /></label>
+          </div>
           <button class="secondary-btn" type="button" data-phone-action="send-code">Send Verification Code</button>
-          <div id="recaptcha-container" class="recaptcha-container"></div>
-          <label class="field">
-            <span>Verification code</span>
-            <input type="text" placeholder="Enter 6-digit code" />
-          </label>
-          <button class="primary-btn" type="submit">Continue</button>
+          <label class="field"><span>Verification code</span><input type="text" placeholder="6-digit code" inputmode="numeric" /></label>
+          <div id="recaptcha-container"></div>
+          <button class="primary-btn" type="submit">Sign In</button>
         </form>
       </div>
 

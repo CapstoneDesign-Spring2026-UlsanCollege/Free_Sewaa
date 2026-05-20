@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Free Sewaa — Connected Premium</title>
-  <meta name="description" content="Free Sewaa community giving platform with connected homepage and auth pages." />
+  <title>Free Sewaa - Community Giving</title>
+  <meta name="description" content="Free Sewaa community giving platform for free donations, events, and local support." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
@@ -14,7 +14,7 @@
 
 <script>
 if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('freesewaa-current-user-id')) {
-  try { const u = JSON.parse(localStorage.getItem('freesewaa-user') || '{}'); window.location.replace(u.role === 'admin' ? 'admin.html' : 'app.html'); } catch(e) { window.location.replace('app.html'); }
+  try { const u = JSON.parse(localStorage.getItem('freesewaa-user') || '{}'); window.location.replace(u.role === 'superadmin' ? 'admin.html' : 'app.html'); } catch(e) { window.location.replace('app.html'); }
 }
 </script>
 
@@ -33,6 +33,7 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
   <header class="header" id="header">
     <a href="index.html" class="brand">Free Sewaa</a>
     <nav class="header__actions" aria-label="Authentication navigation">
+      <a href="events.html" class="btn btn--ghost">Events</a>
       <a href="/auth_choice.html" class="btn btn--ghost">Sign In</a>
       <a href="/signup.html" class="btn btn--solid">Sign Up</a>
     </nav>
@@ -55,11 +56,11 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
           <h1 class="hero__title reveal reveal--1">Give with heart.<br>Share with purpose.</h1>
           <p class="hero__text reveal reveal--2">
             Free Sewaa is a human-centered donation platform where extra belongings become real help.
-            This homepage is now directly connected with premium sign in and sign up pages.
+            Share useful items, discover free community events, and support people with dignity.
           </p>
           <div class="hero__cta reveal reveal--3">
             <a href="/signup.html" class="btn btn--hero">Start Sharing</a>
-            <a href="#stories" class="text-link">Explore stories</a>
+            <a href="events.html" class="text-link">View free events</a>
           </div>
         </div>
 
@@ -77,8 +78,8 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
             <strong class="counter" data-target="42">0</strong>
           </div>
           <div class="hero__note">
-            <span class="eyebrow">CONNECTED FLOW</span>
-            <p>Homepage buttons now route directly to the new authentication pages so the experience feels like one real product.</p>
+            <span class="eyebrow">COMMUNITY IMPACT</span>
+            <p>Every shared item, volunteer hour, and donation camp helps Free Sewaa turn care into practical support.</p>
           </div>
         </aside>
       </div>
@@ -95,12 +96,39 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
 
     <section class="intro wrap reveal-block">
       <div class="intro__left">
-        <p class="eyebrow">Connected user journey</p>
-        <h2 class="section-title">Homepage to auth flow now feels seamless.</h2>
+        <p class="eyebrow">Community care</p>
+        <h2 class="section-title">Free support should be easy to find and easy to give.</h2>
       </div>
       <p class="section-copy">
-        Sign In, Sign Up, and the hero CTA are all linked so users can move naturally from discovery into account creation or login.
+        Browse donated items, join volunteer events, suggest donation camps, and help useful things reach the people who need them most.
       </p>
+    </section>
+
+    <section class="events-preview wrap reveal-block" id="events">
+      <div class="events-preview__header">
+        <div>
+          <p class="eyebrow">Upcoming free events</p>
+          <h2 class="section-title">Donation camps, community drives, and free support days.</h2>
+        </div>
+        <a href="events.html" class="btn btn--hero">See Events</a>
+      </div>
+      <div class="events-preview__grid">
+        <article class="event-mini-card reveal-card">
+          <span class="event-date">May 24</span>
+          <h3>Food & Essentials Donation Camp</h3>
+          <p>Collecting rice, pantry items, blankets, hygiene kits, and clean reusable clothing for local families.</p>
+        </article>
+        <article class="event-mini-card reveal-card">
+          <span class="event-date">Jun 02</span>
+          <h3>Student Supplies Free Pickup</h3>
+          <p>Free notebooks, story books, stationery, bags, and study materials for children and students.</p>
+        </article>
+        <article class="event-mini-card reveal-card">
+          <span class="event-date">Jun 15</span>
+          <h3>Community Volunteer Meetup</h3>
+          <p>A planning day for donors, volunteers, and organizers who want to support future Free Sewaa events.</p>
+        </article>
+      </div>
     </section>
 
     <section class="stories wrap" id="stories">
