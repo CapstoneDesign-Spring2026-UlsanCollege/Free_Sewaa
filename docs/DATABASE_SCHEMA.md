@@ -1,192 +1,197 @@
 # Database Schema
 
-## Overview
-
-Free Sewaa currently uses a **custom HTTP server** with in-memory storage and MongoDB as the production database. If no `MONGO_URI` is set, it falls back to JSON file storage for local development.
-
-The data has 5 main collections: Users, Items (Listings), Requests, Messages, and Conversations.
+Free Sewaa uses MongoDB with 10 collections. All IDs are custom string IDs (e.g. `user-1712345678`, `listing-201`), not MongoDB ObjectIds.
 
 ---
 
-## Users Collection
-
-Stores registered user accounts.
+## 1. Users Collection
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `_id` | ObjectId | Auto | Unique user ID |
+| `id` | String | Yes | Unique user ID (`user-...`) |
 | `firstName` | String | Yes | First name |
 | `lastName` | String | Yes | Last name |
-| `email` | String | Yes | Unique, must be from recognized provider |
-| `password` | String | Yes | Hashed with bcryptjs |
+| `name` | String | Yes | Full name |
+| `email` | String | No | Must be from recognized provider |
+| `password` | String | No | Plaintext (bcryptjs available but unused) |
 | `phone` | String | No | Phone number |
-| `region` | String | No | Location (e.g. "Seoul") |
-| `role` | String | Yes | `"user"` or `"admin"` |
-| `avatar` | String | No | Profile image URL |
-| `blocked` | Boolean | No | If true, login is denied |
-| `createdAt` | Date | Auto | Account creation timestamp |
-| `updatedAt` | Date | Auto | Last update timestamp |
-
-**Admin users** have `role: "admin"`. They can access the admin dashboard, manage listings and users. Admin accounts are created by setting their email in the `SUPER_ADMIN_EMAILS` environment variable, or by using the admin signin endpoint with matching credentials.
-
-**Example user:**
-```json
-{
-  "id": "user-1712345678",
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john@gmail.com",
-  "password": "$2a$10$...",
-  "role": "user",
-  "region": "Seoul",
-  "createdAt": "2026-04-18T10:30:00Z"
-}
-```
+| `city` | String | No | City (default `Ulsan`) |
+| `region` | String | No | District (default `Nam-gu`) |
+| `role` | String | Yes | `"user"`, `"admin"`, or `"superadmin"` |
+| `firebaseUid` | String | No | Firebase UID if signed in via Firebase |
+| `provider` | String | No | Auth provider (`"firebase"`, `"phone"`) |
+| `isBlocked` | Boolean | No | If true, login is denied |
+| `createdAt` | String | Yes | ISO timestamp |
+| `updatedAt` | String | No | ISO timestamp |
 
 ---
 
-## Items Collection (Listings)
+## 2. States Collection
 
-Stores donation items posted by users.
+Stores per-user application state (saved items, preferences, drafts).
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `_id` | ObjectId | Auto | Unique item ID |
+| `userId` | String | Yes | Reference to User |
+| `state` | Object | Yes | Full user state object (preferences, saved listings, drafts) |
+
+---
+
+## 3. Meta Collection
+
+Stores app-level metadata.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `key` | String | Yes | Identifier (e.g. `"app-meta"`) |
+| `lastUpdatedAt` | String | No | ISO timestamp |
+
+---
+
+## 4. Listings Collection
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | String | Yes | Unique listing ID (`listing-...`) |
+| `ownerId` | String | Yes | Reference to User who posted |
+| `ownerName` | String | Yes | Denormalized owner name |
 | `title` | String | Yes | Item name |
 | `description` | String | Yes | Condition, pickup details |
-| `category` | String | Yes | Clothing, Books, Electronics, Food, etc. |
-| `condition` | String | No | "Like new", "Good", "Used" |
+| `category` | String | Yes | Clothing, Books, Electronics, Food, Home, etc. |
+| `condition` | String | No | `"Like new"`, `"Good"`, `"Used"`, `"New"` |
+| `location` | String | No | Full location string (e.g. `"Ulsan, Samsan-dong"`) |
+| `distanceKm` | Number | No | Approximate distance |
+| `pickup` | String | No | `"Pickup only"` or `"Flexible"` |
+| `pickupWindow` | String | No | Time window for pickup |
+| `notes` | String | No | Extra notes |
 | `image` | String | No | Image URL (default if empty) |
-| `images` | [String] | No | Array of image URLs |
-| `donorId` | String | Yes | Reference to User who donated |
-| `donorName` | String | Yes | Denormalized donor name |
-| `region` | String | No | Location |
-| `status` | String | Yes | `"available"`, `"reserved"`, or `"donated"` |
-| `distance` | String | No | Display distance |
-| `createdAt` | Date | Auto | When item was posted |
-| `updatedAt` | Date | Auto | Last update |
+| `requestCount` | Number | No | Number of requests received |
+| `saveCount` | Number | No | Number of saves/bookmarks |
+| `urgent` | Boolean | No | If true, marked as urgent |
+| `featured` | Boolean | No | If true, featured listing |
+| `reviewed` | Boolean | No | If true, has been reviewed |
+| `status` | String | Yes | `"active"`, `"reserved"`, `"donated"`, or `"hidden"` |
+| `createdAt` | String | Yes | ISO timestamp |
+| `updatedAt` | String | Yes | ISO timestamp |
 
-**Status lifecycle:** available → reserved → donated
-
-**Example item:**
-```json
-{
-  "id": "item-1712345678",
-  "title": "Winter Coat",
-  "description": "Gently used warm coat, size L",
-  "category": "Clothing",
-  "condition": "Like new",
-  "image": "https://images.unsplash.com/...",
-  "donorId": "user-1712345678",
-  "donorName": "John Doe",
-  "region": "Seoul",
-  "status": "available",
-  "createdAt": "2026-04-18T10:30:00Z"
-}
-```
+**Status lifecycle:** active → reserved → donated (or hidden)
 
 ---
 
-## Requests Collection
-
-Stores when a user requests an item from a donor.
+## 5. Requests Collection
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `_id` | ObjectId | Auto | Unique request ID |
-| `itemId` | String | Yes | Reference to Item |
+| `id` | String | Yes | Unique request ID (`req-...`) |
+| `listingId` | String | Yes | Reference to Listing |
 | `requesterId` | String | Yes | Reference to User who requested |
-| `donorId` | String | Yes | Reference to Item donor |
-| `status` | String | Yes | `"pending"`, `"approved"`, `"completed"`, `"cancelled"` |
-| `createdAt` | Date | Auto | When request was made |
-| `updatedAt` | Date | Auto | Last status change |
+| `requesterName` | String | Yes | Denormalized requester name |
+| `ownerId` | String | Yes | Reference to Listing owner |
+| `status` | String | Yes | `"pending"`, `"accepted"`, `"declined"`, or `"completed"` |
+| `requestedAt` | String | Yes | ISO timestamp |
+| `note` | String | No | Message from requester |
 
-**Status lifecycle:** pending → approved → completed (or cancelled)
-
----
-
-## Messages Collection
-
-Stores individual messages within conversations.
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `_id` | ObjectId | Auto | Unique message ID |
-| `conversationId` | String | Yes | Groups messages by conversation |
-| `senderId` | String | Yes | Reference to User who sent |
-| `receiverId` | String | No | Reference to recipient |
-| `itemId` | String | No | Reference to related Item |
-| `text` | String | Yes | Message content |
-| `type` | String | No | `"sent"` or system type |
-| `read` | Boolean | No | Read status |
-| `createdAt` | Date | Auto | When sent |
-
-**Example message:**
-```json
-{
-  "id": "msg-1712345678",
-  "conversationId": "conv-1712345678",
-  "senderId": "user-...",
-  "text": "Is this still available?",
-  "createdAt": "2026-04-18T10:35:00Z"
-}
-```
+**Status lifecycle:** pending → accepted → completed (or declined)
 
 ---
 
-## Conversations Collection
-
-Groups messages between participants about an item.
+## 6. Conversations Collection
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `_id` | ObjectId | Auto | Unique conversation ID |
+| `id` | String | Yes | Unique conversation ID (`conv-...`) |
+| `listingId` | String | No | Reference to related Listing |
 | `participantIds` | [String] | Yes | Array of user IDs |
-| `itemId` | String | No | Reference to related Item |
+| `participantNames` | [String] | No | Array of user names |
+| `participant` | String | No | Display name of other participant |
+| `participantCity` | String | No | City of other participant |
 | `lastMessage` | String | No | Preview of last message |
-| `lastMessageAt` | Date | No | Timestamp of last activity |
-| `createdAt` | Date | Auto | When conversation started |
+| `lastMessageAt` | String | No | ISO timestamp of last activity |
+| `createdAt` | String | Yes | ISO timestamp |
+| `updatedAt` | String | Yes | ISO timestamp |
 
 ---
 
-## Admin Role
+## 7. Messages Collection
 
-Admin users have `role: "admin"` in the Users collection. They are identified by:
-
-1. Matching email in `SUPER_ADMIN_EMAILS` env variable
-2. Matching user ID in `SUPER_ADMIN_USER_IDS` env variable
-3. Using the admin signin endpoint at `/api/auth/admin/signin`
-
-Admin capabilities:
-- View platform overview (user count, listing count, request count)
-- Block or unblock user accounts
-- Remove or restore listings
-- Access security audit logs
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `conversationId` | String | Yes | Reference to Conversation |
+| `senderId` | String | Yes | Reference to User who sent |
+| `senderName` | String | Yes | Denormalized sender name |
+| `text` | String | Yes | Message content |
+| `type` | String | No | `"sent"` or `"received"` |
+| `createdAt` | String | Yes | ISO timestamp |
 
 ---
 
-## Relationship Diagram
+## 8. Notifications Collection
 
-```
-Users ──1:N── Items (as donor)
-Users ──1:N── Requests (as requester)
-Users ──1:N── Conversations (as participant)
-Users ──1:N── Messages (as sender)
-Items ──1:N── Requests
-Items ──1:N── Conversations
-Conversations ──1:N── Messages
-```
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | String | Yes | Unique notification ID |
+| `userId` | String | Yes | Reference to User |
+| `text` | String | Yes | Notification message |
+| `type` | String | Yes | `"request"`, `"message"`, etc. |
+| `read` | Boolean | No | Read status |
+| `createdAt` | String | Yes | ISO timestamp |
 
 ---
 
-## Indexes (MongoDB)
+## 9. Suggestions Collection
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | String | Yes | Unique suggestion ID |
+| `userId` | String | Yes | Reference to User |
+| `text` | String | Yes | Suggestion content |
+| `createdAt` | String | Yes | ISO timestamp |
+
+---
+
+## 10. Reviews Collection
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | String | Yes | Unique review ID |
+| `itemId` | String | No | Reference to Listing |
+| `reviewerId` | String | Yes | Reference to reviewer User |
+| `rating` | Number | No | Rating value |
+| `comment` | String | No | Review text |
+| `createdAt` | String | Yes | ISO timestamp |
+
+---
+
+## Indexes
 
 | Collection | Index | Purpose |
 |------------|-------|---------|
-| Users | `email` (unique) | Fast login |
-| Items | `donorId` | Find by donor |
-| Items | `category` | Filter |
-| Items | `status` | Available items |
-| Messages | `conversationId` | Load conversation |
+| Users | `email` (unique, sparse) | Fast login |
+| Users | `phone` (unique, sparse) | Phone lookup |
+| Users | `id` (unique) | User lookup |
+| States | `userId` (unique) | Per-user state |
+| Listings | `id` (unique) | Listing lookup |
+| Listings | `ownerId` | Find by owner |
+| Listings | `status` | Available items |
+| Listings | `category` | Filter |
+| Requests | `id` (unique) | Request lookup |
+| Requests | `listingId` | Request count per item |
 | Requests | `requesterId` | User requests |
-| Requests | `itemId` | Check request status |
+| Requests | `ownerId` | Incoming requests |
+| Conversations | `id` (unique) | Conversation lookup |
+| Conversations | `participantIds` | User conversations |
+| Messages | `conversationId` | Load conversation |
+| Messages | `createdAt` | Chronological order |
+| Notifications | `id` (unique) | Notification lookup |
+| Notifications | `userId` | User notifications |
+| Notifications | `read` | Unread filter |
+| Suggestions | `id` (unique) | Suggestion lookup |
+| Suggestions | `userId` | User suggestions |
+| Suggestions | `createdAt` (desc) | Recent first |
+| Reviews | `id` (unique) | Review lookup |
+| Reviews | `createdAt` (desc) | Recent first |
+| Reviews | `rating` | Sort by rating |
+
+---
+
+*Last updated: May 2026*
