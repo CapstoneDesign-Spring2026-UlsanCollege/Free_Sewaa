@@ -1,11 +1,17 @@
 # System Architecture — Free Sewaa
 
+> **⚠️ Historical / Aspirational Document**
+> This document describes the planned architecture from early sprint planning.
+> The actual implementation uses a **custom Node.js HTTP server** (no Express),
+> **localStorage-based auth** (no JWT), and **vanilla HTML/CSS/JS frontend** (no React).
+> See [DEVELOPER_GUIDE.md](../DEVELOPER_GUIDE.md) and [API_REFERENCE.md](../API_REFERENCE.md) for current docs.
+
 ---
 
 ## Overview
 
 **System Name:** Free Sewaa  
-**Type:** Full-stack Web Application (MERN Stack)  
+**Type:** Full-stack Web Application (planned MERN; actual: custom HTTP + vanilla JS)  
 **Purpose:** Community donation platform connecting donors with people who need reusable items
 
 ---
