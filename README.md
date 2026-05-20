@@ -172,6 +172,7 @@ Full list in [DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md).
 - [API Reference](docs/API_REFERENCE.md) — all endpoints
 - [Developer Guide](docs/DEVELOPER_GUIDE.md) — setup and common errors
 - [Auth Flow Diagram](html/auth-flow.html) — user journey from signup to dashboard
+- [UML Diagram](docs/Project_UML%20diagram/README.md) — user flow diagram
 
 ### Deployment
 

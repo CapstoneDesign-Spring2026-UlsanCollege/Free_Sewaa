@@ -36,6 +36,7 @@ This folder contains all project documentation.
 | [API Reference](../API_REFERENCE.md) | All API endpoints |
 | [Database Schema](../DATABASE_SCHEMA.md) | Data models |
 | [Developer Guide](../DEVELOPER_GUIDE.md) | Local setup and common errors |
+| [UML Diagram](Project_UML%20diagram/README.md) | User flow diagram |
 
 ## Deployment
 

@@ -1,0 +1,76 @@
+# Free Sewaa UML / User Flow Diagram
+
+This folder contains the UML user flow diagram for Free Sewaa. The diagram shows the complete user journey — from landing through authentication, browsing, booking, and admin management.
+
+## Files
+
+| File | Description |
+|------|-------------|
+| [UML Diagram .jpeg](Image_20260520_113523_456.jpeg) | Original image (read-only) |
+| [USER_FLOW_DIAGRAM.md](USER_FLOW_DIAGRAM.md) | Mermaid diagram rendered in GitHub markdown |
+| [user-flow.mmd](user-flow.mmd) | Raw Mermaid source (open in Mermaid editor) |
+
+## Rendered Diagram
+
+```mermaid
+flowchart TD
+    Start([Start]) --> Landing[Landing Page]
+    Landing --> SelectType{Select User Type}
+
+    SelectType -->|User| UserLogin[User Login]
+    SelectType -->|New User| Register[Register Account]
+    SelectType -->|Admin| AdminLogin[Admin Login]
+
+    Register --> CreateAccount[Create Account]
+    CreateAccount --> UserDashboard[User Dashboard]
+
+    UserLogin --> Auth{Auth Valid?}
+    Auth -->|Yes| UserDashboard
+    Auth -->|No| Forgot[Forgot Password]
+    Forgot --> UserLogin
+
+    UserDashboard --> Browse[Browse Services]
+    UserDashboard --> Events[Events]
+    UserDashboard --> Messages[Messages / AI]
+    UserDashboard --> Notifications[Notifications]
+    UserDashboard --> Profile[Profile]
+    UserDashboard --> Saved[Saved Items]
+    UserDashboard --> Posts[My Posts]
+    UserDashboard --> Requests[Requests]
+    UserDashboard --> Premium[Premium / Donate]
+    UserDashboard --> Orders[Orders]
+    UserDashboard --> LogoutUser{Logout?}
+
+    Browse --> SelectService[Select Service]
+    SelectService --> Booking[Booking / Payment]
+    Booking --> Confirmation[Confirmation]
+    Orders --> Confirmation
+
+    LogoutUser -->|No| UserDashboard
+    LogoutUser -->|Yes| End([End])
+
+    AdminLogin --> AdminAuth{Admin Auth Valid?}
+    AdminAuth -->|Yes| AdminDashboard[Admin Dashboard]
+    AdminAuth -->|No| AdminLogin
+
+    AdminDashboard --> ManageUsers[Manage Users]
+    AdminDashboard --> ManageServices[Manage Services]
+    AdminDashboard --> ManageEvents[Manage Events]
+    AdminDashboard --> Reports[View Reports]
+    AdminDashboard --> LogoutAdmin{Logout?}
+
+    LogoutAdmin -->|No| AdminDashboard
+    LogoutAdmin -->|Yes| End
+
+    classDef page fill:#f4f4f4,stroke:#555,stroke-width:1px,color:#111;
+    classDef decision fill:#fff,stroke:#555,stroke-width:1px,color:#111;
+    classDef terminal fill:#eee,stroke:#333,stroke-width:1px,color:#111;
+
+    class Landing,UserLogin,Register,CreateAccount,UserDashboard,Forgot,Browse,Events,Messages,Notifications,Profile,Saved,Posts,Requests,Premium,Orders,SelectService,Booking,Confirmation,AdminLogin,AdminDashboard,ManageUsers,ManageServices,ManageEvents,Reports page;
+    class SelectType,Auth,AdminAuth,LogoutUser,LogoutAdmin decision;
+    class Start,End terminal;
+```
+
+---
+
+*Last updated: May 2026*
