@@ -1,15 +1,18 @@
 # API Reference
 
-**Base URL (local):** http://localhost:3000
-**Base URL (live):** https://free-sewaa-qh05.onrender.com
+**Base URL (local):** `http://localhost:3000`
+**Base URL (live):** `https://free-sewaa-qh05.onrender.com`
 
-All API routes are prefixed with `/api`.
+All API routes are prefixed with `/api`. The server is a custom Node.js HTTP server (not Express).
+
+**Auth:** User ID is sent as a query parameter (`?userId=...`) or `x-user-id` header. No JWT tokens.
 
 ---
 
 ## Health
 
-### GET /api/health
+### `GET /api/health`
+
 Check if the server is running.
 
 **Response (200):**
@@ -21,7 +24,8 @@ Check if the server is running.
 
 ## Authentication
 
-### POST /api/auth/signup
+### `POST /api/auth/signup`
+
 Create a new user account.
 
 **Request Body:**
@@ -44,7 +48,8 @@ Create a new user account.
 
 **Errors:** 400 (missing fields, weak password, invalid email domain, email taken)
 
-### POST /api/auth/signin
+### `POST /api/auth/signin`
+
 Log in with existing credentials.
 
 **Request Body:**
@@ -56,7 +61,8 @@ Log in with existing credentials.
 
 **Errors:** 401 (invalid credentials), 403 (account blocked)
 
-### POST /api/auth/admin/signin
+### `POST /api/auth/admin/signin`
+
 Admin login.
 
 **Request Body:**
@@ -64,68 +70,81 @@ Admin login.
 { "email": "admin@freesewaa.local", "password": "admin12345" }
 ```
 
-**Response (200):** User object with role "admin".
+**Response (200):** User object with role `"superadmin"`.
 
 **Errors:** 401 (invalid credentials)
 
-### POST /api/auth/logout
+### `POST /api/auth/logout`
+
 Clear session.
 
 **Response (200):** `{ "ok": true }`
 
-### GET /api/auth/session
-Check if current user session is valid.
+### `GET /api/auth/session`
 
-**Response (200):** User object if authenticated.
+Check if current user session is valid. Requires `?userId=` or `x-user-id` header.
+
+**Response (200):** User object with auth status.
 **Errors:** 401 (not authenticated), 403 (blocked)
 
-### POST /api/auth/firebase
+### `POST /api/auth/firebase`
+
 Firebase token authentication.
 
-**Request Body:** `{ "token": "firebase-id-token" }`
+**Request Body:**
+```json
+{ "idToken": "...", "firstName": "", "lastName": "", "phone": "" }
+```
 
 **Response (200):** User object with auth status.
 **Errors:** 400/401/403 (invalid or expired token)
 
-### POST /api/auth/google-demo
+### `POST /api/auth/google-demo`
+
 **Deprecated.** Returns 410 Gone.
 
 ---
 
-## Listings / Items
+## Listings
 
-### GET /api/listings
+### `GET /api/listings`
+
 Get all donation items. Supports query params for filtering.
 
 **Query Parameters:**
-- `search` — text search in title/description
+- `owner` — filter by owner ID
 - `category` — filter by category
-- `donorId` — filter by donor
-- `status` — filter by status (available, reserved, donated)
+- `status` — filter by status (`active`, `reserved`, `donated`, `hidden`)
 
 **Response (200):**
 ```json
 {
   "listings": [
     {
-      "id": "item-...",
-      "title": "Winter Coat",
-      "description": "Gently used, size L",
+      "id": "listing-201",
+      "ownerId": "user-...",
+      "ownerName": "John Doe",
+      "title": "Winter Jacket",
       "category": "Clothing",
-      "condition": "Like new",
+      "condition": "Good",
+      "location": "Ulsan, Samsan-dong",
+      "distanceKm": 4,
+      "pickup": "Pickup only",
+      "description": "Warm, clean, and wearable.",
       "image": "https://...",
-      "donorId": "user-...",
-      "donorName": "John Doe",
-      "region": "Seoul",
-      "status": "available",
+      "status": "active",
+      "requestCount": 2,
+      "saveCount": 6,
+      "urgent": false,
       "createdAt": "2026-..."
     }
   ]
 }
 ```
 
-### POST /api/listings
-Create a new donation listing.
+### `POST /api/listings`
+
+Create a new donation listing. Requires `?userId=` or `x-user-id` header.
 
 **Request Body:**
 ```json
@@ -134,30 +153,30 @@ Create a new donation listing.
   "description": "Gently used, size L",
   "category": "Clothing",
   "condition": "Like new",
-  "image": "https://...",
-  "donorId": "user-...",
-  "donorName": "John Doe",
-  "region": "Seoul"
+  "image": "https://..."
 }
 ```
 
 **Response (200):** The created listing object.
 
-### GET /api/listings/:id
+### `GET /api/listings/:id`
+
 Get a single listing by ID.
 
 **Response (200):** Listing object.
 **Errors:** 404 (not found)
 
-### PUT /api/listings/:id
-Update a listing (donor only).
+### `PUT /api/listings/:id`
+
+Update a listing (owner only). Requires `?userId=` or `x-user-id` header.
 
 **Request Body:** Partial listing fields.
 **Response (200):** Updated listing.
-**Errors:** 403 (not the donor), 404 (not found)
+**Errors:** 403 (not the owner), 404 (not found)
 
-### DELETE /api/listings/:id
-Delete a listing (donor or admin).
+### `DELETE /api/listings/:id`
+
+Delete a listing (owner or admin). Requires `?userId=` or `x-user-id` header.
 
 **Response (200):** `{ "success": true }`
 **Errors:** 403 (not authorized), 404 (not found)
@@ -166,83 +185,88 @@ Delete a listing (donor or admin).
 
 ## Requests
 
-### GET /api/requests/mine
-Get all requests made by the current user.
+### `GET /api/requests/mine`
 
-**Query Parameters:** `userId` (required)
+Get all requests made by or sent to the current user. Requires `?userId=`.
 
 **Response (200):**
 ```json
 {
   "requests": [
     {
-      "id": "req-...",
-      "itemId": "item-...",
+      "id": "req-205",
+      "listingId": "listing-205",
       "requesterId": "user-...",
-      "donorId": "user-...",
+      "requesterName": "John Doe",
+      "ownerId": "community-3",
       "status": "pending",
-      "createdAt": "2026-..."
+      "requestedAt": "2026-...",
+      "note": "Can pick up this weekend."
     }
   ]
 }
 ```
 
-### POST /api/requests
-Create a new request for an item.
+### `POST /api/requests`
+
+Create a new request for an item. Requires `?userId=` or `x-user-id` header.
 
 **Request Body:**
 ```json
-{ "itemId": "item-...", "requesterId": "user-...", "donorId": "user-..." }
+{ "listingId": "listing-...", "note": "Can pick up this weekend." }
 ```
 
 **Response (200):** The created request.
-**Errors:** 400 (missing fields), 409 (already requested)
+**Errors:** 400 (missing fields), 409 (already requested), 403 (cannot self-request)
 
-### PATCH /api/requests/:id/status
-Update request status (donor only).
+### `PATCH /api/requests/:id/status`
+
+Update request status (owner only). Requires `?userId=` or `x-user-id` header.
 
 **Request Body:**
 ```json
-{ "status": "approved", "userId": "user-..." }
+{ "status": "accepted" }
 ```
 
+**Status values:** `pending` → `accepted` or `declined` → `completed`
+
 **Response (200):** Updated request.
-**Errors:** 403 (not the donor), 404 (not found)
+**Errors:** 403 (not the owner), 404 (not found)
 
 ---
 
 ## Messages
 
-### GET /api/messages/conversations
-Get all conversations for a user.
+### `GET /api/messages/conversations`
 
-**Query Parameters:** `userId` (required)
+Get all conversations for a user. Requires `?userId=`.
 
 **Response (200):** Array of conversation objects with last message.
 
-### POST /api/messages/conversations
+### `POST /api/messages/conversations`
+
 Create or find a conversation.
 
 **Request Body:**
 ```json
-{ "participantIds": ["user-...", "user-..."], "itemId": "item-..." }
+{ "participantIds": ["user-...", "user-..."], "listingId": "listing-..." }
 ```
 
 **Response (200):** Conversation object.
 
-### GET /api/messages/conversations/:id/messages
-Get messages in a conversation.
+### `GET /api/messages/conversations/:id/messages`
 
-**Query Parameters:** `userId` (required for authorization)
+Get messages in a conversation. Requires `?userId=`.
 
 **Response (200):** Array of message objects.
 
-### POST /api/messages/conversations/:id/messages
+### `POST /api/messages/conversations/:id/messages`
+
 Send a message in a conversation.
 
 **Request Body:**
 ```json
-{ "text": "Is this still available?", "userId": "user-..." }
+{ "text": "Is this still available?" }
 ```
 
 **Response (200):** Created message object.
@@ -251,19 +275,28 @@ Send a message in a conversation.
 
 ## User State
 
-### GET /api/state?userId={id}
+### `GET /api/state?userId={id}`
+
 Get saved items and preferences for a user.
 
 **Response (200):**
 ```json
 {
   "userId": "user-...",
-  "savedItems": ["item-...", "item-..."],
-  "preferences": { "theme": "dark", "notifications": true, "region": "Seoul" }
+  "state": {
+    "user": {
+      "id": "user-...",
+      "name": "John Doe",
+      "savedListingIds": [],
+      "requestedListingIds": [],
+      "preferences": { "theme": "dark", "notifications": true }
+    }
+  }
 }
 ```
 
-### PUT /api/state?userId={id}
+### `PUT /api/state?userId={id}`
+
 Update user state (saved items, preferences).
 
 **Request Body:** Partial state fields.
@@ -273,7 +306,8 @@ Update user state (saved items, preferences).
 
 ## Admin
 
-### GET /api/admin/overview
+### `GET /api/admin/overview`
+
 Get platform overview stats.
 
 **Response (200):**
@@ -282,41 +316,51 @@ Get platform overview stats.
   "totalUsers": 42,
   "totalListings": 156,
   "totalRequests": 89,
-  "totalConversations": 67
+  "totalConversations": 67,
+  "recentUsers": [...],
+  "recentListings": [...]
 }
 ```
 
-### POST /api/admin/user-action
-Perform admin action on a user (block, unblock, delete).
+### `POST /api/admin/user-action`
+
+Perform admin action on a user.
 
 **Request Body:**
 ```json
-{ "action": "block", "userId": "user-...", "adminId": "admin-..." }
+{ "action": "block", "targetUserId": "user-...", "adminId": "admin-..." }
 ```
 
-### POST /api/admin/listing-action
-Perform admin action on a listing (remove, restore).
+**Actions:** `block`, `unblock`, `delete`, `make-superadmin`, `demote`
+
+### `POST /api/admin/listing-action`
+
+Perform admin action on a listing.
 
 **Request Body:**
 ```json
-{ "action": "remove", "listingId": "item-...", "adminId": "admin-..." }
+{ "action": "remove", "listingId": "listing-...", "adminId": "admin-..." }
 ```
+
+**Actions:** `remove`, `restore`
 
 ---
 
 ## Notifications
 
-### GET /api/notifications?userId={id}
-Get unread notifications.
+### `GET /api/notifications?userId={id}`
+
+Get notifications for a user.
 
 **Response (200):** Array of notification objects.
 
-### PATCH /api/notifications/read
+### `PATCH /api/notifications/read`
+
 Mark notifications as read.
 
 **Request Body:**
 ```json
-{ "userId": "user-...", "notificationIds": ["notif-..."] }
+{ "userId": "user-...", "notificationIds": ["n1", "n2"] }
 ```
 
 **Response (200):** `{ "success": true }`
@@ -325,27 +369,38 @@ Mark notifications as read.
 
 ## Other
 
-### GET /api/audits
-Get security audit logs (admin only).
+### `GET /api/audits`
 
-**Query Parameters:** `userId` (admin ID required)
+Get security audit logs (admin only). Requires `?userId=`.
 
-### POST /api/chatbot
+### `POST /api/chatbot`
+
 AI chatbot endpoint for user questions.
 
-**Request Body:** `{ "message": "...", "userId": "..." }`
+**Request Body:**
+```json
+{ "message": "...", "userId": "..." }
+```
 
-### POST /api/suggestions
+**Response (200):** `{ "reply": "...", "conversation": [...] }`
+
+### `POST /api/suggestions`
+
 Submit a suggestion or feedback.
 
-**Request Body:** `{ "userId": "...", "text": "..." }`
+**Request Body:**
+```json
+{ "userId": "...", "text": "..." }
+```
 
-### GET /api/reviews
-Get reviews for a user or item.
+### `GET /api/reviews`
 
-**Query Parameters:** `itemId` or `userId`
+Get reviews for an item. Query params: `itemId`
 
-### POST /api/reviews
+**Response (200):** Array of review objects.
+
+### `POST /api/reviews`
+
 Submit a review.
 
 **Request Body:**
@@ -360,9 +415,10 @@ Submit a review.
 | Code | Meaning |
 |------|---------|
 | 200 | Success |
+| 201 | Created |
 | 400 | Bad request (missing or invalid fields) |
 | 401 | Unauthorized (not logged in) |
-| 403 | Forbidden (not allowed) |
+| 403 | Forbidden (not allowed, blocked, or self-request) |
 | 404 | Not found |
 | 409 | Conflict (duplicate) |
 | 410 | Gone (deprecated endpoint) |
@@ -374,10 +430,14 @@ Submit a review.
 
 The app uses **localStorage-based auth**. After signin/signup, the frontend stores:
 
-```
-localStorage.setItem('freesewaa-auth', 'true')
-localStorage.setItem('freesewaa-current-user-id', 'user-...')
-localStorage.setItem('freesewaa-user', JSON.stringify(userObject))
+```js
+localStorage.setItem('freesewaa-auth', 'true');
+localStorage.setItem('freesewaa-current-user-id', 'user-...');
+localStorage.setItem('freesewaa-user', JSON.stringify(userObject));
 ```
 
-The userId is sent as a query parameter or in the request body for API calls. No JWT tokens yet (planned).
+The `userId` is sent as a query parameter or `x-user-id` header for API calls. No JWT tokens.
+
+---
+
+*Last updated: May 2026*
