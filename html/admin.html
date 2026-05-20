@@ -326,13 +326,29 @@
 
   <script src="api-config.js"></script>
   <script>
+    function setAdminLogoutInProgress() {
+      window.FREESEWAA_ADMIN_LOGGING_OUT = true;
+    }
+
+    function isAdminLogoutInProgress() {
+      return window.FREESEWAA_ADMIN_LOGGING_OUT === true;
+    }
+
+    function clearAdminSession() {
+      localStorage.removeItem('freesewaa-auth');
+      localStorage.removeItem('freesewaa-current-user-id');
+      localStorage.removeItem('freesewaa-token');
+      localStorage.removeItem('freesewaa-user');
+    }
+
+    function redirectToAdminLogin() {
+      window.location.replace('/admin_login.html');
+    }
+
     window.FREESEWAA_VERIFY_ADMIN = (async function verifyAdminAccess() {
       function clearSessionAndRedirect() {
-        localStorage.removeItem('freesewaa-auth');
-        localStorage.removeItem('freesewaa-current-user-id');
-        localStorage.removeItem('freesewaa-token');
-        localStorage.removeItem('freesewaa-user');
-        window.location.replace('/admin_login.html');
+        clearAdminSession();
+        redirectToAdminLogin();
       }
 
       function getApiBaseUrl() {
@@ -354,6 +370,10 @@
         const userId = localStorage.getItem('freesewaa-current-user-id') || '';
         const token = localStorage.getItem('freesewaa-token') || '';
 
+        if (isAdminLogoutInProgress()) {
+          throw new Error('Admin logout in progress.');
+        }
+
         if (!userId) {
           clearSessionAndRedirect();
           throw new Error('Admin session missing.');
@@ -373,11 +393,17 @@
           throw new Error('Super admin access required.');
         }
 
+        if (isAdminLogoutInProgress()) {
+          throw new Error('Admin logout in progress.');
+        }
+
         localStorage.setItem('freesewaa-user', JSON.stringify(user));
         document.documentElement.classList.remove('admin-locked');
         return user;
       } catch (error) {
-        clearSessionAndRedirect();
+        if (!isAdminLogoutInProgress()) {
+          clearSessionAndRedirect();
+        }
         throw error;
       }
     })();
@@ -399,6 +425,8 @@
     }
 
     async function handleAdminLogout() {
+      setAdminLogoutInProgress();
+
       const logoutButton = document.getElementById('adminLogoutButton');
       if (logoutButton) {
         logoutButton.disabled = true;
@@ -406,6 +434,8 @@
       }
 
       try {
+        const token = localStorage.getItem('freesewaa-token') || '';
+
         if (
           window.FREESEWAA_FIREBASE_CONFIG &&
           window.firebase &&
@@ -423,34 +453,26 @@
           }
         }
 
-        localStorage.removeItem('freesewaa-auth');
-        localStorage.removeItem('freesewaa-current-user-id');
-        localStorage.removeItem('freesewaa-token');
-        localStorage.removeItem('freesewaa-user');
-
-        showAdminToast('Logged out successfully.');
-
-        setTimeout(() => {
-          window.location.href = '/admin_login.html';
-        }, 700);
-      } catch (error) {
-        console.error('Logout failed:', error);
-
-        if (logoutButton) {
-          logoutButton.disabled = false;
-          logoutButton.textContent = 'Logout';
+        try {
+          await fetch('/api/auth/logout', {
+            method: 'POST',
+            headers: token ? { Authorization: `Bearer ${token}` } : {}
+          });
+        } catch (apiError) {
+          console.warn('API logout warning:', apiError);
         }
-
-        showAdminToast('Logout failed. Please try again.');
+      } catch (error) {
+        console.warn('Logout cleanup warning:', error);
+      } finally {
+        clearAdminSession();
+        redirectToAdminLogin();
       }
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-      const logoutButton = document.getElementById('adminLogoutButton');
-      if (logoutButton) {
-        logoutButton.addEventListener('click', handleAdminLogout);
-      }
-    });
+    const logoutButton = document.getElementById('adminLogoutButton');
+    if (logoutButton) {
+      logoutButton.addEventListener('click', handleAdminLogout);
+    }
   </script>
 </body>
 </html>
