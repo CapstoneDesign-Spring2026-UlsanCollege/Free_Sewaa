@@ -167,6 +167,7 @@ Full list in [DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md).
 ### Testing & Bugs
 
 - [QA Checklist](docs/QA_CHECKLIST.md)
+- [QA Checkpoint UI](html/qa-checkpoint.html) — visual exit checklist
 - [Testing Strategy](docs/TESTING_STRATEGY.md)
 - [Test Checklist](docs/PROJECT/TEST_CHECKLIST.md)
 - [Code Coverage](docs/PROGRESS/week11/CODE_COVERAGE.md)

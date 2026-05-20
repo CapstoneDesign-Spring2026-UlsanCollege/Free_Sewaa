@@ -27,6 +27,12 @@
 - AI Use Note: [AI_USE_AND_OWNERSHIP.md](AI_USE_AND_OWNERSHIP.md)
 - Individual Receipts: [INDIVIDUAL_RECEIPTS.md](INDIVIDUAL_RECEIPTS.md)
 
+## QA Checklist UI
+
+A visual checklist page is available at **[/qa-checkpoint.html](http://localhost:3000/qa-checkpoint.html)**. It shows the 7 exit tasks with checkboxes and a progress counter. State is saved in localStorage.
+
+---
+
 ## Demo Flow
 
 1. Landing page
