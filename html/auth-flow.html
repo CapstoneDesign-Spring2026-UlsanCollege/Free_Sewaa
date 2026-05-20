@@ -10,374 +10,101 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/theme.css" />
   <style>
-    .flow-wrap {
-      width: min(1100px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 40px 0 80px;
+    .fw{width:min(1100px,calc(100% - 32px));margin:0 auto;padding:40px 0 80px}
+    .fh{text-align:center;margin-bottom:32px}
+    .fh h1{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,3.6vw,3rem);font-weight:700;color:var(--cream-2);margin:0 0 8px}
+    .fh p{color:var(--soft);font-size:1rem;margin:0}
+
+    /* --- flowchart wrapper --- */
+    .chart{display:flex;flex-direction:column;align-items:center;gap:0;position:relative}
+
+    /* --- node base --- */
+    .node{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px 24px;font-size:.9rem;font-weight:600;color:var(--cream-2);background:var(--panel);border:1.5px solid var(--line);z-index:2}
+    .node .lbl{display:block;line-height:1.3}
+    .node .sub{display:block;font-size:.72rem;font-weight:400;color:var(--soft);margin-top:2px}
+
+    /* --- shape variants --- */
+    .pill{border-radius:999px;padding:14px 32px}
+    .pill.sm{padding:10px 20px;font-size:.82rem}
+    .rect{border-radius:10px}
+    .diamond{width:140px;height:140px;display:flex;align-items:center;justify-content:center;text-align:center;transform:rotate(45deg);border-radius:6px;margin:20px auto}
+    .diamond>span{transform:rotate(-45deg);display:block;line-height:1.3;font-size:.82rem;font-weight:600}
+    .diamond .sub{font-size:.7rem;font-weight:400}
+
+    /* --- colors --- */
+    .c-start{background:var(--bronze);color:#0a0907;border-color:var(--bronze)}
+    .c-end{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.35);color:#34d399}
+    .c-end.warn{background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.2);color:#fbbf24}
+    .c-blue{border-color:#38bdf8}
+    .c-blue-bg{background:rgba(56,189,248,.06);border-color:#38bdf8}
+    .c-green{border-color:#34d399}
+    .c-green-bg{background:rgba(52,211,153,.06);border-color:#34d399}
+    .c-yellow-bg{background:rgba(251,191,36,.06);border-color:#fbbf24}
+    .c-green-solid{background:rgba(52,211,153,.12);border-color:#34d399;color:#34d399}
+    .c-yellow-solid{background:rgba(251,191,36,.1);border-color:#fbbf24;color:#fbbf24}
+
+    /* --- line / connector --- */
+    .conn{display:flex;flex-direction:column;align-items:center;position:relative;z-index:1}
+    .conn-line{width:2px;height:28px;background:var(--line)}
+    .conn-line.h{width:28px;height:2px;flex-shrink:0}
+    .conn-dot{width:6px;height:6px;border-radius:50%;background:var(--line);flex-shrink:0}
+    .conn-dot.blue{background:#38bdf8}
+    .conn-dot.green{background:#34d399}
+    .conn-dot.yellow{background:#fbbf24}
+    .conn-label{font-size:.68rem;color:var(--soft);font-weight:500;padding:2px 8px;border-radius:4px;background:var(--bg);position:absolute}
+
+    .conn-row{display:flex;align-items:center;gap:0}
+    .conn-label.left{right:calc(100% + 8px);top:50%;transform:translateY(-50%);white-space:nowrap}
+    .conn-label.right{left:calc(100% + 8px);top:50%;transform:translateY(-50%);white-space:nowrap}
+
+    /* --- row layout --- */
+    .row{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;position:relative}
+    .row.gap8{gap:8px}
+    .row.gap16{gap:16px}
+    .row.gap24{gap:24px}
+    .row.gap40{gap:40px}
+    .col{display:flex;flex-direction:column;align-items:center}
+    .mt8{margin-top:8px}
+    .mt16{margin-top:16px}
+    .mt24{margin-top:24px}
+    .mt32{margin-top:32px}
+    .mb8{margin-bottom:8px}
+    .mb16{margin-bottom:16px}
+
+    /* --- branch bracket --- */
+    .branch-wrap{position:relative;padding:0 20px}
+    .branch-bracket{position:absolute;top:0;bottom:0;left:0;width:20px;border-left:2px solid var(--line);border-bottom:2px solid var(--line);border-top:2px solid var(--line);border-radius:8px 0 0 8px}
+    .branch-bracket.r{left:auto;right:0;border-left:none;border-right:2px solid var(--line);border-radius:0 8px 8px 0}
+
+    /* --- section labels --- */
+    .sec-label{text-align:center;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--soft);padding:6px 16px;border-radius:6px;background:var(--panel);border:1px solid var(--line);margin-bottom:12px}
+    .sec-label.blue{color:#38bdf8;border-color:rgba(56,189,248,.2);background:rgba(56,189,248,.04)}
+    .sec-label.green{color:#34d399;border-color:rgba(52,211,153,.2);background:rgba(52,211,153,.04)}
+    .sec-label.yellow{color:#fbbf24;border-color:rgba(251,191,36,.15);background:rgba(251,191,36,.04)}
+
+    /* --- legend --- */
+    .legend{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-top:48px;padding:16px 24px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+    .legend-item{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--muted)}
+    .sw{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+    .sw.blue{background:#38bdf8}
+    .sw.green{background:#34d399}
+    .sw.yellow{background:#fbbf24}
+    .sw.emerald{background:#22c55e}
+
+    /* --- responsive --- */
+    @media(max-width:860px){
+      .row.gap40{gap:16px}
+      .diamond{width:110px;height:110px;margin:16px auto}
+      .diamond>span{font-size:.75rem}
+      .branch-wrap{padding:0 10px}
     }
-
-    .flow-header {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-
-    .flow-header h1 {
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(2rem, 3.6vw, 3rem);
-      font-weight: 700;
-      color: var(--cream-2);
-      margin: 0 0 8px;
-    }
-
-    .flow-header p {
-      color: var(--soft);
-      font-size: 1rem;
-      margin: 0;
-    }
-
-    /* ---- start node ---- */
-    .start-node {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .start-node .node {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--bronze);
-      color: #0a0907;
-      font-weight: 700;
-      font-size: 1.1rem;
-      padding: 14px 36px;
-      border-radius: 999px;
-      box-shadow: 0 4px 20px rgba(185, 140, 90, 0.25);
-    }
-
-    .arrow-down {
-      text-align: center;
-      color: var(--soft);
-      font-size: 1.5rem;
-      margin: 8px 0;
-    }
-
-    /* ---- branch row ---- */
-    .branch-row {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
-    }
-
-    .branch-card {
-      flex: 1;
-      min-width: 200px;
-      max-width: 320px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 20px 24px;
-      text-align: center;
-      box-shadow: var(--shadow);
-      transition: border-color 0.25s ease;
-    }
-
-    .branch-card.existing {
-      border-color: rgba(56, 189, 248, 0.25);
-    }
-
-    .branch-card.new {
-      border-color: rgba(52, 211, 153, 0.25);
-    }
-
-    .branch-card .badge {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 4px 12px;
-      border-radius: 999px;
-      margin-bottom: 10px;
-    }
-
-    .branch-card.existing .badge {
-      background: rgba(56, 189, 248, 0.12);
-      color: #38bdf8;
-    }
-
-    .branch-card.new .badge {
-      background: rgba(52, 211, 153, 0.12);
-      color: #34d399;
-    }
-
-    .branch-card h3 {
-      margin: 0 0 6px;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--cream-2);
-    }
-
-    .branch-card p {
-      margin: 0;
-      font-size: 0.85rem;
-      color: var(--soft);
-    }
-
-    /* ---- flow sections ---- */
-    .flow-section {
-      margin-bottom: 44px;
-    }
-
-    .flow-section h2 {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--cream);
-      margin: 0 0 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .flow-section h2 .hl-existing { color: #38bdf8; }
-    .flow-section h2 .hl-new { color: #34d399; }
-
-    .step-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .step-card {
-      flex: 1;
-      min-width: 140px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 16px 20px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-      transition: border-color 0.2s ease;
-    }
-
-    .step-card.existing-step {
-      border-color: rgba(56, 189, 248, 0.15);
-    }
-
-    .step-card.new-step {
-      border-color: rgba(52, 211, 153, 0.15);
-    }
-
-    .step-card.success-step {
-      border-color: rgba(52, 211, 153, 0.35);
-      background: rgba(52, 211, 153, 0.04);
-    }
-
-    .step-card.forgot-step {
-      border-color: rgba(251, 191, 36, 0.2);
-      background: rgba(251, 191, 36, 0.04);
-    }
-
-    .step-num {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 6px;
-    }
-
-    .step-card.existing-step .step-num { color: #38bdf8; }
-    .step-card.new-step .step-num { color: #34d399; }
-    .step-card.success-step .step-num { color: #34d399; }
-    .step-card.forgot-step .step-num { color: #fbbf24; }
-
-    .step-title {
-      font-size: 0.92rem;
-      font-weight: 600;
-      color: var(--cream-2);
-      margin: 0 0 4px;
-    }
-
-    .step-desc {
-      font-size: 0.82rem;
-      color: var(--soft);
-      margin: 0;
-      line-height: 1.4;
-    }
-
-    .step-arrow {
-      font-size: 1.3rem;
-      color: var(--soft);
-      flex-shrink: 0;
-    }
-
-    .step-arrow.arrow-existing { color: #38bdf8; }
-    .step-arrow.arrow-new { color: #34d399; }
-    .step-arrow.arrow-forgot { color: #fbbf24; }
-
-    /* ---- new user sub-steps ---- */
-    .substep-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .substep-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 14px 12px;
-      text-align: center;
-      transition: border-color 0.2s ease;
-    }
-
-    .substep-card:hover {
-      border-color: rgba(52, 211, 153, 0.2);
-    }
-
-    .substep-card .step-num-sm {
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: #34d399;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 4px;
-    }
-
-    .substep-card .step-title-sm {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--cream-2);
-      margin: 0 0 2px;
-    }
-
-    .substep-card .step-desc-sm {
-      font-size: 0.75rem;
-      color: var(--soft);
-      margin: 0;
-    }
-
-    .substep-connector {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-    }
-
-    .substep-connector .line {
-      height: 2px;
-      flex: 1;
-      background: rgba(52, 211, 153, 0.2);
-    }
-
-    .substep-connector .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #34d399;
-      flex-shrink: 0;
-    }
-
-    /* ---- forgot password row ---- */
-    .forgot-row {
-      margin-top: 16px;
-    }
-
-    /* ---- end nodes ---- */
-    .end-row {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      margin-top: 8px;
-      flex-wrap: wrap;
-    }
-
-    .end-node {
-      padding: 16px 32px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 0.92rem;
-      text-align: center;
-    }
-
-    .end-node.success-end {
-      background: rgba(52, 211, 153, 0.12);
-      color: #34d399;
-      border: 1px solid rgba(52, 211, 153, 0.2);
-    }
-
-    .end-node.reset-end {
-      background: rgba(251, 191, 36, 0.1);
-      color: #fbbf24;
-      border: 1px solid rgba(251, 191, 36, 0.15);
-    }
-
-    /* ---- legend ---- */
-    .legend {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-      margin-top: 48px;
-      padding: 20px 24px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.84rem;
-      color: var(--muted);
-    }
-
-    .legend-swatch {
-      width: 14px;
-      height: 14px;
-      border-radius: 4px;
-      flex-shrink: 0;
-    }
-
-    .legend-swatch.existing-swatch { background: #38bdf8; }
-    .legend-swatch.new-swatch { background: #34d399; }
-    .legend-swatch.forgot-swatch { background: #fbbf24; }
-    .legend-swatch.success-swatch { background: #22c55e; }
-
-    /* ---- responsive ---- */
-    @media (max-width: 800px) {
-      .step-row {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .step-arrow {
-        transform: rotate(90deg);
-        text-align: center;
-      }
-      .substep-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-      .branch-row {
-        flex-direction: column;
-        align-items: center;
-      }
-      .branch-card {
-        max-width: 100%;
-        width: 100%;
-      }
-      .end-row {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .substep-grid {
-        grid-template-columns: 1fr;
-      }
+    @media(max-width:640px){
+      .row{flex-direction:column}
+      .conn-line.h{width:2px;height:20px}
+      .conn-row{flex-direction:column}
+      .conn-label.left,.conn-label.right{position:static;transform:none;margin:4px 0}
+      .diamond{width:100px;height:100px}
+      .diamond>span{font-size:.7rem}
     }
   </style>
 </head>
@@ -422,138 +149,101 @@
   </header>
 
   <main>
-    <div class="flow-wrap">
-      <div class="flow-header">
+    <div class="fw">
+      <div class="fh">
         <h1>Authentication Flow</h1>
         <p>User journey from start to dashboard — existing user and new user paths</p>
       </div>
 
-      <!-- Start -->
-      <div class="start-node">
-        <div class="node">▶ Start</div>
-      </div>
-      <div class="arrow-down">▼</div>
+      <div class="chart">
 
-      <!-- Choose user type -->
-      <div class="branch-row">
-        <div class="branch-card existing">
-          <div class="badge">Existing user</div>
-          <h3>I already have an account</h3>
-          <p>Sign in with your email and password</p>
-        </div>
-        <div class="branch-card new">
-          <div class="badge">New user</div>
-          <h3>I need to create an account</h3>
-          <p>Register in a few simple steps</p>
-        </div>
-      </div>
+        <!-- ══════ START ══════ -->
+        <div class="node pill c-start"><span class="lbl">Start</span></div>
+        <div class="conn"><div class="conn-line"></div><div class="conn-dot"></div></div>
 
-      <!-- Existing User Path -->
-      <div class="flow-section">
-        <h2><span class="hl-existing">Existing User</span> — Sign In</h2>
-        <div class="step-row">
-          <div class="step-card existing-step">
-            <div class="step-num">Step 1</div>
-            <div class="step-title">Enter username</div>
-            <div class="step-desc">Type your registered email or login name</div>
-          </div>
-          <div class="step-arrow arrow-existing">→</div>
-          <div class="step-card existing-step">
-            <div class="step-num">Step 2</div>
-            <div class="step-title">Enter password</div>
-            <div class="step-desc">Type your account password</div>
-          </div>
-          <div class="step-arrow arrow-existing">→</div>
-          <div class="step-card existing-step">
-            <div class="step-num">Step 3</div>
-            <div class="step-title">Verify credentials</div>
-            <div class="step-desc">System checks email + password match</div>
-          </div>
+        <!-- ══════ USER TYPE DIAMOND ══════ -->
+        <div class="diamond c-blue-bg"><span>Choose user type<span class="sub">Existing or New?</span></span></div>
+
+        <div class="conn-row">
+          <div class="conn"><div class="conn-line"></div><div class="conn-dot blue"></div><div class="conn-label left" style="color:#38bdf8">Existing user</div></div>
+          <div class="conn" style="margin:0 80px"><div class="conn-line"></div><div class="conn-dot green"></div><div class="conn-label right" style="color:#34d399">New user</div></div>
         </div>
 
-        <!-- Existing User: success or forgot branch -->
-        <div class="step-row" style="margin-top:16px;">
-          <div class="step-arrow arrow-existing">✔</div>
-          <div class="step-card success-step" style="flex:1;">
-            <div class="step-num">Success</div>
-            <div class="step-title">Redirect to dashboard</div>
-            <div class="step-desc">User lands on the home / browse page</div>
+        <!-- ══════ TWO BRANCHES ══════ -->
+        <div class="row gap40" style="align-items:flex-start;">
+
+          <!-- ─── EXISTING USER ─── -->
+          <div class="col">
+            <div class="sec-label blue">Existing user</div>
+
+            <div class="node rect c-blue-bg" style="min-width:160px"><span class="lbl">Enter username<span class="sub">Email or login name</span></span></div>
+            <div class="conn"><div class="conn-line" style="background:#38bdf8"></div><div class="conn-dot blue"></div></div>
+
+            <div class="node rect c-blue-bg" style="min-width:160px"><span class="lbl">Enter password<span class="sub">Type your password</span></span></div>
+            <div class="conn"><div class="conn-line" style="background:#38bdf8"></div><div class="conn-dot blue"></div></div>
+
+            <div class="node rect c-blue-bg" style="min-width:160px"><span class="lbl">Verify credentials<span class="sub">Check email + password</span></span></div>
+
+            <div class="conn"><div class="conn-line"></div></div>
+
+            <!-- branch: success or fail -->
+            <div class="conn-row">
+              <div class="conn" style="margin:0 6px"><div class="conn-dot" style="background:#22c55e"></div><div class="conn-line h"></div><div class="conn-label left" style="color:#22c55e">Match</div></div>
+              <div class="conn" style="margin:0 6px"><div class="conn-dot" style="background:#fbbf24"></div><div class="conn-line h"></div><div class="conn-label right" style="color:#fbbf24">No match</div></div>
+            </div>
+
+            <div class="row gap8">
+              <div class="node pill sm c-green-solid"><span class="lbl">Redirect to dashboard</span></div>
+              <div class="node rect c-yellow-solid" style="min-width:140px"><span class="lbl">Forgot password?<span class="sub">Show reset option</span></span></div>
+            </div>
+
+            <div class="conn" style="margin-left:auto;margin-right:auto;margin-top:8px"><div class="conn-line" style="background:#fbbf24"></div><div class="conn-dot" style="background:#fbbf24"></div></div>
+
+            <div class="node rect c-yellow-bg" style="min-width:160px"><span class="lbl">Reset password<span class="sub">Email with reset link sent</span></span></div>
+
+            <div class="conn"><div class="conn-line" style="background:#fbbf24"></div><div class="conn-dot" style="background:#fbbf24"></div></div>
+
+            <div class="node pill sm c-green-solid"><span class="lbl">Password updated → Sign in</span></div>
+          </div>
+
+          <!-- ─── NEW USER ─── -->
+          <div class="col">
+            <div class="sec-label green">New user</div>
+
+            <div class="node rect c-green-bg" style="min-width:160px"><span class="lbl">Step 1 — Basic info<span class="sub">First name, last name, region</span></span></div>
+            <div class="conn"><div class="conn-line" style="background:#34d399"></div><div class="conn-dot green"></div></div>
+
+            <div class="node rect c-green-bg" style="min-width:160px"><span class="lbl">Step 2 — Email / Phone<span class="sub">Enter email and phone number</span></span></div>
+            <div class="conn"><div class="conn-line" style="background:#34d399"></div><div class="conn-dot green"></div></div>
+
+            <div class="node rect c-green-bg" style="min-width:160px"><span class="lbl">Step 3 — Create password<span class="sub">8+ chars, mixed case, number</span></span></div>
+            <div class="conn"><div class="conn-line" style="background:#34d399"></div><div class="conn-dot green"></div></div>
+
+            <div class="node rect c-green-bg" style="min-width:160px"><span class="lbl">Step 4 — Confirm account<span class="sub">Verify email or phone with a code</span></span></div>
+            <div class="conn"><div class="conn-line" style="background:#34d399"></div><div class="conn-dot green"></div></div>
+
+            <div class="node pill c-green-solid"><span class="lbl">Step 5 — Account created</span></div>
+            <div class="conn"><div class="conn-line" style="background:#34d399"></div><div class="conn-dot green"></div></div>
+
+            <div class="node pill sm c-green-solid"><span class="lbl">Redirect to dashboard</span></div>
           </div>
         </div>
 
-        <div class="step-row forgot-row">
-          <div class="step-arrow arrow-forgot">✘</div>
-          <div class="step-card forgot-step" style="flex:1;">
-            <div class="step-num">Password problem</div>
-            <div class="step-title">Forgot password?</div>
-            <div class="step-desc">Show reset option — user can request a password reset link</div>
-          </div>
-          <div class="step-arrow arrow-forgot">→</div>
-          <div class="step-card forgot-step" style="flex:1;">
-            <div class="step-num">Reset</div>
-            <div class="step-title">Reset password</div>
-            <div class="step-desc">Email with reset link sent to user</div>
-          </div>
-          <div class="step-arrow arrow-forgot">→</div>
-          <div class="step-card success-step" style="flex:1;">
-            <div class="step-num">Done</div>
-            <div class="step-title">Password updated</div>
-            <div class="step-desc">User can sign in with new password</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- New User Path -->
-      <div class="flow-section">
-        <h2><span class="hl-new">New User</span> — Create Account</h2>
-        <div class="step-row">
-          <div class="step-card new-step">
-            <div class="step-num">Step 1</div>
-            <div class="step-title">Basic information</div>
-            <div class="step-desc">First name, last name, region</div>
-          </div>
-          <div class="step-arrow arrow-new">→</div>
-          <div class="step-card new-step">
-            <div class="step-num">Step 2</div>
-            <div class="step-title">Email / Phone</div>
-            <div class="step-desc">Enter email address and phone number</div>
-          </div>
-          <div class="step-arrow arrow-new">→</div>
-          <div class="step-card new-step">
-            <div class="step-num">Step 3</div>
-            <div class="step-title">Create password</div>
-            <div class="step-desc">Set a strong password (8+ chars, mixed case, number)</div>
-          </div>
-          <div class="step-arrow arrow-new">→</div>
-          <div class="step-card new-step">
-            <div class="step-num">Step 4</div>
-            <div class="step-title">Confirm account</div>
-            <div class="step-desc">Verify email or phone with a code</div>
-          </div>
-          <div class="step-arrow arrow-new">→</div>
-          <div class="step-card success-step" style="min-width:160px;">
-            <div class="step-num">Step 5</div>
-            <div class="step-title">Account created</div>
-            <div class="step-desc">Redirect to dashboard</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- End nodes -->
-      <div class="flow-section">
-        <h2>End States</h2>
-        <div class="end-row">
-          <div class="end-node success-end">✔ Dashboard / Home</div>
-          <div class="end-node reset-end">✉ Password reset email</div>
+        <!-- ══════ BOTTOM: end states ══════ -->
+        <div class="conn mt16"><div class="conn-line"></div><div class="conn-dot"></div></div>
+        <div class="sec-label" style="margin-top:8px">End states</div>
+        <div class="row gap24">
+          <div class="node pill sm c-green-solid"><span class="lbl">✔ Dashboard / Home</span></div>
+          <div class="node pill sm c-yellow-solid"><span class="lbl">✉ Password reset email</span></div>
         </div>
       </div>
 
       <!-- Legend -->
       <div class="legend">
-        <div class="legend-item"><span class="legend-swatch existing-swatch"></span> Existing user path</div>
-        <div class="legend-item"><span class="legend-swatch new-swatch"></span> New user path</div>
-        <div class="legend-item"><span class="legend-swatch forgot-swatch"></span> Forgot password path</div>
-        <div class="legend-item"><span class="legend-swatch success-swatch"></span> Success state</div>
+        <div class="legend-item"><span class="sw blue"></span> Existing user path</div>
+        <div class="legend-item"><span class="sw green"></span> New user path</div>
+        <div class="legend-item"><span class="sw yellow"></span> Forgot password path</div>
+        <div class="legend-item"><span class="sw emerald"></span> Success state</div>
       </div>
     </div>
   </main>
