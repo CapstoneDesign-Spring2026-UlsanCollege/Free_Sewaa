@@ -1,148 +1,53 @@
-# Free Sewaa - Project Board
+# Free Sewaa — Project Board
 
-## Quick Links
-
-- **Create in Org:** https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/new
-- **Create in Repo:** https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/projects/new
-
-*(Note: If you have a specific board URL like /projects/30, use that. If it's blank, create a new project using the links above.)*
+**Board:** https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/14
 
 ---
 
 ## Board Columns
 
-| Column | Status | Description |
-|--------|--------|-------------|
-| **To Do** | Planned task | Not yet started |
-| **Doing** | In progress | One person actively working |
-| **Done** | Complete | PR merged + screenshot/test evidence linked |
-| **Blocked** | Blocked | Cannot continue - missing something |
-| **Nice Later** | Extra feature | Not needed for MVP demo |
+| Column | Description |
+|--------|-------------|
+| **To Do** | Planned task, not yet started |
+| **Doing** | In progress, one person actively working |
+| **Done** | Complete with evidence linked |
+| **Blocked** | Cannot continue, missing dependency |
+| **Nice Later** | Extra feature, not needed for MVP |
 
 ---
 
-## To Do (Planned Tasks)
+## To Do
 
-### P0 - Critical (Must Fix)
-- [ ] Implement password hashing (bcrypt)
-- [ ] Add input validation to signup/auth API
+- [ ] Password hashing with bcrypt
+- [ ] Final presentation prep
 
-### P1 - High Priority
-- [ ] Write unit tests for backend API endpoints
-- [ ] Fix CI workflow to run backend tests
-- [ ] Add error handling to API routes
+## Doing
 
-### P2 - Medium Priority  
-- [ ] Fix README setup commands (cd server)
-- [ ] Move demo credentials to .env
-- [ ] Add MongoDB local setup guide to docs
+- Final documentation cleanup
 
-### P3 - Low Priority
-- [ ] Add loading states to frontend
-- [ ] Improve error messages
-- [ ] Add mobile responsiveness testing
+## Done
 
----
-
-## Doing (Currently Working On)
-
-*(Add cards here when someone starts working)*
+- [x] Board reset and Kanban setup
+- [x] AI Code Ownership Audit
+- [x] Frontend CSS styling
+- [x] MongoDB backend setup
+- [x] CI workflow with tests
+- [x] Week 11 MVP Verification demo
+- [x] QA Day checklist (10 tests)
+- [x] Mermaid UML diagrams
+- [x] Auth flow diagram page
+- [x] QA checkpoint UI
 
 ---
 
-## Done (Complete with Evidence)
+## Bug Issues
 
-### Already Completed
-| Task | PR/Commit | Evidence |
-|------|-----------|-----------|
-| Board Reset Kanban | [Commit cc84b3f](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cc84b3f) | Screenshot in board/ |
-| AI Code Ownership Audit | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) | docs/AI_CODE_OWNERSHIP_AUDIT.md |
-| Frontend CSS styling | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) | CSS files in css/ |
-| MongoDB backend setup | [PR #78](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/78) | Live demo |
+| Issue | Severity | Status |
+|-------|----------|--------|
+| Passwords in plain text | P1 | Known — bcryptjs installed but unused |
+| Demo credentials in README | P3 | Accepted for capstone demo |
+| CORS wide open | P2 | Known — acceptable for demo |
 
 ---
 
-## Blocked (Waiting On Something)
-
-*(Add blocked items here with reason)*
-
----
-
-## Nice Later (Extra Features)
-
-- [ ] Dark mode toggle
-- [ ] Mobile app version
-- [ ] Push notifications
-- [ ] Email notifications
-- [ ] User ratings/reviews
-- [ ] Image upload for items
-- [ ] Real-time chat
-
----
-
-## Bug Issues (Reference)
-
-| Issue | Severity | Link |
-|-------|----------|------|
-| Password in plain text | P0 | (create issue) |
-| No input validation | P1 | (create issue) |
-| No backend tests | P1 | (create issue) |
-| CI only counts files | P2 | (create issue) |
-| No error handling | P2 | (create issue) |
-| README wrong commands | P2 | (create issue) |
-| Demo credentials in code | P3 | (create issue) |
-| No MongoDB setup guide | P3 | (create issue) |
-
-Full details: [BUG_ISSUES_TO_CREATE.md](BUG_ISSUES_TO_CREATE.md)
-
----
-
-## How to Use This Board
-
-1. **Create project:** Go to Free_Sewaa repo > Projects > New project
-2. **Add columns:** Edit > Columns: To Do, Doing, Done, Blocked, Nice Later
-3. **Add cards:** Click + to add cards from issues or create new
-4. **Move cards:** Drag between columns as work progresses
-5. **Link evidence:** When moving to Done, add PR/commit links and screenshots
-
----
-
-## Team Assignments
-
-| Member | GitHub | Focus Area |
-|--------|--------|------------|
-| Ram Pathak | Rampathak12 | Backend, Security |
-| Sujan Tamang | SujanTamang20 | Frontend HTML |
-| Sujan Shrestha | suzmoon | Backend, Auth |
-| Mohan Khadka | - | Frontend JS |
-| Swarnim Jung Karki | Swarnimkarki50 | CSS, Docs, Board |
-
----
-
-## Week 10 Special Requirements
-
-### Bug Triage (Required)
-- Create 2+ P0/P1 bug issues with severity labels
-- Document bugs found in main MVP flow
-- Assign owners to each bug
-- Link evidence (screenshots, logs, PRs)
-
-### Copilot Workflow (Required)
-- Use Issue-based AI workflow: Inspect → Plan → Small Change → Test → PR
-- Include AI Use Note in all AI-assisted PRs
-- Team must understand all code (no mystery code)
-
-### Submission Checklist
-- [ ] Weekly Sprint Packet Issue created
-- [ ] Demo evidence linked (live/video/screenshots)
-- [ ] Board snapshot included (To Do/Doing/Done/Blocked)
-- [ ] 2+ P0/P1 bug issues with evidence
-- [ ] AI Use + Code Ownership Check completed
-- [ ] Individual Contribution Receipts (2-3 per member)
-- [ ] Plan for Week 11 (MVP Verification)
-
-**Due: Friday 23:59**
-
----
-
-*Last Updated: 2026-05-06*
+*Last updated: Week 12 - QA Day*

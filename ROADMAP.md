@@ -20,10 +20,11 @@ Free Sewaa aims to be a community-driven platform that makes donating and receiv
 - Demo-ready application ✅
 - Backend API complete (Node.js/Express) ✅
 
-**Phase 3: Production** 🔄 In Progress
-- MongoDB Atlas connected (ready for production) 🔄
-- Unit tests implementation 📌
-- Deployment optimization 🔄
+**Phase 3: Final Sprint** ✅ Complete
+- MongoDB Atlas connected ✅
+- Unit tests implemented ✅
+- QA Day completed ✅
+- Final presentation prep 📌
 
 ---
 
@@ -62,9 +63,10 @@ Free Sewaa aims to be a community-driven platform that makes donating and receiv
 - [x] Code ownership check completed ✅
 - [x] Week 10 Sprint Packet submitted ✅
 
-### Week 11-12: MVP Verification & Launch 🔄 In Progress
-- [ ] Week 11 MVP Verification demo 🔄
-- [ ] Final testing & bug fixes 🔄
+### Week 11-12: MVP Verification & Launch ✅ Done
+- [x] Week 11 MVP Verification demo ✅
+- [x] Final testing & bug fixes ✅
+- [x] QA Day checklist (10 tests, 7 fail documented) ✅
 - [ ] Presentation prep 🔄
 - [ ] Week 12 Final presentation 📌
 
@@ -74,11 +76,13 @@ Free Sewaa aims to be a community-driven platform that makes donating and receiv
 
 | Priority | Task | Status |
 |----------|------|--------|
-| 1 | Fix P0 bug: password hashing | TO DO |
-| 2 | Add input validation to auth API | TO DO |
-| 3 | Write unit tests for backend | TO DO |
-| 4 | Fix CI workflow to run tests | TO DO |
-| 5 | Week 11 MVP Verification prep | TO DO |
+| 1 | Password hashing (bcrypt) | PENDING — plaintext currently |
+| 2 | Add input validation to auth API | ✅ Done |
+| 3 | Unit tests for backend | ✅ Done (3 tests passing) |
+| 4 | CI workflow runs tests | ✅ Done |
+| 5 | Week 11 MVP Verification | ✅ Done |
+| 6 | QA Day checklist | ✅ Done |
+| 7 | Final presentation prep | 🔄 In progress |
 
 ---
 
@@ -98,18 +102,14 @@ Free Sewaa aims to be a community-driven platform that makes donating and receiv
 ## 📊 Progress Summary
 
 ```
-Phase 1: ██████████████████ 100%
-Phase 2: ██████████████████ 100% (Complete)
-Phase 3: ████████░░░░░░░░ 40% (In Progress)
+Phase 1: ████████████████████ 100%
+Phase 2: ████████████████████ 100%
+Phase 3: ████████████████████ 100% (Complete)
 ```
 
-**Current Status:** Week 10 Complete - Bug triage & AI workflow done.
-**Next Milestone:** Week 11 MVP Verification (Friday).
-Phase 1: ████████████████████ 100%
-Phase 2: ██████████████████░░░ 90% (Midterm ready)
-Phase 3: ░░░░░░░░░░░░░░░░░░░░ 0%
-```
+**Current Status:** Week 12 In Progress — QA Day complete, presentation prep.
+**Next Milestone:** Week 12 Final presentation.
 
 ---
 
-*Last Updated: Week 10 - Bug Triage Complete*
+*Last Updated: Week 12 - QA Day Complete*

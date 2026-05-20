@@ -10,9 +10,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- MongoDB production connection pending
-- Messaging feature UI in progress
-- Professional green-blue UI theme refresh tracked in issue #120
+- Mermaid UML user flow diagrams (6 section files)
+- Auth flow diagram page (CSS flowchart)
+- QA Day exit checklist UI
+
+---
+
+## [0.4.0] - 2026-05-20 (Week 12 — QA Day)
+
+### Added
+- QA Day checklist with 10 test cases (3 pass / 7 fail)
+- Week 12 sprint packet, bug severity list, test evidence
+- AI use and ownership documentation
+- Individual contribution receipts (5 team members)
+
+### Fixed
+- All doc links in docs/README.md corrected
 
 ---
 
