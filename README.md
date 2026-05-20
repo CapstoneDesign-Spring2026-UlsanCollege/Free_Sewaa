@@ -43,6 +43,7 @@ Password: admin12345
 **Free Sewaa** is a community-based donation platform that enables people to give away usable items for free to those who need them. The mission is to reduce waste, support communities, and make helping others simple and accessible.
 
 ### Features
+
 - 🔐 User authentication (signup/login) with JWT
 - 📦 Browse available donation items with search and category filtering
 - 🎁 Post items for donation with image upload
@@ -75,6 +76,7 @@ flowchart LR
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+
 - MongoDB Atlas account (or local MongoDB)
 
@@ -145,6 +147,7 @@ Full list in [DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md).
 | Scribe / Documentation | Swarnim Jung Karki | Documentation, presentations, repo management |
 
 ### Team Presentation Roles for Midterm
+
 - **Pitch:** Ram Pathak, Sujan Tamang
 - **Demo:** Mohan Khadka
 - **Q&A:** All team members
