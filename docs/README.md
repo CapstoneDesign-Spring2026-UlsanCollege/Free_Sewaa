@@ -1,63 +1,68 @@
-# Documentation Index — Free Sewaa
+# Free Sewaa — Documentation Hub
 
-This folder contains all project documentation.
+> Community donation platform connecting donors with people who need reusable items.
+
+**Live site:** [free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com)
 
 ---
 
-## Week 12 — QA Day & Final Sprint
+## Quick Links
 
-| Document | Description |
-|----------|-------------|
-| [QA Checklist](QA_CHECKLIST.md) | 10 test cases with pass/fail, evidence, owners |
-| [Sprint Packet](week12/SPRINT_PACKET.md) | Week 12 sprint overview and goals |
-| [Bug Severity List](week12/BUG_SEVERITY_LIST.md) | P0/P1/P2 bugs from QA Day |
-| [Test Evidence](week12/TEST_EVIDENCE.md) | Screenshots, logs, CI results |
-| [AI Use & Ownership](week12/AI_USE_AND_OWNERSHIP.md) | AI usage notes |
-| [Individual Receipts](week12/INDIVIDUAL_RECEIPTS.md) | Team member contributions |
-| [Board Snapshot](week12/BOARD_SNAPSHOT.md) | Sprint board status |
+| Section | Documents |
+|---------|-----------|
+| **Project Info** | [Overview](PROJECT_OVERVIEW.md) · [Requirements](PRODUCT_REQUIREMENTS.md) · [User Personas](USER_PERSONAS.md) · [User Stories](USER_STORIES.md) · [Glossary](GLOSSARY.md) |
+| **Architecture** | [System Architecture](SYSTEM_ARCHITECTURE.md) · [Database Design](DATABASE_DESIGN.md) · [API Reference](API_REFERENCE.md) · [Authentication](AUTHENTICATION.md) |
+| **Guides** | [Frontend](FRONTEND_GUIDE.md) · [Backend](BACKEND_GUIDE.md) · [Environment Setup](ENVIRONMENT_SETUP.md) · [Deployment](DEPLOYMENT_GUIDE.md) · [Admin](ADMIN_GUIDE.md) |
+| **User Flows** | [User Flow Diagrams](USER_FLOW.md) |
+| **Testing** | [Testing Plan](TESTING_PLAN.md) · [QA Checklist](QA_CHECKLIST.md) |
+| **Management** | [Roadmap](ROADMAP.md) · [Future Enhancements](FUTURE_ENHANCEMENTS.md) · [Risk Management](RISK_MANAGEMENT.md) · [Maintenance Plan](MAINTENANCE_PLAN.md) |
+| **Release** | [Release Notes](RELEASE_NOTES.md) · [Demo Guide](DEMO_GUIDE.md) · [Security Plan](SECURITY_PLAN.md) |
+| **Decisions** | [ADR-001: Technology Stack](adr/001-technology-stack.md) · [ADR-002: Authentication](adr/002-authentication-choice.md) · [ADR-003: Database](adr/003-database-choice.md) |
+| **Troubleshooting** | [Common Issues](TROUBLESHOOTING.md) |
 
-## Week 11 — MVP Verification
+---
 
-| Document | Description |
-|----------|-------------|
-| [Week 11 Overview](week11/README.md) | Demo overview and track targets |
-| [Demo Script](week11/DEMO_SCRIPT.md) | Step-by-step demo flow |
-| [MVP Checklist](week11/MVP_CHECKLIST.md) | Professor criteria checklist |
-| [Test Evidence](week11/TEST_EVIDENCE.md) | Test results and screenshots |
-| [Sprint Packet](PROGRESS/week11/WEEK_11_SPRINT_PACKET.md) | Week 11 sprint details |
-| [Bug List](PROGRESS/week11/BUG_LIST.md) | All bugs with priorities |
-| [Code Coverage](PROGRESS/week11/CODE_COVERAGE.md) | Jest setup guide |
+## Project Status
 
-## Architecture
+| Status | Detail |
+|--------|--------|
+| Phase | Final sprint — QA and documentation |
+| Deployment | Live on Render |
+| Test Status | 3/3 Jest tests passing |
+| Docs Coverage | 25+ documents |
 
-| Document | Description |
-|----------|-------------|
-| [System Architecture](DESIGN/SYSTEM_ARCHITECTURE.md) | System overview |
-| [API Reference](API_REFERENCE.md) | All API endpoints |
-| [Database Schema](DATABASE_SCHEMA.md) | Data models |
-| [Developer Guide](DEVELOPER_GUIDE.md) | Local setup and common errors |
-| [UML Diagram](Project_UML%20diagram/README.md) | User flow diagram |
+---
 
-## Deployment
+## Main User Flow
 
-| Document | Description |
-|----------|-------------|
-| [Deployment Guide](DESIGN/DEPLOYMENT.md) | How to deploy |
-| [Deployment Checklist](DEPLOYMENT_CHECKLIST.md) | Pre-launch checklist |
-| [MongoDB Setup](DESIGN/MONGODB_SETUP.md) | Database configuration |
+```mermaid
+flowchart LR
+    A[Landing] --> B{User Type}
+    B -->|New| C[Sign Up]
+    B -->|Returning| D[Sign In]
+    B -->|Admin| E[Admin Login]
+    C --> F[Dashboard]
+    D --> F
+    E --> G[Admin Dashboard]
+    F --> H[Browse Items]
+    F --> I[Post Donation]
+    F --> J[Messages]
+    F --> K[Profile]
+```
 
-## Project Management
+---
 
-| Document | Description |
-|----------|-------------|
-| [Project Board](https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/14) | Task tracking |
-| [Risk Register](PROJECT/RISK_REGISTER.md) | Risks and mitigations |
-| [Lessons Learned](PROJECT/LESSONS_LEARNED.md) | Retrospective |
-| [Release Notes](RELEASE_NOTES.md) | Week 11 release notes |
+## Team
 
-## Sprints
+Capstone Design — Spring 2026, Ulsan College.
 
-See [sprints/](sprints/) for all 12 weekly sprint packets.
+| Role | Name |
+|------|------|
+| Project Manager | Ram Pathak |
+| Lead Developer | Sujan Tamang |
+| Demo Driver | Mohan Khadka |
+| QA Lead | Sujan Shrestha |
+| Scribe | Swarnim Jung Karki |
 
 ---
 
