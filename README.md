@@ -61,11 +61,18 @@ npm install
 npm start
 ```
 
-Opens at `http://localhost:3000`
+Open http://localhost:3000
 
-**Demo credentials:**
-- User: `pathakram09555@gmail.com` / `123456`
-- Admin: `admin@freesewaa.local` / `admin12345`
+**Requirements:** Node.js 18+, MongoDB 6+ running locally.
+
+---
+
+## Demo Credentials
+
+| Role | Email | Password |
+|------|-------|----------|
+| User | `pathakram09555@gmail.com` | `123456` |
+| Admin | `admin@freesewaa.local` | `admin12345` |
 
 ---
 
