@@ -1059,6 +1059,11 @@ body.light-mode .chat-unread{color:#fff;background:linear-gradient(180deg,#b98c5
   .modal-card{padding:20px}
   .modal-listing-copy h2{font-size:2.35rem}
   .app-listing-media{height:220px}
+  .header-actions .icon-link{padding:12px;min-width:48px;min-height:48px}
+  .nav-link{padding:14px 16px}
+  .listing-card__body h3{font-size:1.6rem}
+  .btn{padding:14px 20px;font-size:1rem}
+  .field input,.field textarea,.field select{font-size:16px;padding:16px}
 }
 
 .active-chip{background:rgba(255,244,230,.1);border-color:rgba(255,236,212,.18);color:var(--cream-2)}
