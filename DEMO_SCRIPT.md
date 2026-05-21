@@ -8,6 +8,20 @@ Hello, we are presenting Free Sewaa — a community donation platform. Donors ca
 
 ---
 
+## Preparation Checklist
+
+Before the demo:
+- [ ] Live site loads: https://free-sewaa-qh05.onrender.com
+- [ ] Browser ready, window maximized (1920x1080)
+- [ ] Screen recording tool ready (if recording)
+- [ ] Demo accounts ready: user + admin
+- [ ] At least one donation item posted on the live site
+- [ ] At least one request and message in the system
+- [ ] Backup plan ready (local server)
+- [ ] Q&A notes printed or on second screen
+
+---
+
 ## Demo Flow
 
 ### 1. Landing Page
