@@ -1,6 +1,6 @@
 # Free Sewaa
 
-> A community donation platform connecting donors with people who need reusable items.
+A community donation platform connecting donors with people who need reusable items.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Status](https://img.shields.io/badge/Status-Final%20Sprint-blue)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)
@@ -8,15 +8,9 @@
 [![MongoDB](https://img.shields.io/badge/MongoDB-6.0+-green.svg)](https://mongodb.com/)
 [![Last Commit](https://img.shields.io/github/last-commit/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main)
 
----
-
 **Live site:** https://free-sewaa-qh05.onrender.com
 
----
-
-## About
-
-Free Sewaa is a community donation platform where users can give away reusable items for free. The mission is to reduce waste, support communities, and make helping others simple.
+Give away what you don't need. Find what you do — for free.
 
 ### Features
 
