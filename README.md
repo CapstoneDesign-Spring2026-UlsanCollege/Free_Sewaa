@@ -31,13 +31,17 @@ Try Free Sewaa without installing anything:
 
 ### Features
 
-- User authentication (signup/login)
-- Browse donation items with category filters
-- Post items for donation with images
-- Request items and message donors
-- Admin dashboard for management
-- Responsive design (mobile + desktop)
-- Unit testing with Jest
+| Feature | Description |
+|---------|-------------|
+| User authentication | Signup, login, logout, admin login |
+| Browse items | Filter by category, view details |
+| Post donations | Title, description, category, condition, image |
+| Request items | Request, accept, decline, complete |
+| Messaging | Conversations between donors and receivers |
+| Admin panel | User management, listing moderation, stats |
+| Auth flowchart | Visual auth flow diagram (html/auth-flow.html) |
+| Responsive | Works on mobile and desktop |
+| Tests | Jest unit tests (server/) |
 
 ---
 
