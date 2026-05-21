@@ -34,14 +34,16 @@ Free Sewaa is a community donation platform. Donors post reusable items. Receive
 
 ## What We Would Improve Next
 
-1. Wire up bcryptjs for password hashing
-2. Add session timeout with auto-logout
-3. Implement file upload for images
-4. Add email notifications for requests and messages
-5. Build a mobile app or PWA
-6. Add password reset
-7. Write more tests (integration, E2E)
-8. Add CI/CD pipeline with automated tests
+1. **Wire up bcryptjs** — hash passwords before storing
+2. **Session timeout** — auto-logout after 30 min of inactivity
+3. **File upload** — integrate Cloudinary for image hosting
+4. **Notifications** — email via SendGrid, SMS via Twilio
+5. **Password reset** — email-based reset with token expiry
+6. **Mobile app** — React Native or PWA for offline support
+7. **Test suite** — integration tests, E2E with Playwright
+8. **CI/CD** — auto-test on push, auto-deploy on merge to main
+9. **Admin dashboard** — add charts, search, pagination
+10. **AI chatbot** — connect frontend to existing backend endpoint
 
 ## Key Numbers
 
