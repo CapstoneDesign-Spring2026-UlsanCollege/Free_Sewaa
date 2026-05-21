@@ -1,4 +1,4 @@
-name: CI Test
+name: CI
 
 on:
   push:
@@ -7,42 +7,41 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: server
     services:
       mongodb:
         image: mongo:7
         ports:
           - 27017:27017
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 18
 
+      - name: Check required files
+        run: |
+          test -f ../README.md
+          test -f server.js
+          test -d ../html && test -d ../css && test -d ../js
+
       - name: Install dependencies
         run: npm install
-        working-directory: server
 
       - name: Run tests
         run: npm test
-        working-directory: server
         env:
           MONGO_URI: mongodb://localhost:27017/freesewaa_test
           CI: true
 
-      - name: Check folders exist
-        run: |
-          test -d html && test -d css && test -d js && test -d server
+      - name: Check HTML files
+        run: echo "HTML pages: $(ls html/*.html | wc -l)"
+        working-directory: .
 
-      - name: Count files
-        run: |
-          echo "HTML: $(ls html/*.html | wc -l)"
-          echo "CSS: $(ls css/*.css | wc -l)"
-          echo "JS: $(ls js/*.js | wc -l)"
-
-      - name: Verify server.js
-        run: test -f server/server.js
+      - name: Check CSS files
+        run: echo "CSS files: $(ls css/*.css | wc -l)"
+        working-directory: .
