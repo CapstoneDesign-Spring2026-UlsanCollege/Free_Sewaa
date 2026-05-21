@@ -8,30 +8,34 @@ assignees: ""
 
 ## Describe the Bug
 
-A clear description of what the bug is.
+Example: When I try to sign up with a valid email and password, the form submits but I get "Server error" and my account is not created.
 
 ## To Reproduce
 
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '...'
-3. Scroll down to '...'
-4. See error
+Example:
+1. Go to the signup page
+2. Enter first name: "Test", last name: "User", email: "testuser@gmail.com", password: "Test1234"
+3. Click "Create Account"
+4. See "Server error" message. Nothing changes in the database.
 
 ## Expected Behavior
 
-What should happen instead.
+Example: The account should be created and I should be redirected to the dashboard.
 
 ## Screenshots
 
-If applicable, add screenshots.
+Drag and drop screenshots here.
 
 ## Environment
 
-- Device: [e.g. Desktop, iPhone]
-- Browser: [e.g. Chrome, Safari]
-- Screen size: [e.g. 1920x1080, 390x844]
+- Device: Desktop
+- Browser: Chrome 124
+- Screen size: 1920x1080
 
 ## Additional Context
 
-Add any other context about the problem here.
+Example: This started after the latest deployment. It worked on localhost. The server log shows "MongoDB connection failed" which might be the cause.
+
+---
+
+*Example above is for reference. Replace with your actual bug details.*
