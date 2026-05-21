@@ -12,6 +12,13 @@ A community donation platform connecting donors with people who need reusable it
 
 Give away what you don't need. Find what you do — for free.
 
+**Quick links:**
+- [Documentation hub](docs/README.md)
+- [Demo script](DEMO_SCRIPT.md)
+- [Final review notes](FINAL_REVIEW_NOTES.md)
+- [API reference](docs/API_REFERENCE.md)
+- [Screenshots](assets/screenshots/)
+
 ### Features
 
 - User authentication (signup/login)
