@@ -76,9 +76,27 @@ Open http://localhost:3000
 
 ---
 
+## Project Structure
+
+```
+Free_Sewaa/
+├── css/            # Stylesheets (auth.css, style.css, theme.css)
+├── html/           # Frontend pages (landing, auth, browse, donate, admin, etc.)
+├── js/             # Frontend JavaScript
+├── server/         # Backend server and tests
+├── assets/         # Screenshots and media
+├── docs/           # Full project documentation
+├── .github/        # Issue templates and CI config
+├── package.json    # Root package config
+├── DEMO_SCRIPT.md  # Demo presentation script
+└── README.md       # This file
+```
+
+---
+
 ## Documentation
 
-Full documentation is available in the [docs/](docs/README.md) folder:
+Full documentation is in the [docs/](docs/README.md) folder:
 
 | Section | Documents |
 |---------|-----------|
