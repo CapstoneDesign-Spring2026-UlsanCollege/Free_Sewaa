@@ -1,44 +1,45 @@
 # Future Enhancements
 
-## Short Term
+## Phase 1: Core Stability
+- Improve signup and login validation
+- Add better error messages
+- Improve item posting form
+- Improve mobile responsiveness
+- Add more unit tests
 
-| Feature | Description | Priority |
-|---------|-------------|----------|
-| Password hashing | Implement bcrypt for password storage | High |
-| Rate limiting | Prevent brute force on login | High |
-| Better image upload | Support multiple images, preview, and compression | Medium |
-| Email notifications | Notify users when items are requested or messages arrive | Medium |
+## Phase 2: Better Donation Experience
+- Add item condition labels: New, Good, Used, Needs Repair
+- Add category-based browsing
+- Add location-based filtering
+- Add saved search
+- Add donation history
 
-## Medium Term
+## Phase 3: Trust and Safety
+- Add report post feature
+- Add verified donor badge
+- Add user rating system
+- Add admin review for reported posts
+- Add blocked user system
 
-| Feature | Description | Priority |
-|---------|-------------|----------|
-| Item condition rating | Let donors specify and users rate item condition | Medium |
-| Location-based search | Show items near the user's location | Medium |
-| Category recommendations | Suggest categories based on browsing history | Low |
-| User reputation system | Trust scores for donors and receivers | Medium |
-| Report inappropriate posts | Allow users to flag content | Medium |
+## Phase 4: Notifications and Messaging
+- Add email notifications
+- Add unread message count
+- Add request status updates
+- Add admin announcement system
 
-## Long Term
+## Phase 5: Admin and Analytics
+- Add dashboard statistics
+- Add total donated items count
+- Add active users count
+- Add most requested categories
+- Add monthly donation report
 
-| Feature | Description | Priority |
-|---------|-------------|----------|
-| Push notifications | Real-time browser notifications | Low |
-| Admin analytics dashboard | Charts for user growth, top categories, request trends | Low |
-| Multi-language support | Korean, English, and other languages | Low |
-| Accessibility audit | WCAG compliance improvements | Low |
-| Verified donor badge | Badge for users with a history of successful donations | Low |
-| Donation history | Track impact (items donated, estimated waste reduction) | Low |
-| Dark mode refinements | Improve dark mode consistency across all pages | Low |
-| Mobile app | React Native or Flutter version | Low |
-
-## Not Planned
-
-- Real payments or e-commerce
-- Paid premium accounts
-- AI-generated item descriptions
-- Social media integration
-- OTP-based phone authentication
+## Phase 6: Production Polish
+- Add accessibility improvements
+- Add dark mode
+- Add multi-language support
+- Add better image optimization
+- Add backup and maintenance process
 
 ---
 
