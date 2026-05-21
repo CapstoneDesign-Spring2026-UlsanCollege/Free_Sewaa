@@ -1,26 +1,27 @@
 ---
 name: Feature Request
-about: Propose a new feature with acceptance criteria
-title: 'Feature: '
+about: Suggest an idea for this project
+title: "[FEATURE] "
 labels: enhancement
-assignees: ''
+assignees: ""
 ---
 
-## Problem / Motivation
-What problem does this solve? Who is the user?
+## Is Your Feature Request Related to a Problem?
 
-## Proposed Solution
-What should be built? Describe the feature in simple words.
+A clear description of the problem. Ex. I'm always frustrated when [...]
 
-## Acceptance Criteria
-- [ ] Criterion 1 (e.g. User can click button)
-- [ ] Criterion 2 (e.g. Data saves correctly)
-- [ ] Criterion 3 (e.g. Error shown on failure)
+## Describe the Solution
 
-## Alternatives Considered
-Other approaches you thought of (and why you chose this one).
+What you want to happen.
 
-## Priority
-- [ ] Low
-- [ ] Medium
-- [ ] High
+## Describe Alternatives
+
+Any alternative solutions you considered.
+
+## How Would This Benefit Free Sewaa?
+
+Explain why this feature matters for donors, receivers, or admins.
+
+## Additional Context
+
+Add any screenshots, mockups, or references here.

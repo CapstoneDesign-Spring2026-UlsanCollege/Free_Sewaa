@@ -1,32 +1,37 @@
 ---
 name: Bug Report
-about: Report a bug with severity, owner, and evidence
-title: 'Bug: '
+about: Report a bug to help us improve
+title: "[BUG] "
 labels: bug
-assignees: ''
+assignees: ""
 ---
 
-# Bug: [short name]
+## Describe the Bug
 
-## Severity
-P0 / P1 / P2 / P3
+A clear description of what the bug is.
 
-## Steps to reproduce
-1. 
-2. 
-3. 
+## To Reproduce
 
-## Expected result
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '...'
+3. Scroll down to '...'
+4. See error
 
-## Actual result
+## Expected Behavior
 
-## Evidence & Owner
-- Owner:
-- Screenshot/video/log link:
+What should happen instead.
 
-## Definition of Done
-- [ ] Reproduced
-- [ ] Cause identified or documented
-- [ ] Fix made OR next step clear
-- [ ] Tested
-- [ ] Evidence linked
+## Screenshots
+
+If applicable, add screenshots.
+
+## Environment
+
+- Device: [e.g. Desktop, iPhone]
+- Browser: [e.g. Chrome, Safari]
+- Screen size: [e.g. 1920x1080, 390x844]
+
+## Additional Context
+
+Add any other context about the problem here.

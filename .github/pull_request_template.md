@@ -1,23 +1,34 @@
 # Pull Request
 
 ## Summary
+
 Explain what changed in simple words.
 
 ## Related Issue
+
 Closes #
 
-## What changed
--
+## What Changed
 
-## How I tested
--
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Documentation update
+- [ ] Code refactor
+- [ ] Test update
+
+## How I Tested
+
+- [ ] Ran `npm test`
+- [ ] Tested manually in browser
+- [ ] Checked mobile layout
 
 ## Screenshot / Evidence
--
 
-## AI Use Note
-- AI tool used:
-- What AI helped with:
-- What I personally checked or changed:
-- How I tested it:
-- One part I still do not fully understand:
+Add screenshots if UI changed.
+
+## Checklist
+
+- [ ] I read the contributing guide
+- [ ] Code follows existing style
+- [ ] No secrets or credentials in code
+- [ ] Documentation updated if needed
