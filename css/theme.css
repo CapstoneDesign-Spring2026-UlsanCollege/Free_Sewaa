@@ -93,6 +93,7 @@ body.light-mode .brand{color:var(--text)}
   transition:color .3s ease, background .3s ease, transform .3s ease;
 }
 .nav-link:hover{transform:translateY(-1px); color:var(--cream-2)}
+.nav-link:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
 .nav-link.active{background:rgba(255,244,230,.08); color:var(--cream-2)}
 body.light-mode .nav-link.active{background:rgba(42,32,23,.08); color:var(--text)}
 .nav-link.has-nav-icon,.icon-link.has-nav-icon{
@@ -156,6 +157,7 @@ body.light-mode .nav-link.active{background:rgba(42,32,23,.08); color:var(--text
   border:1px solid transparent;
   cursor:pointer;
 }
+.icon-link:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
 .icon-link:hover,.active-link{
   background:rgba(255,244,230,.05);
   border-color:rgba(255,236,212,.08);
@@ -209,6 +211,8 @@ body.light-mode .settings-menu a:hover, body.light-mode .settings-button:hover{
   transition:transform .35s var(--ease), box-shadow .35s ease, background .35s ease;
 }
 .btn:hover{transform:translateY(-2px)}
+.btn:focus-visible{outline:2px solid var(--bronze);outline-offset:3px}
+.btn:active{transform:translateY(0)}
 .btn-soft{
   color:var(--cream-2);
   background:rgba(255,244,230,.06);
