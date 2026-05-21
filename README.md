@@ -19,6 +19,16 @@ Give away what you don't need. Find what you do — for free.
 - [API reference](docs/API_REFERENCE.md)
 - [Screenshots](assets/screenshots/)
 
+## Live Demo
+
+Try Free Sewaa without installing anything:
+
+- **URL:** https://free-sewaa-qh05.onrender.com
+- **User demo:** `pathakram09555@gmail.com` / `123456`
+- **Admin demo:** `admin@freesewaa.local` / `admin12345`
+
+> ⚠ The live site runs on Render free tier. It may take 30-60 seconds to wake up after inactivity.
+
 ### Features
 
 - User authentication (signup/login)
