@@ -41,6 +41,17 @@ Try Free Sewaa without installing anything:
 
 ---
 
+## Screenshots
+
+Screenshots are in [`assets/screenshots/`](assets/screenshots/). See the [capture guide](assets/screenshots/README.md) for how to take screenshots of key pages:
+
+- Landing page, signup, dashboard
+- Browse, item detail, donate form
+- Messages, admin dashboard
+- Mobile views
+
+---
+
 ## Quick Start
 
 ```bash
