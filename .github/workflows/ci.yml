@@ -29,6 +29,10 @@ jobs:
           test -f server.js
           test -d ../html && test -d ../css && test -d ../js
 
+      - name: Verify scripts exist
+        run: |
+          node -e "const p = require('./package.json'); ['install','test'].forEach(s => { if(!p.scripts[s]) { console.error('Missing script: '+s); process.exit(1) } })"
+
       - name: Install dependencies
         run: npm install
 
