@@ -23,13 +23,14 @@ Free Sewaa is a community donation platform. Donors post reusable items. Receive
 
 ## Known Limitations
 
-- Passwords stored in plaintext (bcryptjs is installed but not wired)
-- No session timeout — users stay logged in until they manually log out
-- Image upload uses URL only — no file storage
-- No email or SMS notifications
-- AI chatbot endpoint exists but frontend integration is partial
-- No password reset flow
-- Admin panel works but has basic UI
+- **Password security:** Stored in plaintext. bcryptjs is installed but not wired.
+- **Session persistence:** No timeout. Users stay logged in until they click Logout.
+- **Image upload:** URL-based only. No file upload or storage.
+- **Notifications:** No email or SMS. Users must check the app manually.
+- **AI chatbot:** Backend endpoint exists but frontend is not connected.
+- **Password reset:** No reset flow. Admin must assist if password is lost.
+- **Admin UI:** Functional but basic. No charts or advanced filtering.
+- **Test coverage:** 3 unit tests only. No integration or E2E tests.
 
 ## What We Would Improve Next
 
