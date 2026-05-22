@@ -1859,3 +1859,26 @@ body.light-mode .step-dot.is-active{
     flex-basis:148px;
   }
 }
+
+
+/* Browse filter scroll behavior */
+body[data-page="browse"] .browse-layout{
+  align-items:start;
+}
+
+body[data-page="browse"] .filters-panel{
+  position:sticky;
+  top:84px;
+  max-height:calc(100vh - 104px);
+  overflow:auto;
+}
+
+@media (max-width:900px){
+  body[data-page="browse"] .filters-panel{
+    position:relative;
+    top:auto;
+    max-height:none;
+    overflow:visible;
+  }
+}
+
