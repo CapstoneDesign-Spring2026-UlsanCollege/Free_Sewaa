@@ -1,30 +1,46 @@
-# Free Sewaa
+<p align="center">
+  <img src="https://img.shields.io/badge/Free%20Sewaa-Community%20Donation-00B894?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Status-Capstone%20Final-0984E3?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Docs-Available-6C5CE7?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Made%20For-Ulsan%20College-FD79A8?style=for-the-badge" />
+</p>
 
-> A community donation platform connecting donors with people who need reusable items.
+<p align="center">
+  <a href="https://free-sewaa-qh05.onrender.com">
+    <img src="https://img.shields.io/badge/Live%20Site-Visit-00B894?style=flat-square" />
+  </a>
+  <a href="docs/README.md">
+    <img src="https://img.shields.io/badge/Docs-Read-0984E3?style=flat-square" />
+  </a>
+  <a href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues">
+    <img src="https://img.shields.io/badge/Issues-View-6C5CE7?style=flat-square" />
+  </a>
+  <a href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls">
+    <img src="https://img.shields.io/badge/PRs-Open-FD79A8?style=flat-square" />
+  </a>
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Status: Final Sprint](https://img.shields.io/badge/Status-Final%20Sprint-blue)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-6.0+-green.svg)](https://mongodb.com/)
-[![Last Commit](https://img.shields.io/github/last-commit/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main)
-[![Issues](https://img.shields.io/github/issues/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues)
-[![Pull Requests](https://img.shields.io/github/issues-pr/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls)
+<br>
 
----
+## 🚀 Overview
 
-## Live Demo
+Free Sewaa connects people who have reusable items with those who need them — for free. Donors post items, receivers browse and request, and the platform handles the matching. Built by students at Ulsan College for Capstone Design Spring 2026.
 
-Try Free Sewaa without installing anything:
+<br>
 
-- **URL:** https://free-sewaa-qh05.onrender.com
-- **User demo:** `pathakram09555@gmail.com` / `123456`
-- **Admin demo:** `admin@freesewaa.local` / `admin12345`
+## 🎯 Live Demo
 
-> ⚠ The live site runs on Render free tier. It may take 30-60 seconds to wake up after inactivity.
+| | Access |
+|---|---|
+| 🌐 **Live URL** | [https://free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com) |
+| 👤 **User Account** | `pathakram09555@gmail.com` / `123456` |
+| 🔐 **Admin Account** | `admin@freesewaa.local` / `admin12345` |
 
----
+> ⚠️ Hosted on Render free tier — may take 30-60s to wake after inactivity.
 
-## Quick Start
+<br>
+
+## ⚙️ Installation
 
 ```bash
 git clone https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa.git
@@ -33,164 +49,182 @@ npm install
 npm start
 ```
 
-Open http://localhost:3000
+Open [http://localhost:3000](http://localhost:3000). Requires **Node.js 18+** and **MongoDB 6+**.
 
-**Requirements:** Node.js 18+, MongoDB 6+ running locally.
+<p align="left">
+  <img src="https://img.shields.io/badge/Node.js-18%2B-339933?style=flat-square&logo=nodedotjs" />
+  <img src="https://img.shields.io/badge/MongoDB-6%2B-47A248?style=flat-square&logo=mongodb" />
+  <img src="https://img.shields.io/badge/npm-9%2B-CB3837?style=flat-square&logo=npm" />
+</p>
 
----
+<br>
 
-## Features
+## ✨ Features
 
-| Feature | Description |
-|---------|-------------|
-| User authentication | Signup, login, logout, admin login |
-| Browse items | Filter by category, view details |
-| Post donations | Title, description, category, condition, image |
-| Request items | Request, accept, decline, complete |
-| Messaging | Conversations between donors and receivers |
-| Admin panel | User management, listing moderation, stats |
-| Auth flowchart | Visual auth flow diagram |
-| Responsive design | Works on mobile and desktop |
-| Unit tests | Jest tests on the backend |
+| Feature | What it does |
+|---|---|
+| 🔐 **Authentication** | Signup, login, logout, and admin login |
+| 📦 **Browse Items** | Filter by category, condition, and location |
+| 🎁 **Post Donations** | Title, description, images, condition, pickup details |
+| 📋 **Request Items** | Request, accept, decline, and complete |
+| 💬 **Messaging** | Direct conversations between donors and receivers |
+| 🛡️ **Admin Panel** | User management, listing moderation, platform stats |
+| 📊 **Auth Flowchart** | Visual user journey from signup to dashboard |
+| 📱 **Responsive Design** | Works on mobile, tablet, and desktop |
+| ✅ **Unit Tests** | Jest tests covering backend endpoints |
 
----
+<br>
 
-## User Flow
+## 🔄 User Flow
 
 ```mermaid
 flowchart LR
-  A[Sign up] --> B[Log in]
-  B --> C[Browse items]
-  C --> D[Donate item]
-  D --> E[Request item]
-  E --> F[Message donor]
-  F --> G[Admin panel]
+  A[Sign Up] --> B[Log In]
+  B --> C[Browse Items]
+  C --> D[Donate Item]
+  D --> E[Request Item]
+  E --> F[Message Donor]
+  F --> G[Pick Up]
+  G --> H[Complete]
+  C -.-> I[Save Item]
+  F -.-> J[Admin Panel]
 ```
 
----
+<br>
 
-## Tech Stack
+## 🧰 Tech Stack
 
-**Frontend:** HTML5, CSS3, Vanilla JS · **Backend:** Node.js, Custom HTTP Server · **Database:** MongoDB
+<p align="left">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5" />
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript" />
+  <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs" />
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb" />
+  <img src="https://img.shields.io/badge/Jest-C21325?style=flat-square&logo=jest" />
+  <img src="https://img.shields.io/badge/Render-46E3B7?style=flat-square&logo=render" />
+</p>
 
----
+| Layer | Technology |
+|---|---|
+| **Frontend** | HTML5, CSS3, Vanilla JavaScript |
+| **Backend** | Node.js (Custom HTTP Server) |
+| **Database** | MongoDB + Mongoose-style queries |
+| **Testing** | Jest, Supertest |
+| **CI/CD** | GitHub Actions |
+| **Hosting** | Render (free tier) |
 
-## Project Structure
+<br>
+
+## 📁 Project Structure
 
 ```
 Free_Sewaa/
-├── css/            # Stylesheets (auth.css, style.css, theme.css)
-├── html/           # 18 frontend pages (landing, auth, browse, donate, admin, etc.)
-├── js/             # Frontend JavaScript (site.js, auth.js, index.js)
-├── server/         # Backend server + Jest tests
-├── assets/         # Screenshots and media
-├── docs/           # Full project documentation
-├── .github/        # Issue templates + CI workflow
-├── package.json    # Root package config
-├── DEMO_SCRIPT.md  # Demo presentation script
-├── FINAL_REVIEW_NOTES.md # Final review notes
-└── README.md       # This file
+├── css/           # Stylesheets
+├── html/          # 18 frontend pages
+├── js/            # Client-side scripts
+├── server/        # Backend + Jest tests
+├── docs/          # Full documentation
+├── assets/        # Screenshots
+├── .github/       # CI + issue templates
+├── DEMO_SCRIPT.md
+├── FINAL_REVIEW_NOTES.md
+└── README.md
 ```
 
----
+<br>
 
-## Screenshots
+## 📚 Documentation
 
-Screenshots are in [`assets/screenshots/`](assets/screenshots/). See the [capture guide](assets/screenshots/README.md) for how to take them:
+<p align="center">
+  <a href="docs/README.md"><img src="https://img.shields.io/badge/Docs%20Hub-0984E3?style=for-the-badge&logo=readthedocs&logoColor=white" /></a>
+  <a href="docs/API_REFERENCE.md"><img src="https://img.shields.io/badge/API%20Reference-00B894?style=for-the-badge&logo=swagger&logoColor=white" /></a>
+  <a href="docs/Project_UML%20diagram/README.md"><img src="https://img.shields.io/badge/User%20Flows-6C5CE7?style=for-the-badge&logo=mermaid&logoColor=white" /></a>
+  <a href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls"><img src="https://img.shields.io/badge/Pull%20Requests-FD79A8?style=for-the-badge&logo=github&logoColor=white" /></a>
+</p>
 
-- Landing page, signup, dashboard
-- Browse, item detail, donate form
-- Messages, admin dashboard
-- Mobile views
+| Category | Description | Link |
+|---|---|---|
+| 📖 **Docs Hub** | Complete documentation index | [View](docs/README.md) |
+| 🔐 **Authentication** | Login, signup, admin auth flow | [View](docs/AUTHENTICATION.md) |
+| 🔌 **API Reference** | All backend endpoints | [View](docs/API_REFERENCE.md) |
+| 🗺️ **User Flows** | UML diagrams for all user journeys | [View](docs/Project_UML%20diagram/README.md) |
+| 🗓️ **Sprints** | Weekly sprint packets (Weeks 1-12) | [View](docs/sprints/) |
+| 🧪 **Testing Plan** | Unit, integration, E2E, security tests | [View](docs/TESTING_PLAN.md) |
+| ✅ **QA Checklist** | Pre-release quality checks | [View](docs/QA_CHECKLIST.md) |
+| 📦 **Deployment** | Render deployment guide | [View](docs/DEPLOYMENT_GUIDE.md) |
+| 🛠️ **Setup Guide** | Environment setup instructions | [View](docs/ENVIRONMENT_SETUP.md) |
+| 🔒 **Security Plan** | Security measures and known gaps | [View](docs/SECURITY_PLAN.md) |
+| 🧭 **Roadmap** | Project roadmap and milestones | [View](docs/ROADMAP.md) |
+| 🔮 **Future Plans** | Short and long-term enhancements | [View](docs/FUTURE_ENHANCEMENTS.md) |
 
----
-
-## Documentation
-
-Full documentation is in the [docs/](docs/README.md) folder:
-
-| Section | Documents |
-|---------|-----------|
-| **Project Info** | [Project Overview](docs/PROJECT_OVERVIEW.md) · [Requirements](docs/PRODUCT_REQUIREMENTS.md) · [Personas](docs/USER_PERSONAS.md) · [User Stories](docs/USER_STORIES.md) · [Glossary](docs/GLOSSARY.md) |
-| **Architecture** | [System Design](docs/SYSTEM_ARCHITECTURE.md) · [Database Schema](docs/DATABASE_SCHEMA.md) · [Database Design](docs/DATABASE_DESIGN.md) · [API Reference](docs/API_REFERENCE.md) · [Authentication](docs/AUTHENTICATION.md) |
-| **Guides** | [Frontend](docs/FRONTEND_GUIDE.md) · [Backend](docs/BACKEND_GUIDE.md) · [Admin](docs/ADMIN_GUIDE.md) · [Environment Setup](docs/ENVIRONMENT_SETUP.md) · [Deployment](docs/DEPLOYMENT_GUIDE.md) · [Troubleshooting](docs/TROUBLESHOOTING.md) |
-| **Testing** | [Testing Plan](docs/TESTING_PLAN.md) · [QA Checklist](docs/QA_CHECKLIST.md) · [Test Strategy](docs/TESTING_STRATEGY.md) |
-| **Security** | [Security Plan](docs/SECURITY_PLAN.md) · [Security Checklist](SECURITY_CHECKLIST.md) |
-| **Management** | [Roadmap](docs/ROADMAP.md) · [Risks](docs/RISK_MANAGEMENT.md) · [Maintenance](docs/MAINTENANCE_PLAN.md) · [Future Plans](docs/FUTURE_ENHANCEMENTS.md) · [Release Notes](docs/RELEASE_NOTES.md) |
-| **ADR** | [Tech Stack](docs/adr/001-technology-stack.md) · [Authentication](docs/adr/002-authentication-choice.md) · [Database](docs/adr/003-database-choice.md) |
-| **Diagrams** | [UML User Flow](docs/Project_UML%20diagram/README.md) · [User Flow](docs/USER_FLOW.md) · [Auth Flow](html/auth-flow.html) |
-
-### Sprints
+### Sprint Documentation
 
 | Week | Title | Link |
-|------|-------|------|
-| 1 | Onboarding | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%201.md) |
-| 2 | Planning | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%202.md) |
-| 3 | Frontend MVP | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%203%20.md) |
-| 4 | Browse & Filter | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%204.md) |
-| 5 | UI Redesign | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%205.md) |
-| 6 | Backend | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%206.md) |
-| 7 | Midterm Prep | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%207.md) |
-| 8 | Midterm | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) |
-| 9 | Polish | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%209.md) |
-| 10 | Bug Triage | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) |
-| 11 | MVP Verification | [Overview](docs/PROGRESS/week11/README.md) |
+|---|---|---|
+| 1 | Onboarding | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%201.md) |
+| 2 | Planning | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%202.md) |
+| 3 | Frontend MVP | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%203.md) |
+| 4 | Browse & Filter | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%204.md) |
+| 5 | UI Redesign | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%205.md) |
+| 6 | Backend | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%206.md) |
+| 7 | Midterm Prep | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%207.md) |
+| 8 | Midterm | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%208.md) |
+| 9 | Polish | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%209.md) |
+| 10 | Bug Triage | [Packet](docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%2010.md) |
+| 11 | MVP Verification | [Overview](docs/PROGRESS/week11/README.md) · [Packet](docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%2011.md) |
 | 12 | Final | [Sprint Packet](docs/week12/SPRINT_PACKET.md) · [QA Checklist](docs/QA_CHECKLIST.md) |
 
 ### Checklists
 
-| Checklist | Link |
-|-----------|------|
-| Manual Testing | [`MANUAL_TESTING_CHECKLIST.md`](MANUAL_TESTING_CHECKLIST.md) |
-| Accessibility | [`ACCESSIBILITY_CHECKLIST.md`](ACCESSIBILITY_CHECKLIST.md) |
-| Security | [`SECURITY_CHECKLIST.md`](SECURITY_CHECKLIST.md) |
-| Admin Review | [`ADMIN_REVIEW_CHECKLIST.md`](ADMIN_REVIEW_CHECKLIST.md) |
-| Mobile Testing | [`MOBILE_TESTING_CHECKLIST.md`](MOBILE_TESTING_CHECKLIST.md) |
-| Browser Testing | [`BROWSER_TESTING_CHECKLIST.md`](BROWSER_TESTING_CHECKLIST.md) |
-| Form Validation | [`FORM_VALIDATION_CHECKLIST.md`](FORM_VALIDATION_CHECKLIST.md) |
-| Deployment | [`DEPLOYMENT_CHECKLIST.md`](DEPLOYMENT_CHECKLIST.md) |
-| Release | [`RELEASE_CHECKLIST.md`](RELEASE_CHECKLIST.md) |
-| QA Checklist | [`docs/QA_CHECKLIST.md`](docs/QA_CHECKLIST.md) |
+| Area | Link |
+|---|---|
+| 🧪 Manual Testing | [Checklist](MANUAL_TESTING_CHECKLIST.md) |
+| ♿ Accessibility | [Checklist](ACCESSIBILITY_CHECKLIST.md) |
+| 🔒 Security | [Checklist](SECURITY_CHECKLIST.md) |
+| 🛡️ Admin Review | [Checklist](ADMIN_REVIEW_CHECKLIST.md) |
+| 📱 Mobile Testing | [Checklist](MOBILE_TESTING_CHECKLIST.md) |
+| 🌐 Browser Testing | [Checklist](BROWSER_TESTING_CHECKLIST.md) |
+| 📝 Form Validation | [Checklist](FORM_VALIDATION_CHECKLIST.md) |
+| 🚀 Deployment | [Checklist](DEPLOYMENT_CHECKLIST.md) |
+| 📦 Release | [Checklist](RELEASE_CHECKLIST.md) |
 
-### Templates
+<br>
 
-- [Bug Report](.github/ISSUE_TEMPLATE/bug_report.md)
-- [Feature Request](.github/ISSUE_TEMPLATE/feature_request.md)
-- [Documentation Task](.github/ISSUE_TEMPLATE/documentation_task.md)
-- [Pull Request](.github/pull_request_template.md)
-
----
-
-## Quick Reference
-
-- **Live site:** https://free-sewaa-qh05.onrender.com
-- **Health check:** `GET /api/health` — returns `{ "ok": true }`
-- **Repository:** https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa
-- **Project board:** https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/14
-- **Issues:** https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues
-- **Pull requests:** https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls
-- **Commands:** `npm install`, `npm start`, `npm test` (in server/)
-
----
-
-## Team
+## 👥 Team
 
 Capstone Design — Spring 2026, Ulsan College
 
-| Role | Name | Responsibilities |
-|------|------|------------------|
-| Project Manager | Ram Pathak | Coordination, timeline, sprint management |
-| Lead Developer | Sujan Tamang | Frontend & backend development |
-| Demo Driver | Mohan Khadka | Live demo presentation, troubleshooting |
-| QA Lead | Sujan Shrestha | Testing, bug verification, quality checks |
-| Scribe | Swarnim Jung Karki | Documentation, repo management, presentation |
+| Role | Name | Area |
+|---|---|---|
+| 👨‍💼 Project Manager | Ram Pathak | Coordination, timeline, sprints |
+| 👨‍💻 Lead Developer | Sujan Tamang | Frontend & backend |
+| 🎤 Demo Driver | Mohan Khadka | Live demo, troubleshooting |
+| 🧪 QA Lead | Sujan Shrestha | Testing, bug tracking |
+| 📝 Scribe | Swarnim Jung Karki | Docs, repo, presentations |
+
+<br>
+
+## 🔗 Quick Reference
+
+| Resource | Link |
+|---|---|
+| 🌐 Live Site | [free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com) |
+| 📂 Repository | [GitHub](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa) |
+| 📋 Project Board | [GitHub Projects](https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/14) |
+| 🐛 Issues | [GitHub Issues](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues) |
+| 🔀 Pull Requests | [GitHub PRs](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls) |
+| ❤️ Health Check | `GET /api/health` → `{ "ok": true }` |
+
+<br>
+
+## 📄 License
+
+[MIT](https://opensource.org/licenses/MIT)
 
 ---
 
-## License
-
-MIT
-
----
-
-*Last updated: May 2026*
+<p align="center">
+  <sub>Capstone Design · Spring 2026 · Ulsan College</sub>
+  <br>
+  <sub>Last updated: May 2026</sub>
+</p>
