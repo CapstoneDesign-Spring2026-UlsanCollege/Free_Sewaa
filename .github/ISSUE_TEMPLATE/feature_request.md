@@ -8,20 +8,24 @@ assignees: ""
 
 ## Is Your Feature Request Related to a Problem?
 
-A clear description of the problem. Ex. I'm always frustrated when [...]
+Example: I'm always frustrated when I post a donation item and there is no way to mark the condition. Users keep asking me if it is like new, good, or used.
 
 ## Describe the Solution
 
-What you want to happen.
+Example: Add a condition dropdown to the donate form with options: New, Like New, Good, Used, Needs Repair. Display the condition label on the item card so users can see it without opening the details.
 
 ## Describe Alternatives
 
-Any alternative solutions you considered.
+Example: Allow users to add a custom text field for condition instead of a dropdown. Or show a tag based on the description keywords.
 
 ## How Would This Benefit Free Sewaa?
 
-Explain why this feature matters for donors, receivers, or admins.
+Example: Donors can provide better information. Receivers can find items that match their quality expectations. Fewer messages asking about condition.
 
 ## Additional Context
 
-Add any screenshots, mockups, or references here.
+Example: The donate form currently has title, description, category, and image fields. The condition dropdown would go between category and image. Mockup attached.
+
+---
+
+*Example above is for reference. Replace with your actual feature request.*

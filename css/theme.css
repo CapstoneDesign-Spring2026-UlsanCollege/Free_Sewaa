@@ -93,6 +93,7 @@ body.light-mode .brand{color:var(--text)}
   transition:color .3s ease, background .3s ease, transform .3s ease;
 }
 .nav-link:hover{transform:translateY(-1px); color:var(--cream-2)}
+.nav-link:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
 .nav-link.active{background:rgba(255,244,230,.08); color:var(--cream-2)}
 body.light-mode .nav-link.active{background:rgba(42,32,23,.08); color:var(--text)}
 .nav-link.has-nav-icon,.icon-link.has-nav-icon{
@@ -156,6 +157,7 @@ body.light-mode .nav-link.active{background:rgba(42,32,23,.08); color:var(--text
   border:1px solid transparent;
   cursor:pointer;
 }
+.icon-link:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
 .icon-link:hover,.active-link{
   background:rgba(255,244,230,.05);
   border-color:rgba(255,236,212,.08);
@@ -209,6 +211,8 @@ body.light-mode .settings-menu a:hover, body.light-mode .settings-button:hover{
   transition:transform .35s var(--ease), box-shadow .35s ease, background .35s ease;
 }
 .btn:hover{transform:translateY(-2px)}
+.btn:focus-visible{outline:2px solid var(--bronze);outline-offset:3px}
+.btn:active{transform:translateY(0)}
 .btn-soft{
   color:var(--cream-2);
   background:rgba(255,244,230,.06);
@@ -379,7 +383,7 @@ body.light-mode .stat-card strong{color:var(--text)}
 .feature-grid{
   display:grid;
   grid-template-columns:repeat(3, 1fr);
-  gap:24px;
+  gap:28px;
   padding-bottom:90px;
 }
 .feature-media-1{background-image:url('https://images.unsplash.com/photo-1593113598332-cd59a93f9724?auto=format&fit=crop&w=900&q=72')}
@@ -397,8 +401,8 @@ body.light-mode .stat-card strong{color:var(--text)}
   min-height:270px;
   display:grid;
   grid-template-columns:96px minmax(0,1fr);
-  gap:20px;
-  padding:22px;
+  gap:24px;
+  padding:24px;
   border-radius:8px;
   border:1px solid rgba(255,236,212,.1);
   background:linear-gradient(180deg,rgba(255,244,230,.055),rgba(255,244,230,.025));
@@ -629,7 +633,7 @@ body.light-mode .upload-box strong, body.light-mode .pricing-card .price{color:v
 .listing-grid{
   display:grid;
   grid-template-columns:repeat(2, minmax(0,1fr));
-  gap:22px;
+  gap:24px;
 }
 .listing-grid-spacious{padding:32px 0 90px}
 .listing-card__media{height:240px;background-size:cover;background-position:center}
@@ -1055,6 +1059,11 @@ body.light-mode .chat-unread{color:#fff;background:linear-gradient(180deg,#b98c5
   .modal-card{padding:20px}
   .modal-listing-copy h2{font-size:2.35rem}
   .app-listing-media{height:220px}
+  .header-actions .icon-link{padding:12px;min-width:48px;min-height:48px}
+  .nav-link{padding:14px 16px}
+  .listing-card__body h3{font-size:1.6rem}
+  .btn{padding:14px 20px;font-size:1rem}
+  .field input,.field textarea,.field select{font-size:16px;padding:16px}
 }
 
 .active-chip{background:rgba(255,244,230,.1);border-color:rgba(255,236,212,.18);color:var(--cream-2)}
