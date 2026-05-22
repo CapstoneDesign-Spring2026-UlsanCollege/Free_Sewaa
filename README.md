@@ -1,30 +1,40 @@
-<p align="center">
-  <img src="https://img.shields.io/badge/Free%20Sewaa-Community%20Donation-00B894?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Status-Capstone%20Final-0984E3?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Docs-Available-6C5CE7?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Made%20For-Ulsan%20College-FD79A8?style=for-the-badge" />
+<div align="center">
+
+# Free Sewaa
+
+### A community donation platform for sharing reusable items and helping people in need.
+
+<p>
+  <img src="https://img.shields.io/badge/Project-Capstone%20Final-2563EB?style=for-the-badge" alt="Capstone Final" />
+  <img src="https://img.shields.io/badge/Status-Active-16A34A?style=for-the-badge" alt="Project Status" />
+  <img src="https://img.shields.io/badge/Platform-Web%20Application-7C3AED?style=for-the-badge" alt="Web Application" />
+  <img src="https://img.shields.io/badge/College-Ulsan%20College-F97316?style=for-the-badge" alt="Ulsan College" />
 </p>
 
-<p align="center">
+<p>
   <a href="https://free-sewaa-qh05.onrender.com">
-    <img src="https://img.shields.io/badge/Live%20Site-Visit-00B894?style=flat-square" />
+    <img src="https://img.shields.io/badge/Live%20Demo-Visit%20Site-16A34A?style=flat-square" alt="Live Demo" />
   </a>
   <a href="docs/README.md">
-    <img src="https://img.shields.io/badge/Docs-Read-0984E3?style=flat-square" />
+    <img src="https://img.shields.io/badge/Documentation-Read%20Docs-2563EB?style=flat-square" alt="Documentation" />
   </a>
   <a href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues">
-    <img src="https://img.shields.io/badge/Issues-View-6C5CE7?style=flat-square" />
+    <img src="https://img.shields.io/badge/Issues-Track%20Work-F97316?style=flat-square" alt="Issues" />
   </a>
   <a href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls">
-    <img src="https://img.shields.io/badge/PRs-Open-FD79A8?style=flat-square" />
+    <img src="https://img.shields.io/badge/Pull%20Requests-Review-7C3AED?style=flat-square" alt="Pull Requests" />
   </a>
 </p>
 
-<br>
+</div>
 
-## 🚀 Overview
+---
 
-Free Sewaa connects people who have reusable items with those who need them — for free. Donors post items, receivers browse and request, and the platform handles the matching. Built by students at Ulsan College for Capstone Design Spring 2026.
+## Overview
+
+**Free Sewaa** is a web-based community donation platform that helps users donate reusable items, request needed items, communicate with other users, and manage activity through a simple dashboard.
+
+The project was developed as a capstone project for Ulsan College with a focus on community support, sustainability, and accessible donation management.
 
 <br>
 
