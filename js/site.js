@@ -386,6 +386,7 @@
         appState = normalizeState(JSON.parse(event.newValue));
         enhanceMenus();
         enhanceNavIcons();
+        updateMessageNavStatus();
         initCurrentPage();
       } catch (error) {
         console.warn('Storage sync failed', error);
@@ -400,6 +401,7 @@
         appState = normalizeState(event.data.state);
         localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
         suppressBroadcast = false;
+        updateMessageNavStatus();
         initCurrentPage();
       }
     };
@@ -510,6 +512,7 @@
 
   function saveState() {
     localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
+    updateMessageNavStatus();
     if (!suppressBroadcast && liveChannel) {
       liveChannel.postMessage({ type: 'state-updated', state: appState, at: Date.now() });
     }
@@ -1704,6 +1707,7 @@
       }
 
       localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
+      updateMessageNavStatus();
       if (renderAfter) renderConversationList();
       } finally {
         isRefreshingMessages = false;
@@ -1722,8 +1726,9 @@
 
     function renderConversationList() {
       const conversations = getFilteredConversations();
-      const unread = appState.conversations.reduce((sum, item) => sum + item.unread, 0);
-      unreadSummary.textContent = `${unread} unread`;
+      const unread = getUnreadMessageCount();
+      unreadSummary.textContent = formatUnreadMessages(unread);
+      updateMessageNavStatus();
       conversationCountLabel.textContent = `${conversations.length} active conversations`;
       conversationStatusText.textContent = conversations.length
         ? 'Requests from Browse show up here automatically.'
@@ -1767,6 +1772,7 @@
       if (!conversation) return;
       conversation.unread = 0;
       localStorage.setItem(STORAGE_KEYS.app, JSON.stringify(appState));
+      updateMessageNavStatus();
       const listing = getListingById(conversation.listingId);
       conversationHead.innerHTML = `
         <div class="conversation-user">
@@ -1802,8 +1808,9 @@
     }
 
     function renderConversationListMetaOnly() {
-      const unread = appState.conversations.reduce((sum, item) => sum + item.unread, 0);
-      unreadSummary.textContent = `${unread} unread`;
+      const unread = getUnreadMessageCount();
+      unreadSummary.textContent = formatUnreadMessages(unread);
+      updateMessageNavStatus();
       document.querySelectorAll('[data-conversation-id]').forEach(button => {
         button.classList.toggle('active-chat', button.dataset.conversationId === activeConversationId);
       });
@@ -2278,6 +2285,43 @@
     return `<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${paths}</svg>`;
   }
 
+  function getUnreadMessageCount() {
+    return appState.conversations.reduce((sum, item) => sum + Number(item.unread || 0), 0);
+  }
+
+  function formatUnreadMessages(count) {
+    return `${count} Message${count === 1 ? '' : 's'}`;
+  }
+
+  function updateMessageNavStatus() {
+    const unread = getUnreadMessageCount();
+    const labelText = unread > 0 ? formatUnreadMessages(unread) : 'Messages';
+
+    document.querySelectorAll('a[href$="messages.html"]').forEach(link => {
+      const label = link.querySelector('.nav-label') || Array.from(link.querySelectorAll('span')).find(span =>
+        !span.classList.contains('icon-dot') &&
+        !span.classList.contains('icon-badge') &&
+        !span.classList.contains('message-count-badge')
+      );
+      if (label) label.textContent = labelText;
+
+      let badge = link.querySelector('.message-count-badge');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'message-count-badge';
+        badge.setAttribute('aria-hidden', 'true');
+        link.appendChild(badge);
+      }
+
+      badge.textContent = unread;
+      badge.hidden = unread === 0;
+      link.classList.toggle('has-unread-messages', unread > 0);
+      link.setAttribute('aria-label', labelText);
+      link.setAttribute('title', labelText);
+      link.dataset.navTooltip = labelText;
+    });
+  }
+
   function enhanceNavIcons() {
     document.querySelectorAll('.main-nav .nav-link, .header-actions .icon-link').forEach(link => {
       if (link.dataset.iconEnhanced === 'true') return;
@@ -2290,6 +2334,7 @@
       link.dataset.navTooltip = label;
       link.innerHTML = `${makeNavIcon(navIcons[key])}<span class="nav-label">${escapeHtml(label)}</span>`;
     });
+    updateMessageNavStatus();
   }
 
   function enhancePublicActions() {
@@ -2602,7 +2647,7 @@
     const nameEls = document.querySelectorAll('[data-user-name]');
     nameEls.forEach(el => el.textContent = appState.user.name || 'Member');
     const stats = getUserStats();
-    const unreadMessages = appState.conversations.reduce((sum, item) => sum + Number(item.unread || 0), 0);
+    const unreadMessages = getUnreadMessageCount();
     const region = [appState.user.city, appState.user.region].filter(Boolean).join(', ') || 'Not set';
     const profileReady = appState.user.email && appState.user.phone ? 'Complete' : 'Needs update';
     document.querySelectorAll('[data-stat-active]').forEach(el => el.textContent = stats.active);
