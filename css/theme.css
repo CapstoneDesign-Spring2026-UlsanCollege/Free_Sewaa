@@ -1890,6 +1890,28 @@ body[data-page="browse"] .filters-panel{
   overflow:auto;
 }
 
+/* Keep unread counts from squeezing or clipping the Messages icon. */
+.icon-link.has-nav-icon.has-unread-messages{
+  overflow:visible;
+}
+
+.icon-link.has-nav-icon .message-count-badge{
+  position:absolute;
+  top:-6px;
+  right:-6px;
+  z-index:2;
+  min-width:20px;
+  height:20px;
+  padding:0 6px;
+  box-shadow:0 0 0 3px var(--bg), 0 8px 18px rgba(0,0,0,.28);
+}
+
+.icon-link.has-nav-icon:hover .message-count-badge,
+.icon-link.has-nav-icon:focus-visible .message-count-badge{
+  top:-7px;
+  right:-7px;
+}
+
 @media (max-width:900px){
   body[data-page="browse"] .filters-panel{
     position:relative;
