@@ -662,3 +662,140 @@ body{
     padding:24px;
   }
 }
+
+/* Portal page alignment */
+.portal-page{
+  min-height:100vh;
+}
+
+.portal-page .auth-header{
+  padding-left:max(16px, calc((100vw - 1180px) / 2));
+  padding-right:max(16px, calc((100vw - 1180px) / 2));
+}
+
+.portal-page .auth-shell{
+  width:min(1180px, calc(100% - 32px));
+  grid-template-columns:minmax(0,1fr) minmax(520px,600px);
+  gap:64px;
+  align-items:center;
+  padding:112px 0 56px;
+}
+
+.portal-page .portal-left{
+  max-width:520px;
+}
+
+.portal-page .portal-left h1{
+  max-width:12ch;
+}
+
+.portal-page .portal-feature-list{
+  max-width:520px;
+}
+
+.portal-page .auth-feature{
+  padding:16px;
+}
+
+.portal-page .portal-card{
+  width:100%;
+  max-width:none;
+  padding:28px;
+}
+
+.portal-page .portal-card__top{
+  margin-bottom:20px;
+}
+
+.portal-page .portal-grid{
+  gap:14px;
+}
+
+.portal-page .portal-option{
+  grid-template-columns:58px minmax(0,1fr);
+  gap:16px;
+  padding:18px;
+  align-items:start;
+}
+
+.portal-page .portal-option__badge{
+  position:static;
+  grid-column:1 / -1;
+  width:max-content;
+  margin-bottom:0;
+}
+
+.portal-page .portal-option__icon{
+  width:58px;
+  height:58px;
+  font-size:1.55rem;
+}
+
+.portal-page .portal-option__body{
+  min-width:0;
+}
+
+.portal-page .portal-option__body h3{
+  font-size:1.45rem;
+}
+
+.portal-page .portal-option__body p{
+  line-height:1.55;
+}
+
+.portal-page .portal-option__body ul{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+
+.portal-page .portal-option__body li{
+  padding-left:13px;
+  font-size:.86rem;
+}
+
+.portal-page .portal-option__body li::before{
+  width:5px;
+  height:5px;
+}
+
+.portal-page .portal-option__cta{
+  grid-column:2;
+  margin-top:0;
+}
+
+.portal-page .portal-footer-links{
+  margin-top:20px;
+}
+
+@media (max-width:1080px){
+  .portal-page .auth-shell{
+    width:min(760px, calc(100% - 32px));
+    grid-template-columns:1fr;
+    gap:28px;
+  }
+
+  .portal-page .portal-left,
+  .portal-page .portal-feature-list,
+  .portal-page .portal-card{
+    max-width:760px;
+  }
+}
+
+@media (max-width:760px){
+  .portal-page .auth-shell{
+    width:calc(100% - 24px);
+    padding-top:150px;
+  }
+
+  .portal-page .portal-option{
+    grid-template-columns:1fr;
+  }
+
+  .portal-page .portal-option__cta{
+    grid-column:auto;
+  }
+
+  .portal-page .portal-option__body ul{
+    grid-template-columns:1fr;
+  }
+}
