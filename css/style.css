@@ -319,3 +319,86 @@ body{
 .hero__progress span{
   background:linear-gradient(90deg,#35c7aa,#9ce8d5);
 }
+
+/* ===== Hero Text Bubble Accents ===== */
+.hero__text-bubbles{
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  perspective:900px;
+}
+
+.text-bubble{
+  position:absolute;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  max-width:min(250px, 42vw);
+  padding:13px 18px;
+  border:1px solid rgba(244,255,251,.22);
+  border-radius:999px;
+  color:#f4fffb;
+  background:
+    radial-gradient(circle at 28% 20%, rgba(255,255,255,.34), transparent 18%),
+    linear-gradient(135deg, rgba(156,232,213,.26), rgba(43,185,214,.13));
+  box-shadow:
+    0 24px 52px rgba(3,18,28,.30),
+    inset 0 1px 0 rgba(255,255,255,.30),
+    inset -14px -18px 30px rgba(2,20,28,.16);
+  backdrop-filter:blur(18px) saturate(150%);
+  font-size:.86rem;
+  font-weight:800;
+  letter-spacing:.02em;
+  white-space:nowrap;
+  transform-style:preserve-3d;
+  animation:textBubbleFloat 7s var(--ease) infinite alternate;
+}
+
+.text-bubble--one{
+  right:14%;
+  top:25%;
+  transform:rotateZ(-4deg) rotateY(-12deg);
+}
+
+.text-bubble--two{
+  right:25%;
+  top:47%;
+  animation-delay:-2.4s;
+  transform:rotateZ(3deg) rotateY(10deg);
+}
+
+.text-bubble--three{
+  right:9%;
+  bottom:24%;
+  animation-delay:-4.8s;
+  transform:rotateZ(-2deg) rotateY(-8deg);
+}
+
+@keyframes textBubbleFloat{
+  from{translate:0 0}
+  to{translate:0 -16px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .text-bubble{
+    animation:none;
+  }
+}
+
+@media (max-width:1100px){
+  .hero__text-bubbles{
+    opacity:.66;
+  }
+
+  .text-bubble--one{right:8%; top:22%}
+  .text-bubble--two{right:16%; top:53%}
+  .text-bubble--three{right:7%; bottom:18%}
+}
+
+@media (max-width:760px){
+  .hero__text-bubbles{
+    display:none;
+  }
+}
