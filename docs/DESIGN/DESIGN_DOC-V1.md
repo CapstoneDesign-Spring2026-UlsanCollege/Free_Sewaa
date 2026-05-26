@@ -9,7 +9,7 @@ Free Sewaa is a community-based platform that allows users to donate reusable it
 
 **Why this matters:**  
 Many usable items are wasted while others are in need. Free Sewaa helps reduce waste, supports communities, and promotes sustainability by connecting donors with people who need useful items.
-
+ 
 ---
 
 ## 2) Target users
