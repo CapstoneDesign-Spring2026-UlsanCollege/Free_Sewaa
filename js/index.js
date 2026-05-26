@@ -135,7 +135,7 @@ function renderParticles(){
     if (p.y < -10) p.y = h + 10;
     if (p.y > h + 10) p.y = -10;
     ctx.beginPath();
-    ctx.fillStyle = `rgba(234,216,191,${p.a})`;
+    ctx.fillStyle = `rgba(201,169,110,${p.a})`;
     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
     ctx.fill();
   });
