@@ -11,7 +11,7 @@ This document outlines the backend development plan for Free Sewaa, a community 
 **Target:** Full-stack application with real database and authentication
 
 ---
-
+ 
 ## Technology Stack
 
 | Component | Technology |
