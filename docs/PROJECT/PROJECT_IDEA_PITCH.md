@@ -14,7 +14,7 @@ Many items such as clothes, books, furniture, electronics, and household goods a
 This project is being developed as part of a **Capstone Design Project** and is intended to demonstrate both technical implementation and meaningful social impact.
 
 ---
-
+ 
 ## Team Information
 
 **Team Name:** Free Sewaa Team  
