@@ -10,7 +10,7 @@
 
 ### users#
 Stores registered user accounts.#
-
+ 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `_id` | String | ✅ | Auto-generated unique user ID |
