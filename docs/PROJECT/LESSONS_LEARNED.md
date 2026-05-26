@@ -14,7 +14,7 @@
 
 ### 2. Frontend Design
 - Premium UI (Airbnb/Karrot inspired) made the app look professional
-- Dark mode, animations, and responsive design impressed during demos
+- Dark mode, animations, and responsive design impressed during demos 
 - 18+ HTML pages created and integrated
 
 ### 3. Documentation
