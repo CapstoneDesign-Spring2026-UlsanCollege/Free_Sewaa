@@ -10,7 +10,7 @@
 | P3 | Polish or nice improvement. UI, wording, or small visual issue. |
 
 ---
-
+ 
 ## Bug List
 
 | Bug Title | Severity | Owner | Status | Steps to Reproduce | Expected Result | Actual Result | Evidence Link | Definition of Done |
