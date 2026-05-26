@@ -8,7 +8,7 @@ Terms used in the Free Sewaa project.
 
 | Term | Definition |
 |------|-----------|
-| **Sewaa** | Korean: help/assistance. The project name means "free help." |
+| **Sewaa** | Korean: help/assistance. The project name means "free help." | 
 | **Donor** | A user who posts items to give away for free |
 | **Requester** | A user who requests an item from a donor |
 | **Donation** | An item listed for free on the platform |
