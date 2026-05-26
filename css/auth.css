@@ -1254,3 +1254,161 @@ body{background:#080808}
     grid-template-columns:1fr;
   }
 }
+
+/* Fixed viewport auth screens */
+html:has(.auth-page),
+body.auth-page{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+.auth-page{
+  min-height:100dvh;
+}
+
+.auth-page .auth-header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  min-height:72px;
+}
+
+.auth-page .auth-shell{
+  position:fixed;
+  z-index:5;
+  top:72px;
+  right:0;
+  bottom:0;
+  left:0;
+  width:min(1024px, calc(100% - 48px));
+  min-height:0;
+  height:auto;
+  margin:0 auto;
+  padding:0;
+  overflow:hidden;
+  align-content:center;
+}
+
+.auth-page .auth-left,
+.auth-page .auth-card{
+  margin-top:0;
+}
+
+.auth-page .auth-card{
+  max-height:calc(100dvh - 112px);
+  overflow:hidden;
+}
+
+.auth-page--signup .auth-card{
+  display:flex;
+  flex-direction:column;
+  max-height:calc(100dvh - 112px);
+}
+
+.auth-page--signup .auth-panel.is-active{
+  min-height:0;
+}
+
+.auth-page--signup .auth-form{
+  gap:12px;
+}
+
+.auth-page--signup .auth-card__top{
+  margin-bottom:18px;
+}
+
+.auth-page--signup .social-row{
+  margin-bottom:0;
+}
+
+.auth-page--signup .divider{
+  margin:14px 0;
+}
+
+.auth-page--signup .auth-toggle{
+  margin-bottom:16px;
+}
+
+.auth-page--signup .field input,
+.auth-page--signup .field select{
+  min-height:42px;
+  padding:10px 14px;
+}
+
+.auth-page--signup .secondary-btn,
+.auth-page--signup .primary-btn,
+.auth-page--signup .social-btn{
+  padding:11px 14px;
+}
+
+.auth-page--signup .auth-footer{
+  margin-top:16px;
+}
+
+@media (max-width:1080px){
+  .auth-page .auth-shell{
+    width:min(720px, calc(100% - 32px));
+  }
+
+  .auth-page--signup .auth-card,
+  .auth-page--signin .auth-card{
+    margin:0 auto;
+  }
+}
+
+@media (max-width:760px){
+  .auth-page .auth-header{
+    min-height:88px;
+  }
+
+  .auth-page .auth-shell,
+  .auth-page--signin .auth-shell{
+    top:88px;
+    width:calc(100% - 24px);
+    padding:0;
+  }
+
+  .auth-page .auth-card,
+  .auth-page--signup .auth-card,
+  .auth-page--signin .auth-card{
+    max-height:calc(100dvh - 112px);
+    padding:20px;
+  }
+
+  .auth-page--signup .auth-card__top{
+    margin-bottom:14px;
+  }
+
+  .auth-page--signup .auth-card__top h2,
+  .auth-page--signin .auth-card__top h2{
+    font-size:1.7rem;
+  }
+
+  .auth-page--signup .social-row,
+  .auth-page--signup .divider,
+  .auth-page--signup .auth-toggle{
+    margin-bottom:12px;
+  }
+
+  .auth-page--signup .divider{
+    margin-top:12px;
+  }
+
+  .auth-page--signup .auth-form{
+    gap:10px;
+  }
+
+  .auth-page--signup .field input,
+  .auth-page--signup .field select{
+    min-height:40px;
+    padding:9px 12px;
+  }
+
+  .auth-page--signup .secondary-btn,
+  .auth-page--signup .primary-btn,
+  .auth-page--signup .social-btn{
+    padding:10px 12px;
+  }
+}
