@@ -14,7 +14,7 @@ The API uses server-side session cookies. On successful login, the server sets a
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/auth/signup` | Register a new user |
-| POST | `/auth/signin` | Login with email and password |
+| POST | `/auth/signin` | Login with email and password | 
 | POST | `/auth/google-demo` | Demo Google OAuth login |
 | POST | `/auth/logout` | Clear session and logout |
 
