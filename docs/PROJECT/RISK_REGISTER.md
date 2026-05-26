@@ -7,7 +7,7 @@
 ## Risk Matrix
 
 | Level | Score | Response |
-|-------|-------|----------|
+|-------|-------|----------| 
 | Critical | 5 | Must mitigate immediately |
 | High | 4 | Active mitigation plan |
 | Medium | 3 | Monitor and plan |
