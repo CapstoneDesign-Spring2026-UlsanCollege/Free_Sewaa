@@ -19,7 +19,7 @@ These features work reliably and can be demoed:
 | **MongoDB connected** | Database stores user and item data | [PR #78](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/78) |
 
 ---
-
+ 
 ## 🔄 Partly Working (In Progress)
 
 These features work but need improvement:
