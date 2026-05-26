@@ -7,7 +7,7 @@ Register a new user.
 
 **Request:**
 ```json
-{
+{ 
   "firstName": "John",
   "lastName": "Doe",
   "email": "john@example.com",
