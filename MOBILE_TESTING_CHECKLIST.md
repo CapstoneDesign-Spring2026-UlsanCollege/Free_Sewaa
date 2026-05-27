@@ -17,6 +17,7 @@ Test on a 390x844 viewport (iPhone 14) using Chrome DevTools.
 ## Browse
 - [ ] Item cards stack in single column
 - [ ] Category filter dropdown works
+- [ ] Filters panel scrolls naturally (not sticky on mobile)
 - [ ] Item detail page readable
 
 ## Admin

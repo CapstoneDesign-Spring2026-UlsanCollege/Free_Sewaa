@@ -22,8 +22,9 @@ Test core flows in each browser.
 - [ ] Redirect to dashboard on success
 
 ### Browse
-- [ ] Item cards render
+- [ ] Item cards render with Figma design
 - [ ] Category filter changes results
+- [ ] Sticky filters stay visible on scroll (desktop)
 - [ ] Item detail opens
 
 ### Donate
@@ -34,6 +35,10 @@ Test core flows in each browser.
 - [ ] Admin login works
 - [ ] Dashboard stats load
 - [ ] User management actions work
+
+### Messages
+- [ ] Unread count badge displays correctly in header
+- [ ] Badge updates after reading messages
 
 ## Cross-Browser Issues
 

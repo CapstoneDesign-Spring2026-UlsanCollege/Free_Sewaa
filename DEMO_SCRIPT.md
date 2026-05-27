@@ -27,7 +27,7 @@ Before the demo:
 ### 1. Landing Page
 Open the live site: https://free-sewaa-qh05.onrender.com
 
-- Show the clean landing page
+- Show the Figma-inspired landing page with premium UI
 - Point out navigation links: Browse, Donate, Sign Up, Login
 - Emphasize: no account needed to browse
 
@@ -43,8 +43,9 @@ Open the live site: https://free-sewaa-qh05.onrender.com
 
 ### 4. Browse Items
 - Click Browse
-- Show item cards with images, categories, conditions
-- Filter by category
+- Show Figma-designed item cards with images, categories, conditions
+- Demonstrate sticky filters — scroll down, filters stay visible on desktop
+- Filter by category using the sticky filter panel
 - Click an item — show detail view
 - Explain request and save buttons
 
@@ -64,7 +65,9 @@ Open the live site: https://free-sewaa-qh05.onrender.com
 ### 7. Messages
 - Open Messages
 - Show conversation with the item owner
+- Point out the unread message count badge in the header nav
 - Send a test message
+- Verify the badge updates in real time
 
 ### 8. Admin Demo
 - Log out (click Logout)
@@ -95,6 +98,7 @@ Open http://localhost:3000. All features work locally.
 - Session timeout not configured
 - No email notifications
 - Image upload uses URL only (no file storage)
+- QA found 5 P1 bugs (missing tests for signup, login, browse, donate, request endpoints)
 
 ---
 

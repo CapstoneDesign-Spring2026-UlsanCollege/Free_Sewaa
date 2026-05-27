@@ -13,6 +13,9 @@
 - [ ] Links are distinguishable from body text (underline or bold)
 - [ ] Error messages use color + icon, not color alone
 - [ ] Focus indicators visible on all interactive elements
+- [ ] Buttons have `:focus-visible` outline (2px bronze)
+- [ ] Nav links have `:focus-visible` outline (2px bronze)
+- [ ] Icon links have `:focus-visible` outline (2px bronze)
 
 ## Forms
 - [ ] Required fields marked (asterisk or label)

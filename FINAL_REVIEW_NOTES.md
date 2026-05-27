@@ -1,6 +1,6 @@
 # Final Review Notes — Free Sewaa
 
-**Date:** May 2026
+**Date:** May 2026 (Week 12 — Final Sprint + QA Day)
 **Course:** Capstone Design — Spring 2026, Ulsan College
 **Live Site:** https://free-sewaa-qh05.onrender.com
 
@@ -20,6 +20,11 @@ Free Sewaa is a community donation platform. Donors post reusable items. Receive
 - Admin dashboard for user and listing management
 - Responsive design (mobile + desktop)
 - Authentication flowchart (HTML/CSS/SVG)
+- **Figma-inspired UI redesign** — browse page, auth pages, and homepage matched to Figma reference (Week 12)
+- **Unread message count badge** — real-time badge in header nav showing unread messages
+- **Sticky browse filters** — filter panel stays visible while scrolling on desktop
+- **Auth pages locked to viewport** — signup/login pages prevented from scrolling
+- **Week 12 QA Day** — 10-test QA checklist, bug severity list, test evidence, board snapshot
 
 ## Known Limitations
 
@@ -45,17 +50,27 @@ Free Sewaa is a community donation platform. Donors post reusable items. Receive
 9. **Admin dashboard** — add charts, search, pagination
 10. **AI chatbot** — connect frontend to existing backend endpoint
 
+## Week 12 QA Day Summary
+
+- QA checklist: 10 test cases covering auth, browse, donate, requests, messages, admin
+- Test evidence: screenshots of landing, signup, browse, donate, messages, admin
+- CI pipeline confirmed passing (MongoDB 7 service container, 3/3 Jest tests)
+- Bug severity list: 0 P0, 5 P1, 3 P2, 0 P3
+- Board snapshot captured and archived
+
 ## Key Numbers
 
 | Metric | Value |
 |--------|-------|
-| HTML pages | 13 |
+| HTML pages | 18+ |
 | CSS files | 3 |
 | Server files | 1 |
 | MongoDB collections | 10 |
 | Unit tests | 3 |
-| GitHub issues | 7 open |
+| GitHub issues | 9 open |
 | Team members | 5 |
+| QA test cases | 10 |
+| Sprint packets | 12 weeks |
 
 ---
 

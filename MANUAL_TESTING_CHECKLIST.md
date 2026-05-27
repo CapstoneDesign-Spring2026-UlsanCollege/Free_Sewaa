@@ -17,8 +17,10 @@ Test each flow before the final demo.
 
 ## Browse
 
-- [ ] Browse page loads with items
+- [ ] Browse page loads with Figma-designed item cards
 - [ ] Category filter works
+- [ ] Sticky filters stay visible while scrolling on desktop
+- [ ] Sticky filters scroll naturally on mobile (below 900px)
 - [ ] Item detail page shows correct info
 - [ ] Request button works (logged in)
 - [ ] Save button works
@@ -45,6 +47,9 @@ Test each flow before the final demo.
 - [ ] Conversations list loads
 - [ ] Can send a message
 - [ ] Messages appear in real time (or after refresh)
+- [ ] Unread message count badge shows in header nav
+- [ ] Badge updates when messages are read
+- [ ] Badge hides when all messages are read
 
 ## Admin
 
