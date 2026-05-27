@@ -302,16 +302,6 @@ Free Sewaa is currently in the **final capstone review stage**. The main focus i
 
 ---
 
-## 🆕 Recent Team Updates
-
-| Commit | Update |
-|---|---|
-| 7dc196f | Converted frontend pages to React |
-| b38c79d | Updated Render start process to support React build |
-| 9614646 | Preloaded React page styles for smoother page loading |
-
----
-
 ## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](https://opensource.org/licenses/MIT) file for details.
