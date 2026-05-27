@@ -1,0 +1,9 @@
+#root {
+  min-height: 100vh;
+}
+
+.react-load-error {
+  width: min(720px, calc(100% - 40px));
+  margin: 15vh auto;
+  font-family: Inter, system-ui, sans-serif;
+}
