@@ -14,7 +14,7 @@
 | **Architecture** | [System Architecture](SYSTEM_ARCHITECTURE.md) · [Database Design](DATABASE_DESIGN.md) · [API Reference](API_REFERENCE.md) · [Authentication](AUTHENTICATION.md) |
 | **Guides** | [Frontend](FRONTEND_GUIDE.md) · [Backend](BACKEND_GUIDE.md) · [Environment Setup](ENVIRONMENT_SETUP.md) · [Deployment](DEPLOYMENT_GUIDE.md) · [Admin](ADMIN_GUIDE.md) |
 | **User Flows** | [User Flow Diagrams](USER_FLOW.md) |
-| **Testing** | [Testing Plan](TESTING_PLAN.md) · [QA Checklist](QA_CHECKLIST.md) |
+| **Testing & Audits** | [Testing Plan](TESTING_PLAN.md) · [QA Checklist](QA_CHECKLIST.md) · [Project Audit Checklist](AUDIT_CHECKLIST.md) |
 | **Management** | [Roadmap](ROADMAP.md) · [Future Enhancements](FUTURE_ENHANCEMENTS.md) · [Risk Management](RISK_MANAGEMENT.md) · [Maintenance Plan](MAINTENANCE_PLAN.md) |
 | **Release** | [Release Notes](RELEASE_NOTES.md) · [Demo Guide](DEMO_GUIDE.md) · [Security Plan](SECURITY_PLAN.md) |
 | **Decisions** | [ADR-001: Technology Stack](adr/001-technology-stack.md) · [ADR-002: Authentication](adr/002-authentication-choice.md) · [ADR-003: Database](adr/003-database-choice.md) |
@@ -29,7 +29,7 @@
 | Phase | Final sprint — QA and documentation |
 | Deployment | Live on Render |
 | Test Status | 3/3 Jest tests passing |
-| Docs Coverage | 25+ documents |
+| Docs Coverage | 26+ documents |
 
 ---
 
