@@ -734,11 +734,50 @@ function sendBuiltReactAsset(res, requestPath) {
   return true;
 }
 
-function sendBuiltReactApp(res) {
+function normalizeReactHeadHref(href = '') {
+  if (/^(https?:)?\/\//i.test(href)) return href;
+  return href.replace(/^\.\.\//, '/').replace(/^\.\//, '/').replace(/^([^/])/, '/$1');
+}
+
+function getReactPageHeadLinks(requestPath) {
+  const normalizedPath = requestPath === '/' ? '/index.html' : requestPath;
+  const aliasTarget = PUBLIC_PAGE_ALIASES[normalizedPath.toLowerCase()];
+  const relativePath = (aliasTarget || normalizedPath).replace(/^\/+/, '');
+  const pagePath = path.resolve(PUBLIC_ROOT, 'html', relativePath);
+
+  if (!pagePath.startsWith(path.resolve(PUBLIC_ROOT, 'html'))) return '';
+  if (!fs.existsSync(pagePath) || !fs.statSync(pagePath).isFile()) return '';
+
+  const pageHtml = fs.readFileSync(pagePath, 'utf8');
+  return (pageHtml.match(/<link\b[^>]*>/gi) || [])
+    .filter(tag => /\brel=["']stylesheet["']/i.test(tag))
+    .map(tag =>
+      tag
+        .replace(/\s*\/?>$/, ' data-react-server-asset="true" />')
+        .replace(/\bhref=(["'])(.*?)\1/i, (_match, quote, href) => `href=${quote}${normalizeReactHeadHref(href)}${quote}`)
+    )
+    .join('\n');
+}
+
+function sendBuiltReactApp(res, requestPath = '/') {
   const indexPath = path.resolve(DIST_ROOT, 'index.html');
   if (!fs.existsSync(indexPath) || !fs.statSync(indexPath).isFile()) return false;
 
-  sendFile(res, indexPath);
+  fs.readFile(indexPath, 'utf8', (err, html) => {
+    if (err) {
+      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end('Not found');
+      return;
+    }
+
+    const headLinks = getReactPageHeadLinks(requestPath);
+    const body = headLinks ? html.replace('</head>', `${headLinks}\n</head>`) : html;
+    res.writeHead(200, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store'
+    });
+    res.end(body);
+  });
   return true;
 }
 
@@ -2209,7 +2248,7 @@ const server = http.createServer(async (req, res) => {
         !pathname.toLowerCase().startsWith('/html/'));
 
     if (isHtmlPageRequest) {
-      if (sendBuiltReactApp(res)) {
+      if (sendBuiltReactApp(res, normalizedPath)) {
         return;
       }
     }

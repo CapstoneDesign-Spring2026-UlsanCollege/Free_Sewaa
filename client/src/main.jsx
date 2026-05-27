@@ -37,6 +37,10 @@ function applyMeta(meta) {
 
 function injectLinks(links = []) {
   links.forEach(attrs => {
+    if (attrs.href && document.querySelector(`link[rel="stylesheet"][href="${attrs.href}"]`)) {
+      return;
+    }
+
     const link = document.createElement('link');
     Object.entries(attrs).forEach(([name, value]) => {
       link.setAttribute(name, value === true ? '' : value);
