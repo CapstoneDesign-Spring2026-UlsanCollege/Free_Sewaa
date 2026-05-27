@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: free-sewaa
+    env: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_NAME
+        value: freesewaa
+      - key: FIREBASE_PROJECT_ID
+        value: free-sewaa
+      - key: MONGODB_URI
+        sync: false
+      - key: FIREBASE_API_KEY
+        sync: false
+      - key: FIREBASE_AUTH_DOMAIN
+        sync: false
+      - key: FIREBASE_STORAGE_BUCKET
+        sync: false
+      - key: FIREBASE_MESSAGING_SENDER_ID
+        sync: false
+      - key: FIREBASE_APP_ID
+        sync: false
+      - key: SUPER_ADMIN_EMAILS
+        sync: false
