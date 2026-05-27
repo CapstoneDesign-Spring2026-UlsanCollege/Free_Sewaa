@@ -1,8 +1,8 @@
 <div align="center">
 
-# Free Sewaa
+# 🌱 Free Sewaa
 
-### A community donation platform for sharing reusable items and helping people in need.
+### A community-driven donation platform for sharing reusable items and supporting people in need.
 
 <p>
   <img src="https://img.shields.io/badge/Project-Capstone%20Final-2563EB?style=for-the-badge" alt="Capstone Final" />
@@ -14,6 +14,9 @@
 <p>
   <a href="https://free-sewaa-qh05.onrender.com">
     <img src="https://img.shields.io/badge/Live%20Demo-Visit%20Site-16A34A?style=flat-square" alt="Live Demo" />
+  </a>
+  <a href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa">
+    <img src="https://img.shields.io/badge/GitHub-Repository-111827?style=flat-square" alt="GitHub Repository" />
   </a>
   <a href="docs/README.md">
     <img src="https://img.shields.io/badge/Documentation-Read%20Docs-2563EB?style=flat-square" alt="Documentation" />
@@ -32,60 +35,78 @@
 
 ## Overview
 
-**Free Sewaa** is a web-based community donation platform that helps users donate reusable items, request needed items, communicate with other users, and manage activity through a simple dashboard.
+**Free Sewaa** is a web-based community donation platform that makes giving simple, meaningful, and accessible. It allows users to donate reusable items, request needed resources, communicate with other users, and manage donation activity through a clean dashboard.
 
-The project was developed as a capstone project for Ulsan College with a focus on community support, sustainability, and accessible donation management.
+The project focuses on community support, sustainability, and reducing waste by helping people share useful items instead of throwing them away.
 
-<br>
+---
 
-## 🎯 Live Demo
+## Quick Links
+
+| Resource | Link |
+|---|---|
+| 🌐 Live Demo | https://free-sewaa-qh05.onrender.com |
+| 📂 GitHub Repository | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa |
+| 📖 Documentation | [docs/README.md](docs/README.md) |
+| 🧪 Testing Plan | [docs/TESTING_PLAN.md](docs/TESTING_PLAN.md) |
+| ✅ Release Checklist | [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) |
+| 🎤 Demo Script | [DEMO_SCRIPT.md](DEMO_SCRIPT.md) |
+
+---
+
+## Features
+
+| Feature | Description |
+|---|---|
+| User Authentication | Signup, login, and secure user access |
+| Item Donation | Users can post reusable items for donation |
+| Item Request | Users can request available items |
+| Messaging | Users can communicate about donations |
+| Dashboard | Users can manage their activity |
+| Admin Panel | Admin can manage users, items, and reports |
+| Responsive UI | Works on desktop, tablet, and mobile |
+
+---
+
+## Project Status
+
+Free Sewaa is currently in its **final capstone review stage**. All core features are implemented and tested. The project is live on Render and ready for demonstration.
+
+| Status | Detail |
+|---|---|
+| Phase | Final sprint — QA and documentation |
+| Deployment | Live on Render |
+| Test Status | 3/3 Jest tests passing |
+| UI Design | Figma-inspired premium UI |
+
+---
+
+## Live Demo
 
 | | Access |
 |---|---|
-| 🌐 **Live URL** | [https://free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com) |
-| 👤 **User Account** | `pathakram09555@gmail.com` / `123456` |
-| 🔐 **Admin Account** | `admin@freesewaa.local` / `admin12345` |
+| 🌐 Live URL | https://free-sewaa-qh05.onrender.com |
+| 👤 User Account | `pathakram09555@gmail.com` / `123456` |
+| 🔐 Admin Account | `admin@freesewaa.local` / `admin12345` |
 
-> ⚠️ Hosted on Render free tier — may take 30-60s to wake after inactivity.
+> Hosted on Render free tier — may take 30-60s to wake after inactivity.
 
-<br>
+---
 
-## ⚙️ Installation
+## Tech Stack
 
-```bash
-git clone https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa.git
-cd Free_Sewaa
-npm install
-npm start
-```
-
-Open [http://localhost:3000](http://localhost:3000). Requires **Node.js 18+** and **MongoDB 6+**.
-
-<p align="left">
-  <img src="https://img.shields.io/badge/Node.js-18%2B-339933?style=flat-square&logo=nodedotjs" />
-  <img src="https://img.shields.io/badge/MongoDB-6%2B-47A248?style=flat-square&logo=mongodb" />
-  <img src="https://img.shields.io/badge/npm-9%2B-CB3837?style=flat-square&logo=npm" />
-</p>
-
-<br>
-
-## ✨ Features
-
-| Feature | What it does |
+| Layer | Technology |
 |---|---|
-| 🔐 **Authentication** | Signup, login, logout, and admin login |
-| 📦 **Browse Items** | Filter by category, condition, and location |
-| 🎁 **Post Donations** | Title, description, images, condition, pickup details |
-| 📋 **Request Items** | Request, accept, decline, and complete |
-| 💬 **Messaging** | Direct conversations between donors and receivers |
-| 🛡️ **Admin Panel** | User management, listing moderation, platform stats |
-| 📊 **Auth Flowchart** | Visual user journey from signup to dashboard |
-| 📱 **Responsive Design** | Works on mobile, tablet, and desktop |
-| ✅ **Unit Tests** | Jest tests covering backend endpoints |
+| Frontend | HTML5, CSS3, Vanilla JavaScript |
+| Backend | Node.js (Custom HTTP Server) |
+| Database | MongoDB + Mongoose-style queries |
+| Testing | Jest, Supertest |
+| CI/CD | GitHub Actions |
+| Hosting | Render (free tier) |
 
-<br>
+---
 
-## 🔄 User Flow
+## User Flow
 
 ```mermaid
 flowchart LR
@@ -100,32 +121,22 @@ flowchart LR
   F -.-> J[Admin Panel]
 ```
 
-<br>
+---
 
-## 🧰 Tech Stack
+## Installation
 
-<p align="left">
-  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5" />
-  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3" />
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript" />
-  <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs" />
-  <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb" />
-  <img src="https://img.shields.io/badge/Jest-C21325?style=flat-square&logo=jest" />
-  <img src="https://img.shields.io/badge/Render-46E3B7?style=flat-square&logo=render" />
-</p>
+```bash
+git clone https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa.git
+cd Free_Sewaa
+npm install
+npm start
+```
 
-| Layer | Technology |
-|---|---|
-| **Frontend** | HTML5, CSS3, Vanilla JavaScript |
-| **Backend** | Node.js (Custom HTTP Server) |
-| **Database** | MongoDB + Mongoose-style queries |
-| **Testing** | Jest, Supertest |
-| **CI/CD** | GitHub Actions |
-| **Hosting** | Render (free tier) |
+Open http://localhost:3000. Requires **Node.js 18+** and **MongoDB 6+**.
 
-<br>
+---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Free_Sewaa/
@@ -141,31 +152,23 @@ Free_Sewaa/
 └── README.md
 ```
 
-<br>
+---
 
-## 📚 Documentation
+## Documentation
 
-<p align="center">
-  <a href="docs/README.md"><img src="https://img.shields.io/badge/Docs%20Hub-0984E3?style=for-the-badge&logo=readthedocs&logoColor=white" /></a>
-  <a href="docs/API_REFERENCE.md"><img src="https://img.shields.io/badge/API%20Reference-00B894?style=for-the-badge&logo=swagger&logoColor=white" /></a>
-  <a href="docs/Project_UML%20diagram/README.md"><img src="https://img.shields.io/badge/User%20Flows-6C5CE7?style=for-the-badge&logo=mermaid&logoColor=white" /></a>
-  <a href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls"><img src="https://img.shields.io/badge/Pull%20Requests-FD79A8?style=for-the-badge&logo=github&logoColor=white" /></a>
-</p>
-
-| Category | Description | Link |
-|---|---|---|
-| 📖 **Docs Hub** | Complete documentation index | [View](docs/README.md) |
-| 🔐 **Authentication** | Login, signup, admin auth flow | [View](docs/AUTHENTICATION.md) |
-| 🔌 **API Reference** | All backend endpoints | [View](docs/API_REFERENCE.md) |
-| 🗺️ **User Flows** | UML diagrams for all user journeys | [View](docs/Project_UML%20diagram/README.md) |
-| 🗓️ **Sprints** | Weekly sprint packets (Weeks 1-12) | [View](docs/sprints/) |
-| 🧪 **Testing Plan** | Unit, integration, E2E, security tests | [View](docs/TESTING_PLAN.md) |
-| ✅ **QA Checklist** | Pre-release quality checks | [View](docs/QA_CHECKLIST.md) |
-| 📦 **Deployment** | Render deployment guide | [View](docs/DEPLOYMENT_GUIDE.md) |
-| 🛠️ **Setup Guide** | Environment setup instructions | [View](docs/ENVIRONMENT_SETUP.md) |
-| 🔒 **Security Plan** | Security measures and known gaps | [View](docs/SECURITY_PLAN.md) |
-| 🧭 **Roadmap** | Project roadmap and milestones | [View](docs/ROADMAP.md) |
-| 🔮 **Future Plans** | Short and long-term enhancements | [View](docs/FUTURE_ENHANCEMENTS.md) |
+| Category | Link |
+|---|---|
+| 📖 Docs Hub | [docs/README.md](docs/README.md) |
+| 🔐 Authentication | [docs/AUTHENTICATION.md](docs/AUTHENTICATION.md) |
+| 🔌 API Reference | [docs/API_REFERENCE.md](docs/API_REFERENCE.md) |
+| 🧪 Testing Plan | [docs/TESTING_PLAN.md](docs/TESTING_PLAN.md) |
+| ✅ QA Checklist | [docs/QA_CHECKLIST.md](docs/QA_CHECKLIST.md) |
+| 🗺️ User Flows | [docs/Project_UML%20diagram/README.md](docs/Project_UML%20diagram/README.md) |
+| 🛠️ Setup Guide | [docs/ENVIRONMENT_SETUP.md](docs/ENVIRONMENT_SETUP.md) |
+| 📦 Deployment Guide | [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md) |
+| 🔒 Security Plan | [docs/SECURITY_PLAN.md](docs/SECURITY_PLAN.md) |
+| 🧭 Roadmap | [docs/ROADMAP.md](docs/ROADMAP.md) |
+| 🔮 Future Plans | [docs/FUTURE_ENHANCEMENTS.md](docs/FUTURE_ENHANCEMENTS.md) |
 
 ### Sprint Documentation
 
@@ -188,48 +191,48 @@ Free_Sewaa/
 
 | Area | Link |
 |---|---|
-| 🧪 Manual Testing | [Checklist](MANUAL_TESTING_CHECKLIST.md) |
-| ♿ Accessibility | [Checklist](ACCESSIBILITY_CHECKLIST.md) |
-| 🔒 Security | [Checklist](SECURITY_CHECKLIST.md) |
-| 🛡️ Admin Review | [Checklist](ADMIN_REVIEW_CHECKLIST.md) |
-| 📱 Mobile Testing | [Checklist](MOBILE_TESTING_CHECKLIST.md) |
-| 🌐 Browser Testing | [Checklist](BROWSER_TESTING_CHECKLIST.md) |
-| 📝 Form Validation | [Checklist](FORM_VALIDATION_CHECKLIST.md) |
-| 🚀 Deployment | [Checklist](DEPLOYMENT_CHECKLIST.md) |
-| 📦 Release | [Checklist](RELEASE_CHECKLIST.md) |
+| Manual Testing | [MANUAL_TESTING_CHECKLIST.md](MANUAL_TESTING_CHECKLIST.md) |
+| Accessibility | [ACCESSIBILITY_CHECKLIST.md](ACCESSIBILITY_CHECKLIST.md) |
+| Security | [SECURITY_CHECKLIST.md](SECURITY_CHECKLIST.md) |
+| Admin Review | [ADMIN_REVIEW_CHECKLIST.md](ADMIN_REVIEW_CHECKLIST.md) |
+| Mobile Testing | [MOBILE_TESTING_CHECKLIST.md](MOBILE_TESTING_CHECKLIST.md) |
+| Browser Testing | [BROWSER_TESTING_CHECKLIST.md](BROWSER_TESTING_CHECKLIST.md) |
+| Form Validation | [FORM_VALIDATION_CHECKLIST.md](FORM_VALIDATION_CHECKLIST.md) |
+| Deployment | [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md) |
+| Release | [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) |
 
-<br>
+---
 
-## 👥 Team
+## Team
 
 Capstone Design — Spring 2026, Ulsan College
 
 | Role | Name | Area |
 |---|---|---|
-| 👨‍💼 Project Manager | Ram Pathak | Coordination, timeline, sprints |
-| 👨‍💻 Lead Developer | Sujan Tamang | Frontend & backend |
-| 🎤 Demo Driver | Mohan Khadka | Live demo, troubleshooting |
-| 🧪 QA Lead | Sujan Shrestha | Testing, bug tracking |
-| 📝 Scribe | Swarnim Jung Karki | Docs, repo, presentations |
+| Project Manager | Ram Pathak | Coordination, timeline, sprints |
+| Lead Developer | Sujan Tamang | Frontend & backend |
+| Demo Driver | Mohan Khadka | Live demo, troubleshooting |
+| QA Lead | Sujan Shrestha | Testing, bug tracking |
+| Scribe | Swarnim Jung Karki | Docs, repo, presentations |
 
-<br>
+---
 
-## 🔗 Quick Reference
+## Quick Reference
 
 | Resource | Link |
 |---|---|
-| 🌐 Live Site | [free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com) |
-| 📂 Repository | [GitHub](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa) |
-| 📋 Project Board | [GitHub Projects](https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/14) |
-| 🐛 Issues | [GitHub Issues](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues) |
-| 🔀 Pull Requests | [GitHub PRs](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls) |
+| 🌐 Live Site | https://free-sewaa-qh05.onrender.com |
+| 📂 Repository | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa |
+| 📋 Project Board | https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/14 |
+| 🐛 Issues | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues |
+| 🔀 Pull Requests | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls |
 | ❤️ Health Check | `GET /api/health` → `{ "ok": true }` |
 
-<br>
+---
 
-## 📄 License
+## License
 
-[MIT](https://opensource.org/licenses/MIT)
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
