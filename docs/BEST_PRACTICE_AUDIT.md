@@ -4,6 +4,47 @@ This document is used to review the Free Sewaa project before final submission, 
 
 ---
 
+## How to Use This Audit
+
+Use this checklist before the final demo, release, or project review.
+
+- [ ] Not completed
+- [x] Completed
+
+Tick each item only after it has been checked and confirmed.
+
+---
+
+## Audit Workflow
+
+```mermaid
+flowchart LR
+    A([Start Audit]) --> B[Security Check]
+    B --> C[Accessibility Check]
+    C --> D[Responsiveness Check]
+    D --> E[Performance Check]
+    E --> F[Testing and QA Check]
+    F --> G[Code Quality Check]
+    G --> H[Documentation Check]
+    H --> I[Deployment Check]
+    I --> J{All Items Done?}
+    J -->|Yes| K([Ready for Final Demo])
+    J -->|No| L[Fix Issues]
+    L --> B
+
+    classDef start fill:#DCFCE7,stroke:#16A34A,color:#111827;
+    classDef process fill:#EFF6FF,stroke:#2563EB,color:#111827;
+    classDef decision fill:#FEF3C7,stroke:#F59E0B,color:#111827;
+    classDef fix fill:#FEE2E2,stroke:#DC2626,color:#111827;
+
+    class A,K start;
+    class B,C,D,E,F,G,H,I process;
+    class J decision;
+    class L fix;
+```
+
+---
+
 ## 1. Security Audit
 
 - [ ] No secrets, API keys, passwords, or tokens are committed
