@@ -58,6 +58,7 @@
 | [Testing Plan](TESTING_PLAN.md) | Unit, integration, E2E, and security tests |
 | [QA Checklist](QA_CHECKLIST.md) | Pre-release quality assurance checklist |
 | [Audit Checklist](AUDIT_CHECKLIST.md) | Security, accessibility, performance audit |
+| [Best Practice Audit](BEST_PRACTICE_AUDIT.md) | Pre-release best practice review |
 | [Manual Testing Checklist](../MANUAL_TESTING_CHECKLIST.md) | Manual test flows for all features |
 | [Accessibility Checklist](../ACCESSIBILITY_CHECKLIST.md) | Screen reader, keyboard, color tests |
 | [Security Checklist](../SECURITY_CHECKLIST.md) | Security audit checklist |
