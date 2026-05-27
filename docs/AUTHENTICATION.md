@@ -6,7 +6,7 @@ Free Sewaa uses localStorage-based authentication. After a successful login or s
 
 ```js
 localStorage.setItem('freesewaa-auth', 'true');
-localStorage.setItem('freesewaa-current-user-id', 'user-...');
+localStorage.setItem('freesewaa-current-user-id', 'user-a1b2c3d4');
 localStorage.setItem('freesewaa-user', JSON.stringify(userObject));
 ```
 

@@ -115,7 +115,7 @@ List 3–8 important shipped items. Every item needs a link.
 | Bug / problem | Severity | Owner | Evidence / Issue link | Next step |
 |---|---|---|---|---|
 | Password hashing not implemented | P0 | Sujan Shrestha | [Issue mentioned in Audit](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/AI_CODE_OWNERSHIP_AUDIT.md) | Implement bcrypt before Week 10 |
-| Session timeout not configured | P1 | Rampathak12 | [Issue link TBD] | Add session.cookie.maxAge logic |
+| Session timeout not configured | P1 | Rampathak12 | [Issue #89 — Session timeout](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/89) | Add session.cookie.maxAge logic |
 | Input validation missing on forms | P1 | Sujan Tamang, Mohan Khadka | [Issue #68 - Form validation improvements](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/68) | Add client & server validation checks |
 | Admin panel security not tested | P1 | Sujan Shrestha, Rampathak12 | [Issue #81 - Admin panel access not properly restricted](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/81) | Review admin auth and permissions |
 | Error messages not user-friendly | P2 | Sujan Tamang, Swarnim Jung Karki | [Issue #80 - Admin login error message](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/80) | Improve error message text and display |

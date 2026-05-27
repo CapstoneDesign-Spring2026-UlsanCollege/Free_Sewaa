@@ -41,8 +41,8 @@ Create a new user account.
 **Response (200):**
 ```json
 {
-  "user": { "id": "user-...", "firstName": "John", "lastName": "Doe", "email": "john@gmail.com", "role": "user" },
-  "auth": { "userId": "user-...", "isAuthenticated": true }
+  "user": { "id": "user-a1b2c3d4", "firstName": "John", "lastName": "Doe", "email": "john@gmail.com", "role": "user" },
+  "auth": { "userId": "user-a1b2c3d4", "isAuthenticated": true }
 }
 ```
 
@@ -93,7 +93,7 @@ Firebase token authentication.
 
 **Request Body:**
 ```json
-{ "idToken": "...", "firstName": "", "lastName": "", "phone": "" }
+{ "idToken": "firebase-id-token-abc123", "firstName": "", "lastName": "", "phone": "" }
 ```
 
 **Response (200):** User object with auth status.
@@ -122,7 +122,7 @@ Get all donation items. Supports query params for filtering.
   "listings": [
     {
       "id": "listing-201",
-      "ownerId": "user-...",
+      "ownerId": "user-a1b2c3d4",
       "ownerName": "John Doe",
       "title": "Winter Jacket",
       "category": "Clothing",
@@ -131,12 +131,12 @@ Get all donation items. Supports query params for filtering.
       "distanceKm": 4,
       "pickup": "Pickup only",
       "description": "Warm, clean, and wearable.",
-      "image": "https://...",
+      "image": "https://example.com/images/jacket.jpg",
       "status": "active",
       "requestCount": 2,
       "saveCount": 6,
       "urgent": false,
-      "createdAt": "2026-..."
+      "createdAt": "2026-03-20T10:30:00Z"
     }
   ]
 }
@@ -153,7 +153,7 @@ Create a new donation listing. Requires `?userId=` or `x-user-id` header.
   "description": "Gently used, size L",
   "category": "Clothing",
   "condition": "Like new",
-  "image": "https://..."
+  "image": "https://example.com/images/coat.jpg"
 }
 ```
 
@@ -196,11 +196,11 @@ Get all requests made by or sent to the current user. Requires `?userId=`.
     {
       "id": "req-205",
       "listingId": "listing-205",
-      "requesterId": "user-...",
+      "requesterId": "user-a1b2c3d4",
       "requesterName": "John Doe",
       "ownerId": "community-3",
       "status": "pending",
-      "requestedAt": "2026-...",
+      "requestedAt": "2026-03-21T14:00:00Z",
       "note": "Can pick up this weekend."
     }
   ]
@@ -213,7 +213,7 @@ Create a new request for an item. Requires `?userId=` or `x-user-id` header.
 
 **Request Body:**
 ```json
-{ "listingId": "listing-...", "note": "Can pick up this weekend." }
+{ "listingId": "listing-201", "note": "Can pick up this weekend." }
 ```
 
 **Response (200):** The created request.
@@ -249,7 +249,7 @@ Create or find a conversation.
 
 **Request Body:**
 ```json
-{ "participantIds": ["user-...", "user-..."], "listingId": "listing-..." }
+{ "participantIds": ["user-a1b2c3d4", "user-e5f6g7h8"], "listingId": "listing-201" }
 ```
 
 **Response (200):** Conversation object.
@@ -282,10 +282,10 @@ Get saved items and preferences for a user.
 **Response (200):**
 ```json
 {
-  "userId": "user-...",
+  "userId": "user-a1b2c3d4",
   "state": {
     "user": {
-      "id": "user-...",
+      "id": "user-a1b2c3d4",
       "name": "John Doe",
       "savedListingIds": [],
       "requestedListingIds": [],
@@ -317,8 +317,14 @@ Get platform overview stats.
   "totalListings": 156,
   "totalRequests": 89,
   "totalConversations": 67,
-  "recentUsers": [...],
-  "recentListings": [...]
+  "recentUsers": [
+    { "_id": "user-a1b2c3d4", "firstName": "John", "lastName": "Doe", "email": "john@gmail.com", "createdAt": "2026-03-20T10:30:00Z" },
+    { "_id": "user-e5f6g7h8", "firstName": "Jane", "lastName": "Smith", "email": "jane@gmail.com", "createdAt": "2026-03-19T09:00:00Z" }
+  ],
+  "recentListings": [
+    { "_id": "listing-201", "title": "Winter Jacket", "category": "Clothing", "status": "active", "createdAt": "2026-03-20T10:30:00Z" },
+    { "_id": "listing-202", "title": "Textbook Bundle", "category": "Books", "status": "active", "createdAt": "2026-03-19T15:00:00Z" }
+  ]
 }
 ```
 
@@ -328,7 +334,7 @@ Perform admin action on a user.
 
 **Request Body:**
 ```json
-{ "action": "block", "targetUserId": "user-...", "adminId": "admin-..." }
+{ "action": "block", "targetUserId": "user-a1b2c3d4", "adminId": "admin-x1y2z3" }
 ```
 
 **Actions:** `block`, `unblock`, `delete`, `make-superadmin`, `demote`
@@ -339,7 +345,7 @@ Perform admin action on a listing.
 
 **Request Body:**
 ```json
-{ "action": "remove", "listingId": "listing-...", "adminId": "admin-..." }
+{ "action": "remove", "listingId": "listing-201", "adminId": "admin-x1y2z3" }
 ```
 
 **Actions:** `remove`, `restore`
@@ -360,7 +366,7 @@ Mark notifications as read.
 
 **Request Body:**
 ```json
-{ "userId": "user-...", "notificationIds": ["n1", "n2"] }
+{ "userId": "user-a1b2c3d4", "notificationIds": ["n1", "n2"] }
 ```
 
 **Response (200):** `{ "success": true }`
@@ -379,10 +385,10 @@ AI chatbot endpoint for user questions.
 
 **Request Body:**
 ```json
-{ "message": "...", "userId": "..." }
+{ "message": "How do I donate clothes?", "userId": "user-a1b2c3d4" }
 ```
 
-**Response (200):** `{ "reply": "...", "conversation": [...] }`
+**Response (200):** `{ "reply": "Go to the Donate page and fill out the form.", "conversation": [{ "role": "user", "content": "How do I donate clothes?" }, { "role": "bot", "content": "Go to the Donate page and fill out the form." }] }`
 
 ### `POST /api/suggestions`
 
@@ -390,7 +396,7 @@ Submit a suggestion or feedback.
 
 **Request Body:**
 ```json
-{ "userId": "...", "text": "..." }
+{ "userId": "user-a1b2c3d4", "text": "Please add a search bar to find items faster." }
 ```
 
 ### `GET /api/reviews`
@@ -405,7 +411,7 @@ Submit a review.
 
 **Request Body:**
 ```json
-{ "itemId": "...", "reviewerId": "...", "rating": 5, "comment": "Great!" }
+{ "itemId": "listing-201", "reviewerId": "user-a1b2c3d4", "rating": 5, "comment": "Great condition, thank you!" }
 ```
 
 ---
@@ -432,7 +438,7 @@ The app uses **localStorage-based auth**. After signin/signup, the frontend stor
 
 ```js
 localStorage.setItem('freesewaa-auth', 'true');
-localStorage.setItem('freesewaa-current-user-id', 'user-...');
+localStorage.setItem('freesewaa-current-user-id', 'user-a1b2c3d4');
 localStorage.setItem('freesewaa-user', JSON.stringify(userObject));
 ```
 
