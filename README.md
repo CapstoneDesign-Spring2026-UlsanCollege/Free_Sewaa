@@ -7,10 +7,10 @@
 🌱 Free Sewaa helps people share reusable items for free, support others in need 🤝, and reduce waste ♻️ through a smarter community exchange.
 
 <p>
-  <img src="https://img.shields.io/badge/Capstone%20Final-2563EB?style=for-the-badge&logo=github&logoColor=white" alt="Capstone Final" />
-  <img src="https://img.shields.io/badge/Active%20Project-16A34A?style=for-the-badge&logo=statuspage&logoColor=white" alt="Active Project" />
-  <img src="https://img.shields.io/badge/Web%20Application-7C3AED?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Web Application" />
-  <img src="https://img.shields.io/badge/Ulsan%20College-F97316?style=for-the-badge&logo=school&logoColor=white" alt="Ulsan College" />
+  <img src="https://img.shields.io/badge/Capstone%20Final-2563EB?style=for-the-badge" alt="Capstone Final" />
+  <img src="https://img.shields.io/badge/Active%20Project-16A34A?style=for-the-badge" alt="Active Project" />
+  <img src="https://img.shields.io/badge/Web%20Application-7C3AED?style=for-the-badge" alt="Web Application" />
+  <img src="https://img.shields.io/badge/Ulsan%20College-F97316?style=for-the-badge" alt="Ulsan College" />
 </p>
 
 <p>
@@ -22,25 +22,19 @@
 
 <p>
   <a href="https://free-sewaa-qh05.onrender.com">
-    <img src="https://img.shields.io/badge/Live%20Demo-Visit%20Site-16A34A?style=flat-square&logo=render&logoColor=white" alt="Live Demo" />
+    <img src="https://img.shields.io/badge/Live%20Demo-Visit%20Site-16A34A?style=flat-square" alt="Live Demo" />
   </a>
   <a href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa">
-    <img src="https://img.shields.io/badge/GitHub-Repository-111827?style=flat-square&logo=github&logoColor=white" alt="GitHub Repository" />
+    <img src="https://img.shields.io/badge/GitHub-Repository-111827?style=flat-square" alt="GitHub Repository" />
   </a>
   <a href="docs/README.md">
-    <img src="https://img.shields.io/badge/Documentation-Read%20Docs-2563EB?style=flat-square&logo=readthedocs&logoColor=white" alt="Documentation" />
-  </a>
-  <a href="docs/TESTING_PLAN.md">
-    <img src="https://img.shields.io/badge/Testing%20Plan-View-7C3AED?style=flat-square&logo=jest&logoColor=white" alt="Testing Plan" />
-  </a>
-  <a href="RELEASE_CHECKLIST.md">
-    <img src="https://img.shields.io/badge/Release%20Checklist-View-DC2626?style=flat-square&logo=checklist&logoColor=white" alt="Release Checklist" />
+    <img src="https://img.shields.io/badge/Documentation-Read%20Docs-2563EB?style=flat-square" alt="Documentation" />
   </a>
   <a href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues">
-    <img src="https://img.shields.io/badge/Issues-Track%20Work-F97316?style=flat-square&logo=githubissues&logoColor=white" alt="Issues" />
+    <img src="https://img.shields.io/badge/Issues-Track%20Work-F97316?style=flat-square" alt="Issues" />
   </a>
   <a href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls">
-    <img src="https://img.shields.io/badge/Pull%20Requests-Review-7C3AED?style=flat-square&logo=githubpullrequests&logoColor=white" alt="Pull Requests" />
+    <img src="https://img.shields.io/badge/Pull%20Requests-Review-7C3AED?style=flat-square" alt="Pull Requests" />
   </a>
 </p>
 
@@ -80,11 +74,41 @@
 
 ---
 
-## 🖼️ Project Preview
+## 🗺️ Project Navigation
 
-Screenshots will be added in the final review stage.
+| Section | Link |
+|---|---|
+| 🌐 Live Demo | https://free-sewaa-qh05.onrender.com |
+| 📂 GitHub Repository | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa |
+| 📖 Documentation Home | [docs/README.md](docs/README.md) |
+| 🔄 User Flow | [docs/USER_FLOW.md](docs/USER_FLOW.md) |
+| 🏗️ System Architecture | [docs/SYSTEM_ARCHITECTURE.md](docs/SYSTEM_ARCHITECTURE.md) |
+| 🔌 API Reference | [docs/API_REFERENCE.md](docs/API_REFERENCE.md) |
+| 🗃️ Database Design | [docs/DATABASE_DESIGN.md](docs/DATABASE_DESIGN.md) |
+| 🧪 Testing Plan | [docs/TESTING_PLAN.md](docs/TESTING_PLAN.md) |
+| 📋 Audit Checklist | [docs/AUDIT_CHECKLIST.md](docs/AUDIT_CHECKLIST.md) |
+| ✅ Release Checklist | [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) |
+| 🎤 Demo Script | [DEMO_SCRIPT.md](DEMO_SCRIPT.md) |
+| 🧭 Roadmap | [docs/ROADMAP.md](docs/ROADMAP.md) |
+| 🔮 Future Enhancements | [docs/FUTURE_ENHANCEMENTS.md](docs/FUTURE_ENHANCEMENTS.md) |
+| 🚀 Deployment Guide | [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md) |
+| 🔒 Security | [SECURITY.md](SECURITY.md) |
+| 🤝 Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| 📄 License | [MIT](https://opensource.org/licenses/MIT) |
 
-> Screenshot placeholders are available in [`assets/screenshots/`](assets/screenshots/).
+---
+
+## 🎯 For Reviewers
+
+| What to Check | Link |
+|---|---|
+| 📖 Project Overview | [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md) |
+| 🎤 Final Demo Script | [DEMO_SCRIPT.md](DEMO_SCRIPT.md) |
+| ✅ Release Checklist | [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) |
+| 🧪 Testing Plan | [docs/TESTING_PLAN.md](docs/TESTING_PLAN.md) |
+| 📋 Audit Checklist | [docs/AUDIT_CHECKLIST.md](docs/AUDIT_CHECKLIST.md) |
+| 🔮 Future Plan | [docs/FUTURE_ENHANCEMENTS.md](docs/FUTURE_ENHANCEMENTS.md) |
+| 📊 Project Status | [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md) |
 
 ---
 
@@ -114,27 +138,6 @@ Open [http://localhost:3000](http://localhost:3000). Requires **Node.js 18+** an
 
 ---
 
-## 🔗 Project Links
-
-| Resource | Link |
-|---|---|
-| 🌐 Live Demo | https://free-sewaa-qh05.onrender.com |
-| 📂 GitHub Repository | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa |
-| 📖 Documentation | [docs/README.md](docs/README.md) |
-| 🧪 Testing Plan | [docs/TESTING_PLAN.md](docs/TESTING_PLAN.md) |
-| 📋 Audit Checklist | [docs/AUDIT_CHECKLIST.md](docs/AUDIT_CHECKLIST.md) |
-| ✅ Release Checklist | [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) |
-| 🎤 Demo Script | [DEMO_SCRIPT.md](DEMO_SCRIPT.md) |
-
-### Demo Credentials
-
-| Role | Email | Password |
-|---|---|---|
-| 👤 User | `pathakram09555@gmail.com` | `123456` |
-| 🔐 Admin | `admin@freesewaa.local` | `admin12345` |
-
----
-
 ## 📊 Project Status
 
 Free Sewaa is currently in the **final capstone review stage**. The main focus is project polish, testing, documentation, final demo readiness, and future improvement planning.
@@ -145,6 +148,13 @@ Free Sewaa is currently in the **final capstone review stage**. The main focus i
 | Deployment | Live on Render |
 | Test Status | 3/3 Jest tests passing |
 | UI Design | Figma-inspired premium UI |
+
+### Demo Credentials
+
+| Role | Email | Password |
+|---|---|---|
+| 👤 User | `pathakram09555@gmail.com` | `123456` |
+| 🔐 Admin | `admin@freesewaa.local` | `admin12345` |
 
 ---
 
@@ -163,7 +173,7 @@ Free Sewaa is currently in the **final capstone review stage**. The main focus i
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See the [LICENSE](https://opensource.org/licenses/MIT) file for details.
 
 ---
 
