@@ -1,0 +1,26 @@
+{
+  "name": "freesewaa-fullstack",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Free Sewaa connected frontend and backend",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "start:mongo": "node backend/src/server.js",
+    "dev:mongo": "node backend/src/server.js",
+    "test": "jest --forceExit --detectOpenHandles",
+    "testwatch": "jest --watch"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.4.2",
+    "mongodb": "^6.21.0"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2",
+    "supertest": "^7.2.2"
+  }
+}

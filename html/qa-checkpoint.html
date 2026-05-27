@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Sewaa — QA Exit Checkpoint</title>
+  <meta name="description" content="Week 12 QA Day exit checklist for Free Sewaa" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/theme.css" />
+  <style>
+    .checkpoint-wrap {
+      width: min(960px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 48px 0 80px;
+    }
+
+    .checkpoint-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .checkpoint-header h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      color: var(--cream-2);
+      margin: 0 0 8px;
+    }
+
+    .checkpoint-header p {
+      color: var(--soft);
+      font-size: 1.05rem;
+      margin: 0;
+    }
+
+    .progress-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px 32px;
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow);
+    }
+
+    .progress-label {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--cream-2);
+      white-space: nowrap;
+    }
+
+    .progress-count {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--cream);
+      white-space: nowrap;
+    }
+
+    .progress-track {
+      flex: 1;
+      min-width: 140px;
+      height: 8px;
+      background: rgba(255, 236, 212, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      transition: width 0.4s ease;
+    }
+
+    .checkpoint-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .checkpoint-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .checkpoint-card:hover {
+      border-color: rgba(34, 197, 94, 0.3);
+      box-shadow: 0 4px 20px rgba(34, 197, 94, 0.08);
+    }
+
+    .checkpoint-card.completed {
+      border-color: rgba(34, 197, 94, 0.35);
+      background: rgba(34, 197, 94, 0.04);
+    }
+
+    .checkpoint-card label {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .checkpoint-card input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--soft);
+      border-radius: 7px;
+      background: transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      position: relative;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .checkpoint-card input[type="checkbox"]:checked {
+      border-color: #22c55e;
+      background: #22c55e;
+    }
+
+    .checkpoint-card input[type="checkbox"]:checked::after {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 2px;
+      width: 9px;
+      height: 14px;
+      border: solid #fff;
+      border-width: 0 2.5px 2.5px 0;
+      transform: rotate(45deg);
+    }
+
+    .task-text {
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: color 0.25s ease;
+    }
+
+    .checkpoint-card.completed .task-text {
+      color: var(--soft);
+      text-decoration: line-through;
+    }
+
+    .check-status {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(255, 236, 212, 0.06);
+      color: var(--soft);
+      white-space: nowrap;
+      transition: background 0.25s ease, color 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .checkpoint-card.completed .check-status {
+      background: rgba(34, 197, 94, 0.12);
+      color: #22c55e;
+    }
+
+    .reset-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 32px;
+      padding: 10px 20px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--glass);
+      color: var(--soft);
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .reset-btn:hover {
+      border-color: rgba(255, 236, 212, 0.25);
+      color: var(--cream-2);
+    }
+
+    .checkpoint-footer-links {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .checkpoint-footer-links a {
+      color: var(--soft);
+      font-size: 0.88rem;
+      text-decoration: underline;
+      transition: color 0.2s ease;
+    }
+
+    .checkpoint-footer-links a:hover {
+      color: var(--cream-2);
+    }
+
+    @media (max-width: 640px) {
+      .checkpoint-grid {
+        grid-template-columns: 1fr;
+      }
+      .progress-card {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        padding: 20px;
+      }
+      .progress-label, .progress-count {
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+<body data-page="qa-checkpoint">
+  <div class="grain"></div>
+  <canvas id="particles" class="particles"></canvas>
+
+  <header class="site-header" id="siteHeader">
+    <div class="site-header__inner">
+      <a href="app.html" class="brand">Free Sewaa</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="app.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="donate.html" class="nav-link">Donate</a>
+        <a href="browse.html" class="nav-link">Browse</a>
+        <a href="donate-us.html" class="nav-link">Donate Us</a>
+        <a href="qa-checkpoint.html" class="nav-link active">QA</a>
+      </nav>
+      <div class="header-actions">
+        <a href="notifications.html" class="icon-link"><span class="icon-badge"></span><span>Notifications</span></a>
+        <a href="messages.html" class="icon-link"><span class="icon-dot"></span><span>Messages</span></a>
+        <div class="settings-dropdown">
+          <button class="icon-link settings-trigger" type="button" aria-expanded="false">
+            <span class="icon-gear">⚙</span><span>Settings</span>
+          </button>
+          <div class="settings-menu">
+            <a href="my-posts.html">My Posts</a>
+            <a href="orders.html">Track Your Order</a>
+            <a href="premium.html">Premium Plans</a>
+            <a href="profile.html">Personal Information</a>
+            <a href="profile.html#edit">Edit Profile</a>
+            <a href="region.html">Change Region</a>
+            <a href="saved.html">Saved Items</a>
+            <a href="requests.html">My Requests</a>
+            <button type="button" class="settings-button" data-theme-toggle="true">Toggle Dark Mode</button>
+            <a href="logout.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="checkpoint-wrap">
+      <div class="checkpoint-header">
+        <h1>Exit Checkpoint</h1>
+        <p>Complete these tasks before you leave today</p>
+      </div>
+
+      <div class="progress-card">
+        <span class="progress-label">Progress</span>
+        <span class="progress-count" id="progressCount">0/7 completed</span>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <div class="checkpoint-grid" id="checklistGrid">
+        <div class="checkpoint-card" data-id="1">
+          <label>
+            <input type="checkbox" />
+            <span class="task-text">QA checklist exists</span>
+          </label>
+          <span class="check-status">pending</span>
+        </div>
+        <div class="checkpoint-card" data-id="2">
+          <label>
+            <input type="checkbox" />
+            <span class="task-text">Tests run</span>
+          </label>
+          <span class="check-status">pending</span>
+        </div>
+        <div class="checkpoint-card" data-id="3">
+          <label>
+            <input type="checkbox" />
+            <span class="task-text">P0/P1 Issues created</span>
+          </label>
+          <span class="check-status">pending</span>
+        </div>
+        <div class="checkpoint-card" data-id="4">
+          <label>
+            <input type="checkbox" />
+            <span class="task-text">Friday packet started</span>
+          </label>
+          <span class="check-status">pending</span>
+        </div>
+        <div class="checkpoint-card" data-id="5">
+          <label>
+            <input type="checkbox" />
+            <span class="task-text">8+ tests written</span>
+          </label>
+          <span class="check-status">pending</span>
+        </div>
+        <div class="checkpoint-card" data-id="6">
+          <label>
+            <input type="checkbox" />
+            <span class="task-text">Bugs triaged</span>
+          </label>
+          <span class="check-status">pending</span>
+        </div>
+        <div class="checkpoint-card" data-id="7">
+          <label>
+            <input type="checkbox" />
+            <span class="task-text">Board updated</span>
+          </label>
+          <span class="check-status">pending</span>
+        </div>
+      </div>
+
+      <div style="text-align:center;">
+        <button class="reset-btn" id="resetBtn">↺ Reset all</button>
+      </div>
+
+      <div class="checkpoint-footer-links">
+        <a href="../docs/QA_CHECKLIST.md" target="_blank">View full QA Checklist →</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/site.js"></script>
+  <script>
+    (function () {
+      var STORAGE_KEY = 'freesewaa-qa-checkpoint';
+      var TOTAL = 7;
+      var cards = document.querySelectorAll('.checkpoint-card');
+      var checkboxes = document.querySelectorAll('.checkpoint-card input[type="checkbox"]');
+      var progressCount = document.getElementById('progressCount');
+      var progressFill = document.getElementById('progressFill');
+      var resetBtn = document.getElementById('resetBtn');
+
+      function updateProgress() {
+        var checked = document.querySelectorAll('.checkpoint-card input[type="checkbox"]:checked').length;
+        var pct = Math.round((checked / TOTAL) * 100);
+        progressCount.textContent = checked + '/' + TOTAL + ' completed';
+        progressFill.style.width = pct + '%';
+
+        cards.forEach(function (card) {
+          var cb = card.querySelector('input[type="checkbox"]');
+          var status = card.querySelector('.check-status');
+          if (cb.checked) {
+            card.classList.add('completed');
+            status.textContent = 'done';
+          } else {
+            card.classList.remove('completed');
+            status.textContent = 'pending';
+          }
+        });
+      }
+
+      function loadState() {
+        var saved;
+        try {
+          saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        } catch (e) { saved = null; }
+        if (!saved || !saved.length) return;
+        checkboxes.forEach(function (cb, i) {
+          cb.checked = !!saved[i];
+        });
+        updateProgress();
+      }
+
+      function saveState() {
+        var state = [];
+        checkboxes.forEach(function (cb) {
+          state.push(cb.checked);
+        });
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (e) { /* ignore */ }
+      }
+
+      checkboxes.forEach(function (cb) {
+        cb.addEventListener('change', function () {
+          saveState();
+          updateProgress();
+        });
+      });
+
+      cards.forEach(function (card) {
+        card.addEventListener('click', function (e) {
+          if (e.target.tagName === 'LABEL' || e.target.tagName === 'SPAN') {
+            var cb = this.querySelector('input[type="checkbox"]');
+            cb.checked = !cb.checked;
+            saveState();
+            updateProgress();
+          }
+        });
+      });
+
+      resetBtn.addEventListener('click', function () {
+        if (!confirm('Reset all checklist items?')) return;
+        checkboxes.forEach(function (cb) { cb.checked = false; });
+        saveState();
+        updateProgress();
+      });
+
+      loadState();
+    })();
+  </script>
+</body>
+</html>
