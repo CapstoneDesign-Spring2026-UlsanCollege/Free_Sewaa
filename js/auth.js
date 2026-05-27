@@ -62,7 +62,7 @@ if (canvas) {
       if (p.y > h + 10) p.y = -10;
 
       ctx.beginPath();
-      ctx.fillStyle = `rgba(201,169,110,${p.a})`;
+      ctx.fillStyle = `rgba(156,232,213,${p.a})`;
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fill();
     });
@@ -95,30 +95,30 @@ const DEMO_EMAIL_DOMAINS = new Set([
   'example.com',
   'example.net',
   'example.org',
-  'freesewaa.local',
   'localhost',
   'test.com'
 ]);
 const RECOGNIZED_EMAIL_DOMAINS = new Set([
-  'aol.com',
-  'daum.net',
-  'gmail.com',
-  'hanmail.net',
-  'hotmail.com',
-  'icloud.com',
-  'kakao.com',
-  'live.com',
-  'mac.com',
-  'me.com',
-  'msn.com',
-  'nate.com',
-  'naver.com',
-  'outlook.com',
-  'proton.me',
-  'protonmail.com',
-  'yahoo.com',
-  'yandex.com',
-  'zoho.com'
+    'aol.com',
+    'daum.net',
+    'freesewaa.local',
+    'gmail.com',
+    'hanmail.net',
+    'hotmail.com',
+    'icloud.com',
+    'kakao.com',
+    'live.com',
+    'mac.com',
+    'me.com',
+    'msn.com',
+    'nate.com',
+    'naver.com',
+    'outlook.com',
+    'proton.me',
+    'protonmail.com',
+    'yahoo.com',
+    'yandex.com',
+    'zoho.com'
 ]);
 
 function getApiBaseUrl() {
@@ -286,6 +286,9 @@ function setSession(data) {
   }
 
   window.location.href = sessionRole === 'superadmin' ? '/admin.html' : '/user_panel.html';
+  setTimeout(() => {
+    window.location.replace(sessionRole === 'superadmin' ? '/admin.html' : '/user_panel.html');
+  }, 200);
 }
 
 function validateSignupEmailForm(form, values) {
