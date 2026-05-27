@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mermaid UML user flow diagrams (6 section files)
 - Auth flow diagram page (CSS flowchart)
 - QA Day exit checklist UI
+- React frontend with Vite build system
+
+### Changed
+- Converted frontend pages to React components
+- Updated Render start process to support React build
+- Preloaded React page styles for smoother page loading
 
 ---
 

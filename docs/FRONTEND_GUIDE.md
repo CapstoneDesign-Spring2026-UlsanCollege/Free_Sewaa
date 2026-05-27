@@ -52,4 +52,19 @@ js/
 
 ---
 
+## React Frontend Update
+
+Free Sewaa frontend pages have been updated toward a React-based structure. Future frontend work should use reusable components, shared styles, and consistent page layouts.
+
+- Use reusable React components
+- Keep page structure clean
+- Reuse shared styles to avoid duplicated CSS
+- Do not break existing user flows during migration
+- Make sure React page styles load correctly
+- Test pages after every UI change
+
+The React frontend is built with [Vite](https://vitejs.dev/) and uses `@vitejs/plugin-react`. The dev server runs on port 5173 with an API proxy to the backend on port 3000. Production builds output to the `dist/` directory, which the server serves for root-level React page requests.
+
+---
+
 *Last updated: May 2026*

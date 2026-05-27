@@ -232,11 +232,12 @@ flowchart LR
 ## 🛠️ Tech Stack
 
 | Layer | Technology |
-|---|---|
-| Frontend | HTML, CSS, JavaScript |
+|---|---|---|
+| Frontend | React, HTML, CSS, JavaScript |
 | Backend | Node.js, Express.js |
 | Database | MongoDB |
 | Authentication | JWT |
+| Build Tool | Vite |
 | Deployment | Render |
 | Version Control | GitHub |
 
@@ -248,10 +249,23 @@ flowchart LR
 git clone https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa.git
 cd Free_Sewaa
 npm install
+npm run build
 npm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000). Requires **Node.js 18+** and **MongoDB 6+**.
+
+### Development
+
+```bash
+# Terminal 1 — Backend server
+npm run dev:server
+
+# Terminal 2 — React frontend (hot reload)
+npm run dev:client
+```
+
+The Vite dev server runs on http://localhost:5173 with API proxy to the backend.
 
 ---
 
@@ -285,6 +299,16 @@ Free Sewaa is currently in the **final capstone review stage**. The main focus i
 - Multi-language support
 - Dark mode
 - Accessibility improvements
+
+---
+
+## 🆕 Recent Team Updates
+
+| Commit | Update |
+|---|---|
+| 7dc196f | Converted frontend pages to React |
+| b38c79d | Updated Render start process to support React build |
+| 9614646 | Preloaded React page styles for smoother page loading |
 
 ---
 

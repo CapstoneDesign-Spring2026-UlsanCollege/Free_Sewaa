@@ -26,21 +26,34 @@ The app runs at `http://localhost:3000`.
 flowchart LR
     A[Push to GitHub] --> B[Render Detects Change]
     B --> C[Install Dependencies]
-    C --> D[Set Environment Variables]
-    D --> E[Start Server]
-    E --> F[Live Site]
+    C --> D[Build React Frontend]
+    D --> E[Set Environment Variables]
+    E --> F[Start Server]
+    F --> G[Live Site]
 ```
 
 ### Steps
 
 1. Push code to GitHub `main` branch
 2. In Render dashboard, connect the repository
-3. Set build command: `npm install`
+3. Set build command: `npm ci && npm run build`
 4. Set start command: `node server/server.js`
 5. Add environment variables:
    - `MONGODB_URI` — MongoDB Atlas connection string
    - `PORT` — 10000 (Render's default)
 6. Deploy
+
+### React Deployment Checklist
+
+- [ ] React build command is configured correctly (`npm ci && npm run build`)
+- [ ] Render start command works (`node server/server.js`)
+- [ ] React page styles are loaded
+- [ ] Main pages open without blank screen
+- [ ] Browser console has no major errors
+- [ ] API requests still connect to backend
+- [ ] Live demo is checked after deployment
+
+React frontend changes should be tested locally and on Render after deployment.
 
 ## Environment Variables
 

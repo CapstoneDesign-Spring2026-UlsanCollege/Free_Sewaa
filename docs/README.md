@@ -1,6 +1,7 @@
 # Free Sewaa — Documentation Home
 
-> Community donation platform connecting donors with people who need reusable items.
+> Community donation platform connecting donors with people who need reusable items.  
+> Recent updates: React frontend migration, Vite build system, preloaded page styles.
 
 **Live site:** [free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com)  
 **Repository:** [github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)
