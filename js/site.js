@@ -2985,6 +2985,177 @@
     renderHistory();
   }
 
+  const LANGUAGE_OPTIONS = [
+    { code: 'en', short: 'EN', flag: '🇬🇧', label: 'English', name: 'English', htmlLang: 'en' },
+    { code: 'ko', short: 'KO', flag: '🇰🇷', label: '한국어 (Korean)', name: 'Korean', htmlLang: 'ko' },
+    { code: 'ne', short: 'NE', flag: '🇳🇵', label: 'नेपाली (Nepali)', name: 'Nepali', htmlLang: 'ne' },
+    { code: 'hi', short: 'HI', flag: '🇮🇳', label: 'हिन्दी (Hindi)', name: 'Hindi', htmlLang: 'hi' },
+    { code: 'vi', short: 'VI', flag: '🇻🇳', label: 'Tiếng Việt (Vietnamese)', name: 'Vietnamese', htmlLang: 'vi' },
+    { code: 'fil', short: 'FI', flag: '🇵🇭', label: 'Filipino', name: 'Filipino', htmlLang: 'fil' }
+  ];
+
+  function getLanguageByCode(code) {
+    return LANGUAGE_OPTIONS.find(language => language.code === code) || LANGUAGE_OPTIONS[0];
+  }
+
+  function getSavedLanguageCode() {
+    try {
+      const savedCode = localStorage.getItem('freesewaa-language');
+      if (savedCode && LANGUAGE_OPTIONS.some(language => language.code === savedCode)) {
+        return savedCode;
+      }
+
+      const profileLanguage = appState?.user?.preferences?.language || '';
+      const matchedProfileLanguage = LANGUAGE_OPTIONS.find(language =>
+        language.name.toLowerCase() === String(profileLanguage).toLowerCase() ||
+        language.label.toLowerCase().includes(String(profileLanguage).toLowerCase())
+      );
+
+      return matchedProfileLanguage?.code || 'en';
+    } catch (error) {
+      return 'en';
+    }
+  }
+
+  function saveLanguagePreference(code) {
+    const selectedLanguage = getLanguageByCode(code);
+
+    try {
+      localStorage.setItem('freesewaa-language', selectedLanguage.code);
+
+      if (appState?.user?.preferences) {
+        appState.user.preferences.language = selectedLanguage.name;
+        saveState();
+      }
+    } catch (error) {
+      console.warn('Could not save language preference:', error);
+    }
+
+    document.documentElement.lang = selectedLanguage.htmlLang;
+    document.body.dataset.language = selectedLanguage.code;
+  }
+
+  function updateLanguageSelectorUI(wrapper) {
+    const selectedLanguage = getLanguageByCode(getSavedLanguageCode());
+    const toggle = wrapper.querySelector('[data-language-toggle]');
+    const items = wrapper.querySelectorAll('[data-language-option]');
+
+    if (toggle) {
+      toggle.querySelector('[data-language-current]').textContent = selectedLanguage.short;
+      toggle.setAttribute('aria-label', `Current language: ${selectedLanguage.label}`);
+      toggle.setAttribute('title', `Language: ${selectedLanguage.label}`);
+    }
+
+    items.forEach(item => {
+      const isSelected = item.dataset.languageOption === selectedLanguage.code;
+      item.classList.toggle('is-selected', isSelected);
+      item.setAttribute('aria-selected', String(isSelected));
+    });
+  }
+
+  function enhanceLanguageSelector() {
+    const headerActions = document.querySelector('.header-actions');
+    if (!headerActions) return;
+
+    let wrapper = headerActions.querySelector('[data-language-switcher]');
+    if (wrapper) {
+      updateLanguageSelectorUI(wrapper);
+      return;
+    }
+
+    wrapper = document.createElement('div');
+    wrapper.className = 'language-switcher';
+    wrapper.setAttribute('data-language-switcher', 'true');
+
+    wrapper.innerHTML = `
+      <button
+        type="button"
+        class="language-toggle"
+        data-language-toggle
+        aria-haspopup="listbox"
+        aria-expanded="false"
+        aria-label="Choose language"
+        title="Choose language"
+      >
+        <span class="language-toggle__globe" aria-hidden="true">🌐</span>
+        <span class="language-toggle__text" data-language-current>EN</span>
+        <span class="language-toggle__chevron" aria-hidden="true">▾</span>
+      </button>
+      <div class="language-menu" role="listbox" aria-label="Choose language"></div>
+    `;
+
+    const menu = wrapper.querySelector('.language-menu');
+
+    LANGUAGE_OPTIONS.forEach(language => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'language-option';
+      button.dataset.languageOption = language.code;
+      button.setAttribute('role', 'option');
+
+      button.innerHTML = `
+        <span class="language-option__check" aria-hidden="true">✓</span>
+        <span class="language-option__flag" aria-hidden="true">${language.flag}</span>
+        <span class="language-option__label">${language.label}</span>
+      `;
+
+      button.addEventListener('click', () => {
+        saveLanguagePreference(language.code);
+        wrapper.classList.remove('is-open');
+        wrapper.querySelector('[data-language-toggle]').setAttribute('aria-expanded', 'false');
+        updateLanguageSelectorUI(wrapper);
+        showToast?.(`Language changed to ${language.label}.`, 'success');
+      });
+
+      menu.appendChild(button);
+    });
+
+    const settingsButton = Array.from(headerActions.querySelectorAll('a, button')).find(element => {
+      const text = element.textContent || '';
+      const label = element.getAttribute('aria-label') || '';
+      const title = element.getAttribute('title') || '';
+      return /settings/i.test(`${text} ${label} ${title}`);
+    });
+
+    if (settingsButton) {
+      headerActions.insertBefore(wrapper, settingsButton);
+    } else {
+      headerActions.appendChild(wrapper);
+    }
+
+    const toggle = wrapper.querySelector('[data-language-toggle]');
+
+    toggle.addEventListener('click', event => {
+      event.stopPropagation();
+      const isOpen = wrapper.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    if (!window.__freesewaaLanguageOutsideClickBound) {
+      window.__freesewaaLanguageOutsideClickBound = true;
+
+      document.addEventListener('click', event => {
+        document.querySelectorAll('[data-language-switcher].is-open').forEach(openSwitcher => {
+          if (!openSwitcher.contains(event.target)) {
+            openSwitcher.classList.remove('is-open');
+            openSwitcher.querySelector('[data-language-toggle]')?.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+          document.querySelectorAll('[data-language-switcher].is-open').forEach(openSwitcher => {
+            openSwitcher.classList.remove('is-open');
+            openSwitcher.querySelector('[data-language-toggle]')?.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+    }
+
+    saveLanguagePreference(getSavedLanguageCode());
+    updateLanguageSelectorUI(wrapper);
+  }
 
   function initCurrentPage() {
     if (page === 'about') initAboutPage();
@@ -3007,12 +3178,13 @@
   async function bootApp() {
     const isPublicPage = document.body.dataset.public === 'true';
     if (!isAuthenticated()) {
-      if (isPublicPage) {
-        enhancePublicActions();
-        enhanceNavIcons();
-        initCurrentPage();
-        return;
-      }
+       if (isPublicPage) {
+         enhancePublicActions();
+         enhanceNavIcons();
+         enhanceLanguageSelector();
+         initCurrentPage();
+         return;
+       }
       window.location.replace('/signin.html');
       return;
     }
@@ -3033,6 +3205,7 @@
     enhanceMenus();
     enhancePublicActions();
     enhanceNavIcons();
+    enhanceLanguageSelector();
     initCurrentPage();
   }
 
