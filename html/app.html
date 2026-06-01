@@ -16,61 +16,63 @@
       position: relative;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      min-height: 44px;
-      padding: 0 12px;
-      border: 1px solid rgba(255,236,212,.12);
+      justify-content: center;
+      width: 72px;
+      height: 44px;
+      border: 1px solid rgba(255,236,212,.1);
       border-radius: 14px;
       color: var(--muted);
-      background: rgba(255,244,230,.04);
+      background: transparent;
+      transition: color .3s ease, background .3s ease, border-color .3s ease;
     }
-    .language-picker::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: linear-gradient(180deg,var(--bronze),var(--cream));
-      box-shadow: 0 0 0 6px rgba(185,140,90,.12);
-      flex: 0 0 auto;
+    .language-picker__icon {
+      position: absolute;
+      left: 12px;
+      width: 16px;
+      height: 16px;
+      color: currentColor;
+      pointer-events: none;
     }
     .language-picker select {
-      min-width: 86px;
+      width: 100%;
+      height: 100%;
       border: 0;
       outline: 0;
       color: var(--cream-2);
       background: transparent;
       font: inherit;
-      font-weight: 600;
+      font-size: .86rem;
+      font-weight: 800;
       cursor: pointer;
       appearance: none;
-      padding: 0 18px 0 0;
+      padding: 0 22px 0 34px;
     }
     .language-picker::after {
       content: "";
       position: absolute;
-      right: 12px;
-      width: 7px;
-      height: 7px;
+      right: 11px;
+      width: 6px;
+      height: 6px;
       border-right: 2px solid currentColor;
       border-bottom: 2px solid currentColor;
       transform: rotate(45deg) translateY(-2px);
       pointer-events: none;
-      opacity: .75;
+      opacity: .8;
     }
     .language-picker select option {
       color: #24180f;
       background: #fffaf4;
+      font-weight: 700;
     }
     .language-picker:focus-within,
     .language-picker:hover {
       color: var(--cream-2);
-      border-color: rgba(255,236,212,.2);
-      background: rgba(255,244,230,.07);
+      border-color: rgba(255,236,212,.16);
+      background: rgba(255,244,230,.05);
     }
     body.light-mode .language-picker {
       color: var(--muted);
-      background: rgba(42,32,23,.05);
-      border-color: rgba(42,32,23,.12);
+      border-color: rgba(42,32,23,.1);
     }
     body.light-mode .language-picker select {
       color: var(--text);
@@ -78,15 +80,12 @@
     body.light-mode .language-picker:focus-within,
     body.light-mode .language-picker:hover {
       color: var(--text);
-      background: rgba(42,32,23,.08);
+      background: rgba(42,32,23,.06);
+      border-color: rgba(42,32,23,.16);
     }
     @media (max-width: 760px) {
       .language-picker {
-        width: 100%;
-        justify-content: flex-start;
-      }
-      .language-picker select {
-        width: 100%;
+        flex: 0 0 72px;
       }
     }
   </style>
@@ -110,13 +109,17 @@
       <a href="notifications.html" class="icon-link "><span class="icon-badge"></span><span>Notifications</span></a>
       <a href="messages.html" class="icon-link "><span class="icon-dot"></span><span>Messages</span></a>
       <label class="language-picker" aria-label="Choose language">
+        <svg class="language-picker__icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle>
+          <path d="M3 12h18M12 3c2.3 2.5 3.4 5.5 3.4 9s-1.1 6.5-3.4 9M12 3c-2.3 2.5-3.4 5.5-3.4 9s1.1 6.5 3.4 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        </svg>
         <select name="language">
-          <option value="en" selected>English</option>
-          <option value="ko">Korean</option>
-          <option value="ne">Nepali</option>
-          <option value="hi">Hindi</option>
-          <option value="vi">Vietnamese</option>
-          <option value="fil">Filipino</option>
+          <option value="en" selected>EN</option>
+          <option value="ko">KO</option>
+          <option value="ne">NE</option>
+          <option value="hi">HI</option>
+          <option value="vi">VI</option>
+          <option value="fil">FIL</option>
         </select>
       </label>
       <div class="settings-dropdown">
