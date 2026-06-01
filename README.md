@@ -48,123 +48,6 @@
 
 ---
 
-## 🧭 App Workflow
-
-This diagram shows the main Free Sewaa user journey from entering the platform to donating, requesting, messaging, and admin review.
-
-```mermaid
-flowchart LR
-    A([Visitor]) --> B[Landing Page]
-    B --> C{Choose Action}
-
-    C -->|New User| D[Sign Up]
-    C -->|Returning User| E[Login]
-    C -->|Admin| F[Admin Login]
-
-    D --> G[User Dashboard]
-    E --> G
-
-    G --> H[Browse Items]
-    G --> I[Post Donation Item]
-    G --> J[My Requests]
-    G --> K[Messages]
-    G --> L[Profile]
-
-    H --> M[View Item Details]
-    M --> N[Request Item]
-    N --> K
-
-    I --> O[Donation Item Published]
-    O --> H
-
-    F --> P[Admin Dashboard]
-    P --> Q[Manage Users]
-    P --> R[Manage Items]
-    P --> S[Review Reports]
-
-    classDef start fill:#DCFCE7,stroke:#16A34A,color:#111827;
-    classDef page fill:#EFF6FF,stroke:#2563EB,color:#111827;
-    classDef decision fill:#FEF3C7,stroke:#F59E0B,color:#111827;
-    classDef admin fill:#F3E8FF,stroke:#7C3AED,color:#111827;
-    classDef success fill:#ECFDF5,stroke:#059669,color:#111827;
-
-    class A start;
-    class B,D,E,G,H,I,J,K,L,M,N,O page;
-    class C decision;
-    class F,P,Q,R,S admin;
-```
-
----
-
-## 🏗️ System Workflow
-
-This diagram shows how the frontend, backend, authentication, database, and deployment work together.
-
-```mermaid
-flowchart TD
-    A[User Browser] --> B[Frontend Pages<br/>HTML CSS JavaScript]
-    B --> C[API Requests]
-    C --> D[Node.js + Express Server]
-
-    D --> E[Authentication Middleware]
-    E --> F{Valid Request?}
-
-    F -->|Yes| G[Controllers / Route Logic]
-    F -->|No| H[Return Error Response]
-
-    G --> I[MongoDB Database]
-    I --> J[Response Data]
-    J --> B
-
-    D --> K[Admin Routes]
-    K --> L[Admin Dashboard]
-
-    M[Render Deployment] --> D
-    N[GitHub Repository] --> M
-
-    classDef user fill:#DCFCE7,stroke:#16A34A,color:#111827;
-    classDef frontend fill:#DBEAFE,stroke:#2563EB,color:#111827;
-    classDef backend fill:#FEF3C7,stroke:#F59E0B,color:#111827;
-    classDef database fill:#EDE9FE,stroke:#7C3AED,color:#111827;
-    classDef error fill:#FEE2E2,stroke:#DC2626,color:#111827;
-
-    class A user;
-    class B,C frontend;
-    class D,E,G,K,L backend;
-    class I,J database;
-    class H error;
-```
-
----
-
-## 🔄 Donation Request Flow
-
-This diagram shows how a donated item moves through the platform.
-
-```mermaid
-flowchart LR
-    A[Donor Posts Item] --> B[Item Appears in Browse Page]
-    B --> C[Receiver Views Item]
-    C --> D[Receiver Sends Request]
-    D --> E[Donor and Receiver Communicate]
-    E --> F[Item Handover]
-    F --> G[Request Completed]
-
-    classDef donor fill:#DCFCE7,stroke:#16A34A,color:#111827;
-    classDef receiver fill:#DBEAFE,stroke:#2563EB,color:#111827;
-    classDef process fill:#F8FAFC,stroke:#64748B,color:#111827;
-    classDef done fill:#ECFDF5,stroke:#059669,color:#111827;
-
-    class A donor;
-    class C,D receiver;
-    class B,E,F process;
-    class G done;
-```
-
-> For the complete user flow documentation, see [docs/USER_FLOW.md](docs/USER_FLOW.md).
-
----
-
 ## 💡 Why Free Sewaa?
 
 | Problem | Free Sewaa Solution |
@@ -232,12 +115,11 @@ flowchart LR
 ## 🛠️ Tech Stack
 
 | Layer | Technology |
-|---|---|---|
-| Frontend | React, HTML, CSS, JavaScript |
+|---|---|
+| Frontend | HTML, CSS, JavaScript |
 | Backend | Node.js, Express.js |
 | Database | MongoDB |
 | Authentication | JWT |
-| Build Tool | Vite |
 | Deployment | Render |
 | Version Control | GitHub |
 
@@ -249,23 +131,10 @@ flowchart LR
 git clone https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa.git
 cd Free_Sewaa
 npm install
-npm run build
 npm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000). Requires **Node.js 18+** and **MongoDB 6+**.
-
-### Development
-
-```bash
-# Terminal 1 — Backend server
-npm run dev:server
-
-# Terminal 2 — React frontend (hot reload)
-npm run dev:client
-```
-
-The Vite dev server runs on http://localhost:5173 with API proxy to the backend.
 
 ---
 

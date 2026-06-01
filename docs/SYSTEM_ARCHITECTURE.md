@@ -4,42 +4,31 @@
 
 ```mermaid
 flowchart LR
-    A[User Browser] --> B[React Frontend]
-    B --> C[API Requests]
-    C --> D[Node.js / Express Server]
-    D --> E[MongoDB Database]
+    User[User Browser] --> Frontend[HTML / CSS / JS]
+    Frontend --> API[Node.js HTTP Server]
+    API --> DB[(MongoDB)]
+    API --> Auth[localStorage / Session]
+    Frontend --> Render[Render Deployment]
 
-    B --> F[Preloaded Page Styles]
-    D --> G[Render Deployment]
-
-    classDef frontend fill:#DBEAFE,stroke:#2563EB,color:#111827;
-    classDef backend fill:#FEF3C7,stroke:#F59E0B,color:#111827;
-    classDef database fill:#DCFCE7,stroke:#16A34A,color:#111827;
-    classDef deploy fill:#F3E8FF,stroke:#7C3AED,color:#111827;
-
-    class A,B,F frontend;
-    class C,D backend;
-    class E database;
-    class G deploy;
+    classDef layer fill:#EFF6FF,stroke:#2563EB,color:#111827;
+    class User,Frontend,API,DB,Auth,Render layer;
 ```
 
 ## Layers
 
 ### Frontend Layer
-- React 19 with JSX components
-- Built with Vite + `@vitejs/plugin-react`
-- 24+ generated page components covering all user flows
-- Shared styles and reusable component patterns
-- Preloaded page styles for faster navigation
-- Vite dev server on port 5173 with API proxy to backend
-- Production build outputs to `dist/`
+- Vanilla HTML5, CSS3, JavaScript (no frameworks)
+- 28+ HTML pages covering all user flows
+- Responsive design with CSS media queries
+- localStorage for auth state and user preferences
+- Canvas-based particle animation on most pages
 
 ### Backend API Layer
-- Custom Node.js HTTP server
+- Custom Node.js HTTP server (no Express)
 - Routes: auth, listings, requests, messages, admin, notifications
 - JSON request/response format
 - CORS enabled for frontend access
-- Serves both static files (HTML/CSS/JS) and built React assets from `dist/`
+- File serving for static assets
 
 ### Database Layer
 - MongoDB with native driver
@@ -54,8 +43,6 @@ flowchart LR
 
 ### Deployment Layer
 - Hosted on Render
-- Build command: `npm ci && npm run build`
-- Start command: `node server/server.js`
 - MongoDB Atlas for production database
 - GitHub Actions CI for automated testing
 

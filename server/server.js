@@ -9,7 +9,6 @@ const { MongoClient, ObjectId } = require('mongodb');
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
 const PUBLIC_ROOT = path.resolve(__dirname, '..');
-const DIST_ROOT = path.resolve(PUBLIC_ROOT, 'dist');
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'free-sewaa';
 const FALLBACK_LISTING_IMAGE = 'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80';
 const MAX_INLINE_IMAGE_LENGTH = 180000;
@@ -20,7 +19,6 @@ const PUBLIC_PAGE_ALIASES = {
   '/user-panel.html': 'user_panel.html',
   '/security-audit.html': 'security_audit.html'
 };
-const REACT_PAGE_PATHS = new Set(['/']);
 
 const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI;
 const DB_NAME = process.env.DB_NAME || 'freesewaa';
@@ -721,64 +719,6 @@ function sendFile(res, filePath) {
     res.writeHead(200, headers);
     res.end(data);
   });
-}
-
-function sendBuiltReactAsset(res, requestPath) {
-  const relativePath = requestPath.replace(/^\/+/, '') || 'index.html';
-  const filePath = path.resolve(DIST_ROOT, relativePath);
-
-  if (!filePath.startsWith(DIST_ROOT)) return false;
-  if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) return false;
-
-  sendFile(res, filePath);
-  return true;
-}
-
-function normalizeReactHeadHref(href = '') {
-  if (/^(https?:)?\/\//i.test(href)) return href;
-  return href.replace(/^\.\.\//, '/').replace(/^\.\//, '/').replace(/^([^/])/, '/$1');
-}
-
-function getReactPageHeadLinks(requestPath) {
-  const normalizedPath = requestPath === '/' ? '/index.html' : requestPath;
-  const aliasTarget = PUBLIC_PAGE_ALIASES[normalizedPath.toLowerCase()];
-  const relativePath = (aliasTarget || normalizedPath).replace(/^\/+/, '');
-  const pagePath = path.resolve(PUBLIC_ROOT, 'html', relativePath);
-
-  if (!pagePath.startsWith(path.resolve(PUBLIC_ROOT, 'html'))) return '';
-  if (!fs.existsSync(pagePath) || !fs.statSync(pagePath).isFile()) return '';
-
-  const pageHtml = fs.readFileSync(pagePath, 'utf8');
-  return (pageHtml.match(/<link\b[^>]*>/gi) || [])
-    .filter(tag => /\brel=["']stylesheet["']/i.test(tag))
-    .map(tag =>
-      tag
-        .replace(/\s*\/?>$/, ' data-react-server-asset="true" />')
-        .replace(/\bhref=(["'])(.*?)\1/i, (_match, quote, href) => `href=${quote}${normalizeReactHeadHref(href)}${quote}`)
-    )
-    .join('\n');
-}
-
-function sendBuiltReactApp(res, requestPath = '/') {
-  const indexPath = path.resolve(DIST_ROOT, 'index.html');
-  if (!fs.existsSync(indexPath) || !fs.statSync(indexPath).isFile()) return false;
-
-  fs.readFile(indexPath, 'utf8', (err, html) => {
-    if (err) {
-      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end('Not found');
-      return;
-    }
-
-    const headLinks = getReactPageHeadLinks(requestPath);
-    const body = headLinks ? html.replace('</head>', `${headLinks}\n</head>`) : html;
-    res.writeHead(200, {
-      'Content-Type': 'text/html; charset=utf-8',
-      'Cache-Control': 'no-store'
-    });
-    res.end(body);
-  });
-  return true;
 }
 
 function readRequestBody(req) {
@@ -2237,22 +2177,6 @@ const server = http.createServer(async (req, res) => {
     }
 
     const normalizedPath = pathname === '/' ? '/index.html' : pathname;
-
-    if (sendBuiltReactAsset(res, normalizedPath)) {
-      return;
-    }
-
-    const isHtmlPageRequest =
-      REACT_PAGE_PATHS.has(pathname.toLowerCase()) ||
-      (path.extname(normalizedPath).toLowerCase() === '.html' &&
-        !pathname.toLowerCase().startsWith('/html/'));
-
-    if (isHtmlPageRequest) {
-      if (sendBuiltReactApp(res, normalizedPath)) {
-        return;
-      }
-    }
-
     const aliasTarget = PUBLIC_PAGE_ALIASES[normalizedPath.toLowerCase()];
     const relativePath = (aliasTarget || normalizedPath).replace(/^\/+/, '');
 

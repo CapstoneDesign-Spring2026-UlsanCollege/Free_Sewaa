@@ -3,7 +3,7 @@ services:
     name: free-sewaa
     env: node
     plan: free
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci
     startCommand: npm start
     healthCheckPath: /api/health
     autoDeploy: true
