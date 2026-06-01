@@ -1,13 +1,4 @@
 export default function AppPage() {
-  const languages = [
-    { check: true, flag: '🇬🇧', label: 'English' },
-    { flag: '🇰🇷', label: '한국어 (Korean)' },
-    { flag: '🇳🇵', label: 'नेपाली (Nepali)' },
-    { flag: '🇮🇳', label: 'हिन्दी (Hindi)' },
-    { flag: '🇻🇳', label: 'Tiếng Việt (Vietnamese)' },
-    { flag: '🇵🇭', label: 'Filipino' }
-  ];
-
   return (
     <div>
       <div className="grain" />
@@ -26,22 +17,6 @@ export default function AppPage() {
           <div className="header-actions">
             <a href="notifications.html" className="icon-link "><span className="icon-badge" /><span>Notifications</span></a>
             <a href="messages.html" className="icon-link "><span className="icon-dot" /><span>Messages</span></a>
-            <details className="language-native-switcher">
-              <summary aria-label="Choose language">
-                <span aria-hidden="true">🌐</span>
-                <strong>EN</strong>
-                <span aria-hidden="true">▾</span>
-              </summary>
-              <div className="language-native-menu" role="listbox" aria-label="Choose language">
-                {languages.map(language => (
-                  <button className={`language-native-option${language.check ? ' is-selected' : ''}`} type="button" role="option" aria-selected={language.check ? 'true' : 'false'} key={language.label}>
-                    <span className="language-native-check" aria-hidden="true">✓</span>
-                    <span aria-hidden="true">{language.flag}</span>
-                    <span>{language.label}</span>
-                  </button>
-                ))}
-              </div>
-            </details>
             <div className="settings-dropdown">
               <button className="icon-link settings-trigger " type="button" aria-expanded="false">
                 <span className="icon-gear">⚙</span><span>Settings</span>
