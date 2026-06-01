@@ -11,6 +11,85 @@
   <link rel="dns-prefetch" href="//images.unsplash.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/theme.css" />
+  <style>
+    .language-picker {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 0 12px;
+      border: 1px solid rgba(255,236,212,.12);
+      border-radius: 14px;
+      color: var(--muted);
+      background: rgba(255,244,230,.04);
+    }
+    .language-picker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(180deg,var(--bronze),var(--cream));
+      box-shadow: 0 0 0 6px rgba(185,140,90,.12);
+      flex: 0 0 auto;
+    }
+    .language-picker select {
+      min-width: 86px;
+      border: 0;
+      outline: 0;
+      color: var(--cream-2);
+      background: transparent;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      appearance: none;
+      padding: 0 18px 0 0;
+    }
+    .language-picker::after {
+      content: "";
+      position: absolute;
+      right: 12px;
+      width: 7px;
+      height: 7px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg) translateY(-2px);
+      pointer-events: none;
+      opacity: .75;
+    }
+    .language-picker select option {
+      color: #24180f;
+      background: #fffaf4;
+    }
+    .language-picker:focus-within,
+    .language-picker:hover {
+      color: var(--cream-2);
+      border-color: rgba(255,236,212,.2);
+      background: rgba(255,244,230,.07);
+    }
+    body.light-mode .language-picker {
+      color: var(--muted);
+      background: rgba(42,32,23,.05);
+      border-color: rgba(42,32,23,.12);
+    }
+    body.light-mode .language-picker select {
+      color: var(--text);
+    }
+    body.light-mode .language-picker:focus-within,
+    body.light-mode .language-picker:hover {
+      color: var(--text);
+      background: rgba(42,32,23,.08);
+    }
+    @media (max-width: 760px) {
+      .language-picker {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .language-picker select {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="grain"></div>
@@ -30,6 +109,16 @@
     <div class="header-actions">
       <a href="notifications.html" class="icon-link "><span class="icon-badge"></span><span>Notifications</span></a>
       <a href="messages.html" class="icon-link "><span class="icon-dot"></span><span>Messages</span></a>
+      <label class="language-picker" aria-label="Choose language">
+        <select name="language">
+          <option value="en" selected>English</option>
+          <option value="ko">Korean</option>
+          <option value="ne">Nepali</option>
+          <option value="hi">Hindi</option>
+          <option value="vi">Vietnamese</option>
+          <option value="fil">Filipino</option>
+        </select>
+      </label>
       <div class="settings-dropdown">
         <button class="icon-link settings-trigger " type="button" aria-expanded="false">
           <span class="icon-gear">⚙</span><span>Settings</span>
