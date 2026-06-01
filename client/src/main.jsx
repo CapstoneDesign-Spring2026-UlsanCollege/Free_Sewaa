@@ -28,11 +28,11 @@ function setBodyAttributes(attrs = {}) {
   });
 }
 
-function applyMeta(meta) {
+function applyMeta(meta = {}) {
   document.title = meta.title || 'Free Sewaa';
   const description = document.querySelector('meta[name="description"]');
-  if (description) description.setAttribute('content', meta.description || '');
-  setBodyAttributes(meta.bodyAttrs);
+  if (description) description.setAttribute('content', meta.description || 'Free Sewaa community giving platform.');
+  setBodyAttributes(meta.bodyAttrs || {});
 }
 
 function injectLinks(links = []) {
@@ -71,15 +71,51 @@ function injectScripts(scripts = []) {
   }, Promise.resolve());
 }
 
+function getRoute() {
+  return pageRoutes[routePath()] || pageRoutes['/app.html'] || Object.values(pageRoutes)[0];
+}
+
+function FallbackPage() {
+  return (
+    <main className="react-load-error">
+      <h1>Free Sewaa</h1>
+      <p>Give what you can. Find what you need.</p>
+      <p>The page is recovering. Use the home link below to continue.</p>
+      <a href="/app.html">Open Free Sewaa Home</a>
+    </main>
+  );
+}
+
+class PageErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error) {
+    console.error('Free Sewaa page render failed:', error);
+  }
+
+  render() {
+    if (this.state.hasError) return <FallbackPage />;
+    return this.props.children;
+  }
+}
+
 function PageApp() {
-  const route = pageRoutes[routePath()] || pageRoutes['/'];
-  const { Component, meta } = route;
+  const route = getRoute();
+  const Component = route?.Component || FallbackPage;
+  const meta = route?.meta || {};
 
   useEffect(() => {
     removeInjectedAssets();
     applyMeta(meta);
-    injectLinks(meta.links);
-    injectScripts(meta.scripts);
+    injectLinks(meta.links || []);
+    injectScripts(meta.scripts || []);
 
     return removeInjectedAssets;
   }, [meta]);
@@ -87,4 +123,16 @@ function PageApp() {
   return <Component />;
 }
 
-createRoot(document.getElementById('root')).render(<PageApp />);
+try {
+  createRoot(document.getElementById('root')).render(
+    <PageErrorBoundary>
+      <PageApp />
+    </PageErrorBoundary>
+  );
+} catch (error) {
+  console.error('Free Sewaa app failed to start:', error);
+  const root = document.getElementById('root');
+  if (root) {
+    root.innerHTML = '<main class="react-load-error"><h1>Free Sewaa</h1><p>Give what you can. Find what you need.</p><p>The page is recovering. Use the home link below to continue.</p><a href="/app.html">Open Free Sewaa Home</a></main>';
+  }
+}
