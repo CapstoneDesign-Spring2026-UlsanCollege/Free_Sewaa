@@ -472,14 +472,14 @@ async function ensureSeedData() {
         id: 'listing-205',
         ownerId: 'community-3',
         ownerName: 'Ana Lopez',
-        title: 'Laptop Study Desk',
+        title: 'Study Desk',
         category: 'Home',
         condition: 'Used',
         location: `${city}, Sinjeong-dong`,
-        distanceKm: 12,
+        distanceKm: 14,
         pickup: 'Pickup only',
         pickupWindow: 'Sunday afternoon',
-        description: 'Simple desk for study or laptop work. Stable and usable.',
+        description: 'Simple desk for study or laptop work.',
         notes: 'Disassembles into two parts for transport.',
         image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80',
         createdAt: new Date(Date.now() - 4 * 86400000).toISOString(),
@@ -494,30 +494,202 @@ async function ensureSeedData() {
     await listingsCollection.insertMany(seedListings);
   }
 
-  const meta = await metaCollection.findOne({ key: 'app-meta' });
-  if (!meta) {
-    await metaCollection.insertOne({
-      key: 'app-meta',
-      lastUpdatedAt: new Date().toISOString()
+  const requestsCount = await requestsCollection.countDocuments();
+  if (requestsCount === 0) {
+    await requestsCollection.insertOne({
+      id: 'req-205',
+      listingId: 'listing-205',
+      requesterId: existingUser.id,
+      requesterName: existingUser.name,
+      ownerId: 'community-3',
+      status: 'pending',
+      requestedAt: new Date(Date.now() - 2 * 3600000).toISOString(),
+      note: 'Can pick up this weekend.'
     });
   }
+
+  const convCount = await conversationsCollection.countDocuments();
+  if (convCount === 0) {
+    await conversationsCollection.insertMany([
+      {
+        id: 'conv-201-sarah',
+        listingId: 'listing-201',
+        participantIds: [existingUser.id, 'community-sarah'],
+        participantNames: [existingUser.name, 'Sarah Kim'],
+        participant: 'Sarah Kim',
+        participantCity: existingUser.city || 'Ulsan',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 'conv-205-ana',
+        listingId: 'listing-205',
+        participantIds: [existingUser.id, 'community-3'],
+        participantNames: [existingUser.name, 'Ana Lopez'],
+        participant: 'Ana Lopez',
+        participantCity: existingUser.city || 'Ulsan',
+        createdAt: new Date(Date.now() - 2 * 3600000).toISOString(),
+        updatedAt: new Date(Date.now() - 2 * 3600000).toISOString()
+      }
+    ]);
+  }
+
+  const messageCount = await messagesCollection.countDocuments();
+  if (messageCount === 0) {
+    await messagesCollection.insertMany([
+      {
+        conversationId: 'conv-201-sarah',
+        senderId: 'community-sarah',
+        senderName: 'Sarah Kim',
+        text: 'Hi! Is your jacket listing still available?',
+        type: 'received',
+        createdAt: new Date(Date.now() - 10 * 60000).toISOString()
+      },
+      {
+        conversationId: 'conv-201-sarah',
+        senderId: existingUser.id,
+        senderName: 'You',
+        text: 'Yes, pickup is possible this evening.',
+        type: 'sent',
+        createdAt: new Date(Date.now() - 8 * 60000).toISOString()
+      },
+      {
+        conversationId: 'conv-205-ana',
+        senderId: existingUser.id,
+        senderName: 'You',
+        text: "Hi, I'm interested in your desk. Is it still available?",
+        type: 'sent',
+        createdAt: new Date(Date.now() - 2 * 3600000).toISOString()
+      },
+      {
+        conversationId: 'conv-205-ana',
+        senderId: 'community-3',
+        senderName: 'Ana Lopez',
+        text: 'Yes, weekend pickup works best.',
+        type: 'received',
+        createdAt: new Date(Date.now() - 118 * 60000).toISOString()
+      }
+    ]);
+  }
+
+  const notifCount = await notificationsCollection.countDocuments();
+  if (notifCount === 0) {
+    await notificationsCollection.insertMany([
+      {
+        id: 'n1',
+        userId: existingUser.id,
+        text: 'Sarah Kim requested your Winter Jacket listing.',
+        type: 'request',
+        read: false,
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'n2',
+        userId: existingUser.id,
+        text: 'Ana Lopez replied to your desk request.',
+        type: 'message',
+        read: false,
+        createdAt: new Date(Date.now() - 2 * 3600000).toISOString()
+      }
+    ]);
+  }
+
+  await metaCollection.updateOne(
+    { key: 'app-meta' },
+    {
+      $set: {
+        key: 'app-meta',
+        lastUpdatedAt: new Date().toISOString()
+      }
+    },
+    { upsert: true }
+  );
+}
+
+/**
+ * Get user application state by userId.
+ * @param {string} userId - The user ID.
+ * @returns {Object|null} User state object or null.
+ */
+async function getUserState(userId) {
+  return statesCollection.findOne({ userId });
+}
+
+/**
+ * Set or update user application state.
+ * @param {string} userId - The user ID.
+ * @param {Object} state - The state object to save.
+ * @returns {Object} Result of the update operation.
+ */
+async function setUserState(userId, state) {
+  await statesCollection.updateOne(
+    { userId },
+    {
+      $set: {
+        userId,
+        state
+      }
+    },
+    { upsert: true }
+  );
+
+  await metaCollection.updateOne(
+    { key: 'app-meta' },
+    {
+      $set: {
+        key: 'app-meta',
+        lastUpdatedAt: new Date().toISOString()
+      }
+    },
+    { upsert: true }
+  );
+}
+
+async function ensureStateForUser(user) {
+  let existing = await getUserState(user.id);
+  if (!existing) {
+    const state = defaultUserState(user);
+    await setUserState(user.id, state);
+    existing = { userId: user.id, state };
+  }
+  return existing.state;
 }
 
 function sendJson(res, statusCode, payload) {
+  const body = JSON.stringify(payload);
   res.writeHead(statusCode, {
     'Content-Type': 'application/json; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
-    'Cache-Control': 'no-store'
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, x-user-id, Authorization'
   });
-  res.end(JSON.stringify(payload));
+  res.end(body);
 }
 
-function sendJavaScript(res, content) {
+function sendJavaScript(res, body) {
   res.writeHead(200, {
     'Content-Type': 'application/javascript; charset=utf-8',
     'Cache-Control': 'no-store'
   });
-  res.end(content);
+  res.end(body);
+}
+
+function getFirebaseWebConfig() {
+  const projectId = process.env.FIREBASE_PROJECT_ID || 'free-sewaa';
+  const authDomain = process.env.FIREBASE_AUTH_DOMAIN || `${projectId}.firebaseapp.com`;
+
+  if (!process.env.FIREBASE_API_KEY) {
+    return null;
+  }
+
+  return {
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain,
+    projectId,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET || `${projectId}.appspot.com`,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || '',
+    appId: process.env.FIREBASE_APP_ID || ''
+  };
 }
 
 function sendFile(res, filePath) {
@@ -587,34 +759,6 @@ function getReactPageHeadLinks(requestPath) {
     .join('\n');
 }
 
-function getReactRootFallback() {
-  return `
-      <main class="boot-fallback">
-        <div class="boot-fallback__panel">
-          <h1>Free Sewaa</h1>
-          <p>Give what you can. Find what you need.</p>
-          <p>The app is loading. If this message stays on screen, open the home page again.</p>
-          <a href="/app.html">Open Free Sewaa Home</a>
-        </div>
-      </main>`;
-}
-
-function getReactFallbackStyle() {
-  return `<style data-react-server-fallback="true">
-.boot-fallback{min-height:100vh;display:grid;place-items:center;padding:24px;font-family:Inter,system-ui,sans-serif;color:#f4fffb;background:linear-gradient(180deg,#071219 0%,#0d2530 52%,#091820 100%)}
-.boot-fallback__panel{width:min(680px,100%)}
-.boot-fallback h1{margin:0 0 16px;font-size:clamp(2.4rem,7vw,5rem);line-height:1}
-.boot-fallback p{color:rgba(244,255,251,.78);line-height:1.7}
-.boot-fallback a{display:inline-flex;margin-top:12px;padding:12px 16px;border-radius:8px;color:#052027;background:linear-gradient(135deg,#b8f4e4 0%,#35c7aa 48%,#2bb9d6 100%);font-weight:800;text-decoration:none}
-</style>`;
-}
-
-function addReactRootFallback(html) {
-  return html
-    .replace('</head>', `${getReactFallbackStyle()}\n</head>`)
-    .replace('<div id="root"></div>', `<div id="root">${getReactRootFallback()}\n    </div>`);
-}
-
 function sendBuiltReactApp(res, requestPath = '/') {
   const indexPath = path.resolve(DIST_ROOT, 'index.html');
   if (!fs.existsSync(indexPath) || !fs.statSync(indexPath).isFile()) return false;
@@ -627,8 +771,7 @@ function sendBuiltReactApp(res, requestPath = '/') {
     }
 
     const headLinks = getReactPageHeadLinks(requestPath);
-    const withFallback = addReactRootFallback(html);
-    const body = headLinks ? withFallback.replace('</head>', `${headLinks}\n</head>`) : withFallback;
+    const body = headLinks ? html.replace('</head>', `${headLinks}\n</head>`) : html;
     res.writeHead(200, {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'no-store'
@@ -707,79 +850,133 @@ async function buildChatbotReply(message) {
     return 'Ask me about donating, browsing items, requests, pickup, messages, or your account.';
   }
 
-  if (/\b(hello|hi|hey)\b/.test(lower)) {
-    return 'Hi! I can help you donate items, browse free support, understand pickup, or manage requests and messages.';
+  const activeListings = await listingsCollection
+    .find({ status: 'active' })
+    .sort({ urgent: -1, createdAt: -1 })
+    .limit(8)
+    .toArray();
+
+  const categories = [...new Set(activeListings.map(item => item.category).filter(Boolean))];
+  const urgentListings = activeListings.filter(item => item.urgent);
+
+  if (/\b(hi|hello|hey|namaste)\b/.test(lower)) {
+    return 'Hi! I am the Free Sewaa helper. I can help you find free items, donate something, understand pickup, or manage requests.';
   }
 
-  if (/\b(donate|give|post|share)\b/.test(lower)) {
-    return 'To donate, open Donate, add a clear title, category, condition, pickup window, location, and photo. Keep pickup details respectful and safe.';
+  if (/\b(donate|give|post|upload|share)\b/.test(lower)) {
+    return 'To donate an item, go to Donate, add the title, category, condition, pickup window, notes, and a clear photo. After publishing, people can request it from Browse.';
   }
 
-  if (/\b(browse|item|listing|available|find|need)\b/.test(lower)) {
-    const listings = await listingsCollection.find({ status: 'active' }).sort({ createdAt: -1 }).limit(6).toArray();
-    return createListingSummary(listings);
+  if (/\b(find|browse|available|items?|listings?|need|search)\b/.test(lower)) {
+    return createListingSummary(activeListings);
   }
 
-  if (/\b(request|ask|reserve)\b/.test(lower)) {
-    return 'Open a listing and choose Request. Free Sewaa will create a request and help you continue through Messages.';
+  if (/\b(food|rice|pantry|clothing|jacket|books?|desk|home|furniture|category|categories)\b/.test(lower)) {
+    const matched = activeListings.filter(listing => {
+      const haystack = `${listing.title} ${listing.category} ${listing.description}`.toLowerCase();
+      return lower.split(/\W+/).some(word => word.length > 2 && haystack.includes(word));
+    });
+
+    if (matched.length) {
+      return createListingSummary(matched);
+    }
+
+    return categories.length
+      ? `Current active categories include ${categories.join(', ')}. You can filter by category on Browse.`
+      : 'Categories will appear after active listings are published.';
   }
 
-  if (/\b(message|chat|reply|conversation)\b/.test(lower)) {
-    return 'Use Messages to coordinate pickup time, location, and any questions. Keep personal details minimal until pickup is confirmed.';
+  if (/\b(urgent|asap|emergency|soon|today)\b/.test(lower)) {
+    return urgentListings.length
+      ? createListingSummary(urgentListings)
+      : 'I do not see urgent active listings right now. Browse still has regular active donations you can request.';
   }
 
-  if (/\b(pickup|collect|meet|location)\b/.test(lower)) {
-    return 'For pickup, agree on a public or comfortable location, confirm timing, and update the request if plans change.';
+  if (/\b(request|reserve|claim|interested)\b/.test(lower)) {
+    return 'Open an item on Browse and choose Request. Add a short note with your pickup availability, then check Messages for the conversation.';
   }
 
-  if (/\b(event|volunteer|community)\b/.test(lower)) {
-    return 'Open Events to find community support days, volunteer opportunities, and local donation drives.';
+  if (/\b(message|chat|reply|conversation|contact)\b/.test(lower)) {
+    return 'Use Messages to continue conversations after a request is created. Keep pickup details clear and avoid sharing sensitive information.';
   }
 
-  if (/\b(account|profile|saved|order|posts)\b/.test(lower)) {
-    return 'Your settings menu links to profile, saved items, posts, requests, orders, region, and premium plans.';
+  if (/\b(pickup|collect|delivery|meet|location|where)\b/.test(lower)) {
+    return 'Pickup details are set by the donor. Check the item location and pickup window, then confirm the exact time in Messages.';
   }
 
-  return 'I can help with donating, browsing listings, sending requests, pickup coordination, events, messages, and account settings. Try asking about one of those.';
+  if (/\b(account|login|signin|sign in|signup|profile|dashboard)\b/.test(lower)) {
+    return 'Use your Dashboard for profile details, active listings, saved items, and requests. If you are signed out, use Sign In or Sign Up from the home page.';
+  }
+
+  if (/\b(admin|moderation|block|review)\b/.test(lower)) {
+    return 'Admins can use the Admin panel to review users, listings, platform activity, and moderation actions.';
+  }
+
+  if (/\b(thanks|thank you)\b/.test(lower)) {
+    return 'You are welcome. I am here whenever you need help using Free Sewaa.';
+  }
+
+  return 'I can help with donating items, finding active listings, pickup, requests, messages, profile, and admin basics. Try asking "what items are available?" or "how do I donate?"';
 }
 
-function resolveListingOwner(listing) {
-  return listing.ownerId || listing.userId || null;
-}
-
+/**
+ * Build admin dashboard data with users, listings, requests, and notifications.
+ * @returns {Object} Dashboard data with summary, users, listings, moderationQueue, activity.
+ */
 async function buildAdminDashboardData() {
-  const [users, listings, requests, notifications, suggestions, conversations, meta] = await Promise.all([
-    usersCollection.find({}).sort({ createdAt: -1 }).toArray(),
-    listingsCollection.find({}).sort({ createdAt: -1 }).toArray(),
-    requestsCollection.find({}).sort({ requestedAt: -1 }).toArray(),
-    notificationsCollection.find({}).sort({ createdAt: -1 }).limit(20).toArray(),
-    suggestionsCollection.find({}).sort({ createdAt: -1 }).limit(20).toArray(),
-    conversationsCollection.find({}).sort({ updatedAt: -1 }).limit(20).toArray(),
+  const [users, listings, requests, conversations, notifications, suggestions, meta] = await Promise.all([
+    usersCollection.find({}).toArray(),
+    listingsCollection.find({}).toArray(),
+    requestsCollection.find({}).toArray(),
+    conversationsCollection.find({}).toArray(),
+    notificationsCollection.find({}).toArray(),
+    suggestionsCollection.find({}).sort({ createdAt: -1 }).limit(25).toArray(),
     metaCollection.findOne({ key: 'app-meta' })
   ]);
 
-  const normalizedUsers = users.map(user => ({
-    ...safeUser(user),
-    status: user.isBlocked ? 'blocked' : 'active',
-    isAdmin: user.role === 'admin' || user.role === 'superadmin'
-  }));
+  const listingCounts = listings.reduce((map, listing) => {
+    const key = String(listing.ownerId || '');
+    map.set(key, (map.get(key) || 0) + 1);
+    return map;
+  }, new Map());
 
-  const normalizedListings = listings.map(listing => ({
-    ...normalizeListingForClient(listing),
-    ownerId: resolveListingOwner(listing),
-    ownerName: listing.ownerName || listing.donorName || 'Community Member'
-  }));
+  const normalizedUsers = users
+    .map(user => {
+      const safe = safeUser(user) || {};
+      const id = String(safe.id || user.id || user._id || '');
 
-  const moderationQueue = normalizedListings.filter(item => item.urgent || item.status === 'hidden' || !item.reviewed).slice(0, 12);
+      return {
+        ...safe,
+        id,
+        listingCount: listingCounts.get(id) || 0
+      };
+    })
+    .sort((left, right) => String(left.name || '').localeCompare(String(right.name || '')));
+
+  const normalizedListings = listings
+    .map(listing => {
+      const normalized = normalizeDoc(listing) || {};
+      const reviewed = Boolean(normalized.reviewed);
+
+      return {
+        ...normalized,
+        reviewed,
+        flags: getListingFlags({ ...normalized, reviewed })
+      };
+    })
+    .sort((left, right) => String(right.createdAt || '').localeCompare(String(left.createdAt || '')));
+
+  const moderationQueue = normalizedListings.filter(item => item.flags.length || item.urgent || item.status === 'hidden' || !item.reviewed);
 
   const summary = {
     users: normalizedUsers.length,
-    activeUsers: normalizedUsers.filter(user => user.status !== 'blocked').length,
-    blockedUsers: normalizedUsers.filter(user => user.status === 'blocked').length,
+    admins: users.filter(user => user.role === 'admin').length,
+    superadmins: users.filter(user => user.role === 'superadmin').length,
+    blockedUsers: users.filter(user => user.isBlocked).length,
     listings: normalizedListings.length,
     activeListings: normalizedListings.filter(item => item.status === 'active').length,
-    donatedListings: normalizedListings.filter(item => item.status === 'donated').length,
     reservedListings: normalizedListings.filter(item => item.status === 'reserved').length,
+    donatedListings: normalizedListings.filter(item => item.status === 'donated').length,
     featuredListings: normalizedListings.filter(item => item.featured).length,
     flaggedListings: moderationQueue.length,
     unreadNotifications: notifications.filter(item => !item.read).length,
@@ -1485,4 +1682,634 @@ const server = http.createServer(async (req, res) => {
         status: body.status || 'active',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
+      };
+
+      await listingsCollection.insertOne(listing);
+      await touchMeta();
+
+      return sendJson(res, 201, { listing: normalizeListingForClient(listing) });
+    }
+
+    if (pathname.match(/^\/api\/listings\/[^/]+$/) && req.method === 'PUT') {
+      const id = pathname.split('/').pop();
+      const userId = getUserId(req, url);
+
+      if (!userId) {
+        return sendJson(res, 400, { error: 'userId is required.' });
       }
+
+      const listing = await listingsCollection.findOne({ id });
+      if (!listing) {
+        return sendJson(res, 404, { error: 'Listing not found.' });
+      }
+
+      if (listing.ownerId !== userId) {
+        return sendJson(res, 403, { error: 'You can only update your own listing.' });
+      }
+
+      const body = await readRequestBody(req);
+
+      const updates = {
+        ...(body.title !== undefined ? { title: String(body.title).trim() } : {}),
+        ...(body.category !== undefined ? { category: body.category } : {}),
+        ...(body.condition !== undefined ? { condition: body.condition } : {}),
+        ...(body.location !== undefined ? { location: body.location } : {}),
+        ...(body.distanceKm !== undefined ? { distanceKm: Number(body.distanceKm) } : {}),
+        ...(body.pickup !== undefined ? { pickup: body.pickup } : {}),
+        ...(body.pickupWindow !== undefined ? { pickupWindow: body.pickupWindow } : {}),
+        ...(body.description !== undefined ? { description: body.description } : {}),
+        ...(body.notes !== undefined ? { notes: body.notes } : {}),
+        ...(body.image !== undefined ? { image: sanitizeListingImage(body.image) } : {}),
+        ...(body.urgent !== undefined ? { urgent: Boolean(body.urgent) } : {}),
+        ...(body.status !== undefined ? { status: body.status } : {}),
+        updatedAt: new Date().toISOString()
+      };
+
+      await listingsCollection.updateOne({ id }, { $set: updates });
+      const updated = await listingsCollection.findOne({ id });
+
+      await touchMeta();
+      return sendJson(res, 200, { listing: normalizeListingForClient(updated) });
+    }
+
+    if (pathname.match(/^\/api\/listings\/[^/]+$/) && req.method === 'DELETE') {
+      const id = pathname.split('/').pop();
+      const userId = getUserId(req, url);
+
+      if (!userId) {
+        return sendJson(res, 400, { error: 'userId is required.' });
+      }
+
+      const listing = await listingsCollection.findOne({ id });
+      if (!listing) {
+        return sendJson(res, 404, { error: 'Listing not found.' });
+      }
+
+      if (listing.ownerId !== userId) {
+        return sendJson(res, 403, { error: 'You can only delete your own listing.' });
+      }
+
+      await listingsCollection.deleteOne({ id });
+      await touchMeta();
+
+      return sendJson(res, 200, { ok: true });
+    }
+
+    if (pathname === '/api/requests/mine' && req.method === 'GET') {
+      const userId = getUserId(req, url);
+      if (!userId) {
+        return sendJson(res, 400, { error: 'userId is required.' });
+      }
+
+      const requests = await requestsCollection
+        .find({ requesterId: userId })
+        .sort({ requestedAt: -1 })
+        .toArray();
+
+      return sendJson(res, 200, { requests: requests.map(normalizeDoc) });
+    }
+
+    if (pathname === '/api/requests' && req.method === 'POST') {
+      const userId = getUserId(req, url);
+      if (!userId) {
+        return sendJson(res, 400, { error: 'userId is required.' });
+      }
+
+      const user = await usersCollection.findOne({ id: userId });
+      if (!user) {
+        return sendJson(res, 404, { error: 'User not found.' });
+      }
+
+      const { listingId, note = '' } = await readRequestBody(req);
+      if (!listingId) {
+        return sendJson(res, 400, { error: 'listingId is required.' });
+      }
+
+      const listing = await listingsCollection.findOne({ id: listingId });
+      if (!listing) {
+        return sendJson(res, 404, { error: 'Listing not found.' });
+      }
+
+      if (listing.ownerId === userId) {
+        return sendJson(res, 400, { error: 'You cannot request your own listing.' });
+      }
+
+      const existing = await requestsCollection.findOne({ listingId, requesterId: userId });
+      if (existing) {
+        const existingConversation = await conversationsCollection.findOne({
+          listingId,
+          participantIds: { $all: [userId, listing.ownerId] }
+        });
+        return sendJson(res, 200, {
+          request: normalizeDoc(existing),
+          conversation: existingConversation ? normalizeDoc(existingConversation) : null
+        });
+      }
+
+      const requestDoc = {
+        id: `req-${Date.now()}`,
+        listingId,
+        requesterId: user.id,
+        requesterName: getUserDisplayName(user),
+        ownerId: listing.ownerId,
+        status: 'pending',
+        requestedAt: new Date().toISOString(),
+        note: String(note)
+      };
+
+      const owner = await usersCollection.findOne({ id: listing.ownerId });
+      const ownerName = listing.ownerName || getUserDisplayName(owner);
+      const conversation = {
+        id: `conv-${Date.now()}`,
+        listingId,
+        participantIds: [user.id, listing.ownerId],
+        participantNames: {
+          [user.id]: requestDoc.requesterName,
+          [listing.ownerId]: ownerName
+        },
+        participantCities: {
+          [user.id]: user.city || 'Ulsan',
+          [listing.ownerId]: owner?.city || String(listing.location || '').split(',')[0] || 'Ulsan'
+        },
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      const introText = String(note || `Hi! I am interested in your ${listing.title}. Is it still available?`).trim();
+      const firstMessage = {
+        conversationId: conversation.id,
+        senderId: user.id,
+        senderName: requestDoc.requesterName,
+        text: introText,
+        type: 'sent',
+        createdAt: new Date().toISOString()
+      };
+
+      await Promise.all([
+        requestsCollection.insertOne(requestDoc),
+        conversationsCollection.insertOne(conversation),
+        messagesCollection.insertOne(firstMessage),
+        listingsCollection.updateOne(
+          { id: listingId },
+          { $inc: { requestCount: 1 }, $set: { updatedAt: new Date().toISOString() } }
+        )
+      ]);
+
+      await notificationsCollection.insertOne({
+        id: `notif-${Date.now()}`,
+        userId: listing.ownerId,
+        conversationId: conversation.id,
+        text: `${requestDoc.requesterName} requested your ${listing.title} listing.`,
+        type: 'message',
+        read: false,
+        createdAt: new Date().toISOString()
+      });
+
+      await touchMeta();
+      return sendJson(res, 201, {
+        request: normalizeDoc(requestDoc),
+        conversation: normalizeDoc(conversation),
+        message: normalizeDoc(firstMessage)
+      });
+    }
+
+    if (pathname.match(/^\/api\/requests\/[^/]+\/status$/) && req.method === 'PATCH') {
+      const id = pathname.split('/')[3];
+      const userId = getUserId(req, url);
+
+      if (!userId) {
+        return sendJson(res, 400, { error: 'userId is required.' });
+      }
+
+      const requestDoc = await requestsCollection.findOne({ id });
+      if (!requestDoc) {
+        return sendJson(res, 404, { error: 'Request not found.' });
+      }
+
+      if (requestDoc.ownerId !== userId) {
+        return sendJson(res, 403, { error: 'Only the listing owner can update request status.' });
+      }
+
+      const { status } = await readRequestBody(req);
+      if (!['pending', 'accepted', 'declined', 'completed'].includes(status)) {
+        return sendJson(res, 400, { error: 'Invalid status.' });
+      }
+
+      await requestsCollection.updateOne({ id }, { $set: { status } });
+
+      await notificationsCollection.insertOne({
+        id: `notif-${Date.now()}`,
+        userId: requestDoc.requesterId,
+        text: `Your request status was updated to "${status}".`,
+        type: 'request',
+        read: false,
+        createdAt: new Date().toISOString()
+      });
+
+      await touchMeta();
+
+      const updated = await requestsCollection.findOne({ id });
+      return sendJson(res, 200, { request: normalizeDoc(updated) });
+    }
+
+    if (pathname === '/api/notifications' && req.method === 'GET') {
+      const userId = getUserId(req, url);
+      if (!userId) {
+        return sendJson(res, 400, { error: 'userId is required.' });
+      }
+
+      const notifications = await notificationsCollection
+        .find({ userId })
+        .sort({ createdAt: -1 })
+        .toArray();
+
+      return sendJson(res, 200, { notifications: notifications.map(normalizeDoc) });
+    }
+
+    if (pathname === '/api/notifications/read' && req.method === 'PATCH') {
+      const userId = getUserId(req, url);
+      if (!userId) {
+        return sendJson(res, 400, { error: 'userId is required.' });
+      }
+
+      const body = await readRequestBody(req);
+      const notificationIds = Array.isArray(body.notificationIds) ? body.notificationIds : null;
+
+      if (notificationIds && notificationIds.length > 0) {
+        await notificationsCollection.updateMany(
+          { userId, id: { $in: notificationIds } },
+          { $set: { read: true } }
+        );
+      } else {
+        await notificationsCollection.updateMany(
+          { userId, read: false },
+          { $set: { read: true } }
+        );
+      }
+
+      await touchMeta();
+      return sendJson(res, 200, { ok: true });
+    }
+
+    if (pathname === '/api/suggestions' && req.method === 'POST') {
+      const userId = getUserId(req, url);
+      const body = await readRequestBody(req);
+      const name = String(body.name || '').trim().slice(0, 120);
+      const email = String(body.email || '').trim().toLowerCase().slice(0, 160);
+      const message = String(body.message || '').trim().slice(0, 1200);
+
+      if (!message) {
+        return sendJson(res, 400, { error: 'Suggestion message is required.' });
+      }
+
+      let user = null;
+      if (userId) {
+        user = await usersCollection.findOne({ id: userId });
+      }
+
+      const suggestion = {
+        id: `suggestion-${Date.now()}`,
+        userId: user?.id || userId || null,
+        name: name || getUserDisplayName(user),
+        email: email || user?.email || '',
+        message,
+        status: 'new',
+        createdAt: new Date().toISOString()
+      };
+
+      await suggestionsCollection.insertOne(suggestion);
+      await touchMeta();
+
+      return sendJson(res, 201, {
+        suggestion: normalizeDoc(suggestion),
+        message: 'Thank you for sharing your suggestion.'
+      });
+    }
+
+    if (pathname === '/api/reviews' && req.method === 'GET') {
+      const reviews = await reviewsCollection
+        .find({})
+        .sort({ createdAt: -1 })
+        .limit(24)
+        .toArray();
+
+      return sendJson(res, 200, { reviews: reviews.map(normalizeDoc) });
+    }
+
+    if (pathname === '/api/reviews' && req.method === 'POST') {
+      const userId = getUserId(req, url);
+      const body = await readRequestBody(req);
+      const name = String(body.name || '').trim().slice(0, 120);
+      const email = String(body.email || '').trim().toLowerCase().slice(0, 160);
+      const message = String(body.message || '').trim().slice(0, 700);
+      const rating = Math.max(1, Math.min(5, Number(body.rating) || 5));
+
+      if (!message) {
+        return sendJson(res, 400, { error: 'Review message is required.' });
+      }
+
+      let user = null;
+      if (userId) {
+        user = await usersCollection.findOne({ id: userId });
+      }
+
+      const review = {
+        id: `review-${Date.now()}`,
+        userId: user?.id || userId || null,
+        name: name || getUserDisplayName(user),
+        email: email || user?.email || '',
+        rating,
+        message,
+        status: 'published',
+        createdAt: new Date().toISOString()
+      };
+
+      await reviewsCollection.insertOne(review);
+      await suggestionsCollection.insertOne({
+        id: `suggestion-review-${Date.now()}`,
+        userId: review.userId,
+        name: review.name,
+        email: review.email,
+        message: `About page review (${review.rating}/5): ${review.message}`,
+        status: 'new',
+        createdAt: review.createdAt
+      });
+      await touchMeta();
+
+      return sendJson(res, 201, {
+        review: normalizeDoc(review),
+        message: 'Thank you for sharing your review.'
+      });
+    }
+
+    if (pathname === '/api/messages/conversations' && req.method === 'GET') {
+      const userId = getUserId(req, url);
+      if (!userId) {
+        return sendJson(res, 400, { error: 'userId is required.' });
+      }
+
+      const conversations = await conversationsCollection
+        .find({ participantIds: userId })
+        .sort({ updatedAt: -1 })
+        .toArray();
+
+      const enriched = [];
+      for (const conv of conversations) {
+        const lastMessage = await messagesCollection.find({ conversationId: conv.id }).sort({ createdAt: -1 }).limit(1).toArray();
+        const unreadCount = await notificationsCollection.countDocuments({
+          userId,
+          conversationId: conv.id,
+          type: 'message',
+          read: false
+        });
+        const listing = conv.listingId ? await listingsCollection.findOne({ id: conv.listingId }) : null;
+        const otherUserId = (conv.participantIds || []).find(id => id !== userId);
+        const otherUser = otherUserId ? await usersCollection.findOne({ id: otherUserId }) : null;
+        const participantNames = conv.participantNames && typeof conv.participantNames === 'object' && !Array.isArray(conv.participantNames)
+          ? conv.participantNames
+          : {};
+
+        enriched.push({
+          ...normalizeDoc(conv),
+          participantId: otherUserId || '',
+          participant: participantNames[otherUserId] || conv.participant || getUserDisplayName(otherUser),
+          participantCity: conv.participantCities?.[otherUserId] || otherUser?.city || 'Ulsan',
+          unread: unreadCount,
+          listing: listing ? normalizeListingForClient(listing) : null,
+          lastMessage: lastMessage[0] ? normalizeDoc(lastMessage[0]) : null
+        });
+      }
+
+      return sendJson(res, 200, { conversations: enriched });
+    }
+
+    if (pathname === '/api/messages/conversations' && req.method === 'POST') {
+      const userId = getUserId(req, url);
+      if (!userId) {
+        return sendJson(res, 400, { error: 'userId is required.' });
+      }
+
+      const { participantId = '', participantName = '', listingId = null } = await readRequestBody(req);
+      const listing = listingId ? await listingsCollection.findOne({ id: listingId }) : null;
+      const resolvedParticipantId = participantId || listing?.ownerId || '';
+      if (!resolvedParticipantId) {
+        return sendJson(res, 400, { error: 'participantId or listingId is required.' });
+      }
+      if (resolvedParticipantId === userId) {
+        return sendJson(res, 400, { error: 'You cannot start a conversation with yourself.' });
+      }
+
+      const currentUser = await usersCollection.findOne({ id: userId });
+      const participantUser = await usersCollection.findOne({ id: resolvedParticipantId });
+      if (!currentUser || !participantUser) {
+        return sendJson(res, 404, { error: 'Conversation participant not found.' });
+      }
+
+      const existing = await conversationsCollection.findOne({
+        listingId,
+        participantIds: { $all: [userId, resolvedParticipantId] }
+      });
+
+      if (existing) {
+        return sendJson(res, 200, { conversation: normalizeDoc(existing) });
+      }
+
+      const conversation = {
+        id: `conv-${Date.now()}`,
+        listingId,
+        participantIds: [userId, resolvedParticipantId],
+        participantNames: {
+          [userId]: getUserDisplayName(currentUser),
+          [resolvedParticipantId]: participantName || getUserDisplayName(participantUser)
+        },
+        participantCities: {
+          [userId]: currentUser.city || 'Ulsan',
+          [resolvedParticipantId]: participantUser.city || String(listing?.location || '').split(',')[0] || 'Ulsan'
+        },
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      await conversationsCollection.insertOne(conversation);
+      await touchMeta();
+
+      return sendJson(res, 201, { conversation: normalizeDoc(conversation) });
+    }
+
+    if (pathname.match(/^\/api\/messages\/conversations\/[^/]+\/messages$/) && req.method === 'GET') {
+      const conversationId = pathname.split('/')[4];
+      const userId = getUserId(req, url);
+      const conversation = await conversationsCollection.findOne({ id: conversationId });
+      if (!conversation) {
+        return sendJson(res, 404, { error: 'Conversation not found.' });
+      }
+      if (userId && !(conversation.participantIds || []).includes(userId)) {
+        return sendJson(res, 403, { error: 'You are not part of this conversation.' });
+      }
+      const messages = await messagesCollection
+        .find({ conversationId })
+        .sort({ createdAt: 1 })
+        .toArray();
+
+      if (userId) {
+        await notificationsCollection.updateMany(
+          { userId, conversationId, type: 'message', read: false },
+          { $set: { read: true } }
+        );
+      }
+
+      return sendJson(res, 200, { messages: messages.map(normalizeDoc) });
+    }
+
+    if (pathname.match(/^\/api\/messages\/conversations\/[^/]+\/messages$/) && req.method === 'POST') {
+      const conversationId = pathname.split('/')[4];
+      const userId = getUserId(req, url);
+
+      if (!userId) {
+        return sendJson(res, 400, { error: 'userId is required.' });
+      }
+
+      const user = await usersCollection.findOne({ id: userId });
+      if (!user) {
+        return sendJson(res, 404, { error: 'User not found.' });
+      }
+
+      const conversation = await conversationsCollection.findOne({ id: conversationId });
+      if (!conversation) {
+        return sendJson(res, 404, { error: 'Conversation not found.' });
+      }
+      if (!(conversation.participantIds || []).includes(userId)) {
+        return sendJson(res, 403, { error: 'You are not part of this conversation.' });
+      }
+
+      const { text = '' } = await readRequestBody(req);
+      if (!String(text).trim()) {
+        return sendJson(res, 400, { error: 'Message text is required.' });
+      }
+
+      const messageText = String(text).trim();
+      const duplicateWindow = new Date(Date.now() - 8000).toISOString();
+      const recentDuplicate = await messagesCollection.findOne({
+        conversationId,
+        senderId: userId,
+        text: messageText,
+        createdAt: { $gte: duplicateWindow }
+      });
+
+      if (recentDuplicate) {
+        return sendJson(res, 200, { message: normalizeDoc(recentDuplicate), duplicate: true });
+      }
+
+      const message = {
+        conversationId,
+        senderId: userId,
+        senderName: user.name || user.firstName || 'You',
+        text: messageText,
+        type: 'sent',
+        createdAt: new Date().toISOString()
+      };
+
+      await messagesCollection.insertOne(message);
+      await conversationsCollection.updateOne(
+        { id: conversationId },
+        { $set: { updatedAt: new Date().toISOString() } }
+      );
+
+      const recipientId = conversation.participantIds.find(id => id !== userId);
+      if (recipientId) {
+        await notificationsCollection.insertOne({
+          id: `notif-${Date.now()}`,
+          userId: recipientId,
+          conversationId,
+          text: `${message.senderName} sent you a new message.`,
+          type: 'message',
+          read: false,
+          createdAt: new Date().toISOString()
+        });
+      }
+
+      await touchMeta();
+      return sendJson(res, 201, { message: normalizeDoc(message) });
+    }
+
+    if (pathname.startsWith('/api/')) {
+      return sendJson(res, 404, { error: 'API route not found.' });
+    }
+
+    const normalizedPath = pathname === '/' ? '/index.html' : pathname;
+
+    if (sendBuiltReactAsset(res, normalizedPath)) {
+      return;
+    }
+
+    const isHtmlPageRequest =
+      REACT_PAGE_PATHS.has(pathname.toLowerCase()) ||
+      (path.extname(normalizedPath).toLowerCase() === '.html' &&
+        !pathname.toLowerCase().startsWith('/html/'));
+
+    if (isHtmlPageRequest) {
+      if (sendBuiltReactApp(res, normalizedPath)) {
+        return;
+      }
+    }
+
+    const aliasTarget = PUBLIC_PAGE_ALIASES[normalizedPath.toLowerCase()];
+    const relativePath = (aliasTarget || normalizedPath).replace(/^\/+/, '');
+
+    const pagePath = path.resolve(PUBLIC_ROOT, 'html', relativePath);
+    if (
+      path.extname(relativePath).toLowerCase() === '.html' &&
+      pagePath.startsWith(path.resolve(PUBLIC_ROOT, 'html')) &&
+      fs.existsSync(pagePath) &&
+      fs.statSync(pagePath).isFile()
+    ) {
+      return sendFile(res, pagePath);
+    }
+
+    let filePath = path.resolve(PUBLIC_ROOT, relativePath);
+    if (!filePath.startsWith(PUBLIC_ROOT)) {
+      return sendJson(res, 403, { error: 'Forbidden' });
+    }
+
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+      return sendFile(res, filePath);
+    }
+
+    return sendFile(res, path.resolve(PUBLIC_ROOT, 'html', 'index.html'));
+  } catch (error) {
+    console.error(error);
+    return sendJson(res, 500, { error: error.message || 'Server error' });
+  }
+});
+
+async function startServer() {
+  try {
+    await client.connect();
+    db = client.db(DB_NAME);
+
+    usersCollection = db.collection('users');
+    statesCollection = db.collection('states');
+    metaCollection = db.collection('meta');
+    listingsCollection = db.collection('listings');
+    requestsCollection = db.collection('requests');
+    conversationsCollection = db.collection('conversations');
+    messagesCollection = db.collection('messages');
+    notificationsCollection = db.collection('notifications');
+    suggestionsCollection = db.collection('suggestions');
+    reviewsCollection = db.collection('reviews');
+
+    await ensureIndexes();
+    await ensureSeedData();
+
+    console.log('✅ MongoDB connected');
+
+    server.listen(PORT, () => {
+      console.log(`✅ Free Sewaa running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();
