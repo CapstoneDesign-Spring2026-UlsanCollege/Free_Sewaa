@@ -12,80 +12,158 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/theme.css" />
   <style>
-    .language-picker {
+    .language-selector {
       position: relative;
+      z-index: 70;
+    }
+    .language-selector summary {
+      width: 82px;
+      height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 72px;
-      height: 44px;
+      gap: 7px;
       border: 1px solid rgba(255,236,212,.1);
       border-radius: 14px;
       color: var(--muted);
       background: transparent;
-      transition: color .3s ease, background .3s ease, border-color .3s ease;
+      cursor: pointer;
+      list-style: none;
+      transition: color .3s ease, background .3s ease, border-color .3s ease, box-shadow .3s ease;
     }
-    .language-picker__icon {
-      position: absolute;
-      left: 12px;
+    .language-selector summary::-webkit-details-marker {
+      display: none;
+    }
+    .language-selector summary:focus-visible {
+      outline: 2px solid var(--bronze);
+      outline-offset: 2px;
+    }
+    .language-selector[open] summary,
+    .language-selector summary:hover {
+      color: var(--cream-2);
+      border-color: rgba(255,236,212,.18);
+      background: rgba(255,244,230,.05);
+      box-shadow: 0 10px 30px rgba(0,0,0,.16);
+    }
+    .language-selector__icon {
       width: 16px;
       height: 16px;
-      color: currentColor;
-      pointer-events: none;
+      flex: 0 0 auto;
     }
-    .language-picker select {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      outline: 0;
-      color: var(--cream-2);
-      background: transparent;
-      font: inherit;
-      font-size: .86rem;
+    .language-selector__code {
+      font-size: .82rem;
       font-weight: 800;
-      cursor: pointer;
-      appearance: none;
-      padding: 0 22px 0 34px;
+      letter-spacing: .02em;
+      color: currentColor;
     }
-    .language-picker::after {
-      content: "";
-      position: absolute;
-      right: 11px;
-      width: 6px;
-      height: 6px;
+    .language-selector__chevron {
+      width: 7px;
+      height: 7px;
       border-right: 2px solid currentColor;
       border-bottom: 2px solid currentColor;
       transform: rotate(45deg) translateY(-2px);
-      pointer-events: none;
-      opacity: .8;
+      opacity: .78;
     }
-    .language-picker select option {
-      color: #24180f;
-      background: #fffaf4;
+    .language-selector[open] .language-selector__chevron {
+      transform: rotate(225deg) translate(-1px,-1px);
+    }
+    .language-selector__menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 10px);
+      min-width: 210px;
+      padding: 10px;
+      border: 1px solid rgba(255,236,212,.12);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--bg-2) 94%, transparent);
+      backdrop-filter: blur(18px) saturate(145%);
+      box-shadow: var(--shadow);
+    }
+    .language-selector__menu::before {
+      content: "";
+      position: absolute;
+      top: -6px;
+      right: 27px;
+      width: 10px;
+      height: 10px;
+      border-left: 1px solid rgba(255,236,212,.12);
+      border-top: 1px solid rgba(255,236,212,.12);
+      background: color-mix(in srgb, var(--bg-2) 94%, transparent);
+      transform: rotate(45deg);
+    }
+    .language-selector__option {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 38px;
+      padding: 8px 10px;
+      border: 0;
+      border-radius: 10px;
+      color: var(--muted);
+      background: transparent;
+      text-align: left;
+      font: inherit;
+      font-size: .9rem;
       font-weight: 700;
+      cursor: pointer;
     }
-    .language-picker:focus-within,
-    .language-picker:hover {
+    .language-selector__option + .language-selector__option {
+      border-top: 1px solid rgba(255,236,212,.07);
+    }
+    .language-selector__option:hover,
+    .language-selector__option.is-active {
       color: var(--cream-2);
-      border-color: rgba(255,236,212,.16);
-      background: rgba(255,244,230,.05);
+      background: rgba(255,244,230,.06);
     }
-    body.light-mode .language-picker {
+    .language-selector__check {
+      width: 16px;
+      color: #35c7aa;
+      font-weight: 900;
+      text-align: center;
+      opacity: 0;
+    }
+    .language-selector__option.is-active .language-selector__check {
+      opacity: 1;
+    }
+    .language-selector__flag {
+      width: 20px;
+      text-align: center;
+    }
+    body.light-mode .language-selector summary {
       color: var(--muted);
       border-color: rgba(42,32,23,.1);
     }
-    body.light-mode .language-picker select {
-      color: var(--text);
-    }
-    body.light-mode .language-picker:focus-within,
-    body.light-mode .language-picker:hover {
+    body.light-mode .language-selector[open] summary,
+    body.light-mode .language-selector summary:hover {
       color: var(--text);
       background: rgba(42,32,23,.06);
       border-color: rgba(42,32,23,.16);
     }
+    body.light-mode .language-selector__menu {
+      border-color: rgba(42,32,23,.12);
+      background: color-mix(in srgb, var(--panel) 96%, transparent);
+    }
+    body.light-mode .language-selector__menu::before {
+      border-color: rgba(42,32,23,.12);
+      background: color-mix(in srgb, var(--panel) 96%, transparent);
+    }
+    body.light-mode .language-selector__option:hover,
+    body.light-mode .language-selector__option.is-active {
+      color: var(--text);
+      background: rgba(42,32,23,.07);
+    }
     @media (max-width: 760px) {
-      .language-picker {
-        flex: 0 0 72px;
+      .language-selector summary {
+        width: 82px;
+      }
+      .language-selector__menu {
+        right: auto;
+        left: 0;
+      }
+      .language-selector__menu::before {
+        right: auto;
+        left: 31px;
       }
     }
   </style>
@@ -108,20 +186,24 @@
     <div class="header-actions">
       <a href="notifications.html" class="icon-link "><span class="icon-badge"></span><span>Notifications</span></a>
       <a href="messages.html" class="icon-link "><span class="icon-dot"></span><span>Messages</span></a>
-      <label class="language-picker" aria-label="Choose language">
-        <svg class="language-picker__icon" viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle>
-          <path d="M3 12h18M12 3c2.3 2.5 3.4 5.5 3.4 9s-1.1 6.5-3.4 9M12 3c-2.3 2.5-3.4 5.5-3.4 9s1.1 6.5 3.4 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-        </svg>
-        <select name="language">
-          <option value="en" selected>EN</option>
-          <option value="ko">KO</option>
-          <option value="ne">NE</option>
-          <option value="hi">HI</option>
-          <option value="vi">VI</option>
-          <option value="fil">FIL</option>
-        </select>
-      </label>
+      <details class="language-selector">
+        <summary aria-label="Choose language">
+          <svg class="language-selector__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M3 12h18M12 3c2.3 2.5 3.4 5.5 3.4 9s-1.1 6.5-3.4 9M12 3c-2.3 2.5-3.4 5.5-3.4 9s1.1 6.5 3.4 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+          <span class="language-selector__code">EN</span>
+          <span class="language-selector__chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="language-selector__menu" role="menu">
+          <button class="language-selector__option is-active" type="button" data-code="EN" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">🇺🇸</span><span>English</span></button>
+          <button class="language-selector__option" type="button" data-code="KO" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">🇰🇷</span><span>한국어 (Korean)</span></button>
+          <button class="language-selector__option" type="button" data-code="NE" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">🇳🇵</span><span>नेपाली (Nepali)</span></button>
+          <button class="language-selector__option" type="button" data-code="HI" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">🇮🇳</span><span>हिन्दी (Hindi)</span></button>
+          <button class="language-selector__option" type="button" data-code="VI" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">🇻🇳</span><span>Tiếng Việt</span></button>
+          <button class="language-selector__option" type="button" data-code="FIL" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">🇵🇭</span><span>Filipino</span></button>
+        </div>
+      </details>
       <div class="settings-dropdown">
         <button class="icon-link settings-trigger " type="button" aria-expanded="false">
           <span class="icon-gear">⚙</span><span>Settings</span>
@@ -244,5 +326,18 @@
 
   <script src="api-config.js"></script>
   <script src="../js/site.js"></script>
+  <script>
+    document.querySelectorAll('.language-selector').forEach(selector => {
+      const code = selector.querySelector('.language-selector__code');
+      selector.querySelectorAll('.language-selector__option').forEach(option => {
+        option.addEventListener('click', () => {
+          selector.querySelectorAll('.language-selector__option').forEach(item => item.classList.remove('is-active'));
+          option.classList.add('is-active');
+          code.textContent = option.dataset.code || 'EN';
+          selector.removeAttribute('open');
+        });
+      });
+    });
+  </script>
 </body>
 </html>
