@@ -33,14 +33,14 @@ The following flow demonstrates all core MVP features:
 ## Screenshots
 
 Screenshots are available at:
-- [assets/screenshots/README.md](../../assets/screenshots/README.md) — Screenshot inventory
-- [docs/evidence/week11/screenshots/](../../docs/evidence/week11/screenshots/) — Week 11 screenshots (landing, signup, browse, donate, messages, admin)
+- [assets/screenshots/README.md](../../../assets/screenshots/README.md) — Screenshot inventory
+- [docs/evidence/week11/screenshots/](../../../docs/evidence/week11/) — Week 11 screenshots (landing, signup, browse, donate, messages, admin)
 
 ## Demo Script
 
 A full step-by-step demo script is available:
-- [DEMO_SCRIPT.md](../../DEMO_SCRIPT.md) — Complete presentation walkthrough
-- [docs/DEMO_GUIDE.md](../../docs/DEMO_GUIDE.md) — Additional demo guidance
+- [DEMO_SCRIPT.md](../../../DEMO_SCRIPT.md) — Complete presentation walkthrough
+- [docs/DEMO_GUIDE.md](../../../docs/DEMO_GUIDE.md) — Additional demo guidance
 
 ## Known Demo Notes
 

@@ -14,5 +14,5 @@ The team began converting static HTML pages to React components with Vite build 
 - [a108940](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a108940) — Add app workflow diagrams
 
 ## Additional Context
-- [Sprint Summary Table](../../docs/sprints/SUMMARY.md)
+- [Sprint Summary Table](../../../docs/sprints/SUMMARY.md)
 - [Commit History](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main)

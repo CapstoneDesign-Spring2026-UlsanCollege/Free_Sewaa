@@ -1,6 +1,6 @@
 # Week 05 — Sprint Packet Evidence
 
-**Source:** [Weekly Sprint Packet — Week 05](../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%2005.md)
+**Source:** [Weekly Sprint Packet — Week 05](../../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%205.md)
 
 ## Summary
 
@@ -9,11 +9,11 @@ This week's activities are documented in the formal sprint packet linked above. 
 ## Evidence Links
 
 ### Sprint Packet
-- [Full Sprint Packet](../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%2005.md)
+- [Full Sprint Packet](../../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%205.md)
 
 ### Related Documentation
-- [Progress Tracking](../../docs/PROGRESS/) — Weekly progress files
-- [Sprint Summary Table](../../docs/sprints/SUMMARY.md) — Master overview
+- [Progress Tracking](../../../docs/PROGRESS/) — Weekly progress files
+- [Sprint Summary Table](../../../docs/sprints/SUMMARY.md) — Master overview
 
 ### Commits
 ```bash

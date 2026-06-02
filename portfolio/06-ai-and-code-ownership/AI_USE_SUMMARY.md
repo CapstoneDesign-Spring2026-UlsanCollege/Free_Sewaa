@@ -60,5 +60,5 @@ Every piece of AI-generated code went through this process:
 ## Full Audit
 
 For the complete AI code ownership audit with per-member details:
-- [docs/AI_CODE_OWNERSHIP_AUDIT.md](../../docs/AI_CODE_OWNERSHIP_AUDIT.md)
+- [docs/AI_CODE_OWNERSHIP_AUDIT.md](../../../docs/AI_CODE_OWNERSHIP_AUDIT.md)
 - [Individual Portfolio Pages](../08-individual-portfolios/)
