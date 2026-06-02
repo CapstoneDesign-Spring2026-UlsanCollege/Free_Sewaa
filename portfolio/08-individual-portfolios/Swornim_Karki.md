@@ -1,4 +1,4 @@
-# Swornim Karki — Styling and Documentation Management
+# Swarnimm Jung Karki — Styling and Documentation Management
 
 ## Role
 UI/UX Designer — CSS styling, responsive design, UI polish, documentation management
