@@ -89,6 +89,7 @@
 | 📋 Audit Checklist | [docs/AUDIT_CHECKLIST.md](docs/AUDIT_CHECKLIST.md) |
 | ✅ Release Checklist | [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) |
 | 🎤 Demo Script | [DEMO_SCRIPT.md](DEMO_SCRIPT.md) |
+| 📘 Capstone Portfolio | [portfolio/README.md](portfolio/README.md) |
 | 🧭 Roadmap | [docs/ROADMAP.md](docs/ROADMAP.md) |
 | 🔮 Future Enhancements | [docs/FUTURE_ENHANCEMENTS.md](docs/FUTURE_ENHANCEMENTS.md) |
 | 🚀 Deployment Guide | [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md) |
