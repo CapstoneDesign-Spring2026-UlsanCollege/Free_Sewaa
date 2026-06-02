@@ -16,10 +16,10 @@ I focused on building the user-facing pages and interface of Free Sewaa, includi
 
 | Contribution | What I personally did | Evidence |
 |---|---|---|
-| Landing and core pages | Built the initial versions of index.html (landing), browse.html (item listing), donate.html (item posting form), and messages.html (chat interface). | [HTML files](../../html/) |
-| Page flow and navigation | Connected the pages through consistent navigation menus, buttons, and links so users could move from login to browsing to requesting without confusion. | [UI Flow diagram](../../docs/DESIGN/UI_FLOW.md) |
-| Responsive design adjustments | Updated CSS to improve layout on mobile devices, including adjusting font sizes, padding, and grid layouts for better usability on small screens. | [CSS theme](../../css/theme.css) |
-| Messaging UI | Designed and implemented the chat interface where donors and recipients could communicate after a request was made, including message bubbles and input fields. | [messages.html](../../html/messages.html) |
+| Landing and core pages | Built the initial versions of index.html (landing), browse.html (item listing), donate.html (item posting form), and messages.html (chat interface). | [HTML files](../../../html/) |
+| Page flow and navigation | Connected the pages through consistent navigation menus, buttons, and links so users could move from login to browsing to requesting without confusion. | [UI Flow diagram](../../../docs/DESIGN/UI_FLOW.md) |
+| Responsive design adjustments | Updated CSS to improve layout on mobile devices, including adjusting font sizes, padding, and grid layouts for better usability on small screens. | [CSS theme](../../../css/theme.css) |
+| Messaging UI | Designed and implemented the chat interface where donors and recipients could communicate after a request was made, including message bubbles and input fields. | [messages.html](../../../html/messages.html) |
 
 ## 3. One Area I Can Explain Clearly
 
@@ -29,7 +29,7 @@ I focused on building the user-facing pages and interface of Free Sewaa, includi
 - **How it works:** On page load, JavaScript makes a GET request to `/api/items`, receives an array of item objects, loops through them, and creates HTML elements for each item using `document.createElement()` and `innerHTML`. Each card includes an image, title, category badge, and a “Request” button that opens a modal.
 - **How it was tested:** I tested it by posting items via the donate page, then refreshing the browse page to see if the new items appeared. I also checked the browser’s Network tab to confirm the API request returned data and inspected the DOM to verify the cards were created correctly.
 - **One limitation:** The current implementation re-renders the entire item list on every update, which could be inefficient with large datasets. A better approach might use a virtualized list or a frontend framework like React for efficient updates.
-- **Evidence:** [Browse page code](../../html/browse.html), [JavaScript site file](../../js/site.js) (search for `renderItems` or `fetchItems`)
+- **Evidence:** [Browse page code](../../../html/browse.html), [JavaScript site file](../../../js/site.js) (search for `renderItems` or `fetchItems`)
 
 ## 4. My AI Use and Review
 
@@ -46,7 +46,7 @@ I focused on building the user-facing pages and interface of Free Sewaa, includi
 - **Why it mattered:** If users couldn’t easily post items, the core donation flow of the platform would break, discouraging participation.
 - **What I did:** I added client-side validation to the donate form (e.g., checking for required fields, file type, and size) and implemented dynamic error messages that appear next to the relevant input when validation fails. I also added a loading state during submission.
 - **What changed:** Users now see immediate feedback when they try to submit an incomplete form, and they cannot submit unless all required fields are valid, reducing failed API calls.
-- **Evidence:** [Donate page](../../html/donate.html), [Form validation checklist](../../FORM_VALIDATION_CHECKLIST.md) (shows rules we aimed to follow)
+- **Evidence:** [Donate page](../../../html/donate.html), [Form validation checklist](../../../FORM_VALIDATION_CHECKLIST.md) (shows rules we aimed to follow)
 
 ## 6. Reflection
 
@@ -76,11 +76,11 @@ Frontend architecture and state management, particularly how to build scalable, 
 
 ## 8. My Best Evidence Links
 
-1. [Browse page code](../../html/browse.html) — Shows item rendering logic
-2. [Donate page code](../../html/donate.html) — Shows form with validation
-3. [Messages page code](../../html/messages.html) — Shows chat interface
-4. [UI Flow diagram](../../docs/DESIGN/UI_FLOW.md) — Shows how pages connect
-5. [Form validation checklist](../../FORM_VALIDATION_CHECKLIST.md) — References the rules we implemented
+1. [Browse page code](../../../html/browse.html) — Shows item rendering logic
+2. [Donate page code](../../../html/donate.html) — Shows form with validation
+3. [Messages page code](../../../html/messages.html) — Shows chat interface
+4. [UI Flow diagram](../../../docs/DESIGN/UI_FLOW.md) — Shows how pages connect
+5. [Form validation checklist](../../../FORM_VALIDATION_CHECKLIST.md) — References the rules we implemented
 
 ---
 [Back to Individual Portfolios](./README.md) | [Back to Portfolio Home](../README.md)

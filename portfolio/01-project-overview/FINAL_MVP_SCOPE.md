@@ -21,7 +21,7 @@ Based on evidence from [MVP_STATUS.md](../../docs/PROJECT/MVP_STATUS.md), [ROADM
 | Email Auth | ⚠️ Partly | Basic flow works |
 | Notifications | ⚠️ Partly | UI exists, backend pending |
 | Saved Items | ⚠️ Partly | UI structure in place |
-| Password Recovery | ❌ Not done | P0 bug, see [bug12](../docs/ISSUES/BUGS/bug12.md) |
+| Password Recovery | ❌ Not done | P0 bug, see [bug12](../../docs/ISSUES/BUGS/bug12.md) |
 
 ## MVP Verification
 
@@ -38,10 +38,10 @@ The MVP was verified in Week 11 with a full flow test:
 9. Admin login and panel access ✅
 
 **Evidence links:**
-- [Week 11 MVP Verification](../docs/PROGRESS/week11/MVP_VERIFICATION_CHECKLIST.md)
-- [Week 11 Demo Script](../docs/PROGRESS/week11/WEEK_11_DEMO_SCRIPT.md)
-- [Week 11 Sprint Packet](../docs/PROGRESS/week11/WEEK_11_SPRINT_PACKET.md)
-- [MVP Checklist (Progress)](../docs/PROGRESS/MVP_CHECKLIST.md)
+- [Week 11 MVP Verification](../../docs/PROGRESS/week11/MVP_VERIFICATION_CHECKLIST.md)
+- [Week 11 Demo Script](../../docs/PROGRESS/week11/WEEK_11_DEMO_SCRIPT.md)
+- [Week 11 Sprint Packet](../../docs/PROGRESS/week11/WEEK_11_SPRINT_PACKET.md)
+- [MVP Checklist (Progress)](../../docs/PROGRESS/MVP_CHECKLIST.md)
 - [FINAL_REVIEW_NOTES.md](../../FINAL_REVIEW_NOTES.md)
 
 ## Project Phases

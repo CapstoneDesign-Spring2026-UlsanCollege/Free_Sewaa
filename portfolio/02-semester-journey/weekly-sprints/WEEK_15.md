@@ -19,5 +19,5 @@ The team created structured bug reports for remaining issues and improved projec
 - [7ae75f9](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/7ae75f9) — Bug report: password recovery
 
 ## Additional Context
-- [Sprint Summary Table](../../docs/sprints/SUMMARY.md)
+- [Sprint Summary Table](../../../docs/sprints/SUMMARY.md)
 - [Commit History](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main)

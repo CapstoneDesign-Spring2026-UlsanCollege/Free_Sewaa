@@ -21,14 +21,14 @@ Many usable items go to waste while community members lack access to essential g
 
 | Feature | Description | Evidence |
 |---------|-------------|----------|
-| User signup/login | JWT-based authentication with secure session management | [Authentication docs](../docs/AUTHENTICATION.md), [server/auth](../server/) |
-| Item donation posting | Post items with categories, descriptions, and images | [Browse/Donate pages](../html/), [server/items](../server/) |
-| Item request system | Browse available items and submit requests | [Requests docs](../docs/USER_FLOW.md), [server/requests](../server/) |
-| Messaging | Direct communication between donors and requesters | [Messages UI](../html/messages.html), [server/messages](../server/) |
-| User dashboard | Track donations, requests, and account activity | [Dashboard](../html/dashboard.html), [Profile](../html/profile.html) |
-| Admin panel | User management, content moderation, listing oversight | [Admin panel](../admin-panel.js), [Admin guide](../docs/ADMIN_GUIDE.md) |
-| Responsive design | Mobile and desktop support with consistent UX | [CSS theme](../css/theme.css), [Mobile checklist](../MOBILE_TESTING_CHECKLIST.md) |
-| Documentation & testing | QA checklists, test plans, bug reports | [docs/](../docs/), [QA checklists](../MANUAL_TESTING_CHECKLIST.md) |
+| User signup/login | JWT-based authentication with secure session management | [Authentication docs](../../docs/AUTHENTICATION.md), [server/auth](../../server/) |
+| Item donation posting | Post items with categories, descriptions, and images | [Browse/Donate pages](../../html/), [server/items](../../server/) |
+| Item request system | Browse available items and submit requests | [Requests docs](../../docs/USER_FLOW.md), [server/requests](../../server/) |
+| Messaging | Direct communication between donors and requesters | [Messages UI](../../html/messages.html), [server/messages](../../server/) |
+| User dashboard | Track donations, requests, and account activity | [Dashboard](../../html/user_panel.html), [Profile](../../html/profile.html) |
+| Admin panel | User management, content moderation, listing oversight | [Admin panel](../../admin-panel.js), [Admin guide](../../docs/ADMIN_GUIDE.md) |
+| Responsive design | Mobile and desktop support with consistent UX | [CSS theme](../../css/theme.css), [Mobile checklist](../../MOBILE_TESTING_CHECKLIST.md) |
+| Documentation & testing | QA checklists, test plans, bug reports | [docs/](../../docs/), [QA checklists](../../MANUAL_TESTING_CHECKLIST.md) |
 
 ## Technology Stack
 
@@ -43,9 +43,9 @@ Many usable items go to waste while community members lack access to essential g
 
 ## Key Project Links
 
-- [README](../README.md) — Project overview and badges
-- [docs/README.md](../docs/README.md) — Documentation hub
-- [docs/PROJECT/PROJECT.md](../docs/PROJECT/PROJECT.md) — Full project document
-- [docs/PROJECT/PROJECT_IDEA_PITCH.md](../docs/PROJECT/PROJECT_IDEA_PITCH.md) — Original project pitch
-- [ROADMAP.md](../ROADMAP.md) — Project timeline and phases
-- [PROJECT_BOARD.md](../PROJECT_BOARD.md) — Kanban project board
+- [README](../../README.md) — Project overview and badges
+- [docs/README.md](../../docs/README.md) — Documentation hub
+- [docs/PROJECT/PROJECT.md](../../docs/PROJECT/PROJECT.md) — Full project document
+- [docs/PROJECT/PROJECT_IDEA_PITCH.md](../../docs/PROJECT/PROJECT_IDEA_PITCH.md) — Original project pitch
+- [ROADMAP.md](../../ROADMAP.md) — Project timeline and phases
+- [PROJECT_BOARD.md](../../PROJECT_BOARD.md) — Kanban project board

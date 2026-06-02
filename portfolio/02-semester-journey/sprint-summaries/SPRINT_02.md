@@ -11,10 +11,10 @@ Define MVP scope and begin core feature implementation.
 
 ## Completed Work
 - Team agreed on MVP Option B (donation platform)
-- [Browse page structure started](../../html/browse.html)
-- [Post Item form layout designed](../../html/donate.html)
-- Issue templates created: [bug report](../../.github/ISSUE_TEMPLATE/bug_report.md), [feature request](../../.github/ISSUE_TEMPLATE/feature_request.md)
-- [Project board](../../PROJECT_BOARD.md) set up with To Do/Doing/Done/Blocked columns
+- [Browse page structure started](../../../html/browse.html)
+- [Post Item form layout designed](../../../html/donate.html)
+- Issue templates created: [bug report](../../../.github/ISSUE_TEMPLATE/bug_report.md), [feature request](../../../.github/ISSUE_TEMPLATE/feature_request.md)
+- [Project board](../../../PROJECT_BOARD.md) set up with To Do/Doing/Done/Blocked columns
 
 ## Incomplete Work
 - Item detail modal — moved to Sprint 3
@@ -25,9 +25,9 @@ Define MVP scope and begin core feature implementation.
 - Added responsive design as core requirement
 
 ## Strongest Evidence
-- [Sprint 2 Packet](../../docs/sprints/SPRINT_2.md) — MVP Features Decision section
-- [Week 2 Sprint Packet](../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%202.md)
-- [DESIGN_DOC-V1.md](../../docs/DESIGN/DESIGN_DOC-V1.md) — Initial design document
+- [Sprint 2 Packet](../../../docs/sprints/SPRINT_2.md) — MVP Features Decision section
+- [Week 2 Sprint Packet](../../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%202.md)
+- [DESIGN_DOC-V1.md](../../../docs/DESIGN/DESIGN_DOC-V1.md) — Initial design document
 
 ## Bugs/Risks
 - Scope creep risk from marketplace features (mitigated by MVP decision)

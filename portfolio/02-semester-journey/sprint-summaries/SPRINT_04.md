@@ -11,13 +11,13 @@ Shift focus from building to verification: test all features, fix critical bugs,
 - Test automation with Jest
 
 ## Completed Work
-- [QA Checklist](../../docs/QA_CHECKLIST.md) — Pre-release checklist for all features
-- [Testing Strategy](../../docs/TESTING_STRATEGY.md) — 5 testing levels defined
-- [Testing Plan](../../docs/TESTING_PLAN.md) — Unit, integration, E2E tests
-- [3 Jest tests](../../server/tests/) — Health, signup validation, weak password
-- [Bug reports 1–11](../../docs/ISSUES/BUGS/bug1.md) — Structured bug reports created
-- [Bug Triage Guide](../../docs/PROJECT/BUG_TRIAGE.md) — Severity level definitions
-- [Project Board](../../PROJECT_BOARD.md) — All tasks tracked
+- [QA Checklist](../../../docs/QA_CHECKLIST.md) — Pre-release checklist for all features
+- [Testing Strategy](../../../docs/TESTING_STRATEGY.md) — 5 testing levels defined
+- [Testing Plan](../../../docs/TESTING_PLAN.md) — Unit, integration, E2E tests
+- [3 Jest tests](../../../server/__tests__/) — Health, signup validation, weak password
+- [Bug reports 1–11](../../../docs/ISSUES/BUGS/bug1.md) — Structured bug reports created
+- [Bug Triage Guide](../../../docs/PROJECT/BUG_TRIAGE.md) — Severity level definitions
+- [Project Board](../../../PROJECT_BOARD.md) — All tasks tracked
 
 ## Incomplete Work
 - 80% test coverage target (achieved ~60%)
@@ -28,10 +28,10 @@ Shift focus from building to verification: test all features, fix critical bugs,
 - Added root-level QA checklists for better visibility
 
 ## Strongest Evidence
-- [Sprint 4 Packet](../../docs/sprints/SPRINT_4.md) — "The Big Shift" sprint theme
-- [Week 10 Stability Packet](../../docs/PROJECT/WEEK10_STABILITY_PACKET.md)
-- [Test Checklist](../../docs/PROJECT/TEST_CHECKLIST.md) — 12 test cases with pass/fail
-- [Testing Log](../../docs/PROGRESS/TESTING_LOG.md)
+- [Sprint 4 Packet](../../../docs/sprints/SPRINT_4.md) — "The Big Shift" sprint theme
+- [Week 10 Stability Packet](../../../docs/PROJECT/WEEK10_STABILITY_PACKET.md)
+- [Test Checklist](../../../docs/PROJECT/TEST_CHECKLIST.md) — 12 test cases with pass/fail
+- [Testing Log](../../../docs/PROGRESS/TESTING_LOG.md)
 
 ## Bugs/Risks
 - P0: Password recovery missing

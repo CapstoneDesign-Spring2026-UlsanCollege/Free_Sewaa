@@ -11,12 +11,12 @@ Build complete core functionality: auth, item management, messaging, and databas
 - Set up database schema
 
 ## Completed Work
-- [Authentication system](../../docs/AUTHENTICATION.md) — JWT-based signup and login
-- [Item management](../../server/routes/items.js) — Post, browse, view items
-- [Request system](../../server/routes/requests.js) — Request items from donors
-- [Messaging](../../server/routes/messages.js) — Direct messages between users
-- [Database schema](../../docs/DESIGN/DATABASE_SCHEMA.md) — users, items, requests, messages collections
-- [API endpoints](../../docs/DESIGN/API_REFERENCE.md) — Full REST API
+- [Authentication system](../../../docs/AUTHENTICATION.md) — JWT-based signup and login
+- [Item management](../../../server/server.js) — Post, browse, view items
+- [Request system](../../../server/server.js) — Request items from donors
+- [Messaging](../../../server/server.js) — Direct messages between users
+- [Database schema](../../../docs/DESIGN/DATABASE_SCHEMA.md) — users, items, requests, messages collections
+- [API endpoints](../../../docs/DESIGN/API_REFERENCE.md) — Full REST API
 
 ## Incomplete Work
 - Admin panel — UI scaffolded, backend pending
@@ -27,10 +27,10 @@ Build complete core functionality: auth, item management, messaging, and databas
 - Postponed admin panel backend to Sprint 4
 
 ## Strongest Evidence
-- [Sprint 3 Packet](../../docs/sprints/SPRINT_3.md) — 604-line comprehensive technical document
-- [Week 3 Sprint Packet](../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%203.md)
-- [Backend Plan](../../docs/DESIGN/BACKEND_PLAN.md)
-- [Frontend Design](../../docs/DESIGN/Frontend_DESIGN.md)
+- [Sprint 3 Packet](../../../docs/sprints/SPRINT_3.md) — 604-line comprehensive technical document
+- [Week 3 Sprint Packet](../../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%203.md)
+- [Backend Plan](../../../docs/DESIGN/BACKEND_PLAN.md)
+- [Frontend Design](../../../docs/DESIGN/Frontend_DESIGN.md)
 
 ## Bugs/Risks
 - Auth session handling needed refinement

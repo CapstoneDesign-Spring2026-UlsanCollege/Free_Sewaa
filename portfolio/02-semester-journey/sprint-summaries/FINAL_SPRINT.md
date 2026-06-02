@@ -13,22 +13,22 @@ Complete all remaining work: fix critical bugs, finalize QA, document everything
 ## Completed Work
 
 ### Bug Fixes (Week 11)
-- [bcrypt password hashing](../../docs/PROGRESS/week11/BUG_LIST.md) — P0 fix for plain text passwords
-- [Jest test suite](../../docs/PROGRESS/week11/CODE_COVERAGE.md) — 3 passing tests (health, signup validation, weak password)
-- [CI workflow fix](../../.github/workflows/ci.yml) — Added script verification and path fixes
+- [bcrypt password hashing](../../../docs/PROGRESS/week11/BUG_LIST.md) — P0 fix for plain text passwords
+- [Jest test suite](../../../docs/PROGRESS/week11/CODE_COVERAGE.md) — 3 passing tests (health, signup validation, weak password)
+- [CI workflow fix](../../../.github/workflows/ci.yml) — Added script verification and path fixes
 
 ### QA Day (Week 12)
-- [50+ test cases executed](../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%2012.md) with 96% pass rate
+- [50+ test cases executed](../../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%2012.md) with 96% pass rate
 - Performance testing: homepage 1.8s, API 280ms, DB 85ms
 - Mobile testing across 5+ devices
 - Security verification completed
 
 ### Documentation (Weeks 9–16)
-- [AI Code Ownership Audit](../../docs/AI_CODE_OWNERSHIP_AUDIT.md)
+- [AI Code Ownership Audit](../../../docs/AI_CODE_OWNERSHIP_AUDIT.md)
 - 10 root-level QA checklists
-- [FINAL_REVIEW_NOTES.md](../../FINAL_REVIEW_NOTES.md)
-- [DEMO_SCRIPT.md](../../DEMO_SCRIPT.md)
-- [CHANGELOG.md](../../CHANGELOG.md)
+- [FINAL_REVIEW_NOTES.md](../../../FINAL_REVIEW_NOTES.md)
+- [DEMO_SCRIPT.md](../../../DEMO_SCRIPT.md)
+- [CHANGELOG.md](../../../CHANGELOG.md)
 - 9 new structured bug reports (bugs 12–20)
 - Updated project guides for React migration
 
@@ -49,11 +49,11 @@ Complete all remaining work: fix critical bugs, finalize QA, document everything
 - Added structured bug report format following industry standards
 
 ## Strongest Evidence
-- [Sprint Summary Table](../../docs/sprints/SUMMARY.md) — All 12 weeks summarized
-- [Week 11 Sprint Packet](../../docs/PROGRESS/week11/WEEK_11_SPRINT_PACKET.md)
-- [Week 12 Sprint Packet](../../docs/PROGRESS/week12/WEEK_12_SPRINT_PACKET.md)
-- [QA Checklist](../../docs/QA_CHECKLIST.md) — Comprehensive pre-release checklist
-- [Testing Strategy](../../docs/TESTING_STRATEGY.md)
+- [Sprint Summary Table](../../../docs/sprints/SUMMARY.md) — All 12 weeks summarized
+- [Week 11 Sprint Packet](../../../docs/PROGRESS/week11/WEEK_11_SPRINT_PACKET.md)
+- [Week 12 Sprint Packet](../../../docs/PROGRESS/week12/WEEK_12_SPRINT_PACKET.md)
+- [QA Checklist](../../../docs/QA_CHECKLIST.md) — Comprehensive pre-release checklist
+- [Testing Strategy](../../../docs/TESTING_STRATEGY.md)
 
 ## Bugs/Risks
 - Passwords in plain text (bcrypt installed but not fully integrated) — P1

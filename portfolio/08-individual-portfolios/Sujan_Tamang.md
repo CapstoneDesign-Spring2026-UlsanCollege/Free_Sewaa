@@ -16,20 +16,20 @@ I focused on testing, documentation, and ensuring the different parts of Free Se
 
 | Contribution | What I personally did | Evidence |
 |---|---|---|
-| Testing strategy and plans | Developed the overall testing approach (unit, integration, manual, accessibility, regression) and wrote detailed test plans for features like authentication, item posting, and messaging. | [Testing strategy](../../docs/TESTING_STRATEGY.md), [Testing plan](../../docs/TESTING_PLAN.md) |
-| QA checklists | Created specialized checklists for manual testing of auth, browse, donate, requests, messages, admin panel, mobile, and form validation. | [Manual testing checklist](../../MANUAL_TESTING_CHECKLIST.md), [Form validation checklist](../../FORM_VALIDATION_CHECKLIST.md) |
-| Bug reporting and tracking | Wrote 20 structured bug reports with clear steps to reproduce, severity levels, and expected vs actual behavior; maintained them in the issues folder. | [Bug reports folder](../../docs/ISSUES/BUGS/) |
-| Documentation support | Helped organize and update key documents like the project roadmap, API reference, and contribution records to keep them accurate and useful. | [Roadmap](../../ROADMAP.md), [API reference](../../docs/DESIGN/API_REFERENCE.md), [Team contributions](../../docs/PROJECT/TEAM_CONTRIBUTIONS.md) |
+| Testing strategy and plans | Developed the overall testing approach (unit, integration, manual, accessibility, regression) and wrote detailed test plans for features like authentication, item posting, and messaging. | [Testing strategy](../../../docs/TESTING_STRATEGY.md), [Testing plan](../../../docs/TESTING_PLAN.md) |
+| QA checklists | Created specialized checklists for manual testing of auth, browse, donate, requests, messages, admin panel, mobile, and form validation. | [Manual testing checklist](../../../MANUAL_TESTING_CHECKLIST.md), [Form validation checklist](../../../FORM_VALIDATION_CHECKLIST.md) |
+| Bug reporting and tracking | Wrote 20 structured bug reports with clear steps to reproduce, severity levels, and expected vs actual behavior; maintained them in the issues folder. | [Bug reports folder](../../../docs/ISSUES/BUGS/) |
+| Documentation support | Helped organize and update key documents like the project roadmap, API reference, and contribution records to keep them accurate and useful. | [Roadmap](../../../ROADMAP.md), [API reference](../../../docs/DESIGN/API_REFERENCE.md), [Team contributions](../../../docs/PROJECT/TEAM_CONTRIBUTIONS.md) |
 
 ## 3. One Area I Can Explain Clearly
 
 - **Area:** How the manual testing checklist for authentication works
-- **File/folder/doc:** [Manual testing checklist](../../MANUAL_TESTING_CHECKLIST.md) (authentication section)
+- **File/folder/doc:** [Manual testing checklist](../../../MANUAL_TESTING_CHECKLIST.md) (authentication section)
 - **What it does:** Provides a step-by-step procedure to verify that user signup, login, session management, and access control are working correctly.
 - **How it works:** The checklist instructs the tester to: 1) Sign up a new user with valid data, 2) Log in with those credentials, 3) Access a protected page like the dashboard, 4) Try to access a protected route without logging in (should redirect), 5) Log out and verify the session is cleared. Each step has a clear pass/fail criterion.
 - **How it was tested:** I followed the checklist myself during sprint testing and Week 12 QA Day, noting any deviations. I also compared the checklist steps to the actual behavior in the application to ensure they were accurate and achievable.
 - **One limitation:** The checklist relies on manual execution, which can be inconsistent if steps are skipped or misinterpreted. Automated tests would provide more consistent verification.
-- **Evidence:** [Manual testing checklist](../../MANUAL_TESTING_CHECKLIST.md), [Test log](../../docs/PROGRESS/TESTING_LOG.md) (shows when checklists were executed)
+- **Evidence:** [Manual testing checklist](../../../MANUAL_TESTING_CHECKLIST.md), [Test log](../../../docs/PROGRESS/TESTING_LOG.md) (shows when checklists were executed)
 
 ## 4. My AI Use and Review
 
@@ -46,7 +46,7 @@ I focused on testing, documentation, and ensuring the different parts of Free Se
 - **Why it mattered:** This was a serious security vulnerability (broken access control) that would allow anyone to view or modify other users’ data, making the platform unsafe for real use.
 - **What I did:** I identified the missing middleware protection on certain routes, worked with the backend team to add the authentication check to all relevant endpoints, and verified the fix by attempting to access those URLs without logging in.
 - **What changed:** Routes like `/dashboard.html` and `/api/items` now properly redirect unauthenticated users to the login page or return a 401 error, preventing unauthorized access.
-- **Evidence:** [Authentication docs](../../docs/AUTHENTICATION.md), [Server code](../../server/server.js) (look for auth middleware), [Bug report on auth redirect] (if exists; otherwise note: verified via manual testing)
+- **Evidence:** [Authentication docs](../../../docs/AUTHENTICATION.md), [Server code](../../../server/server.js) (look for auth middleware), [Bug report on auth redirect] (if exists; otherwise note: verified via manual testing)
 
 ## 6. Reflection
 
@@ -76,11 +76,11 @@ Test automation and test-driven development (TDD), particularly how to write eff
 
 ## 8. My Best Evidence Links
 
-1. [Testing strategy](../../docs/TESTING_STRATEGY.md) — Overall approach to testing
-2. [Manual testing checklist](../../MANUAL_TESTING_CHECKLIST.md) — Auth and feature-specific test steps
-3. [Bug reports folder](../../docs/ISSUES/BUGS/) — Structured bug reports with reproduction steps
-4. [Roadmap](../../ROADMAP.md) — Shows how testing fits into the project timeline
-5. [Team contributions](../../docs/PROJECT/TEAM_CONTRIBUTIONS.md) — Shows documentation and testing responsibilities
+1. [Testing strategy](../../../docs/TESTING_STRATEGY.md) — Overall approach to testing
+2. [Manual testing checklist](../../../MANUAL_TESTING_CHECKLIST.md) — Auth and feature-specific test steps
+3. [Bug reports folder](../../../docs/ISSUES/BUGS/) — Structured bug reports with reproduction steps
+4. [Roadmap](../../../ROADMAP.md) — Shows how testing fits into the project timeline
+5. [Team contributions](../../../docs/PROJECT/TEAM_CONTRIBUTIONS.md) — Shows documentation and testing responsibilities
 
 ---
 [Back to Individual Portfolios](./README.md) | [Back to Portfolio Home](../README.md)

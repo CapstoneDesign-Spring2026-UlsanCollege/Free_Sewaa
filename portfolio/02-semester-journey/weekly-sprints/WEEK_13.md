@@ -14,5 +14,5 @@ The team matched UI pages to the Figma design reference.
 - [807aff0](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/807aff0) — Fix auth header scroll layout
 
 ## Additional Context
-- [Sprint Summary Table](../../docs/sprints/SUMMARY.md)
+- [Sprint Summary Table](../../../docs/sprints/SUMMARY.md)
 - [Commit History](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main)
