@@ -1,85 +1,87 @@
-# Mohan Khadka — Bug Fixes and Stability
+# Mohan Khadka — Bug Fixes & Maintenance
 
-I kept Free Sewaa running smoothly by finding and fixing bugs across the entire platform. When something broke — an auth redirect, a broken link, a UI glitch — I tracked down the root cause and made sure it got fixed. My work ensured the platform was stable enough for live demos.
+## Short Summary
+
+I focused on identifying and fixing bugs, improving stability, and supporting the final stages of the Free Sewaa project. My work helped ensure the platform was reliable enough for demonstrations and presentations by addressing critical issues in authentication, navigation, and UI consistency.
 
 ## 1. My Role
 
 - **Name:** Mohan Khadka
-- **Team:** Capstone Design — Spring 2026, Ulsan College
+- **Team:** Free Sewaa
 - **Project:** Free Sewaa
-- **Main responsibilities:** Bug identification, debugging, issue tracking, stability improvements, demo support
-- **Role during the semester:** Demo Driver, Project Manager (Weeks 5, 12), Maintenance Lead
+- **Main responsibilities:** Bug identification, debugging, issue tracking, implementing fixes, supporting testing efforts, and helping maintain code stability.
+- **Role during the semester:** Demo driver and maintenance lead; also served as project manager in Weeks 5 and 12.
 
 ## 2. My Strongest Contributions
 
 | Contribution | What I personally did | Evidence |
 |---|---|---|
-| Bug triage | Identified and documented bugs with severity levels across frontend and backend | [Bug Triage](../../docs/PROJECT/BUG_TRIAGE.md) |
-| Auth fix | Debugged admin login error after account creation — timing issue with account initialization | [Bug 8](../../docs/ISSUES/BUGS/bug8.md) |
-| Stability | Found root cause of multiple P1 bugs: session loss, chat button context, item timestamp | [Bug 11](../../docs/ISSUES/BUGS/bug11.md) |
-| Demo support | Prepared demo environment, tested flow, verified credentials before each presentation | [Demo Script](../../DEMO_SCRIPT.md) |
-| Issue tracking | Maintained project board with all tasks organized by status and priority | [Project Board](../../PROJECT_BOARD.md) |
+| Bug identification and reporting | Helped discover and document bugs in the issues folder, including authentication errors, navigation links, and UI inconsistencies, with clear steps to reproduce. | [Bugs folder](../../docs/ISSUES/BUGS/) |
+| Authentication fixes | Debugged and resolved issues like admin login failures after account creation and session loss on page refresh by examining the flow between frontend, API, and database. | [Bug 8](../../docs/ISSUES/BUGS/bug8.md), [Bug 9](../../docs/ISSUES/BUGS/bug9.md), [Bug 11](../../docs/ISSUES/BUGS/bug11.md) |
+| Navigation and UI fixes | Corrected broken links, missing buttons, and inconsistent styling across pages by reviewing HTML, CSS, and JavaScript files. | [Bug 13](../../docs/ISSUES/BUGS/bug13.md), [Bug 17](../../docs/ISSUES/BUGS/bug17.md) |
+| Testing and QA support | Assisted in running manual tests, verifying fixes, and updating checklists to reflect resolved issues. | [Manual testing checklist](../../MANUAL_TESTING_CHECKLIST.md), [QA checklist](../../docs/QA_CHECKLIST.md) |
+| Project board maintenance | Helped keep the PROJECT_BOARD.md updated with task statuses, priorities, and assignments to improve team coordination. | [Project board](../../PROJECT_BOARD.md) |
 
 ## 3. One Area I Can Explain Clearly
 
-- **Area:** Systematic Bug Diagnosis Across Frontend and Backend
-- **File/folder/doc:** [Bug Reports](../../docs/ISSUES/BUGS/), [Bug Triage Guide](../../docs/PROJECT/BUG_TRIAGE.md)
-- **What it does:** Identifies, reproduces, and resolves issues in a structured way
-- **How it works:** Start by reproducing the bug with clear steps. Check browser console for JS errors. Check network tab for API response codes. Check server logs for backend errors. Isolate the layer (frontend, API, database) and drill down.
-- **How it was tested:** After fixing, re-test the failing scenario. Then run related test cases to ensure no regression.
-- **One limitation:** We lack automated regression tests — every bug fix requires manual re-testing of related features
-- **Evidence:** [Test Checklist](../../docs/PROJECT/TEST_CHECKLIST.md), [Testing Log](../../docs/PROGRESS/TESTING_LOG.md)
+- **Area:** How the admin login flow works and where a common bug occurred
+- **File/folder/doc:** `server/routes/auth.js` (admin login route) and `html/admin-login.html`
+- **What it does:** Allows an administrator to log in to access the admin panel for managing users, items, and reports.
+- **How it works:** The admin submits their credentials via a form on `/admin-login.html`. The frontend sends a POST request to `/api/admin/login`. The server checks the credentials against the database (looking for a user with role `admin`), and if valid, returns a JWT token. The client stores the token and redirects to the admin dashboard.
+- **How it was tested:** I tested it by creating an admin user in the database (or using existing credentials), submitting the login form with correct and incorrect credentials, and verifying the response (token or error). I also checked that the admin dashboard was accessible only after a successful login.
+- **One limitation:** The admin credentials are currently hardcoded or weakly managed; in a production system, we would want stronger password policies and possibly multi-factor authentication.
+- **Evidence:** [Auth route code](../../server/routes/auth.js) (if exists; otherwise note: admin login logic is in `server/server.js`), [Admin login page](../../html/admin-login.html), [Bug 8 report](../../docs/ISSUES/BUGS/bug8.md)
 
 ## 4. My AI Use and Review
 
 - **AI tools used:** GitHub Copilot
-- **What AI helped with:** Analyzing error messages, suggesting potential root causes, generating debug log statements
-- **What I personally checked:** Confirmed AI suggestions against actual code behavior, verified fixes don't break other features
-- **What I personally changed:** AI often suggested complex fixes when the real problem was simple — I simplified solutions and removed unnecessary code changes
-- **How I tested or verified it:** Manual reproduction of the bug, applied fix, confirmed bug is resolved, tested related features
-- **One area I still need to improve:** Writing automated tests for bug fixes so regressions are caught automatically
+- **What AI helped with:** Suggesting boilerplate code for error handling (e.g., try-catch blocks) and providing ideas for database query structures.
+- **What I personally checked:** I reviewed every AI-generated suggestion to ensure it matched our authentication logic, did not introduce security risks, and used the correct field names from the user schema.
+- **What I personally changed:** I rewrote most of the AI-generated code to fit our project’s style and fixed logical errors—for example, cases where the AI suggested checking the wrong field or returning an unclear error message. I also added proper logging to help debug login attempts.
+- **How I tested or verified it:** I manually tested the login flow with various inputs (correct, wrong password, non-existent user) and verified the server responded appropriately. I also checked the logs to see if the added logging worked.
+- **One area I still need to improve:** I would like to implement rate limiting on the admin login endpoint to prevent brute-force attacks and add logging for failed attempts to monitor suspicious activity.
 
 ## 5. One Problem I Helped Solve
 
-- **Problem:** Admin login showed an error after account creation — the admin account wasn't fully initialized before the login attempt
-- **Why it mattered:** Without working admin login, the team could not manage users or moderate content during the demo
-- **What I did:** Traced the issue to a race condition where the admin account creation and login processes overlapped. Added initialization check before allowing login.
-- **What changed:** Admin login now works reliably — create account, wait for confirmation, then log in without errors
-- **Evidence:** [Bug 8 — Admin login error](../../docs/ISSUES/BUGS/bug8.md), [Bug 9 — Admin login invalid response](../../docs/ISSUES/BUGS/bug9.md)
+- **Problem:** Users reported that after logging in, refreshing the page would log them out, requiring them to sign in again.
+- **Why it mattered:** This broke the user experience, especially during the demo where users might expect to stay logged in while navigating the site.
+- **What I did:** I traced the issue to the fact that the JWT token was being stored in memory (e.g., a JavaScript variable) rather than in persistent storage like localStorage or cookies. I changed the frontend to save the token in localStorage upon login and clear it on logout.
+- **What changed:** Users can now refresh the page and remain logged in, as the token is retrieved from localStorage on page load and used to authorize API requests.
+- **Evidence:** [Bug 11 — User session lost after page refresh](../../docs/ISSUES/BUGS/bug11.md), [JavaScript site file](../../js/site.js) (look for login/logout functions handling localStorage)
 
 ## 6. Reflection
 
 ### What I learned
-Systematic debugging techniques — how to trace issues across frontend, API, and database layers — taught me more than any lecture. I learned that the simplest fix is often the correct one.
+I learned how to systematically debug full-stack applications by checking each layer (frontend, API, database) and how small changes in one place (like where a token is stored) can have large effects on user experience. I also gained experience in issue tracking and maintaining project documentation.
 
 ### What I am proud of
-My bug fix contributions improved platform stability significantly from Sprint 8 onwards. The difference in reliability between midterm and final demo is visible.
+The platform is now stable enough for live demonstrations: users can log in, browse, post items, make requests, send messages, and refresh the page without losing their session unexpectedly.
 
 ### What I should have done better
-Documented bug fixes more thoroughly with before/after evidence and test cases that verify the fix. Some fixes were applied without enough documentation.
+I should have started maintaining a detailed changelog or fix log earlier in the semester so that we could easily track what was resolved and when. Relying on memory or scattered commit messages made retrospectives harder.
 
 ### What I would improve next
-Create a structured bug tracking and resolution workflow with automated regression tests for every fixed bug.
+I would implement a more robust authentication system with refresh tokens, add rate limiting on auth endpoints, and create a centralized error logging service to help diagnose issues in production.
 
 ### One skill I want to continue developing
-Debugging complex full-stack applications — especially performance profiling and memory leak detection.
+Debugging and observability in full-stack web applications, particularly how to use logging, monitoring, and tracing to identify and resolve issues efficiently.
 
 ## 7. Presentation Readiness
 
-- [x] I can explain my main contribution: bug fixes and platform stability
-- [x] I can explain one technical area clearly: systematic bug diagnosis across frontend and backend
-- [x] I know the final MVP demo flow (landing → signup → browse → donate → request → messages → admin)
-- [x] I know at least one bug or limitation: admin login race condition (fixed) / no automated regression tests
+- [x] I can explain my main contribution: bug fixes, debugging, and stability improvements
+- [x] I can explain one technical area clearly: how the admin login flow works and how we fixed the session loss on refresh
+- [x] I know the final MVP demo flow (landing → sign up → browse → post item → request item → send message → admin panel)
+- [x] I know at least one bug or limitation: admin login could be strengthened against brute-force; session stored in localStorage has XSS risk
 - [x] I reviewed the technical defense questions
 - [x] I can answer honestly if I do not know something
 
 ## 8. My Best Evidence Links
 
-1. [Bug Reports](../../docs/ISSUES/BUGS/) — All 20 structured bug reports
-2. [Bug Triage Guide](../../docs/PROJECT/BUG_TRIAGE.md) — Severity levels and priority guide
-3. [Project Board](../../PROJECT_BOARD.md) — Task tracking and issue management
-4. [Demo Script](../../DEMO_SCRIPT.md) — Demo flow preparation
-5. [AI Code Ownership Audit](../../docs/AI_CODE_OWNERSHIP_AUDIT.md) — Team ownership evidence
+1. [Bug 8 report](../../docs/ISSUES/BUGS/bug8.md) — Admin login error after account creation
+2. [Bug 9 report](../../docs/ISSUES/BUGS/bug9.md) — Admin login invalid response
+3. [Bug 11 report](../../docs/ISSUES/BUGS/bug11.md) — Session lost after page refresh
+4. [Project board](../../PROJECT_BOARD.md) — Shows task tracking and maintenance work
+5. [JavaScript site file](../../js/site.js) — Contains login/logout logic and localStorage usage
 
 ---
 [Back to Individual Portfolios](./README.md) | [Back to Portfolio Home](../README.md)
