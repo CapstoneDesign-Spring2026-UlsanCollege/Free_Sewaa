@@ -68,5 +68,5 @@ Team members made the following modifications to AI-generated code:
 - [Rampathak12](../08-individual-portfolios/Rampathak12.md) — Backend API, database models
 - [Sujan Shrestha](../08-individual-portfolios/Sujan_Shrestha.md) — Frontend pages, UI components
 - [Sujan Tamang](../08-individual-portfolios/Sujan_Tamang.md) — Testing, documentation
-- [Swornim Karki](../08-individual-portfolios/Swornim_Karki.md) — CSS, responsive design
+- [Swarnim Jung Karki](../08-individual-portfolios/Swarnim%20Jung_Karki.md) — CSS, responsive design
 - [Mohan Khadka](../08-individual-portfolios/Mohan_Khadka.md) — Bug fixes, maintenance

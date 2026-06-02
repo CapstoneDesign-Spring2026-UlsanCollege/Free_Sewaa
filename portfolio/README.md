@@ -58,5 +58,5 @@ The Free Sewaa platform delivers a fully functional donation system with:
 | [Rampathak12](./08-individual-portfolios/Rampathak12.md) | Backend and core logic, database integration, system infrastructure |
 | [Sujan_Shrestha](./08-individual-portfolios/Sujan_Shrestha.md) | Frontend and UI development, user experience, page components |
 | [Sujan_Tamang](./08-individual-portfolios/Sujan_Tamang.md) | Testing, integration, documentation, connecting platform components |
-| [Swornim_Karki](./08-individual-portfolios/Swornim_Karki.md) | Styling/CSS, responsive design, UI polish, documentation management |
+| [Swarnim Jung Karki](./08-individual-portfolios/Swarnim%20Jung_Karki.md) | Styling/CSS, responsive design, UI polish, documentation management |
 | [Mohan_Khadka](./08-individual-portfolios/Mohan_Khadka.md) | Bug fixes, maintenance, refinements, stability support |

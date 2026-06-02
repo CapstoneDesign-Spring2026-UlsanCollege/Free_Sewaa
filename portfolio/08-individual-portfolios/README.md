@@ -9,7 +9,7 @@ This folder contains the individual portfolio pages for each Free Sewaa team mem
 | Rampathak12 | Backend & Core Logic | API routes, database connection, authentication flow, backend structure | [View Portfolio](./Rampathak12.md) |
 | Sujan Shrestha | Frontend & UI Development | Main pages, user interface, page flow, user experience | [View Portfolio](./Sujan_Shrestha.md) |
 | Sujan Tamang | Testing, Integration & Documentation | QA checklists, integration checks, testing evidence, documentation support | [View Portfolio](./Sujan_Tamang.md) |
-| Swarnim Jung Karki | Styling, CSS & Documentation Management | Responsive design, CSS polish, accessibility support, documentation organization | [View Portfolio](./Swornim_Karki.md) |
+| Swarnim Jung Karki | Styling, CSS & Documentation Management | Responsive design, CSS polish, accessibility support, documentation organization | [View Portfolio](./Swarnim%20Jung_Karki.md) |
 | Mohan Khadka | Bug Fixes & Maintenance | Debugging, stability improvements, issue tracking, final cleanup | [View Portfolio](./Mohan_Khadka.md) |
 
 ## How to Review This Section
