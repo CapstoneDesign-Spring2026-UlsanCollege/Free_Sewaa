@@ -94,7 +94,6 @@ flowchart LR
     class Auth,Actions action;
     class Confirm,Confirm2,Logout end;
 ```
-
 ---
 
 ## 3. Team Contribution Diagram
