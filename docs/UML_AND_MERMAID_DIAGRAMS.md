@@ -60,39 +60,54 @@ This diagram shows the complete user journey — from landing on the platform th
 ```mermaid
 flowchart LR
     Start([Visitor]) --> Landing[Landing Page]
-    Landing --> Auth{Choose Action}
+    Landing --> Auth{Choose Path}
 
     Auth -->|Sign Up| Register[Create Account]
-    Auth -->|Login| Login[Sign In]
-    Auth -->|Browse Only| Browse[Browse Items]
+    Auth -->|Login| SignIn[Sign In]
+    Auth -->|Browse Only| BrowseItems[Browse Items]
+    Auth -->|Admin| AdminLogin[Admin Login]
 
     Register --> UserDash[User Dashboard]
-    Login --> UserDash
+    SignIn --> UserDash
+    BrowseItems --> Auth
 
     UserDash --> Actions{Choose Feature}
-    Actions -->|Post Item| Donate[Donate Page]
-    Actions -->|Find Items| Browse2[Browse Items]
-    Actions -->|Request| Request[Request Item]
-    Actions -->|Chat| Messages[Messages]
-    Actions -->|Manage| Dashboard[Dashboard]
+    Actions -->|Post Item| PostItem[Post Donation Item]
+    Actions -->|Browse & Request| BrowseReq[Browse Items]
+    Actions -->|View Messages| MsgPage[Messages]
+    Actions -->|Manage My Stuff| MyItems[My Posts & Requests]
+    Actions -->|Admin Panel| AdminDash[Admin Dashboard]
 
-    Donate --> Confirm[Item Posted]
-    Browse2 --> Request
-    Request --> Messages
-    Messages --> Confirm2[Communication Complete]
-    Dashboard --> Manage[Manage Posts & Requests]
+    PostItem --> ItemLive[Item Listed]
+    BrowseReq --> ViewItem[View Item Details]
+    ViewItem -->|Request Item| SendRequest[Send Request]
+    SendRequest --> MsgPage
+    MsgPage --> Chat[Donor Chat]
 
-    Manage --> Logout([Logout])
+    MyItems --> EditItem[Edit or Remove Listings]
+    MyItems --> TrackReq[Track Request Status]
+
+    AdminDash --> ManageUsers[Manage Users]
+    AdminDash --> ManageListings[Manage Listings]
+    AdminDash --> ViewReports[View Reports]
+
+    ItemLive --> UserDash
+    EditItem --> UserDash
+    TrackReq --> UserDash
+    Chat --> UserDash
+
+    UserDash --> Logout([Logout])
+    AdminDash --> AdminLogout([Admin Logout])
 
     classDef start fill:#e8f5e9,stroke:#2e7d32,color:#111;
     classDef page fill:#e3f2fd,stroke:#1565c0,color:#111;
-    classDef action fill:#fff8e1,stroke:#f57f17,color:#111;
+    classDef decision fill:#fff8e1,stroke:#f57f17,color:#111;
     classDef end fill:#fce4ec,stroke:#c62828,color:#111;
 
     class Start start;
-    class Landing,Register,Login,Browse,UserDash,Donate,Browse2,Request,Messages,Dashboard,Manage page;
-    class Auth,Actions action;
-    class Confirm,Confirm2,Logout end;
+    class Landing,Register,SignIn,BrowseItems,AdminLogin,UserDash,PostItem,BrowseReq,MsgPage,MyItems,AdminDash,ViewItem,SendRequest,Chat,EditItem,TrackReq,ManageUsers,ManageListings,ViewReports,ItemLive page;
+    class Auth,Actions decision;
+    class Logout,AdminLogout end;
 ```
 ---
 
