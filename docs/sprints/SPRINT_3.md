@@ -1,4 +1,4 @@
-# Sprint 3 Documentation
+# Sprint 3 — Documentation
 
 ## 🚀 Run It: Prove How It Works
 
