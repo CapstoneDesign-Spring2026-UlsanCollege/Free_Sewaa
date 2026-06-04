@@ -1,80 +1,79 @@
-# Individual Portfolio — Sujan Tamang
+# Sujan Tamang — Individual Portfolio
 
-## 1. My Role
+## 1. Role Summary
 
-* **Name:** Sujan Tamang
-* **Team:** Free Sewaa
-* **Project:** Free Sewaa
-* **Main responsibilities:** Developing testing strategies, writing test cases, documenting bugs, maintaining project documentation, and supporting integration between frontend and backend components.
-* **Roles held during the semester:** Testing Lead, Documentation Support, and Project Manager (Weeks 4, 7, and 11)
+I focused on developing testing strategies, writing test cases, documenting bugs, maintaining project documentation, and supporting integration between frontend and backend components. As Testing Lead, Documentation Support, and Project Manager (Weeks 4, 7, and 11), I worked to ensure the platform was reliable, well-documented, and ready for demonstration.
 
-## 2. My Strongest Contributions
+## 2. Main Responsibilities
 
-| Contribution | What I personally did | Evidence link |
-|---|---|---|
-| Testing Strategy and Planning | Developed the overall testing approach including unit, integration, manual, accessibility, and regression testing. Created detailed test plans for authentication, item posting, and messaging features. | [Testing Strategy](../../docs/TESTING_STRATEGY.md), [Testing Plan](../../docs/TESTING_PLAN.md) |
-| QA Checklists | Created manual testing checklists for authentication, browse, donate, requests, messaging, admin panel, mobile responsiveness, and form validation. | [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md), [Form Validation Checklist](../../FORM_VALIDATION_CHECKLIST.md) |
-| Bug Reporting and Tracking | Wrote and maintained structured bug reports with reproduction steps, severity levels, expected results, and actual results. | [Bug Reports](../../docs/ISSUES/BUGS/) |
-| Documentation Support | Organized and updated project roadmap, API reference documentation, and contribution records to ensure project information remained accurate. | [Roadmap](../../ROADMAP.md), [API Reference](../../docs/DESIGN/API_REFERENCE.md), [Team Contributions](../../docs/PROJECT/TEAM_CONTRIBUTIONS.md) |
+- Developing the overall testing approach including unit, integration, manual, accessibility, and regression testing
+- Creating detailed test plans for authentication, item posting, and messaging features
+- Writing and maintaining structured bug reports with reproduction steps and severity levels
+- Creating manual testing checklists for authentication, browse, donate, requests, messaging, and admin panel
+- Organizing and updating project roadmap, API documentation, and team contribution records
 
-## 3. One Area I Can Explain Clearly
+## 3. Key Contributions
 
-* **Area:** Manual Authentication Testing Checklist
-* **File, folder, Issue, PR, or doc:** [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md) (Authentication Section)
-* **What it does:** Provides step-by-step procedures to verify user signup, login, session management, and access control functionality.
-* **How it works:** The tester creates a new account, logs in, accesses protected pages, attempts unauthorized access, and verifies logout functionality. Each step includes pass/fail criteria.
-* **How it was tested:** I executed the checklist during sprint testing and Week 12 QA testing, recording results and verifying that each step matched actual system behavior.
-* **One possible failure or limitation:** Because the checklist is manually executed, human error may occur if steps are skipped or interpreted differently. Automated testing would improve consistency.
-* **Evidence link:** [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md), [Testing Log](../../docs/PROGRESS/TESTING_LOG.md)
+| Area | Work Completed | Evidence Link |
+|------|---------------|---------------|
+| Testing Strategy | Developed overall testing approach including unit, integration, manual, accessibility, and regression testing | [Testing Strategy](../../docs/TESTING_STRATEGY.md) |
+| Testing Plan | Created detailed test plans for authentication, item posting, and messaging features | [Testing Plan](../../docs/TESTING_PLAN.md) |
+| QA Checklists | Created manual testing checklists for all features including mobile responsiveness and form validation | [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md) |
+| Bug Reporting | Wrote structured bug reports with reproduction steps, severity levels, and expected vs actual results | [Bug Reports](../../docs/ISSUES/BUGS/) |
+| Documentation | Organized project roadmap, API reference, and team contribution records | [Roadmap](../../ROADMAP.md) |
 
-## 4. My AI Use
+## 4. Technical Ownership
 
-* **AI tools used:** GitHub Copilot
-* **What AI helped with:** Generating initial test case ideas, suggesting checklist formats, and creating boilerplate testing documentation.
-* **What I personally checked:** Verified that every AI-generated suggestion matched an actual feature of Free Sewaa and that expected outcomes were correct.
-* **What I personally changed:** Rewrote test cases to match the real user workflow, updated validation requirements, and added missing edge cases such as password special-character testing.
-* **How I tested or verified it:** Executed all test cases manually and compared expected outcomes with actual application behavior. Also requested peer review from team members.
-* **One part I still do not fully understand:** Advanced automated testing frameworks such as Playwright and Cypress, particularly integrating them into a continuous integration pipeline.
+I owned the testing and quality assurance domain for the project. This includes the testing strategy documents (`docs/TESTING_STRATEGY.md`, `docs/TESTING_PLAN.md`), the manual testing checklists (`MANUAL_TESTING_CHECKLIST.md`, `FORM_VALIDATION_CHECKLIST.md`), and the bug tracking system (`docs/ISSUES/BUGS/`). I also contributed to project-wide documentation by maintaining the roadmap (`ROADMAP.md`), API reference (`docs/DESIGN/API_REFERENCE.md`), and team contributions log (`docs/PROJECT/TEAM_CONTRIBUTIONS.md`).
 
-## 5. One Problem I Helped Solve
+## 5. Evidence of Work
 
-* **Problem:** Users could access protected pages such as the dashboard without authentication by entering URLs directly.
-* **Why it mattered:** This created a serious security issue because unauthorized users could potentially view or modify protected information.
-* **What I did:** Identified missing authentication middleware, worked with the backend team to secure protected routes, and verified the fix through manual testing.
-* **What changed:** Protected routes now redirect unauthenticated users to the login page or return authorization errors, preventing unauthorized access.
-* **Evidence link:** [Authentication Documentation](../../docs/AUTHENTICATION.md), [Server Code](../../server/server.js)
+- [Testing Strategy](../../docs/TESTING_STRATEGY.md) — Complete testing approach covering all test types
+- [Testing Plan](../../docs/TESTING_PLAN.md) — Detailed test plans for core features
+- [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md) — Step-by-step manual test procedures
+- [Bug Reports](../../docs/ISSUES/BUGS/) — Collection of structured bug reports with reproduction steps
+- [Testing Log](../../docs/PROGRESS/TESTING_LOG.md) — Record of test execution results
+- [Form Validation Checklist](../../FORM_VALIDATION_CHECKLIST.md) — Form validation test cases
+- [Roadmap](../../ROADMAP.md) — Project timeline and milestone tracking
+- [API Reference](../../docs/DESIGN/API_REFERENCE.md) — Backend endpoint documentation
 
-## 6. Reflection
+## 6. AI Usage Reflection
 
-### What I learned
+- **AI tools used:** GitHub Copilot
+- **How AI helped:** Generated initial test case ideas, suggested checklist formats, and created boilerplate testing documentation.
+- **What I checked:** Verified that every AI-generated suggestion matched an actual feature of Free Sewaa and that expected outcomes were correct.
+- **What I changed:** Rewrote test cases to match real user workflows, updated validation requirements, and added missing edge cases such as password special-character testing.
+- **How I verified:** Executed all test cases manually and compared expected outcomes with actual application behavior. Also requested peer review from team members.
+- **Area to improve:** Want to learn advanced automated testing frameworks (Playwright, Cypress) and integrate them into a CI pipeline.
 
-* I learned how to create comprehensive testing strategies covering functionality, security, usability, and performance.
-* I gained experience writing reproducible bug reports and maintaining project documentation.
+## 7. Challenges and Solutions
 
-### What I am most proud of
+**Challenge 1 — Unauthenticated Access to Protected Pages**
+Users could access protected pages like the dashboard by entering URLs directly, bypassing the login requirement.
+- **Solution:** Identified missing authentication middleware, worked with the backend team to secure protected routes, and verified the fix through manual testing. Protected routes now redirect unauthenticated users to the login page.
 
-* Helping achieve a stable and reliable final MVP through testing, bug reporting, and quality assurance activities.
-* Contributing to the successful Week 12 QA results with a high pass rate and no critical bugs.
+**Challenge 2 — Inconsistent Bug Reporting Format**
+Early bug reports varied in format and detail, making it difficult to prioritize and reproduce issues.
+- **Solution:** Created a standardized bug report template with fields for reproduction steps, severity, expected vs actual results, and environment details. Applied this template to all new bug reports in `docs/ISSUES/BUGS/`.
 
-### What I should have done better
+**Challenge 3 — Manual Testing Was Time-Consuming**
+Running the full test suite manually before each sprint review took significant time and was prone to human error.
+- **Solution:** Organized test cases into focused checklists by feature area so that team members could run targeted tests. Documented the need for future automated testing in the testing strategy.
 
-* I should have introduced automated testing earlier instead of relying mostly on manual testing.
-* More automated coverage would have reduced repetitive testing effort.
+## 8. What I Learned
 
-### What I would improve next
+I learned how to create comprehensive testing strategies covering functionality, security, usability, and performance. I gained experience writing reproducible bug reports and maintaining project documentation. Working closely with both frontend and backend teams taught me how integration testing differs from unit testing, and why clear communication about test results is essential for a smooth development workflow.
 
-* Implement automated testing using Playwright or Cypress.
-* Create a continuous integration pipeline that runs tests automatically on every code update.
-* Increase unit and integration test coverage for critical features.
+## 9. Presentation Summary
 
-### One skill I want to continue developing
+- I developed the testing strategy, QA checklists, and bug tracking system that ensured the platform's reliability
+- I can explain the manual authentication testing checklist and how we verified the login/signup flow
+- I helped identify and document a critical security issue: unauthenticated access to protected pages was fixed through our testing process
+- I know the final MVP demo flow and can explain how each feature was tested
+- I reviewed the technical defense questions and can answer honestly
 
-* Test automation and Test-Driven Development (TDD).
+## 10. Navigation
 
-## 7. My Best Evidence Links
-
-1. [Testing Strategy](../../docs/TESTING_STRATEGY.md)
-2. [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md)
-3. [Bug Reports](../../docs/ISSUES/BUGS/)
-4. [Roadmap](../../ROADMAP.md)
-5. [Team Contributions](../../docs/PROJECT/TEAM_CONTRIBUTIONS.md)
+- [Back to Individual Portfolios](./README.md)
+- [Back to Portfolio Home](../README.md)
+- [Back to Repository](../../README.md)

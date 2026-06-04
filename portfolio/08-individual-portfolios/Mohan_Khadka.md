@@ -1,87 +1,80 @@
-# Mohan Khadka — Bug Fixes & Maintenance
+# Mohan Khadka — Individual Portfolio
 
-## Short Summary
+## 1. Role Summary
 
-I focused on identifying and fixing bugs, improving stability, and supporting the final stages of the Free Sewaa project. My work helped ensure the platform was reliable enough for demonstrations and presentations by addressing critical issues in authentication, navigation, and UI consistency.
+I focused on identifying and fixing bugs, improving stability, and supporting the final stages of the Free Sewaa project. As demo driver and maintenance lead (also project manager in Weeks 5 and 12), my work helped ensure the platform was reliable enough for demonstrations and presentations by addressing critical issues in authentication, navigation, and UI consistency.
 
-## 1. My Role
+## 2. Main Responsibilities
 
-- **Name:** Mohan Khadka
-- **Team:** Free Sewaa
-- **Project:** Free Sewaa
-- **Main responsibilities:** Bug identification, debugging, issue tracking, implementing fixes, supporting testing efforts, and helping maintain code stability.
-- **Role during the semester:** Demo driver and maintenance lead; also served as project manager in Weeks 5 and 12.
+- Bug identification, debugging, and implementing fixes across the full stack
+- Issue tracking and maintaining structured bug reports
+- Testing authentication flows (admin login, session persistence, JWT token handling)
+- Fixing broken navigation links, missing buttons, and UI inconsistencies
+- Running manual tests, verifying fixes, and updating QA checklists
+- Maintaining the project board with task statuses, priorities, and assignments
 
-## 2. My Strongest Contributions
+## 3. Key Contributions
 
-| Contribution | What I personally did | Evidence |
-|---|---|---|
-| Bug identification and reporting | Helped discover and document bugs in the issues folder, including authentication errors, navigation links, and UI inconsistencies, with clear steps to reproduce. | [Bugs folder](../../docs/ISSUES/BUGS/) |
-| Authentication fixes | Debugged and resolved issues like admin login failures after account creation and session loss on page refresh by examining the flow between frontend, API, and database. | [Bug 8](../../docs/ISSUES/BUGS/bug8.md), [Bug 9](../../docs/ISSUES/BUGS/bug9.md), [Bug 11](../../docs/ISSUES/BUGS/bug11.md) |
-| Navigation and UI fixes | Corrected broken links, missing buttons, and inconsistent styling across pages by reviewing HTML, CSS, and JavaScript files. | [Bug reports](../../docs/ISSUES/BUGS/) |
-| Testing and QA support | Assisted in running manual tests, verifying fixes, and updating checklists to reflect resolved issues. | [Manual testing checklist](../../MANUAL_TESTING_CHECKLIST.md), [QA checklist](../../docs/QA_CHECKLIST.md) |
-| Project board maintenance | Helped keep the PROJECT_BOARD.md updated with task statuses, priorities, and assignments to improve team coordination. | [Project board](../../PROJECT_BOARD.md) |
+| Area | Work Completed | Evidence Link |
+|------|---------------|---------------|
+| Bug Identification | Discovered and documented bugs with reproduction steps in the issues folder | [Bugs Folder](../../docs/ISSUES/BUGS/) |
+| Authentication Fixes | Debugged admin login failures, session loss on refresh, and invalid login responses | [Bug 8](../../docs/ISSUES/BUGS/bug8.md), [Bug 9](../../docs/ISSUES/BUGS/bug9.md), [Bug 11](../../docs/ISSUES/BUGS/bug11.md) |
+| Navigation & UI Fixes | Corrected broken links, missing buttons, and inconsistent styling across pages | [Bug Reports](../../docs/ISSUES/BUGS/) |
+| Testing & QA Support | Assisted in running manual tests, verifying fixes, updating checklists | [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md) |
+| Project Board | Kept project board updated with task statuses, priorities, and assignments | [Project Board](../../PROJECT_BOARD.md) |
 
-## 3. One Area I Can Explain Clearly
+## 4. Technical Ownership
 
-- **Area:** How the admin login flow works and where a common bug occurred
-- **File/folder/doc:** `server/routes/auth.js` (admin login route) and `html/admin-login.html`
-- **What it does:** Allows an administrator to log in to access the admin panel for managing users, items, and reports.
-- **How it works:** The admin submits their credentials via a form on `/admin-login.html`. The frontend sends a POST request to `/api/admin/login`. The server checks the credentials against the database (looking for a user with role `admin`), and if valid, returns a JWT token. The client stores the token and redirects to the admin dashboard.
-- **How it was tested:** I tested it by creating an admin user in the database (or using existing credentials), submitting the login form with correct and incorrect credentials, and verifying the response (token or error). I also checked that the admin dashboard was accessible only after a successful login.
-- **One limitation:** The admin credentials are currently hardcoded or weakly managed; in a production system, we would want stronger password policies and possibly multi-factor authentication.
-- **Evidence:** [Auth route code](../../js/auth.js) (if exists; otherwise note: admin login logic is in `server/server.js`), [Admin login page](../../html/admin-login.html), [Bug 8 report](../../docs/ISSUES/BUGS/bug8.md)
+I owned the bug tracking and stability improvement domain. The bug reports in `docs/ISSUES/BUGS/` were maintained by me, with detailed reproduction steps, severity classifications, and verification notes. I worked across the full stack — frontend HTML/JS files (`html/`, `js/`), server code (`server/server.js`), and authentication logic — to identify root causes and implement fixes. I also maintained `PROJECT_BOARD.md` to track progress and assignments.
 
-## 4. My AI Use and Review
+## 5. Evidence of Work
+
+- [Bug 8](../../docs/ISSUES/BUGS/bug8.md) — Admin login error after account creation (authentication flow fix)
+- [Bug 9](../../docs/ISSUES/BUGS/bug9.md) — Admin login invalid response (server response handling)
+- [Bug 11](../../docs/ISSUES/BUGS/bug11.md) — User session lost after page refresh (localStorage token persistence)
+- [Project Board](../../PROJECT_BOARD.md) — Task tracking and maintenance work
+- [JavaScript Site File](../../js/site.js) — Login/logout logic and localStorage token handling
+- [Admin Login Page](../../html/admin-login.html) — Admin authentication interface
+- [QA Checklist](../../docs/QA_CHECKLIST.md) — Quality assurance checklist used for verification
+- [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md) — Test procedures used for manual testing
+
+## 6. AI Usage Reflection
 
 - **AI tools used:** GitHub Copilot
-- **What AI helped with:** Suggesting boilerplate code for error handling (e.g., try-catch blocks) and providing ideas for database query structures.
-- **What I personally checked:** I reviewed every AI-generated suggestion to ensure it matched our authentication logic, did not introduce security risks, and used the correct field names from the user schema.
-- **What I personally changed:** I rewrote most of the AI-generated code to fit our project’s style and fixed logical errors—for example, cases where the AI suggested checking the wrong field or returning an unclear error message. I also added proper logging to help debug login attempts.
-- **How I tested or verified it:** I manually tested the login flow with various inputs (correct, wrong password, non-existent user) and verified the server responded appropriately. I also checked the logs to see if the added logging worked.
-- **One area I still need to improve:** I would like to implement rate limiting on the admin login endpoint to prevent brute-force attacks and add logging for failed attempts to monitor suspicious activity.
+- **How AI helped:** Suggested boilerplate code for error handling (try-catch blocks) and provided ideas for database query structures.
+- **What I checked:** Reviewed every AI-generated suggestion to ensure it matched our authentication logic, did not introduce security risks, and used correct field names from the user schema.
+- **What I changed:** Rewrote most AI-generated code to fit the project's style and fixed logical errors — for example, cases where AI suggested checking the wrong field or returning an unclear error message. Added proper logging to help debug login attempts.
+- **How I verified:** Manually tested the login flow with various inputs (correct password, wrong password, non-existent user) and verified the server responded appropriately. Checked server logs for debugging output.
+- **Area to improve:** Want to implement rate limiting on the admin login endpoint to prevent brute-force attacks and add failed-attempt logging for security monitoring.
 
-## 5. One Problem I Helped Solve
+## 7. Challenges and Solutions
 
-- **Problem:** Users reported that after logging in, refreshing the page would log them out, requiring them to sign in again.
-- **Why it mattered:** This broke the user experience, especially during the demo where users might expect to stay logged in while navigating the site.
-- **What I did:** I traced the issue to the fact that the JWT token was being stored in memory (e.g., a JavaScript variable) rather than in persistent storage like localStorage or cookies. I changed the frontend to save the token in localStorage upon login and clear it on logout.
-- **What changed:** Users can now refresh the page and remain logged in, as the token is retrieved from localStorage on page load and used to authorize API requests.
-- **Evidence:** [Bug 11 — User session lost after page refresh](../../docs/ISSUES/BUGS/bug11.md), [JavaScript site file](../../js/site.js) (look for login/logout functions handling localStorage)
+**Challenge 1 — Session Lost After Page Refresh**
+Users reported that after logging in, refreshing the page would log them out, requiring them to sign in again. This broke the user experience, especially during demonstrations.
+- **Solution:** Traced the issue to the JWT token being stored in a JavaScript variable (in-memory) rather than in persistent storage. Changed the frontend to save the token in `localStorage` upon login and clear it on logout. Users can now refresh the page and remain logged in, as the token is retrieved from `localStorage` on page load.
 
-## 6. Reflection
+**Challenge 2 — Admin Login Failures After Account Creation**
+Creating a new admin account and immediately trying to log in would fail, returning an unexpected error instead of a success response.
+- **Solution:** Debugged the flow between the frontend login form, the API endpoint, and the database. Found that the password comparison logic was not correctly handling the newly created user's credentials. Fixed the comparison logic and added better error messages to distinguish between "wrong password" and "user not found."
 
-### What I learned
-I learned how to systematically debug full-stack applications by checking each layer (frontend, API, database) and how small changes in one place (like where a token is stored) can have large effects on user experience. I also gained experience in issue tracking and maintaining project documentation.
+**Challenge 3 — Broken Navigation Links Across Pages**
+During final testing, several navigation links between pages were broken or pointed to wrong locations, confusing the demo flow.
+- **Solution:** Systematically reviewed all HTML navigation elements, fixed relative paths, and verified that every link in the main user flow (landing → signup → browse → donate → messaging → admin) worked correctly.
 
-### What I am proud of
-The platform is now stable enough for live demonstrations: users can log in, browse, post items, make requests, send messages, and refresh the page without losing their session unexpectedly.
+## 8. What I Learned
 
-### What I should have done better
-I should have started maintaining a detailed changelog or fix log earlier in the semester so that we could easily track what was resolved and when. Relying on memory or scattered commit messages made retrospectives harder.
+I learned how to systematically debug full-stack applications by checking each layer (frontend, API, database) and how small changes in one place — like where a token is stored — can have large effects on user experience. I also gained experience in issue tracking, writing reproducible bug reports, and maintaining project documentation. Debugging real issues taught me that the root cause is often different from the initial assumption.
 
-### What I would improve next
-I would implement a more robust authentication system with refresh tokens, add rate limiting on auth endpoints, and create a centralized error logging service to help diagnose issues in production.
+## 9. Presentation Summary
 
-### One skill I want to continue developing
-Debugging and observability in full-stack web applications, particularly how to use logging, monitoring, and tracing to identify and resolve issues efficiently.
+- I focused on bug fixes, debugging, and stability improvements that made the platform demo-ready
+- I can explain the session loss bug: the token was stored in memory instead of localStorage, and I fixed it
+- I know the admin login flow and the bugs we fixed in authentication
+- The platform is now stable: users can log in, browse, post items, make requests, and refresh without losing their session
+- I reviewed the technical defense questions and can answer honestly
 
-## 7. Presentation Readiness
+## 10. Navigation
 
-- [x] I can explain my main contribution: bug fixes, debugging, and stability improvements
-- [x] I can explain one technical area clearly: how the admin login flow works and how we fixed the session loss on refresh
-- [x] I know the final MVP demo flow (landing → sign up → browse → post item → request item → send message → admin panel)
-- [x] I know at least one bug or limitation: admin login could be strengthened against brute-force; session stored in localStorage has XSS risk
-- [x] I reviewed the technical defense questions
-- [x] I can answer honestly if I do not know something
-
-## 8. My Best Evidence Links
-
-1. [Bug 8 report](../../docs/ISSUES/BUGS/bug8.md) — Admin login error after account creation
-2. [Bug 9 report](../../docs/ISSUES/BUGS/bug9.md) — Admin login invalid response
-3. [Bug 11 report](../../docs/ISSUES/BUGS/bug11.md) — Session lost after page refresh
-4. [Project board](../../PROJECT_BOARD.md) — Shows task tracking and maintenance work
-5. [JavaScript site file](../../js/site.js) — Contains login/logout logic and localStorage usage
-
----
-[Back to Individual Portfolios](./README.md) | [Back to Portfolio Home](../README.md)
+- [Back to Individual Portfolios](./README.md)
+- [Back to Portfolio Home](../README.md)
+- [Back to Repository](../../README.md)
