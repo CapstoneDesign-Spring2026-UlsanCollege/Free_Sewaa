@@ -1,176 +1,260 @@
-# TEAM_CONTRIBUTIONS.md — Free Sewaa
+# Team Contributions — Free Sewaa
 
-> Simple breakdown of what each team member worked on.
-
----
-
-## 👤 Swarnim Jung Karki (@Swarnimkarki50) — Documentation & Presentation
-
-### Role
-Documentation Lead, Scribe, Presentation Coordinator, Repo Manager
-
-### Files / Features Worked On
-| File | What I did | Evidence |
-|------|----------------|----------|
-| `README.md` | Updated features, live demo links, API docs | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) |
-| `ROADMAP.md` | Organized phases, added MVP checklist | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) |
-| `PROJECT_BOARD.md` | Created project board structure | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) |
-| `docs/AI_CODE_OWNERSHIP_AUDIT.md` | Documented AI use and team ownership | [View file](docs/AI_CODE_OWNERSHIP_AUDIT.md) |
-| `docs/PROJECT/PROJECT.md` | Organized project documentation | [View file](docs/PROJECT/PROJECT.md) |
-| `docs/PROJECT/USER_STORIES.md` | Defined user stories and acceptance criteria | [View file](docs/PROJECT/USER_STORIES.md) |
-| `CONTRIBUTORS.md` | Listed team members and roles | [View file](CONTRIBUTORS.md) |
-| `FINAL_SUBMISSION_INDEX.md` | Created final submission index | [View file](FINAL_SUBMISSION_INDEX.md) |
-| `TEST_CHECKLIST.md` | Created MVP test checklist | [View file](TEST_CHECKLIST.md) |
-| `MVP_STATUS.md` | Documented MVP status breakdown | [View file](MVP_STATUS.md) |
-| `DEMO_SCRIPT.md` | Wrote step-by-step demo script | *To be created* |
-| `Setup_Guide.md` | Step-by-step local setup instructions | *To be created* |
-
-### What I Can Explain in Presentation
-- How the README and documentation are structured
-- How docs/ folder is organized (PROJECT/, DESIGN/, sprints/)
-- How to find evidence (PRs, commits, issues)
-- How the final submission index links everything
-- What each document contains and why it's needed
-
-### AI Assistance Used
-- **GitHub Copilot** helped with:
-  - Markdown table formatting
-  - README structure suggestions
-  - Documentation templates
-- **What I checked:** Read all AI suggestions, edited to match our project, verified all links work
-
-### Evidence I Can Show
-- [x] My commits in GitHub history
-- [x] Documentation files I created
-- [x] Sprint packets I updated
-- [x] README changes with live demo links
+> This document provides a summary of each team member's contributions, responsibilities, evidence, and areas they can explain during the final project presentation.
 
 ---
 
-## 👤 Ram Pathak (@Rampathak12) — Backend Lead
+# 👤 Swarnim Jung Karki (@Swarnimkarki50)
 
-### Role
-Backend Developer, Server Setup, Database, API Endpoints
+## Role
 
-### Files / Features Worked On
-| File | What I did | Evidence |
-|------|----------------|----------|
-| `server/server.js` | Main Express server, routing, API endpoints | [PR #78](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/78) |
-| `server/package.json` | Node.js dependencies and scripts | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) |
-| `docs/DESIGN/MONGODB_SETUP.md` | MongoDB Atlas setup documentation | [View file](docs/DESIGN/MONGODB_SETUP.md) |
-| `docs/DESIGN/BACKEND_PLAN.md` | Backend development plan | [View file](docs/DESIGN/BACKEND_PLAN.md) |
-| `docs/DESIGN/SYSTEM_ARCHITECTURE.md` | System architecture diagram | [View file](docs/DESIGN/SYSTEM_ARCHITECTURE.md) |
+**Documentation Lead, Scribe, Presentation Coordinator, Repository Manager**
 
-### What I Can Explain in Presentation
-- How Express server handles routing and middleware
-- How MongoDB models are structured and connected
-- How authentication endpoints work (signup, login)
-- How donation and request APIs interact with database
+## Files and Features Contributed
 
-### AI Assistance Used
-- **GitHub Copilot** helped with Express routing boilerplate and async/await patterns
-- **What I checked:** Reviewed all code, added custom error handling, tested API endpoints
+| File | Contribution | Evidence |
+|--------|-------------|----------|
+| [README.md](../../README.md) | Updated project overview, features, live demo links, and API documentation | GitHub Commit History |
+| [ROADMAP.md](../../ROADMAP.md) | Organized development phases and MVP checklist | GitHub Commit History |
+| [PROJECT_BOARD.md](../../PROJECT_BOARD.md) | Created and maintained project board structure | GitHub Commit History |
+| [AI_CODE_OWNERSHIP_AUDIT.md](../AI_CODE_OWNERSHIP_AUDIT.md) | Documented AI usage and code ownership verification | File Documentation |
+| [PROJECT.md](./PROJECT.md) | Organized project documentation structure | File Documentation |
+| [USER_STORIES.md](./USER_STORIES.md) | Defined user stories and acceptance criteria | File Documentation |
+| [CONTRIBUTORS.md](../../CONTRIBUTORS.md) | Maintained team member records and responsibilities | File Documentation |
+| [FINAL_SUBMISSION_INDEX.md](../../FINAL_SUBMISSION_INDEX.md) | Created final project submission index | File Documentation |
+| [TEST_CHECKLIST.md](../../TEST_CHECKLIST.md) | Developed MVP testing checklist | File Documentation |
+| [MVP_STATUS.md](../../MVP_STATUS.md) | Documented MVP completion status | File Documentation |
 
-### Evidence I Can Show
-- [x] PR #78 with MongoDB backend
-- [x] API endpoints working in live demo
-- [x] MongoDB connection verified
+## Presentation Topics
 
----
+- Project documentation structure
+- Repository organization
+- Evidence tracking (commits, issues, pull requests)
+- Final submission package
+- User stories and project planning
 
-## 👤 Sujan Tamang (@SujanTamang20) — Frontend Developer (HTML)
+## AI Assistance
 
-### Role
-Frontend HTML Developer, Page Structure, Sprint Documentation
+**Tool Used:** GitHub Copilot
 
-### Files / Features Worked On
-| File | What I did | Evidence |
-|------|----------------|----------|
-| `html/browse.html` | Browse donation items page | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) |
-| `html/donate.html` | Donation form page | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) |
-| `html/profile.html` | User profile page | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) |
-| `html/auth.html` | Login/signup page | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) |
-| `docs/sprints/SPRINT_*.md` | Weekly sprint packets | [sprints/](docs/sprints/) |
+**AI Assistance:**
 
-### What I Can Explain in Presentation
-- HTML structure of all main pages
-- How forms collect user input
-- How pages link together in user flow
-- How sprint documentation tracks progress
+- Markdown formatting
+- Documentation templates
+- README structure suggestions
 
-### AI Assistance Used
-- **GitHub Copilot** helped with HTML boilerplate and form structure
-- **What I checked:** Customized forms for our data needs, added semantic HTML
+**Verification Performed:**
 
-### Evidence I Can Show
-- [x] HTML pages visible in live demo
-- [x] Sprint packets for weeks 1-10
-- [x] Form submissions working
+- Reviewed all generated content
+- Edited content to match project requirements
+- Verified links and references
+
+## Evidence Available
+
+- [x] GitHub commit history
+- [x] Documentation files
+- [x] Sprint packet updates
+- [x] README improvements
 
 ---
 
-## 👤 Sujan Shrestha (@suzmoon) — Auth & API Integration
+# 👤 Ram Pathak (@Rampathak12)
 
-### Role
-Backend Developer, Authentication, API Integration, Security
+## Role
 
-### Files / Features Worked On
-| File | What I did | Evidence |
-|------|----------------|----------|
-| `js/auth.js` | Login/signup form validation and API calls | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) |
-| `server/server.js` | API integration and middleware | [PR #78](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/78) |
-| `server/package.json` | Node.js dependencies | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) |
+**Backend Lead, Database Developer, API Developer**
 
-### What I Can Explain in Presentation
-- How authentication flow works (frontend → backend)
-- How API requests are structured and sent
-- How session management keeps users logged in
-- Why password hashing is needed (Issue #68)
+## Files and Features Contributed
 
-### AI Assistance Used
-- **GitHub Copilot** helped with fetch API patterns and error handling
-- **What I checked:** Added custom validation, tested all auth flows
+| File | Contribution | Evidence |
+|--------|-------------|----------|
+| [server/server.js](../../server/server.js) | Express server, routing, middleware, API endpoints | PR #78 |
+| [server/package.json](../../server/package.json) | Node.js dependencies and scripts | GitHub Commit History |
+| [MONGODB_SETUP.md](../DESIGN/MONGODB_SETUP.md) | MongoDB Atlas setup documentation | File Documentation |
+| [BACKEND_PLAN.md](../DESIGN/BACKEND_PLAN.md) | Backend development planning | File Documentation |
+| [SYSTEM_ARCHITECTURE.md](../DESIGN/SYSTEM_ARCHITECTURE.md) | System architecture design | File Documentation |
 
-### Evidence I Can Show
-- [x] Signup/login working in demo
-- [x] Auth.js code I can explain
-- [x] Security issues identified (P0/P1)
+## Presentation Topics
 
----
+- Express server architecture
+- Routing and middleware
+- MongoDB integration
+- Authentication APIs
+- Database design and implementation
 
-## 👤 Mohan Khadka (@Mohankhadkaa) — Frontend Developer (JavaScript)
+## AI Assistance
 
-### Role
-Frontend JavaScript Developer, Interactivity, DOM Manipulation
+**Tool Used:** GitHub Copilot
 
-### Files / Features Worked On
-| File | What I did | Evidence |
-|------|----------------|----------|
-| `js/index.js` | Homepage interactions and DOM manipulation | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) |
-| `js/site.js` | Site-wide functionality and utilities | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) |
-| `html/browse.html` | Item rendering and browse functionality | [Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) |
+**AI Assistance:**
 
-### What I Can Explain in Presentation
-- How JavaScript manipulates DOM to show/hide elements
-- How items are dynamically loaded and displayed
-- How event listeners handle user interactions
-- How browse page renders donation items
+- Express routing boilerplate
+- Async/await implementation
+- Backend structure suggestions
 
-### AI Assistance Used
-- **GitHub Copilot** helped with DOM manipulation patterns and event handling
-- **What I checked:** Debugged all code, fixed event listener issues
+**Verification Performed:**
 
-### Evidence I Can Show
-- [x] Browse page works in live demo
-- [x] JavaScript files I can explain
-- [x] No console errors during normal flow
+- Reviewed all generated code
+- Added custom error handling
+- Tested API functionality
+
+## Evidence Available
+
+- [x] Pull Request #78
+- [x] Live backend API demonstration
+- [x] MongoDB Atlas integration
 
 ---
 
-## ✅ Team Ownership Summary
+# 👤 Sujan Tamang (@SujanTamang20)
 
-| Member | Can explain their code? | Evidence linked? | AI disclosed? |
-|--------|----------------------|------------------|---------------|
+## Role
+
+**Testing Lead, Documentation Support, Project Manager (Weeks 4, 7, and 11)**
+
+## Files and Features Contributed
+
+| File | Contribution | Evidence |
+|--------|-------------|----------|
+| [TESTING_STRATEGY.md](../../docs/TESTING_STRATEGY.md) | Developed project testing strategy and QA approach | Documentation |
+| [TESTING_PLAN.md](../../docs/TESTING_PLAN.md) | Created testing plans and testing levels | Documentation |
+| [MANUAL_TESTING_CHECKLIST.md](../../MANUAL_TESTING_CHECKLIST.md) | Developed manual testing procedures | Documentation |
+| [FORM_VALIDATION_CHECKLIST.md](../../FORM_VALIDATION_CHECKLIST.md) | Created validation testing checklist | Documentation |
+| [ROADMAP.md](../../ROADMAP.md) | Assisted with roadmap planning and updates | Documentation |
+| [API_REFERENCE.md](../../docs/DESIGN/API_REFERENCE.md) | Documentation support and maintenance | Documentation |
+| [docs/ISSUES/BUGS/](../../docs/ISSUES/BUGS/) | Bug reporting and issue tracking | Bug Reports |
+
+## Presentation Topics
+
+- Testing strategy and QA process
+- Manual testing procedures
+- Bug reporting workflow
+- Form validation testing
+- Project documentation management
+
+## AI Assistance
+
+**Tool Used:** GitHub Copilot
+
+**AI Assistance:**
+
+- Test case generation
+- Documentation formatting
+- Checklist structure suggestions
+
+**Verification Performed:**
+
+- Executed all test cases manually
+- Updated generated content to match actual functionality
+- Added additional edge-case testing
+
+## Evidence Available
+
+- [x] Testing strategy documentation
+- [x] Testing plans
+- [x] Bug reports
+- [x] QA checklists
+- [x] Testing logs
+
+---
+
+# 👤 Sujan Shrestha (@suzmoon)
+
+## Role
+
+**Authentication Developer, API Integration, Security**
+
+## Files and Features Contributed
+
+| File | Contribution | Evidence |
+|--------|-------------|----------|
+| [js/auth.js](../../js/auth.js) | Authentication forms and API integration | GitHub Commit History |
+| [server/server.js](../../server/server.js) | Authentication middleware and API integration | PR #78 |
+| [server/package.json](../../server/package.json) | Dependency management | GitHub Commit History |
+
+## Presentation Topics
+
+- Authentication workflow
+- API communication
+- Session management
+- Security considerations
+- Login and signup functionality
+
+## AI Assistance
+
+**Tool Used:** GitHub Copilot
+
+**AI Assistance:**
+
+- Fetch API patterns
+- Authentication flow suggestions
+- Error handling improvements
+
+**Verification Performed:**
+
+- Tested authentication workflows
+- Added custom validation
+- Verified session functionality
+
+## Evidence Available
+
+- [x] Login functionality
+- [x] Signup functionality
+- [x] Authentication code
+- [x] Security issue documentation
+
+---
+
+# 👤 Mohan Khadka (@Mohankhadkaa)
+
+## Role
+
+**Frontend JavaScript Developer, User Interface Interactivity**
+
+## Files and Features Contributed
+
+| File | Contribution | Evidence |
+|--------|-------------|----------|
+| [js/index.js](../../js/index.js) | Homepage interactivity and DOM manipulation | GitHub Commit History |
+| [js/site.js](../../js/site.js) | Shared site functionality and utilities | GitHub Commit History |
+| [html/browse.html](../../html/browse.html) | Browse page rendering functionality | GitHub Commit History |
+
+## Presentation Topics
+
+- DOM manipulation
+- Event handling
+- Dynamic item rendering
+- User interface interactions
+- JavaScript architecture
+
+## AI Assistance
+
+**Tool Used:** GitHub Copilot
+
+**AI Assistance:**
+
+- DOM manipulation patterns
+- Event listener implementation
+- Frontend code structure
+
+**Verification Performed:**
+
+- Debugged generated code
+- Tested user interactions
+- Fixed event handling issues
+
+## Evidence Available
+
+- [x] Browse page functionality
+- [x] JavaScript implementation
+- [x] Working frontend interactions
+
+---
+
+# Team Ownership Summary
+
+| Team Member | Can Explain Their Work | Evidence Available | AI Usage Disclosed |
+|------------|------------------------|-------------------|-------------------|
 | Swarnim Jung Karki | ✅ Yes | ✅ Yes | ✅ Yes |
 | Ram Pathak | ✅ Yes | ✅ Yes | ✅ Yes |
 | Sujan Tamang | ✅ Yes | ✅ Yes | ✅ Yes |
@@ -179,4 +263,10 @@ Frontend JavaScript Developer, Interactivity, DOM Manipulation
 
 ---
 
-*Last Updated: Week 10 — Simple Team Summary*
+## Conclusion
+
+All team members have documented their contributions, provided supporting evidence, disclosed AI assistance where applicable, and confirmed that they can explain and defend their work during project demonstrations and evaluations.
+
+---
+
+*Last Updated: Week 10 — Team Contribution Summary*
