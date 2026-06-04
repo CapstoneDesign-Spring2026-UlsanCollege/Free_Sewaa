@@ -10,22 +10,22 @@
 
 ## 2. My Strongest Contributions
 
-| Contribution                  | What I personally did                                                                                                                                                                                    | Evidence link                                                                      |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Testing Strategy and Planning | Developed the overall testing approach including unit, integration, manual, accessibility, and regression testing. Created detailed test plans for authentication, item posting, and messaging features. |[Testing Strategy](../../docs/TESTING_STRATEGY.md)                          |
-| QA Checklists                 | Created manual testing checklists for authentication, browse, donate, requests, messaging, admin panel, mobile responsiveness, and form validation.                                                      | `docs/TESTING_STRATEGY.md`, `FORM_VALIDATION_CHECKLIST.md`                      |
-| Bug Reporting and Tracking    | Wrote and maintained structured bug reports with reproduction steps, severity levels, expected results, and actual results.                                                                              | `docs/ISSUES/BUGS/`                                                                |
-| Documentation Support         | Organized and updated project roadmap, API reference documentation, and contribution records to ensure project information remained accurate.                                                            | `ROADMAP.md`, `docs/DESIGN/API_REFERENCE.md`, `docs/PROJECT/TEAM_CONTRIBUTIONS.md` |
+| Contribution | What I personally did | Evidence link |
+|---|---|---|
+| Testing Strategy and Planning | Developed the overall testing approach including unit, integration, manual, accessibility, and regression testing. Created detailed test plans for authentication, item posting, and messaging features. | [Testing Strategy](../../docs/TESTING_STRATEGY.md), [Testing Plan](../../docs/TESTING_PLAN.md) |
+| QA Checklists | Created manual testing checklists for authentication, browse, donate, requests, messaging, admin panel, mobile responsiveness, and form validation. | [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md), [Form Validation Checklist](../../FORM_VALIDATION_CHECKLIST.md) |
+| Bug Reporting and Tracking | Wrote and maintained structured bug reports with reproduction steps, severity levels, expected results, and actual results. | [Bug Reports](../../docs/ISSUES/BUGS/) |
+| Documentation Support | Organized and updated project roadmap, API reference documentation, and contribution records to ensure project information remained accurate. | [Roadmap](../../ROADMAP.md), [API Reference](../../docs/DESIGN/API_REFERENCE.md), [Team Contributions](../../docs/PROJECT/TEAM_CONTRIBUTIONS.md) |
 
 ## 3. One Area I Can Explain Clearly
 
 * **Area:** Manual Authentication Testing Checklist
-* **File, folder, Issue, PR, or doc:** `MANUAL_TESTING_CHECKLIST.md` (Authentication Section)
+* **File, folder, Issue, PR, or doc:** [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md) (Authentication Section)
 * **What it does:** Provides step-by-step procedures to verify user signup, login, session management, and access control functionality.
 * **How it works:** The tester creates a new account, logs in, accesses protected pages, attempts unauthorized access, and verifies logout functionality. Each step includes pass/fail criteria.
 * **How it was tested:** I executed the checklist during sprint testing and Week 12 QA testing, recording results and verifying that each step matched actual system behavior.
 * **One possible failure or limitation:** Because the checklist is manually executed, human error may occur if steps are skipped or interpreted differently. Automated testing would improve consistency.
-* **Evidence link:** `MANUAL_TESTING_CHECKLIST.md`, `docs/PROGRESS/TESTING_LOG.md`
+* **Evidence link:** [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md), [Testing Log](../../docs/PROGRESS/TESTING_LOG.md)
 
 ## 4. My AI Use
 
@@ -42,7 +42,7 @@
 * **Why it mattered:** This created a serious security issue because unauthorized users could potentially view or modify protected information.
 * **What I did:** Identified missing authentication middleware, worked with the backend team to secure protected routes, and verified the fix through manual testing.
 * **What changed:** Protected routes now redirect unauthenticated users to the login page or return authorization errors, preventing unauthorized access.
-* **Evidence link:** `docs/AUTHENTICATION.md`, `server/server.js`, authentication testing records
+* **Evidence link:** [Authentication Documentation](../../docs/AUTHENTICATION.md), [Server Code](../../server/server.js)
 
 ## 6. Reflection
 
@@ -73,8 +73,8 @@
 
 ## 7. My Best Evidence Links
 
-1. `docs/TESTING_STRATEGY.md`
-2. `MANUAL_TESTING_CHECKLIST.md`
-3. `docs/ISSUES/BUGS/`
-4. `ROADMAP.md`
-5. `docs/PROJECT/TEAM_CONTRIBUTIONS.md`
+1. [Testing Strategy](../../docs/TESTING_STRATEGY.md)
+2. [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md)
+3. [Bug Reports](../../docs/ISSUES/BUGS/)
+4. [Roadmap](../../ROADMAP.md)
+5. [Team Contributions](../../docs/PROJECT/TEAM_CONTRIBUTIONS.md)
