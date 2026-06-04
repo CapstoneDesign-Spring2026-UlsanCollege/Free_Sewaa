@@ -17,15 +17,15 @@
 | Admin login shows error after account creation | P1 | Open | [docs/ISSUES/BUGS/bug8.md](../../docs/ISSUES/BUGS/bug8.md), [bug9.md](../../docs/ISSUES/BUGS/bug9.md) | Verify admin account setup order |
 | Authentication redirect fails after login | P0 | Open | [docs/ISSUES/BUGS/bug10.md](../../docs/ISSUES/BUGS/bug10.md) | Check redirect logic in auth middleware |
 | User session lost after page refresh | P1 | Open | [docs/ISSUES/BUGS/bug11.md](../../docs/ISSUES/BUGS/bug11.md) | Implement persistent session storage |
-| Password recovery feature missing | P0 | Open | [docs/ISSUES/BUGS/bug12.md](../../docs/ISSUES/BUGS/bug12.md) | Implement forgot password flow |
-| Navigation bar contains broken links | P0 | Open | [docs/ISSUES/BUGS/bug13.md](../../docs/ISSUES/BUGS/bug13.md) | Audit and fix all navigation URLs |
-| Donation receipt emails not sent | P1 | Open | [docs/ISSUES/BUGS/bug14.md](../../docs/ISSUES/BUGS/bug14.md) | Integrate email service (nodemailer) |
-| Search filter returns inconsistent results | P1 | Open | [docs/ISSUES/BUGS/bug15.md](../../docs/ISSUES/BUGS/bug15.md) | Debug search query logic |
-| AI bot responses lack contextual accuracy | P2 | Open | [docs/ISSUES/BUGS/bug16.md](../../docs/ISSUES/BUGS/bug16.md) | Improve AI training data or fallback to canned responses |
-| UI components lack visual consistency | P2 | Open | [docs/ISSUES/BUGS/bug17.md](../../docs/ISSUES/BUGS/bug17.md) | Apply Figma design system consistently |
-| Website accessibility fails after deployment | P0 | Open | [docs/ISSUES/BUGS/bug18.md](../../docs/ISSUES/BUGS/bug18.md) | Audit with Lighthouse, fix ARIA labels and keyboard nav |
-| Empty pages lack proper feedback messages | P2 | Open | [docs/ISSUES/BUGS/bug19.md](../../docs/ISSUES/BUGS/bug19.md) | Add empty state components with messaging |
-| Donation posts load slowly on weak networks | P1 | Open | [docs/ISSUES/BUGS/bug20.md](../../docs/ISSUES/BUGS/bug20.md) | Implement lazy loading and image optimization |
+| Password recovery feature missing | P0 | Open | [Bug reports](../../docs/ISSUES/BUGS/) | Implement forgot password flow |
+| Navigation bar contains broken links | P0 | Open | [Bug reports](../../docs/ISSUES/BUGS/) | Audit and fix all navigation URLs |
+| Donation receipt emails not sent | P1 | Open | [Bug reports](../../docs/ISSUES/BUGS/) | Integrate email service (nodemailer) |
+| Search filter returns inconsistent results | P1 | Open | [Bug reports](../../docs/ISSUES/BUGS/) | Debug search query logic |
+| AI bot responses lack contextual accuracy | P2 | Open | [Bug reports](../../docs/ISSUES/BUGS/) | Improve AI training data or fallback to canned responses |
+| UI components lack visual consistency | P2 | Open | [Bug reports](../../docs/ISSUES/BUGS/) | Apply Figma design system consistently |
+| Website accessibility fails after deployment | P0 | Open | [Bug reports](../../docs/ISSUES/BUGS/) | Audit with Lighthouse, fix ARIA labels and keyboard nav |
+| Empty pages lack proper feedback messages | P2 | Open | [Bug reports](../../docs/ISSUES/BUGS/) | Add empty state components with messaging |
+| Donation posts load slowly on weak networks | P1 | Open | [Bug reports](../../docs/ISSUES/BUGS/) | Implement lazy loading and image optimization |
 
 ## Known Limitations
 

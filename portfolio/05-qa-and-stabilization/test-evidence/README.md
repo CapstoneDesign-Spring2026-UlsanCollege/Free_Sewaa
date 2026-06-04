@@ -1,5 +1,7 @@
 # Test Evidence
 
+Links to test plans, results, week 11 evidence, and bug reports for the Free Sewaa platform.
+
 ## Test Plans and Results
 
 - [Testing Plan](../../../docs/TESTING_PLAN.md) — E2E, integration, unit test hierarchy
@@ -18,5 +20,7 @@
 
 ## Bug Reports
 
-20 structured bug reports:
-- [docs/ISSUES/BUGS/](../../../docs/ISSUES/BUGS/) — bug1.md through bug20.md
+20 structured bug reports are available:
+- [docs/ISSUES/BUGS/](../../../docs/ISSUES/BUGS/) — bug1.md through bug11.md (bug12–20 are listed in BUGS_AND_LIMITATIONS.md but the files were not created)
+
+[Back to QA and Stabilization](../README.md)

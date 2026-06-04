@@ -16,11 +16,11 @@ I focused on identifying and fixing bugs, improving stability, and supporting th
 
 | Contribution | What I personally did | Evidence |
 |---|---|---|
-| Bug identification and reporting | Helped discover and document bugs in the issues folder, including authentication errors, navigation links, and UI inconsistencies, with clear steps to reproduce. | [Bugs folder](../../../docs/ISSUES/BUGS/) |
-| Authentication fixes | Debugged and resolved issues like admin login failures after account creation and session loss on page refresh by examining the flow between frontend, API, and database. | [Bug 8](../../../docs/ISSUES/BUGS/bug8.md), [Bug 9](../../../docs/ISSUES/BUGS/bug9.md), [Bug 11](../../../docs/ISSUES/BUGS/bug11.md) |
-| Navigation and UI fixes | Corrected broken links, missing buttons, and inconsistent styling across pages by reviewing HTML, CSS, and JavaScript files. | [Bug 13](../../../docs/ISSUES/BUGS/bug13.md), [Bug 17](../../../docs/ISSUES/BUGS/bug17.md) |
-| Testing and QA support | Assisted in running manual tests, verifying fixes, and updating checklists to reflect resolved issues. | [Manual testing checklist](../../../MANUAL_TESTING_CHECKLIST.md), [QA checklist](../../../docs/QA_CHECKLIST.md) |
-| Project board maintenance | Helped keep the PROJECT_BOARD.md updated with task statuses, priorities, and assignments to improve team coordination. | [Project board](../../../PROJECT_BOARD.md) |
+| Bug identification and reporting | Helped discover and document bugs in the issues folder, including authentication errors, navigation links, and UI inconsistencies, with clear steps to reproduce. | [Bugs folder](../../docs/ISSUES/BUGS/) |
+| Authentication fixes | Debugged and resolved issues like admin login failures after account creation and session loss on page refresh by examining the flow between frontend, API, and database. | [Bug 8](../../docs/ISSUES/BUGS/bug8.md), [Bug 9](../../docs/ISSUES/BUGS/bug9.md), [Bug 11](../../docs/ISSUES/BUGS/bug11.md) |
+| Navigation and UI fixes | Corrected broken links, missing buttons, and inconsistent styling across pages by reviewing HTML, CSS, and JavaScript files. | [Bug reports](../../docs/ISSUES/BUGS/) |
+| Testing and QA support | Assisted in running manual tests, verifying fixes, and updating checklists to reflect resolved issues. | [Manual testing checklist](../../MANUAL_TESTING_CHECKLIST.md), [QA checklist](../../docs/QA_CHECKLIST.md) |
+| Project board maintenance | Helped keep the PROJECT_BOARD.md updated with task statuses, priorities, and assignments to improve team coordination. | [Project board](../../PROJECT_BOARD.md) |
 
 ## 3. One Area I Can Explain Clearly
 
@@ -30,7 +30,7 @@ I focused on identifying and fixing bugs, improving stability, and supporting th
 - **How it works:** The admin submits their credentials via a form on `/admin-login.html`. The frontend sends a POST request to `/api/admin/login`. The server checks the credentials against the database (looking for a user with role `admin`), and if valid, returns a JWT token. The client stores the token and redirects to the admin dashboard.
 - **How it was tested:** I tested it by creating an admin user in the database (or using existing credentials), submitting the login form with correct and incorrect credentials, and verifying the response (token or error). I also checked that the admin dashboard was accessible only after a successful login.
 - **One limitation:** The admin credentials are currently hardcoded or weakly managed; in a production system, we would want stronger password policies and possibly multi-factor authentication.
-- **Evidence:** [Auth route code](../../../server/js/auth.js) (if exists; otherwise note: admin login logic is in `server/server.js`), [Admin login page](../../../html/admin-login.html), [Bug 8 report](../../../docs/ISSUES/BUGS/bug8.md)
+- **Evidence:** [Auth route code](../../js/auth.js) (if exists; otherwise note: admin login logic is in `server/server.js`), [Admin login page](../../html/admin-login.html), [Bug 8 report](../../docs/ISSUES/BUGS/bug8.md)
 
 ## 4. My AI Use and Review
 
@@ -47,7 +47,7 @@ I focused on identifying and fixing bugs, improving stability, and supporting th
 - **Why it mattered:** This broke the user experience, especially during the demo where users might expect to stay logged in while navigating the site.
 - **What I did:** I traced the issue to the fact that the JWT token was being stored in memory (e.g., a JavaScript variable) rather than in persistent storage like localStorage or cookies. I changed the frontend to save the token in localStorage upon login and clear it on logout.
 - **What changed:** Users can now refresh the page and remain logged in, as the token is retrieved from localStorage on page load and used to authorize API requests.
-- **Evidence:** [Bug 11 — User session lost after page refresh](../../../docs/ISSUES/BUGS/bug11.md), [JavaScript site file](../../../js/site.js) (look for login/logout functions handling localStorage)
+- **Evidence:** [Bug 11 — User session lost after page refresh](../../docs/ISSUES/BUGS/bug11.md), [JavaScript site file](../../js/site.js) (look for login/logout functions handling localStorage)
 
 ## 6. Reflection
 
@@ -77,11 +77,11 @@ Debugging and observability in full-stack web applications, particularly how to 
 
 ## 8. My Best Evidence Links
 
-1. [Bug 8 report](../../../docs/ISSUES/BUGS/bug8.md) — Admin login error after account creation
-2. [Bug 9 report](../../../docs/ISSUES/BUGS/bug9.md) — Admin login invalid response
-3. [Bug 11 report](../../../docs/ISSUES/BUGS/bug11.md) — Session lost after page refresh
-4. [Project board](../../../PROJECT_BOARD.md) — Shows task tracking and maintenance work
-5. [JavaScript site file](../../../js/site.js) — Contains login/logout logic and localStorage usage
+1. [Bug 8 report](../../docs/ISSUES/BUGS/bug8.md) — Admin login error after account creation
+2. [Bug 9 report](../../docs/ISSUES/BUGS/bug9.md) — Admin login invalid response
+3. [Bug 11 report](../../docs/ISSUES/BUGS/bug11.md) — Session lost after page refresh
+4. [Project board](../../PROJECT_BOARD.md) — Shows task tracking and maintenance work
+5. [JavaScript site file](../../js/site.js) — Contains login/logout logic and localStorage usage
 
 ---
 [Back to Individual Portfolios](./README.md) | [Back to Portfolio Home](../README.md)

@@ -6,7 +6,7 @@
 
 The application is deployed on Render's free tier with automatic deploys from the main branch.
 
-**Config:** [render.yaml](../../../render.yaml)
+**Config:** [render.yaml](../../render.yaml)
 
 ### Deployment Details
 - **Live URL:** [https://free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com)
@@ -17,8 +17,8 @@ The application is deployed on Render's free tier with automatic deploys from th
 
 ### Pre-Deployment Checklist
 Deployment verification steps are documented in:
-- [DEPLOYMENT_CHECKLIST.md](../../../DEPLOYMENT_CHECKLIST.md)
-- [RELEASE_CHECKLIST.md](../../../RELEASE_CHECKLIST.md)
+- [DEPLOYMENT_CHECKLIST.md](../../DEPLOYMENT_CHECKLIST.md)
+- [RELEASE_CHECKLIST.md](../../RELEASE_CHECKLIST.md)
 
 ### Known Deployment Limitations
 - **Cold start:** Free tier spins down after inactivity (~30 seconds to restart)
@@ -54,7 +54,7 @@ npm start
 
 ### Browser Compatibility
 Verified on all major browsers:
-- [Browser Testing Checklist](../../../BROWSER_TESTING_CHECKLIST.md)
+- [Browser Testing Checklist](../../BROWSER_TESTING_CHECKLIST.md)
 
 ## Demo Risks and Backup Plan
 
@@ -69,7 +69,7 @@ Verified on all major browsers:
 ### Backup Plan
 1. **Primary:** Live Render demo at [free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com)
 2. **Backup 1:** Localhost at `http://localhost:3000`
-3. **Backup 2:** Screenshots in [assets/screenshots/](../../../assets/screenshots/) and [docs/evidence/week11/screenshots/](../../../docs/evidence/week11/)
+3. **Backup 2:** Screenshots in [assets/screenshots/](../../assets/screenshots/) and [docs/evidence/week11/screenshots/](../../docs/evidence/week11/)
 4. **Backup 3:** Demo script walkthrough without live demo
 
 ### Demo Credentials
@@ -79,5 +79,5 @@ Verified on all major browsers:
 ## Screenshots
 
 Screenshot gallery links:
-- [Screenshot Inventory](../../../assets/screenshots/README.md)
-- [Week 11 Evidence Screenshots](../../../docs/evidence/week11/)
+- [Screenshot Inventory](../../assets/screenshots/README.md)
+- [Week 11 Evidence Screenshots](../../docs/evidence/week11/)

@@ -36,7 +36,7 @@ This document captures key decisions made during the project that affected scope
 **Evidence:**
 - [React migration commits](../../README.md) — `7dc196f`, `b38c79d`, `9614646`
 - [Frontend Guide](../../docs/FRONTEND_GUIDE.md) — Updated for React
-- [vite.config.js](../../vite.config.js)
+- `vite.config.js` — Vite build configuration (archived in commit `c57d2ab` before cleanup)
 
 **Impact:** Improved code organization but introduced migration work that continued through the final weeks.
 

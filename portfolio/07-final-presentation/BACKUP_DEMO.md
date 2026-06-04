@@ -22,8 +22,8 @@ npm start
 
 If both live and localhost fail, use screenshot walkthrough:
 
-- [assets/screenshots/README.md](../../../assets/screenshots/README.md) — Screenshot inventory and capture guide
-- [docs/evidence/week11/screenshots/](../../../docs/evidence/week11/) — Week 11 screenshots (6 images)
+- [assets/screenshots/README.md](../../assets/screenshots/README.md) — Screenshot inventory and capture guide
+- [docs/evidence/week11/screenshots/](../../docs/evidence/week11/) — Week 11 screenshots (6 images)
 
 Screenshots cover: Landing page, Signup form, Browse items, Donate form, Messages, Admin panel.
 

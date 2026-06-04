@@ -21,7 +21,7 @@ Based on evidence from [MVP_STATUS.md](../../docs/PROJECT/MVP_STATUS.md), [ROADM
 | Email Auth | ⚠️ Partly | Basic flow works |
 | Notifications | ⚠️ Partly | UI exists, backend pending |
 | Saved Items | ⚠️ Partly | UI structure in place |
-| Password Recovery | ❌ Not done | P0 bug, see [bug12](../../docs/ISSUES/BUGS/bug12.md) |
+| Password Recovery | ❌ Not done | P0 bug, see [Known limitations](../../docs/ISSUES/BUGS/) |
 
 ## MVP Verification
 

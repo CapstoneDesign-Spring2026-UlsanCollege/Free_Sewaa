@@ -30,3 +30,5 @@ The following branches represent key development work:
 ## Complete Commit History
 
 Full commit history: [main branch commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main)
+
+[Back to AI and Code Ownership](../README.md)
