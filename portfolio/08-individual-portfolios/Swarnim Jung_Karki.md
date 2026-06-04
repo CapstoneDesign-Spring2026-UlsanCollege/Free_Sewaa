@@ -16,11 +16,11 @@ I focused on improving the visual design, responsiveness, and documentation orga
 
 | Contribution | What I personally did | Evidence |
 |---|---|---|
-| CSS theme and visual polish | Updated `css/theme.css` to improve colors, spacing, typography, and component styling (buttons, cards, forms) for a more consistent and professional look. | [CSS theme](../../../css/theme.css) |
-| Responsive design and mobile fixes | Added media queries, touch-friendly sizes (48px minimum), fixed iOS zoom issue on inputs, and adjusted layouts for small screens. | [Mobile testing checklist](../../../MOBILE_TESTING_CHECKLIST.md) |
-| Accessibility improvements | Added focus-visible outlines, improved color contrast, and added ARIA labels where needed to support keyboard navigation and screen readers. | [Accessibility checklist](../../../ACCESSIBILITY_CHECKLIST.md) |
-| Documentation hub and organization | Helped structure `docs/README.md` as a central navigation point and kept other documents like sprint packets and checklists up to date and easy to find. | [docs/README.md](../../../docs/README.md) |
-| Sprint evidence and reports | Maintained the sprint documentation in `docs/sprints/` and `docs/PROGRESS/` to reflect weekly progress, goals, and outcomes. | [Sprint packets](../../../docs/sprints/) |
+| CSS theme and visual polish | Updated `css/theme.css` to improve colors, spacing, typography, and component styling (buttons, cards, forms) for a more consistent and professional look. | [CSS theme](../../css/theme.css) |
+| Responsive design and mobile fixes | Added media queries, touch-friendly sizes (48px minimum), fixed iOS zoom issue on inputs, and adjusted layouts for small screens. | [Mobile testing checklist](../../MOBILE_TESTING_CHECKLIST.md) |
+| Accessibility improvements | Added focus-visible outlines, improved color contrast, and added ARIA labels where needed to support keyboard navigation and screen readers. | [Accessibility checklist](../../ACCESSIBILITY_CHECKLIST.md) |
+| Documentation hub and organization | Helped structure `docs/README.md` as a central navigation point and kept other documents like sprint packets and checklists up to date and easy to find. | [docs/README.md](../../docs/README.md) |
+| Sprint evidence and reports | Maintained the sprint documentation in `docs/sprints/` and `docs/PROGRESS/` to reflect weekly progress, goals, and outcomes. | [Sprint packets](../../docs/sprints/) |
 
 ## 3. One Area I Can Explain Clearly
 
@@ -30,7 +30,7 @@ I focused on improving the visual design, responsiveness, and documentation orga
 - **How it works:** CSS media queries (@media) detect screen width and apply different styles. For example, on screens narrower than 768px, the item grid changes from 3 columns to 1, padding is reduced, and font sizes are scaled. Touch targets like buttons are increased to at least 48px height and width for easy tapping. The font size on input fields is set to 16px to prevent iOS Safari from zooming in when tapped.
 - **How it was tested:** I tested it using Chrome DevTools device emulation (iPhone 14), on an actual Android phone, and verified with the mobile testing checklist. I also checked that the layout did not break or require horizontal scrolling on common mobile widths.
 - **One limitation:** On very wide screens (large desktop monitors), some sections may have excessive white space. A max-width constraint on the main content area could improve readability on large displays.
-- **Evidence:** [CSS theme](../../../css/theme.css), [Mobile testing checklist](../../../MOBILE_TESTING_CHECKLIST.md)
+- **Evidence:** [CSS theme](../../css/theme.css), [Mobile testing checklist](../../MOBILE_TESTING_CHECKLIST.md)
 
 ## 4. My AI Use and Review
 
@@ -47,7 +47,7 @@ I focused on improving the visual design, responsiveness, and documentation orga
 - **Why it mattered:** A significant portion of users access the site via mobile phones. If the form became unusable on iOS, it would negatively impact the user experience and potentially deter donations.
 - **What I did:** I identified that the root cause was the font size on input fields being less than 16px. I increased the font size to exactly 16px on all input, select, and textarea elements in `css/theme.css`, which is the threshold that prevents iOS Safari from triggering the zoom behavior.
 - **What changed:** Users can now tap into any form field on an iPhone without the page zooming unexpectedly, making the form easier to complete on mobile devices.
-- **Evidence:** [CSS theme](../../../css/theme.css) (search for `input`, `select`, `textarea` font-size rules), [Mobile testing checklist](../../../MOBILE_TESTING_CHECKLIST.md) (includes checks for mobile form usability)
+- **Evidence:** [CSS theme](../../css/theme.css) (search for `input`, `select`, `textarea` font-size rules), [Mobile testing checklist](../../MOBILE_TESTING_CHECKLIST.md) (includes checks for mobile form usability)
 
 ## 6. Reflection
 
@@ -77,11 +77,11 @@ Advanced CSS and UI/UX design, particularly how to create scalable, maintainable
 
 ## 8. My Best Evidence Links
 
-1. [CSS theme](../../../css/theme.css) — Shows the responsive rules and styling
-2. [Accessibility checklist](../../../ACCESSIBILITY_CHECKLIST.md) — References the accessibility improvements we aimed for
-3. [Mobile testing checklist](../../../MOBILE_TESTING_CHECKLIST.md) — Documents the mobile-specific tests we performed
-4. [docs/README.md](../../../docs/README.md) — The documentation hub we helped organize
-5. [Sprint packets](../../../docs/sprints/) — Shows our ongoing documentation and sprint tracking
+1. [CSS theme](../../css/theme.css) — Shows the responsive rules and styling
+2. [Accessibility checklist](../../ACCESSIBILITY_CHECKLIST.md) — References the accessibility improvements we aimed for
+3. [Mobile testing checklist](../../MOBILE_TESTING_CHECKLIST.md) — Documents the mobile-specific tests we performed
+4. [docs/README.md](../../docs/README.md) — The documentation hub we helped organize
+5. [Sprint packets](../../docs/sprints/) — Shows our ongoing documentation and sprint tracking
 
 ---
 [Back to Individual Portfolios](./README.md) | [Back to Portfolio Home](../README.md)
