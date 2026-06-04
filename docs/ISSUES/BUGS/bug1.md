@@ -1,102 +1,126 @@
 ---
-name: Bug
+name: Bug Report
 about: Report a problem in the Free Sewaa platform
-title: "[Bug] Browse page layout broken and items not rendering correctly"
+title: "[Bug] Browse Page Layout Broken and Item Cards Not Rendering Correctly"
 labels: bug
 assignees: ""
 ---
 
+# Bug Report
+
 ## Summary
 
-The Browse Items page had layout and rendering issues. Item cards were not displaying in a clean and consistent format, and some content was mismatched with the JavaScript logic.
+The Browse Items page experienced layout and rendering issues that affected the visual presentation of item listings. Item cards were displayed inconsistently, and some frontend elements did not align properly with the JavaScript rendering logic. This resulted in an unstructured user interface and reduced overall usability.
 
 ---
 
 ## Affected Feature
 
-Which part of Free Sewaa is affected?
+**Module:** Browse Items
 
-- Homepage
-- Post Item
-- Browse Items
-- Request Item
-- Contact Donor
-- Login / Signup
-- Other:
+Affected Areas:
 
-Affected: Browse Items
+- [ ] Homepage
+- [ ] Post Item
+- [x] Browse Items
+- [ ] Request Item
+- [ ] Contact Donor
+- [ ] Login / Signup
+- [ ] Other
 
 ---
 
 ## Steps to Reproduce
 
-1. Go to: `browse.html`
-2. Click on: Browse / explore available items
-3. Enter: N/A
-4. Submit / Continue: Open the page and try browsing item cards
-5. See error: Layout appears broken, cards are inconsistent, and page structure does not match frontend logic properly
+1. Open `browse.html`
+2. Navigate to the Browse Items page
+3. Load available item listings
+4. Observe the displayed item cards
+5. Notice layout inconsistencies and rendering issues
 
 ---
 
 ## Expected Behavior
 
-The Browse Items page should display all item cards in a clean grid with proper spacing, correct image size, and consistent structure.
+The Browse Items page should:
+
+- Display item cards in a clean and responsive grid layout
+- Maintain consistent spacing and alignment
+- Render images at appropriate sizes
+- Display item information using a uniform card structure
+- Match the intended frontend design and functionality
 
 ---
 
 ## Actual Behavior
 
-The page looked unstructured, item cards were not visually balanced, and the HTML/JS behavior did not align properly.
+The Browse Items page displayed several UI issues:
 
----
+- Item cards appeared inconsistent in size and alignment
+- Layout structure looked broken and unorganized
+- Card rendering did not fully match frontend logic
+- Visual presentation reduced usability and professionalism
 
-## Screenshots / Evidence
-
-Add proof if available.
-
-- Screenshot: Available
-- Screen recording: N/A
-- Console error: N/A
-- Related commit: Frontend premium upgrade pass
-- Related PR: N/A
-- Related issue: N/A
 
 ---
 
 ## Demo Impact
 
-Does this bug affect the team demo?
+### Does this issue affect the project demonstration?
 
 - [x] Yes
 - [ ] No
 
-If yes, explain how it affects the demo:
+### Impact Description
 
-The browse page is one of the main pages in the platform. A broken item layout makes the product look unfinished and affects user trust during the demo.
+The Browse Items page is one of the primary user-facing features of the Free Sewaa platform. Poor layout rendering negatively affects user experience, reduces visual quality, and may create the impression of an unfinished product during demonstrations and evaluations.
 
 ---
 
 ## Possible Cause
 
-The page structure and styling were inconsistent, and the item rendering flow was not properly matched between HTML, CSS, and JavaScript.
+Potential causes identified during investigation include:
+
+- Inconsistent HTML structure between item card components
+- CSS styling conflicts affecting layout rendering
+- Mismatch between frontend JavaScript rendering logic and page structure
+- Lack of standardized card sizing and content formatting
 
 ---
 
 ## Suggested Fix
 
-Rebuild the Browse Items layout using a consistent card system, fix the HTML/JS mismatch, and standardize image and content rendering.
+Recommended actions:
+
+1. Rebuild the Browse Items page using a consistent card-based layout.
+2. Align HTML structure with JavaScript rendering logic.
+3. Standardize image dimensions and card spacing.
+4. Improve responsive behavior across different screen sizes.
+5. Verify rendering consistency through frontend testing.
+
+---
+
+## Resolution
+
+The issue was resolved by:
+
+- Improving card structure and layout organization
+- Standardizing image sizing and spacing
+- Updating rendering logic to match the frontend design
+- Enhancing overall page consistency and responsiveness
 
 ---
 
 ## Owner
 
-Who will work on this bug?
-
-- Name: sujan shrestha / Frontend Team
-- Role: Frontend Developer
+| Field | Details |
+|--------|---------|
+| Name | Sujan Shrestha |
+| Team | Frontend Team |
+| Role | Frontend Developer |
 
 ---
 
 ## Notes
 
-This issue was fixed by improving card structure, sizing, layout consistency, and page rendering logic.
+This issue was successfully fixed before the final demonstration. The Browse Items page now displays item cards consistently, maintains proper visual hierarchy, and aligns with the intended frontend design standards.
