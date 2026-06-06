@@ -9,10 +9,10 @@
 | Badge | Member | GitHub | Role | Primary Contribution |
 |-------|--------|--------|------|---------------------|
 |  | **Ram Pathak** | [@Rampathak12](https://github.com/Rampathak12) | Backend & Core Logic | API routes, database integration, JWT authentication |
-|  | **Sujan Shrestha** | [@SujanShrestha](https://github.com/SujanShrestha) | Frontend & UI Development | Main pages, navigation, UI components, project coordination |
-|  | **Sujan Tamang** | [@SujanTamang](https://github.com/SujanTamang) | Testing, Integration & Docs | QA strategy, checklists, bug reporting, integration testing |
-|  | **Swarnim Jung Karki** | [@SwarnimJungKarki](https://github.com/SwarnimJungKarki) | Styling, CSS & Documentation | Responsive design, CSS polish, accessibility, portfolio organization |
-|  | **Mohan Khadka** | [@MohanKhadka](https://github.com/MohanKhadka) | Bug Fixes & Maintenance | Debugging, stability improvements, issue tracking, final cleanup |
+|  | **Sujan Shrestha** | [@SujanShrestha](https://github.com/suzmoon) | Frontend & UI Development | Main pages, navigation, UI components, project coordination |
+|  | **Sujan Tamang** | [@SujanTamang](https://github.com/SujanTamang20) | Testing, Integration & Docs | QA strategy, checklists, bug reporting, integration testing |
+|  | **Swarnim Jung Karki** | [@SwarnimJungKarki](https://github.com/Swarnimkarki50) | Styling, CSS & Documentation | Responsive design, CSS polish, accessibility, portfolio organization |
+|  | **Mohan Khadka** | [@MohanKhadka](https://github.com/Mohankhadkaa) | Bug Fixes & Maintenance | Debugging, stability improvements, issue tracking, final cleanup |
 
 ---
 
