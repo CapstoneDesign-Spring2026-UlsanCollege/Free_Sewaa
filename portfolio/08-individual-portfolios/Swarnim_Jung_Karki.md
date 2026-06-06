@@ -2,78 +2,116 @@
 
 ## 1. Role Summary
 
-I focused on improving the visual design, responsiveness, and documentation organization of Free Sewaa. This included refining the CSS theme, ensuring the layout worked well on mobile devices, and structuring the project documents so they were clear and easy to follow. I also served as documentation lead and occasional project manager (Weeks 2, 10), helping the team stay organized during key milestones.
+I contributed to Free Sewaa by focusing on visual design, responsive layout, accessibility support, documentation structure, and final portfolio organization. My work helped make the project easier to use, easier to present, and easier for reviewers to understand. I also supported team organization during key milestones by helping manage documentation, presentation preparation, and final link verification.
+
+---
 
 ## 2. Main Responsibilities
 
-- CSS styling and visual polish — colors, spacing, typography, and component design (buttons, cards, forms)
-- Responsive design — media queries, mobile layout adjustments, touch-friendly sizing
-- Accessibility improvements — focus-visible outlines, color contrast, ARIA labels
-- Documentation management — structuring `docs/README.md`, maintaining sprint packets and checklists
-- Portfolio organization — structuring the final portfolio section with navigation and evidence links
-- Final link checking — verifying all cross-references across 62+ portfolio files
-- Presentation readiness — preparing slide materials, demo backup plans, and technical defense prep
+- Improved the project's visual design using consistent colors, spacing, typography, buttons, cards, and form styles.
+- Supported responsive design so the platform worked better on mobile and desktop screens.
+- Improved accessibility through focus-visible styles, readable contrast, keyboard-friendly navigation, and clearer form elements.
+- Helped organize project documentation, including the documentation hub, sprint evidence, checklists, and portfolio pages.
+- Structured the final portfolio so each section had clear navigation and evidence links.
+- Checked and corrected broken internal links across the portfolio and documentation files.
+- Helped prepare the project for final presentation, review, and technical defense.
+
+---
 
 ## 3. Key Contributions
 
-| Area | Work Completed | Evidence Link |
-|------|---------------|---------------|
-| CSS Theme | Updated `css/theme.css` with consistent colors, spacing, typography, and component styling | [CSS Theme](../../css/theme.css) |
-| Responsive Design | Added media queries, 48px minimum touch targets, iOS zoom fix for inputs, mobile layout adjustments | [Mobile Testing Checklist](../../MOBILE_TESTING_CHECKLIST.md) |
-| Accessibility | Added focus-visible outlines, improved contrast, ARIA labels for keyboard and screen reader support | [Accessibility Checklist](../../ACCESSIBILITY_CHECKLIST.md) |
-| Documentation Hub | Structured `docs/README.md` as central navigation point for all project documentation | [docs/README.md](../../docs/README.md) |
-| Portfolio Organization | Created and verified cross-references across all 8 portfolio sections (62+ files) | [Portfolio Home](../README.md) |
-| Sprint Evidence | Maintained sprint documentation in `docs/sprints/` and `docs/PROGRESS/` | [Sprint Packets](../../docs/sprints/) |
+| Area | Work Completed | Evidence |
+|------|----------------|----------|
+| CSS Theme | Improved the main theme file with consistent colors, spacing, typography, buttons, cards, and form styling. | [CSS Theme](../../css/theme.css) |
+| Responsive Design | Supported mobile-friendly layout, media queries, touch-friendly sizing, and input improvements. | [Mobile Testing Checklist](../../MOBILE_TESTING_CHECKLIST.md) |
+| Accessibility | Helped improve focus styles, color contrast, form readability, and keyboard usability. | [Accessibility Checklist](../../ACCESSIBILITY_CHECKLIST.md) |
+| Documentation Structure | Helped organize the documentation hub so project files are easier to find and review. | [Documentation Hub](../../docs/README.md) |
+| Portfolio Organization | Helped structure the final portfolio with clear sections, navigation, and evidence links. | [Portfolio Home](../README.md) |
+| Sprint Evidence | Supported weekly sprint documentation and progress tracking. | [Sprint Packets](../../docs/sprints/) |
+
+---
 
 ## 4. Technical Ownership
 
-I owned the visual design layer and documentation structure of the project. On the CSS side, I maintained `css/theme.css` which controls the platform's appearance — colors, typography, spacing, button styles, card layouts, form elements, and responsive breakpoints. On the documentation side, I was responsible for the structure and navigability of `docs/README.md` as the central documentation hub, and I led the final portfolio organization effort that ensured all 62+ files across 8 sections had correct cross-references and consistent formatting.
+My main technical ownership was the visual and documentation layer of the project. On the design side, I worked with the main CSS theme to improve the appearance, spacing, responsiveness, and usability of the interface. On the documentation side, I helped organize project files, portfolio sections, sprint evidence, and navigation links so the final submission was easier to understand and review.
+
+This work was important because a project is not only judged by its functionality, but also by how clearly it is presented, how easy it is to use, and how well the team can explain its development process.
+
+---
 
 ## 5. Evidence of Work
 
-- [CSS Theme](../../css/theme.css) — Complete stylesheet with responsive rules, accessibility features, and consistent design tokens
-- [Mobile Testing Checklist](../../MOBILE_TESTING_CHECKLIST.md) — Documents mobile-specific tests performed (viewport sizes, touch targets, iOS zoom)
-- [Accessibility Checklist](../../ACCESSIBILITY_CHECKLIST.md) — Accessibility improvements including keyboard navigation and screen reader support
-- [Documentation Hub](../../docs/README.md) — Central documentation navigation that I helped structure
-- [Sprint Packets](../../docs/sprints/) — Weekly sprint documentation maintained throughout the semester
-- [Portfolio Home](../README.md) — Final portfolio structure with cross-referenced links across all sections
+- [CSS Theme](../../css/theme.css) — Main styling file for colors, layout, typography, buttons, cards, forms, responsive behavior, and accessibility-related styles.
+- [Mobile Testing Checklist](../../MOBILE_TESTING_CHECKLIST.md) — Evidence of mobile testing, viewport checking, touch target improvements, and input behavior review.
+- [Accessibility Checklist](../../ACCESSIBILITY_CHECKLIST.md) — Evidence of accessibility support such as keyboard navigation, focus styles, and readable contrast.
+- [Documentation Hub](../../docs/README.md) — Central documentation page used to organize project resources.
+- [Sprint Packets](../../docs/sprints/) — Weekly sprint evidence and progress documentation.
+- [Portfolio Home](../README.md) — Final portfolio navigation page linking all major project evidence sections.
+
+---
 
 ## 6. AI Usage Reflection
 
-- **AI tools used:** GitHub Copilot
-- **How AI helped:** Suggested CSS utility classes (flex layouts, spacing helpers) and provided ideas for media query breakpoints.
-- **What I checked:** Reviewed every AI-generated CSS suggestion to ensure it matched design goals, did not introduce conflicts, and used correct selectors. Verified that proposed values (padding, margin, font size) were appropriate for the context.
-- **What I changed:** Rewrote most AI-generated code to align with the project's styling conventions and Figma-inspired design. Adjusted color values to match our palette, removed unnecessary vendor prefixes, and ensured responsiveness was intentional rather than relying on AI guesses.
-- **How I verified:** Visually inspected changes across multiple viewports, used browser DevTools to check computed styles, and confirmed interactive states (hover, focus) worked as expected.
-- **Area to improve:** Want to adopt CSS custom properties (variables) for colors, spacing, and typography to make theme changes easier and more consistent.
+I used AI tools such as GitHub Copilot as a support tool for improving CSS structure, layout ideas, documentation wording, and debugging suggestions. I did not copy AI output blindly. I reviewed each suggestion, checked whether it matched the project style, and changed the code or writing when needed.
+
+AI was useful for suggesting cleaner CSS patterns, media query ideas, and documentation improvements. However, I verified the final work manually by checking the layout in the browser, reviewing link paths, testing different screen sizes, and making sure the writing matched our actual project work.
+
+This helped me understand that AI can speed up development, but the developer is still responsible for accuracy, quality, and final decisions.
+
+---
 
 ## 7. Challenges and Solutions
 
-**Challenge 1 — iOS Safari Zoom on Input Fields**
-Input fields on the donate and signup pages would zoom in when tapped on iOS Safari, making forms difficult to use and breaking the layout on mobile devices.
-- **Solution:** Identified the root cause — font size on input fields was less than 16px. Increased font size to exactly 16px on all `input`, `select`, and `textarea` elements in `css/theme.css`, which is the threshold that prevents iOS Safari from triggering zoom behavior. Users can now tap into any form field on an iPhone without unexpected zooming.
+### Challenge 1 — Mobile Input Zoom Issue
 
-**Challenge 2 — Inconsistent Visual Design Across Pages**
-Different pages had slightly different colors, spacing, and typography because CSS rules were scattered across multiple files without a central theme.
-- **Solution:** Consolidated styling into `css/theme.css` as the primary stylesheet, defined consistent color values, standardized spacing and font sizes, and applied uniform button and card styles across all pages.
+Some input fields zoomed unexpectedly on iOS Safari when users tapped them. This made the form layout harder to use on mobile devices.
 
-**Challenge 3 — Portfolio Link Verification Across 62+ Files**
-The final portfolio had cross-references between 8 sections, and many links were broken due to incorrect relative paths, renamed files, or missing directories.
-- **Solution:** Performed a systematic audit of all relative links across the `portfolio/` tree, fixed depth prefix errors (`../../../` → `../../` for depth-2 files), corrected zero-padded week numbers, and replaced non-existent directory paths with working alternatives.
+**Solution:**  
+I reviewed the CSS and identified that small input font sizes can trigger zoom behavior on iOS Safari. I improved the input styling by making form text more mobile-friendly and easier to read.
+
+### Challenge 2 — Inconsistent Page Styling
+
+Some pages had different spacing, colors, and component styles, which made the project feel less consistent.
+
+**Solution:**  
+I helped improve the main CSS theme by making buttons, cards, typography, colors, and spacing more consistent across the project.
+
+### Challenge 3 — Broken Portfolio Links
+
+During final portfolio preparation, some links were incorrect because of renamed files, folder depth issues, or incorrect relative paths.
+
+**Solution:**  
+I helped review and fix portfolio navigation links so reviewers can move between sections, evidence files, member pages, and documentation without confusion.
+
+---
 
 ## 8. What I Learned
 
-I learned how CSS choices directly affect usability and accessibility, especially on mobile devices. I also gained experience in balancing aesthetic design with functional requirements like responsiveness and readability. Organizing the final portfolio taught me the importance of systematic link checking and consistent file naming — small mistakes like a space in a filename can break dozens of cross-references.
+Through this project, I learned that frontend work is not only about making pages look good. It also includes usability, accessibility, responsive design, and clear presentation. I also learned the importance of clean documentation because a well-organized portfolio helps others understand the project more easily.
+
+This project improved my confidence in CSS, GitHub documentation, teamwork, link checking, and final project preparation.
+
+---
 
 ## 9. Presentation Summary
 
-- I contributed to the visual design, responsive layout, and documentation organization of Free Sewaa
-- I can explain the iOS Safari zoom fix: why it happens (font size under 16px) and how we solved it
-- I led the final portfolio organization effort, verifying 62+ files across 8 sections
-- The CSS theme is responsive and works on mobile devices down to 390px viewport width
-- I reviewed the technical defense questions and can answer honestly
+During the presentation, I can explain:
 
-## 10. Navigation
+- My role in improving the project's visual design, CSS styling, and responsive layout.
+- How I supported mobile usability and accessibility.
+- How I helped organize the documentation and final portfolio.
+- Why clear navigation and working evidence links are important for project review.
+- What I learned from using AI responsibly during development.
+
+---
+
+## 10. Final Reflection
+
+My contribution helped make Free Sewaa more polished, organized, and presentation-ready. I focused on the parts of the project that improve first impressions, usability, and reviewer understanding. By improving styling, documentation, accessibility, and portfolio structure, I helped the team present the project in a more professional way.
+
+---
+
+## 11. Navigation
 
 - [Back to Individual Portfolios](./README.md)
 - [Back to Portfolio Home](../README.md)
