@@ -82,12 +82,6 @@ const STORAGE_KEYS = {
   user: 'freesewaa-user'
 };
 
-const phoneAuthState = {
-  confirmationResult: null,
-  verifier: null,
-  sendingForForm: null
-};
-
 const EMAIL_ONLY_MESSAGE = 'Please use a real email address from a recognized email provider.';
 const PASSWORD_POLICY_MESSAGE = 'Password must be 8-10 characters and include uppercase, lowercase, and a number.';
 const DEMO_EMAIL_DOMAINS = new Set([
@@ -99,26 +93,26 @@ const DEMO_EMAIL_DOMAINS = new Set([
   'test.com'
 ]);
 const RECOGNIZED_EMAIL_DOMAINS = new Set([
-    'aol.com',
-    'daum.net',
-    'freesewaa.local',
-    'gmail.com',
-    'hanmail.net',
-    'hotmail.com',
-    'icloud.com',
-    'kakao.com',
-    'live.com',
-    'mac.com',
-    'me.com',
-    'msn.com',
-    'nate.com',
-    'naver.com',
-    'outlook.com',
-    'proton.me',
-    'protonmail.com',
-    'yahoo.com',
-    'yandex.com',
-    'zoho.com'
+  'aol.com',
+  'daum.net',
+  'freesewaa.local',
+  'gmail.com',
+  'hanmail.net',
+  'hotmail.com',
+  'icloud.com',
+  'kakao.com',
+  'live.com',
+  'mac.com',
+  'me.com',
+  'msn.com',
+  'nate.com',
+  'naver.com',
+  'outlook.com',
+  'proton.me',
+  'protonmail.com',
+  'yahoo.com',
+  'yandex.com',
+  'zoho.com'
 ]);
 
 function getApiBaseUrl() {
@@ -156,11 +150,6 @@ function isRealEmailAddress(email = '') {
     domain.endsWith('.ac.kr');
 
   return hasValidFormat && isRecognizedDomain && !DEMO_EMAIL_DOMAINS.has(domain);
-}
-
-function isValidPhoneInput(phone = '') {
-  const value = String(phone || '').trim();
-  return /^\+?[0-9][0-9\s().-]{6,19}$/.test(value);
 }
 
 function isStrongPassword(password = '') {
@@ -203,10 +192,6 @@ function getPageMode() {
   return 'signin';
 }
 
-function getPanelType(form) {
-  return form.dataset.authPanel || (form.closest('#phonePanel') ? 'phone' : 'email');
-}
-
 function formValues(form) {
   const inputs = [...form.querySelectorAll('input')].filter(input => input.type !== 'checkbox');
   return inputs.map(input => input.value.trim());
@@ -231,79 +216,6 @@ function clearInlineMessage(form) {
     el.textContent = '';
     el.dataset.tone = 'default';
   }
-}
-
-function showGlobalMessage(message, tone = 'default') {
-  const activeForm =
-    document.querySelector('.auth-panel.is-active .auth-form') ||
-    document.querySelector('.auth-form');
-  if (activeForm) showInlineMessage(activeForm, message, tone);
-}
-
-function getFriendlyAuthMessage(error, context = 'auth') {
-  const code = String(error?.code || '').toLowerCase();
-  const message = String(error?.message || '').toLowerCase();
-
-  if (
-    code.includes('wrong-password') ||
-    code.includes('invalid-credential') ||
-    code.includes('invalid-login-credentials') ||
-    code.includes('user-not-found')
-  ) {
-    return 'Wrong email or password.';
-  }
-  if (code.includes('user-disabled')) {
-    return 'This account is disabled.';
-  }
-  if (code.includes('email-already-in-use')) {
-    return 'An account with this email already exists.';
-  }
-  if (code.includes('weak-password')) {
-    return PASSWORD_POLICY_MESSAGE;
-  }
-  if (code.includes('invalid-email')) {
-    return 'Please enter a valid email address.';
-  }
-  if (code.includes('too-many-requests')) {
-    return 'Too many attempts. Please try again later.';
-  }
-  if (code.includes('network-request-failed') || message.includes('cannot reach')) {
-    return 'Network problem. Please try again.';
-  }
-  if (code.includes('popup-closed-by-user')) {
-    return 'Sign in was cancelled.';
-  }
-  if (code.includes('popup-blocked')) {
-    return 'Popup was blocked. Please allow popups and try again.';
-  }
-  if (code.includes('unauthorized-domain')) {
-    return 'This domain is not allowed for sign in yet.';
-  }
-  if (code.includes('operation-not-allowed')) {
-    return 'This sign-in method is not available yet.';
-  }
-  if (code.includes('invalid-verification-code')) {
-    return 'Wrong verification code.';
-  }
-  if (code.includes('missing-verification-code')) {
-    return 'Please enter the verification code.';
-  }
-  if (code.includes('invalid-phone-number')) {
-    return 'Please enter a valid phone number.';
-  }
-  if (code.includes('quota-exceeded')) {
-    return 'Verification is temporarily unavailable. Please try again later.';
-  }
-  if (message.includes('verify your email')) {
-    return 'Please verify your email first. We sent a new link.';
-  }
-  if (message.includes('firebase') || message.includes('credential') || message.includes('token')) {
-    return context === 'signup'
-      ? 'Could not create account. Please try again.'
-      : 'Authentication failed.';
-  }
-
-  return error?.message || 'Authentication failed.';
 }
 
 async function postJson(url, payload) {
@@ -376,353 +288,6 @@ function validateSigninEmailForm(values) {
   if (!password) throw new Error('Please enter your password.');
 }
 
-function getFirebaseConfig() {
-  const config = window.FREESEWAA_FIREBASE_CONFIG;
-
-  if (!config || !config.apiKey || String(config.apiKey).includes('YOUR_FIREBASE')) {
-    throw new Error(
-      'Firebase is not configured yet. Fill in firebase-config.js with your real Firebase web app values.'
-    );
-  }
-
-  return config;
-}
-
-function getFirebaseAuth() {
-  if (!window.firebase || !window.firebase.apps) {
-    throw new Error('Firebase SDK did not load. Check your script order and reload the page.');
-  }
-
-  if (!window.firebase.apps.length) {
-    window.firebase.initializeApp(getFirebaseConfig());
-  }
-
-  const auth = window.firebase.auth();
-  auth.languageCode = 'en';
-  return auth;
-}
-
-function parseDisplayName(name = '') {
-  const parts = String(name).trim().split(/\s+/).filter(Boolean);
-  return {
-    firstName: parts[0] || '',
-    lastName: parts.slice(1).join(' ')
-  };
-}
-
-async function syncFirebaseSession({ idToken, provider, firstName = '', lastName = '', phone = '' }) {
-  if (!idToken) throw new Error('Missing Firebase ID token.');
-
-  return postJson(apiUrl('/api/auth/firebase'), {
-    idToken,
-    provider,
-    firstName,
-    lastName,
-    phone
-  });
-}
-
-async function signUpWithVerifiedEmail(form, values) {
-  validateSignupEmailForm(form, values);
-  const [firstName, lastName, email, password] = values;
-  const auth = getFirebaseAuth();
-
-  showInlineMessage(form, 'Creating secure account...', 'default');
-  const result = await auth.createUserWithEmailAndPassword(email, password);
-  const firebaseUser = result.user;
-
-  if (!firebaseUser) {
-    throw new Error('Firebase did not return a user.');
-  }
-
-  await firebaseUser.updateProfile({
-    displayName: `${firstName} ${lastName}`.trim()
-  });
-  await firebaseUser.sendEmailVerification({
-    url: `${window.location.origin}/signin.html`
-  });
-  await auth.signOut();
-
-  showInlineMessage(
-    form,
-    'Verification email sent. Open your inbox, verify your email, then sign in.',
-    'success'
-  );
-}
-
-async function signInWithVerifiedEmail(form, values) {
-  validateSigninEmailForm(values);
-  const [email, password] = values;
-  const auth = getFirebaseAuth();
-
-  const result = await auth.signInWithEmailAndPassword(email, password);
-  const firebaseUser = result.user;
-
-  if (!firebaseUser) {
-    throw new Error('Firebase did not return a user.');
-  }
-
-  await firebaseUser.reload();
-
-  if (!firebaseUser.emailVerified) {
-    await firebaseUser.sendEmailVerification({
-      url: `${window.location.origin}/signin.html`
-    });
-    await auth.signOut();
-    throw new Error('Please verify your email first. We sent a new verification link to your inbox.');
-  }
-
-  const { firstName, lastName } = parseDisplayName(firebaseUser.displayName || '');
-  const token = await firebaseUser.getIdToken(true);
-  const data = await syncFirebaseSession({
-    idToken: token,
-    provider: 'password',
-    firstName,
-    lastName,
-    phone: firebaseUser.phoneNumber || ''
-  });
-
-  setSession(data);
-}
-
-async function signInWithMongoEmail(values) {
-  validateSigninEmailForm(values);
-  const [email, password] = values;
-  return postJson(apiUrl('/api/auth/signin'), { email, password });
-}
-
-async function signInWithEmail(form, values) {
-  try {
-    const data = await signInWithMongoEmail(values);
-    setSession(data);
-  } catch (mongoError) {
-    console.warn('MongoDB password login failed, trying Firebase email sign in:', mongoError);
-    await signInWithVerifiedEmail(form, values);
-  }
-}
-
-async function signInWithGoogle(button) {
-  const auth = getFirebaseAuth();
-  const provider = new window.firebase.auth.GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: 'select_account' });
-
-  button.disabled = true;
-  button.textContent = 'Connecting...';
-
-  try {
-    const result = await auth.signInWithPopup(provider);
-    const firebaseUser = result.user;
-
-    if (!firebaseUser) {
-      throw new Error('Google sign in did not return a user.');
-    }
-
-    if (!isRealEmailAddress(firebaseUser.email || '') || firebaseUser.emailVerified !== true) {
-      throw new Error('Please choose a verified real email account.');
-    }
-
-    const token = await firebaseUser.getIdToken(true);
-    const { firstName, lastName } = parseDisplayName(firebaseUser.displayName || '');
-
-    const data = await syncFirebaseSession({
-      idToken: token,
-      provider: 'google',
-      firstName,
-      lastName,
-      phone: firebaseUser.phoneNumber || ''
-    });
-
-    setSession(data);
-  } catch (error) {
-    console.warn('Google sign in failed:', error);
-    showGlobalMessage(getFriendlyAuthMessage(error, 'signin'), 'error');
-  } finally {
-    button.disabled = false;
-    button.textContent = 'Continue with Google';
-  }
-}
-
-function normalizePhoneNumber(prefix, phone) {
-  const cleanedPrefix = String(prefix || '').trim();
-  const cleanedPhone = String(phone || '').replace(/\s+/g, '').replace(/-/g, '');
-
-  if (!cleanedPhone) {
-    throw new Error('Please enter your phone number.');
-  }
-
-  let localPhone = cleanedPhone;
-  if (localPhone.startsWith('0')) {
-    localPhone = localPhone.slice(1);
-  }
-
-  const fullPhone = `${cleanedPrefix}${localPhone}`;
-
-  if (!fullPhone.startsWith('+')) {
-    throw new Error('Phone number must include a valid country code.');
-  }
-
-  return fullPhone;
-}
-
-function getPhoneNumberFromForm(form) {
-  const prefix = form.querySelector('select')?.value || '';
-  const phoneInput = form.querySelector('input[type="tel"]');
-  const phone = phoneInput?.value.trim() || '';
-  return normalizePhoneNumber(prefix, phone);
-}
-
-function ensurePhonePrechecks(form, pageMode) {
-  if (pageMode === 'signup') {
-    const raw = formValues(form);
-    const firstName = raw[0] || '';
-    const lastName = raw[1] || '';
-    const agreed = form.querySelector('input[type="checkbox"]')?.checked;
-
-    if (!firstName) throw new Error('Please enter your first name.');
-    if (!lastName) throw new Error('Please enter your last name.');
-    if (!agreed) throw new Error('Please agree to the Terms and Privacy Policy.');
-  }
-}
-
-function resetRecaptcha() {
-  if (phoneAuthState.verifier) {
-    try {
-      phoneAuthState.verifier.clear();
-    } catch (error) {
-      console.warn('Failed to clear reCAPTCHA:', error);
-    }
-    phoneAuthState.verifier = null;
-  }
-}
-
-function getPhoneVerifier() {
-  const auth = getFirebaseAuth();
-
-  if (!phoneAuthState.verifier) {
-    const container = document.getElementById('recaptcha-container');
-
-    if (!container) {
-      throw new Error('Phone auth container is missing from the page.');
-    }
-
-    phoneAuthState.verifier = new window.firebase.auth.RecaptchaVerifier(
-      'recaptcha-container',
-      {
-        size: 'invisible',
-        callback: () => {},
-        'expired-callback': () => {
-          showGlobalMessage('Verification expired. Please send the code again.', 'error');
-          resetRecaptcha();
-        }
-      },
-      auth
-    );
-  }
-
-  return { auth, verifier: phoneAuthState.verifier };
-}
-
-async function sendPhoneCode(button) {
-  const form = button.closest('.auth-form');
-  const pageMode = getPageMode();
-
-  try {
-    clearInlineMessage(form);
-    ensurePhonePrechecks(form, pageMode);
-
-    const fullPhone = getPhoneNumberFromForm(form);
-    const { auth, verifier } = getPhoneVerifier();
-
-    button.disabled = true;
-    button.textContent = 'Sending...';
-    showInlineMessage(form, 'Preparing secure verification...', 'default');
-
-    phoneAuthState.confirmationResult = await auth.signInWithPhoneNumber(fullPhone, verifier);
-    phoneAuthState.sendingForForm = form;
-
-    showInlineMessage(form, 'Verification code sent. Check your SMS and enter the code below.', 'success');
-    button.textContent = 'Code Sent';
-  } catch (error) {
-    console.warn('Phone verification failed:', error);
-    resetRecaptcha();
-    phoneAuthState.confirmationResult = null;
-    phoneAuthState.sendingForForm = null;
-
-    button.disabled = false;
-    button.textContent = 'Send Verification Code';
-    showInlineMessage(form, getFriendlyAuthMessage(error, 'phone'), 'error');
-  }
-}
-
-async function handlePhoneSubmit(form) {
-  const pageMode = getPageMode();
-  const raw = formValues(form);
-
-  if (!phoneAuthState.confirmationResult || phoneAuthState.sendingForForm !== form) {
-    throw new Error('Please click "Send Verification Code" first.');
-  }
-
-  let code = '';
-  let firstName = '';
-  let lastName = '';
-  let phone = '';
-
-  if (pageMode === 'signup') {
-    firstName = raw[0] || '';
-    lastName = raw[1] || '';
-    phone = raw[2] || '';
-    code = raw[3] || '';
-
-    const agreed = form.querySelector('input[type="checkbox"]')?.checked;
-    if (!firstName) throw new Error('Please enter your first name.');
-    if (!lastName) throw new Error('Please enter your last name.');
-    if (!agreed) throw new Error('Please agree to the Terms and Privacy Policy.');
-  } else {
-    phone = raw[0] || '';
-    code = raw[1] || '';
-  }
-
-  if (!phone) throw new Error('Please enter your phone number.');
-  if (!code) throw new Error('Please enter the verification code.');
-
-  const credential = await phoneAuthState.confirmationResult.confirm(code);
-  const firebaseUser = credential.user;
-
-  if (!firebaseUser) {
-    throw new Error('Phone verification did not return a user.');
-  }
-
-  const token = await firebaseUser.getIdToken(true);
-
-  const data = await syncFirebaseSession({
-    idToken: token,
-    provider: 'phone',
-    firstName,
-    lastName,
-    phone: firebaseUser.phoneNumber || getPhoneNumberFromForm(form)
-  });
-
-  resetRecaptcha();
-  phoneAuthState.confirmationResult = null;
-  phoneAuthState.sendingForForm = null;
-
-  setSession(data);
-}
-
-document.querySelectorAll('.social-btn[data-auth-provider="google"]').forEach(btn => {
-  btn.addEventListener('click', async e => {
-    e.preventDefault();
-    await signInWithGoogle(btn);
-  });
-});
-
-document.querySelectorAll('.secondary-btn[data-phone-action="send-code"]').forEach(btn => {
-  btn.addEventListener('click', async e => {
-    e.preventDefault();
-    await sendPhoneCode(btn);
-  });
-});
-
 document.querySelectorAll('[data-password-action="generate"]').forEach(btn => {
   btn.addEventListener('click', e => {
     e.preventDefault();
@@ -741,46 +306,40 @@ document.querySelectorAll('.auth-form').forEach(form => {
     e.preventDefault();
 
     const pageMode = getPageMode();
-    const panelType = getPanelType(form);
     const submitButton = form.querySelector('.primary-btn');
-    const defaultButtonText =
-      pageMode === 'signup' ? 'Create Account' : panelType === 'phone' ? 'Continue' : 'Sign In';
+    const defaultButtonText = pageMode === 'signup' ? 'Create Account' : 'Sign In';
 
     try {
       clearInlineMessage(form);
       submitButton.disabled = true;
       submitButton.textContent = pageMode === 'signup' ? 'Creating...' : 'Signing in...';
 
-      if (panelType === 'phone') {
-        await handlePhoneSubmit(form);
-        return;
-      }
-
       const raw = formValues(form);
       let payload = {};
       let endpoint = '';
 
       if (pageMode === 'signup') {
-        await signUpWithVerifiedEmail(form, raw);
-        submitButton.disabled = false;
-        submitButton.textContent = defaultButtonText;
-        return;
-      } else if (pageMode === 'signin') {
-        await signInWithEmail(form, raw);
-        return;
+        validateSignupEmailForm(form, raw);
+        const [firstName, lastName, email, password] = raw;
+        payload = { firstName, lastName, email, password };
+        endpoint = apiUrl('/api/auth/signup');
       } else if (pageMode === 'admin-signin') {
         validateSigninEmailForm(raw);
         const [email, password] = raw;
         payload = { email, password };
-          endpoint = apiUrl('/api/auth/admin/signin');
+        endpoint = apiUrl('/api/auth/admin/signin');
+      } else {
+        validateSigninEmailForm(raw);
+        const [email, password] = raw;
+        payload = { email, password };
+        endpoint = apiUrl('/api/auth/signin');
       }
 
-      if (!endpoint) return;
       const data = await postJson(endpoint, payload);
       setSession(data);
     } catch (error) {
       console.warn('Authentication failed:', error);
-      showInlineMessage(form, getFriendlyAuthMessage(error, pageMode), 'error');
+      showInlineMessage(form, error.message || 'Authentication failed.', 'error');
       submitButton.disabled = false;
       submitButton.textContent = defaultButtonText;
     }
