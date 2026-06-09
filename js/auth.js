@@ -493,11 +493,11 @@ async function signInWithMongoEmail(values) {
 
 async function signInWithEmail(form, values) {
   try {
-    await signInWithVerifiedEmail(form, values);
-  } catch (firebaseError) {
-    console.warn('Firebase email sign in failed, trying MongoDB password login:', firebaseError);
     const data = await signInWithMongoEmail(values);
     setSession(data);
+  } catch (mongoError) {
+    console.warn('MongoDB password login failed, trying Firebase email sign in:', mongoError);
+    await signInWithVerifiedEmail(form, values);
   }
 }
 
