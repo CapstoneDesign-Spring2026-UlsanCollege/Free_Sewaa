@@ -44,6 +44,7 @@
 | [Database Schema](DATABASE_SCHEMA.md) | Detailed field-level schema reference |
 | [API Reference](API_REFERENCE.md) | All backend endpoints and usage |
 | [Authentication](AUTHENTICATION.md) | Login, signup, and admin auth flow |
+| [Firebase Setup](FIREBASE_SETUP.md) | Firebase auth configuration, pickup maps setup, and deployment |
 | [User Flow](USER_FLOW.md) | UML diagrams for all user journeys |
 | [Frontend Guide](FRONTEND_GUIDE.md) | Frontend structure and conventions |
 | [Backend Guide](BACKEND_GUIDE.md) | Backend structure and API patterns |
