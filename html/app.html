@@ -110,6 +110,7 @@
       .language-selector__menu { right: auto; left: 0; }
       .language-selector__menu::before { right: auto; left: 31px; }
     }
+    .site-header .language-selector { display: none; }
   </style>
 </head>
 <body>
@@ -271,6 +272,7 @@
   <script src="api-config.js"></script>
   <script src="../js/site.js"></script>
   <script>
+    localStorage.setItem('freesewaa-language', 'en');
     const freeSewaaTranslations = {
       en: {
         title: 'Free Sewaa - Home', description: 'Free Sewaa home for donating items, browsing support, events, and community help.',

@@ -1761,26 +1761,27 @@ body.light-mode{
 
 .nav-link.has-nav-icon,
 .icon-link.has-nav-icon{
-  width:44px;
+  width:auto;
   height:44px;
-  padding:0;
-  border-radius:999px;
-  overflow:hidden;
-  justify-content:center;
+  min-width:44px;
+  padding:0 12px;
+  border-radius:14px;
+  overflow:visible;
+  justify-content:flex-start;
 }
 
 .nav-link.has-nav-icon:hover,
 .nav-link.has-nav-icon:focus-visible,
 .icon-link.has-nav-icon:hover,
 .icon-link.has-nav-icon:focus-visible{
-  width:var(--nav-expanded-width,148px);
-  padding-inline:14px;
+  width:auto;
+  padding-inline:12px;
   justify-content:flex-start;
 }
 
 .nav-label{
-  max-width:0;
-  opacity:0;
+  max-width:160px;
+  opacity:1;
 }
 
 .nav-link.has-nav-icon:hover .nav-label,
@@ -1799,7 +1800,8 @@ body.light-mode{
 }
 
 .header-actions .icon-link.has-nav-icon{
-  background:rgba(156,232,213,.06);
+  background:transparent;
+  border-color:transparent;
 }
 
 .btn-hero,
