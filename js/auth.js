@@ -121,10 +121,14 @@ function getApiBaseUrl() {
     stored = localStorage.getItem('freesewaa-api-base-url') || '';
   } catch (error) {}
 
-  const configured = window.FREESEWAA_API_BASE_URL || window.FREESEWAA_API_ORIGIN || stored || '';
-  const normalized = String(configured || window.location.origin).replace(/\/+$/, '');
+  const pageOrigin = window.location.origin && window.location.origin !== 'null'
+    ? window.location.origin
+    : 'https://free-sewaa-qh05.onrender.com';
+  const storedOrigin = /^https?:\/\//i.test(stored) ? stored : '';
+  const configured = window.FREESEWAA_API_BASE_URL || window.FREESEWAA_API_ORIGIN || '';
+  const normalized = String(configured || pageOrigin || storedOrigin).replace(/\/+$/, '');
 
-  if (configured) {
+  if (normalized) {
     try {
       localStorage.setItem('freesewaa-api-base-url', normalized);
     } catch (error) {}
