@@ -485,6 +485,22 @@ async function signInWithVerifiedEmail(form, values) {
   setSession(data);
 }
 
+async function signInWithMongoEmail(values) {
+  validateSigninEmailForm(values);
+  const [email, password] = values;
+  return postJson(apiUrl('/api/auth/signin'), { email, password });
+}
+
+async function signInWithEmail(form, values) {
+  try {
+    await signInWithVerifiedEmail(form, values);
+  } catch (firebaseError) {
+    console.warn('Firebase email sign in failed, trying MongoDB password login:', firebaseError);
+    const data = await signInWithMongoEmail(values);
+    setSession(data);
+  }
+}
+
 async function signInWithGoogle(button) {
   const auth = getFirebaseAuth();
   const provider = new window.firebase.auth.GoogleAuthProvider();
@@ -750,7 +766,7 @@ document.querySelectorAll('.auth-form').forEach(form => {
         submitButton.textContent = defaultButtonText;
         return;
       } else if (pageMode === 'signin') {
-        await signInWithVerifiedEmail(form, raw);
+        await signInWithEmail(form, raw);
         return;
       } else if (pageMode === 'admin-signin') {
         validateSigninEmailForm(raw);
