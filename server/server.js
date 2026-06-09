@@ -9,6 +9,7 @@ const { MongoClient, ObjectId } = require('mongodb');
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
 const PUBLIC_ROOT = path.resolve(__dirname, '..');
+const DIST_ROOT = path.resolve(PUBLIC_ROOT, 'dist');
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'free-sewaa';
 const FALLBACK_LISTING_IMAGE = 'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80';
 const MAX_INLINE_IMAGE_LENGTH = 180000;
@@ -66,10 +67,10 @@ const RECOGNIZED_EMAIL_DOMAINS = new Set([
 
 if (!MONGODB_URI) {
   console.error('❌ Missing MongoDB connection string. Set MONGODB_URI (or MONGO_URI) in environment variables.');
-  process.exit(1);
+  console.warn('Frontend and health checks will run, but database APIs require MONGODB_URI or MONGO_URI.');
 }
 
-const client = new MongoClient(MONGODB_URI);
+const client = MONGODB_URI ? new MongoClient(MONGODB_URI) : null;
 
 let db;
 let usersCollection;
@@ -2159,14 +2160,13 @@ const server = http.createServer(async (req, res) => {
     const aliasTarget = PUBLIC_PAGE_ALIASES[normalizedPath.toLowerCase()];
     const relativePath = (aliasTarget || normalizedPath).replace(/^\/+/, '');
 
-    const pagePath = path.resolve(PUBLIC_ROOT, 'html', relativePath);
+    const distFilePath = path.resolve(DIST_ROOT, relativePath);
     if (
-      path.extname(relativePath).toLowerCase() === '.html' &&
-      pagePath.startsWith(path.resolve(PUBLIC_ROOT, 'html')) &&
-      fs.existsSync(pagePath) &&
-      fs.statSync(pagePath).isFile()
+      distFilePath.startsWith(DIST_ROOT) &&
+      fs.existsSync(distFilePath) &&
+      fs.statSync(distFilePath).isFile()
     ) {
-      return sendFile(res, pagePath);
+      return sendFile(res, distFilePath);
     }
 
     let filePath = path.resolve(PUBLIC_ROOT, relativePath);
@@ -2178,6 +2178,21 @@ const server = http.createServer(async (req, res) => {
       return sendFile(res, filePath);
     }
 
+    const distIndexPath = path.resolve(DIST_ROOT, 'index.html');
+    if (fs.existsSync(distIndexPath)) {
+      return sendFile(res, distIndexPath);
+    }
+
+    const pagePath = path.resolve(PUBLIC_ROOT, 'html', relativePath);
+    if (
+      path.extname(relativePath).toLowerCase() === '.html' &&
+      pagePath.startsWith(path.resolve(PUBLIC_ROOT, 'html')) &&
+      fs.existsSync(pagePath) &&
+      fs.statSync(pagePath).isFile()
+    ) {
+      return sendFile(res, pagePath);
+    }
+
     return sendFile(res, path.resolve(PUBLIC_ROOT, 'html', 'index.html'));
   } catch (error) {
     console.error(error);
@@ -2187,6 +2202,14 @@ const server = http.createServer(async (req, res) => {
 
 async function startServer() {
   try {
+    if (!client) {
+      console.warn('Starting without MongoDB. Database-backed API routes will fail until MONGODB_URI or MONGO_URI is configured.');
+      server.listen(PORT, () => {
+        console.log(`Free Sewaa running on http://localhost:${PORT}`);
+      });
+      return;
+    }
+
     await client.connect();
     db = client.db(DB_NAME);
 
