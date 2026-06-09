@@ -240,6 +240,72 @@ function showGlobalMessage(message, tone = 'default') {
   if (activeForm) showInlineMessage(activeForm, message, tone);
 }
 
+function getFriendlyAuthMessage(error, context = 'auth') {
+  const code = String(error?.code || '').toLowerCase();
+  const message = String(error?.message || '').toLowerCase();
+
+  if (
+    code.includes('wrong-password') ||
+    code.includes('invalid-credential') ||
+    code.includes('invalid-login-credentials') ||
+    code.includes('user-not-found')
+  ) {
+    return 'Wrong email or password.';
+  }
+  if (code.includes('user-disabled')) {
+    return 'This account is disabled.';
+  }
+  if (code.includes('email-already-in-use')) {
+    return 'An account with this email already exists.';
+  }
+  if (code.includes('weak-password')) {
+    return PASSWORD_POLICY_MESSAGE;
+  }
+  if (code.includes('invalid-email')) {
+    return 'Please enter a valid email address.';
+  }
+  if (code.includes('too-many-requests')) {
+    return 'Too many attempts. Please try again later.';
+  }
+  if (code.includes('network-request-failed') || message.includes('cannot reach')) {
+    return 'Network problem. Please try again.';
+  }
+  if (code.includes('popup-closed-by-user')) {
+    return 'Sign in was cancelled.';
+  }
+  if (code.includes('popup-blocked')) {
+    return 'Popup was blocked. Please allow popups and try again.';
+  }
+  if (code.includes('unauthorized-domain')) {
+    return 'This domain is not allowed for sign in yet.';
+  }
+  if (code.includes('operation-not-allowed')) {
+    return 'This sign-in method is not available yet.';
+  }
+  if (code.includes('invalid-verification-code')) {
+    return 'Wrong verification code.';
+  }
+  if (code.includes('missing-verification-code')) {
+    return 'Please enter the verification code.';
+  }
+  if (code.includes('invalid-phone-number')) {
+    return 'Please enter a valid phone number.';
+  }
+  if (code.includes('quota-exceeded')) {
+    return 'Verification is temporarily unavailable. Please try again later.';
+  }
+  if (message.includes('verify your email')) {
+    return 'Please verify your email first. We sent a new link.';
+  }
+  if (message.includes('firebase') || message.includes('credential') || message.includes('token')) {
+    return context === 'signup'
+      ? 'Could not create account. Please try again.'
+      : 'Authentication failed.';
+  }
+
+  return error?.message || 'Authentication failed.';
+}
+
 async function postJson(url, payload) {
   try {
     const response = await fetch(url, {
@@ -356,6 +422,69 @@ async function syncFirebaseSession({ idToken, provider, firstName = '', lastName
   });
 }
 
+async function signUpWithVerifiedEmail(form, values) {
+  validateSignupEmailForm(form, values);
+  const [firstName, lastName, email, password] = values;
+  const auth = getFirebaseAuth();
+
+  showInlineMessage(form, 'Creating secure account...', 'default');
+  const result = await auth.createUserWithEmailAndPassword(email, password);
+  const firebaseUser = result.user;
+
+  if (!firebaseUser) {
+    throw new Error('Firebase did not return a user.');
+  }
+
+  await firebaseUser.updateProfile({
+    displayName: `${firstName} ${lastName}`.trim()
+  });
+  await firebaseUser.sendEmailVerification({
+    url: `${window.location.origin}/signin.html`
+  });
+  await auth.signOut();
+
+  showInlineMessage(
+    form,
+    'Verification email sent. Open your inbox, verify your email, then sign in.',
+    'success'
+  );
+}
+
+async function signInWithVerifiedEmail(form, values) {
+  validateSigninEmailForm(values);
+  const [email, password] = values;
+  const auth = getFirebaseAuth();
+
+  const result = await auth.signInWithEmailAndPassword(email, password);
+  const firebaseUser = result.user;
+
+  if (!firebaseUser) {
+    throw new Error('Firebase did not return a user.');
+  }
+
+  await firebaseUser.reload();
+
+  if (!firebaseUser.emailVerified) {
+    await firebaseUser.sendEmailVerification({
+      url: `${window.location.origin}/signin.html`
+    });
+    await auth.signOut();
+    throw new Error('Please verify your email first. We sent a new verification link to your inbox.');
+  }
+
+  const { firstName, lastName } = parseDisplayName(firebaseUser.displayName || '');
+  const token = await firebaseUser.getIdToken(true);
+  const data = await syncFirebaseSession({
+    idToken: token,
+    provider: 'password',
+    firstName,
+    lastName,
+    phone: firebaseUser.phoneNumber || ''
+  });
+
+  setSession(data);
+}
+
 async function signInWithGoogle(button) {
   const auth = getFirebaseAuth();
   const provider = new window.firebase.auth.GoogleAuthProvider();
@@ -389,17 +518,8 @@ async function signInWithGoogle(button) {
 
     setSession(data);
   } catch (error) {
-    let message = error.message || 'Google sign in failed.';
-
-    if (error.code === 'auth/popup-closed-by-user') {
-      message = 'Google sign in was cancelled.';
-    } else if (error.code === 'auth/popup-blocked') {
-      message = 'Popup was blocked by the browser. Please allow popups and try again.';
-    } else if (error.code === 'auth/unauthorized-domain') {
-      message = `This domain is not authorized in Firebase. Add ${window.location.hostname} to Authorized domains.`;
-    }
-
-    showGlobalMessage(message, 'error');
+    console.warn('Google sign in failed:', error);
+    showGlobalMessage(getFriendlyAuthMessage(error, 'signin'), 'error');
   } finally {
     button.disabled = false;
     button.textContent = 'Continue with Google';
@@ -507,13 +627,14 @@ async function sendPhoneCode(button) {
     showInlineMessage(form, 'Verification code sent. Check your SMS and enter the code below.', 'success');
     button.textContent = 'Code Sent';
   } catch (error) {
+    console.warn('Phone verification failed:', error);
     resetRecaptcha();
     phoneAuthState.confirmationResult = null;
     phoneAuthState.sendingForForm = null;
 
     button.disabled = false;
     button.textContent = 'Send Verification Code';
-    showInlineMessage(form, error.message || 'Failed to send verification code.', 'error');
+    showInlineMessage(form, getFriendlyAuthMessage(error, 'phone'), 'error');
   }
 }
 
@@ -624,15 +745,13 @@ document.querySelectorAll('.auth-form').forEach(form => {
       let endpoint = '';
 
       if (pageMode === 'signup') {
-        validateSignupEmailForm(form, raw);
-        const [firstName, lastName, email, password] = raw;
-        payload = { firstName, lastName, email, password };
-        endpoint = apiUrl('/api/auth/signup');
+        await signUpWithVerifiedEmail(form, raw);
+        submitButton.disabled = false;
+        submitButton.textContent = defaultButtonText;
+        return;
       } else if (pageMode === 'signin') {
-        validateSigninEmailForm(raw);
-        const [email, password] = raw;
-          payload = { email, password };
-          endpoint = apiUrl('/api/auth/signin');
+        await signInWithVerifiedEmail(form, raw);
+        return;
       } else if (pageMode === 'admin-signin') {
         validateSigninEmailForm(raw);
         const [email, password] = raw;
@@ -640,10 +759,12 @@ document.querySelectorAll('.auth-form').forEach(form => {
           endpoint = apiUrl('/api/auth/admin/signin');
       }
 
+      if (!endpoint) return;
       const data = await postJson(endpoint, payload);
       setSession(data);
     } catch (error) {
-      showInlineMessage(form, error.message || 'Authentication failed.', 'error');
+      console.warn('Authentication failed:', error);
+      showInlineMessage(form, getFriendlyAuthMessage(error, pageMode), 'error');
       submitButton.disabled = false;
       submitButton.textContent = defaultButtonText;
     }

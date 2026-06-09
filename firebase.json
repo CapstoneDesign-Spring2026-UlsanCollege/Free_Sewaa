@@ -1,0 +1,19 @@
+{
+  "auth": {
+    "providers": {
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Free Sewaa",
+        "supportEmail": "prachirajbhandari327@gmail.com",
+        "authorizedRedirectUris": [
+          "http://localhost",
+          "https://free-sewaa-qh05.onrender.com"
+        ]
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}

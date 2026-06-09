@@ -219,6 +219,14 @@ function sanitizeListingImage(image) {
   return value;
 }
 
+function sanitizeCoordinates(value) {
+  const lat = Number(value?.lat ?? value?.latitude);
+  const lng = Number(value?.lng ?? value?.longitude);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return null;
+  return { lat, lng };
+}
+
 function buildAuthQuery(email = '', phone = '') {
   const normalizedEmail = String(email || '').trim().toLowerCase();
   const normalizedPhone = normalizeUserPhone(phone);
@@ -390,6 +398,8 @@ async function ensureSeedData() {
         category: 'Clothing',
         condition: 'Good',
         location: `${city}, Samsan-dong`,
+        exactLocation: 'Samsan-dong public pickup point, Ulsan',
+        coordinates: { lat: 35.5389, lng: 129.3389 },
         distanceKm: 4,
         pickup: 'Pickup only',
         pickupWindow: 'Today after 6 PM',
@@ -411,6 +421,8 @@ async function ensureSeedData() {
         category: 'Books',
         condition: 'Like new',
         location: `${city}, Dal-dong`,
+        exactLocation: 'Dal-dong community center area, Ulsan',
+        coordinates: { lat: 35.5362, lng: 129.3268 },
         distanceKm: 7,
         pickup: 'Flexible',
         pickupWindow: 'Weekend mornings',
@@ -432,6 +444,8 @@ async function ensureSeedData() {
         category: 'Home',
         condition: 'Good',
         location: `${city}, Seongnam-dong`,
+        exactLocation: 'Seongnam-dong riverside pickup point, Ulsan',
+        coordinates: { lat: 35.5548, lng: 129.3214 },
         distanceKm: 10,
         pickup: 'Pickup only',
         pickupWindow: 'Saturday afternoon',
@@ -453,6 +467,8 @@ async function ensureSeedData() {
         category: 'Food',
         condition: 'New',
         location: `${city}, Ok-dong`,
+        exactLocation: 'Ok-dong neighborhood pickup point, Ulsan',
+        coordinates: { lat: 35.5329, lng: 129.2946 },
         distanceKm: 5,
         pickup: 'Flexible',
         pickupWindow: 'Tonight before 8 PM',
@@ -474,6 +490,8 @@ async function ensureSeedData() {
         category: 'Home',
         condition: 'Used',
         location: `${city}, Sinjeong-dong`,
+        exactLocation: 'Sinjeong-dong public pickup point, Ulsan',
+        coordinates: { lat: 35.5394, lng: 129.3114 },
         distanceKm: 14,
         pickup: 'Pickup only',
         pickupWindow: 'Sunday afternoon',
@@ -686,7 +704,8 @@ function getFirebaseWebConfig() {
     projectId,
     storageBucket: process.env.FIREBASE_STORAGE_BUCKET || `${projectId}.appspot.com`,
     messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || '',
-    appId: process.env.FIREBASE_APP_ID || ''
+    appId: process.env.FIREBASE_APP_ID || '',
+    measurementId: process.env.FIREBASE_MEASUREMENT_ID || ''
   };
 }
 
@@ -1294,59 +1313,8 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/auth/signup' && req.method === 'POST') {
-      const { firstName = '', lastName = '', email = '', phone = '', password = '' } = await readRequestBody(req);
-
-      if (!email || !password || !firstName.trim()) {
-        return sendJson(res, 400, {
-          error: 'First name, email address, and password are required.'
-        });
-      }
-
-      const { normalizedEmail, normalizedPhone, query } = buildAuthQuery(email, phone);
-
-      if (!isRealEmailAddress(normalizedEmail)) {
-        return sendJson(res, 400, { error: EMAIL_ONLY_MESSAGE });
-      }
-
-      if (phone && !isValidPhoneInput(phone)) {
-        return sendJson(res, 400, { error: 'Please enter a valid phone number.' });
-      }
-
-      if (!isStrongPassword(password)) {
-        return sendJson(res, 400, { error: PASSWORD_POLICY_MESSAGE });
-      }
-
-      const existing = query.length
-        ? await usersCollection.findOne({ $or: query })
-        : null;
-
-      if (existing) {
-        return sendJson(res, 409, {
-          error: 'An account with that email or phone already exists.'
-        });
-      }
-
-      const user = {
-        id: `user-${Date.now()}`,
-        firstName: firstName.trim(),
-        lastName: lastName.trim(),
-        name: `${firstName.trim()} ${lastName.trim()}`.trim(),
-        password,
-        city: 'Ulsan',
-        region: 'Nam-gu',
-        role: 'user',
-        createdAt: new Date().toISOString()
-      };
-
-      if (normalizedEmail) user.email = normalizedEmail;
-      if (normalizedPhone) user.phone = normalizedPhone;
-
-      await usersCollection.insertOne(user);
-      await setUserState(user.id, defaultUserState(user));
-
-      return sendJson(res, 201, {
-        user: safeUser(user),
-        auth: { userId: user.id, isAuthenticated: true }
+      return sendJson(res, 410, {
+        error: 'Direct signup is disabled. Please create an account with Firebase email verification or verified phone.'
       });
     }
 
@@ -1374,6 +1342,11 @@ const server = http.createServer(async (req, res) => {
       }
 
       const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
+      if (role !== 'superadmin') {
+        return sendJson(res, 403, {
+          error: 'Please sign in with a verified email account. If you used email/password signup, verify your email first.'
+        });
+      }
       if (role !== user.role) {
         await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
         user.role = role;
@@ -1602,6 +1575,7 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: 'title and category are required.' });
       }
 
+      const coordinates = sanitizeCoordinates(body.coordinates || body);
       const listing = {
         id: `listing-${Date.now()}`,
         ownerId: user.id,
@@ -1610,6 +1584,8 @@ const server = http.createServer(async (req, res) => {
         category: String(body.category).trim(),
         condition: body.condition || 'Good',
         location: body.location || `${user.city || 'Ulsan'}, ${user.region || 'Nam-gu'}`,
+        exactLocation: body.exactLocation || body.location || `${user.city || 'Ulsan'}, ${user.region || 'Nam-gu'}`,
+        ...(coordinates ? { coordinates } : {}),
         distanceKm: Number(body.distanceKm || 0),
         pickup: body.pickup || 'Flexible',
         pickupWindow: body.pickupWindow || '',
@@ -1648,12 +1624,15 @@ const server = http.createServer(async (req, res) => {
       }
 
       const body = await readRequestBody(req);
+      const coordinates = sanitizeCoordinates(body.coordinates || body);
 
       const updates = {
         ...(body.title !== undefined ? { title: String(body.title).trim() } : {}),
         ...(body.category !== undefined ? { category: body.category } : {}),
         ...(body.condition !== undefined ? { condition: body.condition } : {}),
         ...(body.location !== undefined ? { location: body.location } : {}),
+        ...(body.exactLocation !== undefined ? { exactLocation: body.exactLocation } : {}),
+        ...(body.coordinates !== undefined || body.lat !== undefined || body.latitude !== undefined ? { coordinates } : {}),
         ...(body.distanceKm !== undefined ? { distanceKm: Number(body.distanceKm) } : {}),
         ...(body.pickup !== undefined ? { pickup: body.pickup } : {}),
         ...(body.pickupWindow !== undefined ? { pickupWindow: body.pickupWindow } : {}),

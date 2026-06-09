@@ -44,6 +44,8 @@
         category: 'Clothing',
         condition: 'Good',
         location: 'Ulsan, Samsan-dong',
+        exactLocation: 'Samsan-dong public pickup point, Ulsan',
+        coordinates: { lat: 35.5389, lng: 129.3389 },
         distanceKm: 4,
         pickup: 'Pickup only',
         pickupWindow: 'Today after 6 PM',
@@ -64,6 +66,8 @@
         category: 'Books',
         condition: 'Like new',
         location: 'Ulsan, Dal-dong',
+        exactLocation: 'Dal-dong community center area, Ulsan',
+        coordinates: { lat: 35.5362, lng: 129.3268 },
         distanceKm: 7,
         pickup: 'Flexible',
         pickupWindow: 'Weekend mornings',
@@ -84,6 +88,8 @@
         category: 'Essentials',
         condition: 'New',
         location: 'Ulsan, Mugeo-dong',
+        exactLocation: 'Mugeo-dong library pickup area, Ulsan',
+        coordinates: { lat: 35.5505, lng: 129.2603 },
         distanceKm: 11,
         pickup: 'Meet halfway',
         pickupWindow: 'Any weekday afternoon',
@@ -104,6 +110,8 @@
         category: 'Home',
         condition: 'Good',
         location: 'Ulsan, Seongnam-dong',
+        exactLocation: 'Seongnam-dong riverside pickup point, Ulsan',
+        coordinates: { lat: 35.5548, lng: 129.3214 },
         distanceKm: 14,
         pickup: 'Pickup only',
         pickupWindow: 'Saturday afternoon',
@@ -124,6 +132,8 @@
         category: 'Food',
         condition: 'New',
         location: 'Ulsan, Ok-dong',
+        exactLocation: 'Ok-dong neighborhood pickup point, Ulsan',
+        coordinates: { lat: 35.5329, lng: 129.2946 },
         distanceKm: 5,
         pickup: 'Flexible',
         pickupWindow: 'Tonight before 8 PM',
@@ -144,6 +154,8 @@
         category: 'Home',
         condition: 'Used',
         location: 'Ulsan, Sinjeong-dong',
+        exactLocation: 'Sinjeong-dong public pickup point, Ulsan',
+        coordinates: { lat: 35.5394, lng: 129.3114 },
         distanceKm: 19,
         pickup: 'Pickup only',
         pickupWindow: 'Sunday afternoon',
@@ -238,12 +250,16 @@
       }
     };
 
-    state.listings = dedupeListings(Array.isArray(parsed.listings) ? parsed.listings.map(listing => ({
-      ...listing,
-      ownerId: listing.ownerId || ([101, 102, 103].includes(listing.id) ? state.user.id : `community-${listing.id}`),
-      ownerName: listing.ownerName || (((listing.ownerId || ([101, 102, 103].includes(listing.id) ? state.user.id : `community-${listing.id}`)) === state.user.id) ? state.user.name : 'Community Member'),
-      status: listing.status || 'active'
-    })) : base.listings);
+    state.listings = dedupeListings(Array.isArray(parsed.listings) ? parsed.listings.map(listing => {
+      const defaultListing = base.listings.find(item => String(item.id) === String(listing.id)) || {};
+      return {
+        ...defaultListing,
+        ...listing,
+        ownerId: listing.ownerId || ([101, 102, 103].includes(listing.id) ? state.user.id : `community-${listing.id}`),
+        ownerName: listing.ownerName || (((listing.ownerId || ([101, 102, 103].includes(listing.id) ? state.user.id : `community-${listing.id}`)) === state.user.id) ? state.user.name : 'Community Member'),
+        status: listing.status || 'active'
+      };
+    }) : base.listings);
 
     const validIds = new Set(state.listings.map(item => String(item.id)));
     state.user.savedListingIds = (state.user.savedListingIds || []).filter(id => validIds.has(String(id)));
@@ -1011,15 +1027,94 @@
     return getConversationByListingId(id)?.id;
   }
 
+  function getListingCoordinates(listing) {
+    const lat = Number(listing?.coordinates?.lat ?? listing?.lat ?? listing?.latitude);
+    const lng = Number(listing?.coordinates?.lng ?? listing?.lng ?? listing?.longitude);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+    return { lat, lng };
+  }
+
+  function getListingMapQuery(listing) {
+    const coordinates = getListingCoordinates(listing);
+    if (coordinates) return `${coordinates.lat},${coordinates.lng}`;
+    const exact = String(listing?.exactLocation || '').trim();
+    const area = String(listing?.location || '').trim();
+    const city = appState.user.city || 'Ulsan';
+    const parts = [];
+
+    if (exact) parts.push(exact);
+    if (area && area.toLowerCase() !== exact.toLowerCase()) parts.push(area);
+    if (![exact, area].some(value => value.toLowerCase().includes(city.toLowerCase()))) parts.push(city);
+    if (![exact, area].some(value => value.toLowerCase().includes('korea'))) parts.push('South Korea');
+
+    return parts.filter(Boolean).join(', ');
+  }
+
+  function getListingMapUrl(listing) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(getListingMapQuery(listing))}`;
+  }
+
+  function getBuyerHomeQuery() {
+    return [appState.user.region, appState.user.city, 'South Korea'].filter(Boolean).join(', ') || 'Ulsan, South Korea';
+  }
+
+  function getListingDirectionsUrl(listing, origin = getBuyerHomeQuery(), mode = 'driving') {
+    return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(getListingMapQuery(listing))}&travelmode=${encodeURIComponent(mode)}`;
+  }
+
+  function getListingMapEmbedUrl(listing) {
+    return `https://maps.google.com/maps?q=${encodeURIComponent(getListingMapQuery(listing))}&z=16&output=embed`;
+  }
+
+  function getListingRouteEmbedUrl(listing, origin = getBuyerHomeQuery()) {
+    return `https://maps.google.com/maps?saddr=${encodeURIComponent(origin)}&daddr=${encodeURIComponent(getListingMapQuery(listing))}&output=embed`;
+  }
+
+  function renderListingMap(listing) {
+    const exactLocation = listing.exactLocation || listing.location || 'Pickup location';
+    const buyerHome = getBuyerHomeQuery();
+    const destinationQuery = getListingMapQuery(listing);
+    return `
+      <div class="listing-map-panel" data-route-listing-id="${escapeHtml(listing.id)}">
+        <div class="listing-map-panel__head">
+          <div class="listing-map-title">
+            <span class="mini-label">PICKUP LOCATION</span>
+            <h3>${escapeHtml(exactLocation)}</h3>
+            <p>${escapeHtml(destinationQuery)}</p>
+          </div>
+          <div class="listing-map-actions">
+            <a class="btn btn-soft listing-map-link" href="${escapeHtml(getListingMapUrl(listing))}" target="_blank" rel="noopener">Open map</a>
+            <a class="btn btn-hero listing-map-link" href="${escapeHtml(getListingDirectionsUrl(listing))}" target="_blank" rel="noopener">Directions</a>
+          </div>
+        </div>
+        <iframe
+          class="listing-map-frame"
+          data-map-query="${escapeHtml(getListingMapQuery(listing))}"
+          title="Map for ${escapeHtml(listing.title || 'listing pickup location')}"
+          src="${escapeHtml(getListingMapEmbedUrl(listing))}"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <div class="listing-map-compact-tools">
+          <input type="text" class="route-origin-input" value="${escapeHtml(buyerHome)}" aria-label="Route starting point" />
+          <button class="btn btn-soft route-current-location" type="button">Use precise current location</button>
+        </div>
+      </div>
+    `;
+  }
+
   function renderListingModal(listing, containerId) {
     const container = document.getElementById(containerId);
     if (!container || !listing) return;
     const isSaved = listIncludesId(appState.user.savedListingIds, listing.id);
     const requested = listIncludesId(appState.user.requestedListingIds, listing.id);
-    container.innerHTML = `
-      <div class="modal-listing-layout">
-        <div class="modal-listing-image" style="background-image:url('${escapeHtml(listing.image)}')"></div>
-        <div class="modal-listing-copy">
+      container.innerHTML = `
+        <div class="modal-listing-layout">
+          <div class="modal-listing-visual">
+            <div class="modal-listing-image" style="background-image:url('${escapeHtml(listing.image)}')"></div>
+            ${renderListingMap(listing)}
+          </div>
+          <div class="modal-listing-copy">
           <div class="listing-detail-kicker">
             <span class="listing-pill">${escapeHtml(listing.category)}</span>
             <span class="listing-pill listing-pill--soft">${escapeHtml(listing.condition)}</span>
@@ -1034,9 +1129,10 @@
               <strong>${escapeHtml(listing.ownerName || 'Community Member')}</strong>
             </div>
           </div>
-          <div class="modal-meta-grid">
-            <div><span class="mini-label">Location</span><strong>${escapeHtml(listing.location)}</strong></div>
-            <div><span class="mini-label">Pickup</span><strong>${escapeHtml(listing.pickup)}</strong></div>
+            <div class="modal-meta-grid">
+              <div><span class="mini-label">Location</span><strong>${escapeHtml(listing.location)}</strong></div>
+              <div><span class="mini-label">Exact point</span><strong>${escapeHtml(listing.exactLocation || listing.location)}</strong></div>
+              <div><span class="mini-label">Pickup</span><strong>${escapeHtml(listing.pickup)}</strong></div>
             <div><span class="mini-label">Distance</span><strong>${listing.distanceKm} km away</strong></div>
             <div><span class="mini-label">Best time</span><strong>${escapeHtml(listing.pickupWindow || 'Flexible')}</strong></div>
           </div>
@@ -1144,8 +1240,9 @@
                 <span>${listing.saveCount} saves</span>
               </div>
               <div class="listing-footer listing-footer--actions">
-                <button class="btn btn-soft listing-action" type="button" data-action="preview" data-id="${listing.id}">Preview</button>
-                <button class="btn btn-soft listing-action" type="button" data-action="save" data-id="${listing.id}">${saved ? 'Saved' : 'Save'}</button>
+                  <button class="btn btn-soft listing-action" type="button" data-action="preview" data-id="${listing.id}">Preview</button>
+                  <button class="btn btn-soft listing-action" type="button" data-action="map" data-id="${listing.id}">Map</button>
+                  <button class="btn btn-soft listing-action" type="button" data-action="save" data-id="${listing.id}">${saved ? 'Saved' : 'Save'}</button>
                 <button class="btn btn-hero listing-action" type="button" data-action="request" data-id="${listing.id}">${requested ? 'Open chat' : 'Request'}</button>
               </div>
             </div>
@@ -1215,7 +1312,7 @@
       const id = actionButton.dataset.id;
       const listing = getListingById(id);
       if (!listing) return;
-      if (actionButton.dataset.action === 'preview') {
+        if (actionButton.dataset.action === 'preview' || actionButton.dataset.action === 'map') {
         renderListingModal(listing, 'listingModalContent');
         openModal('listingModal');
         return;
@@ -1235,12 +1332,57 @@
       }
     });
 
-    modal?.addEventListener('click', async event => {
-      const saveButton = event.target.closest('.modal-save-button');
-      const requestButton = event.target.closest('.modal-request-button');
-      if (saveButton) {
-        const id = saveButton.dataset.id;
-        toggleSaveListing(id);
+      modal?.addEventListener('click', async event => {
+        const saveButton = event.target.closest('.modal-save-button');
+        const requestButton = event.target.closest('.modal-request-button');
+        const routeCurrentLocationButton = event.target.closest('.route-current-location');
+        const directionsLink = event.target.closest('.listing-map-actions .btn-hero');
+
+        function updateRoutePreview(originOverride = '') {
+          const planner = modal.querySelector('.listing-map-panel');
+          const frame = modal.querySelector('.listing-map-frame');
+          const input = modal.querySelector('.route-origin-input');
+          const listing = planner ? getListingById(planner.dataset.routeListingId) : null;
+          if (!planner || !frame || !input || !listing) return;
+          if (originOverride) input.value = originOverride;
+          const origin = input.value.trim() || getBuyerHomeQuery();
+          frame.src = getListingRouteEmbedUrl(listing, origin);
+          const link = modal.querySelector('.listing-map-actions .btn-hero');
+          if (link) link.href = getListingDirectionsUrl(listing, origin);
+        }
+
+        if (routeCurrentLocationButton) {
+          if (!navigator.geolocation) {
+            showToast('Current location is not available in this browser.', 'error');
+            return;
+          }
+          routeCurrentLocationButton.disabled = true;
+          routeCurrentLocationButton.textContent = 'Locating...';
+          navigator.geolocation.getCurrentPosition(
+            position => {
+              const origin = `${position.coords.latitude.toFixed(6)},${position.coords.longitude.toFixed(6)}`;
+              updateRoutePreview(origin);
+              routeCurrentLocationButton.disabled = false;
+              routeCurrentLocationButton.textContent = 'Use precise current location';
+              showToast('Route starts from your current location.', 'success');
+            },
+            () => {
+              routeCurrentLocationButton.disabled = false;
+              routeCurrentLocationButton.textContent = 'Use precise current location';
+              showToast('Could not access your current location.', 'error');
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+          );
+          return;
+        }
+
+        if (directionsLink) {
+          updateRoutePreview();
+        }
+
+        if (saveButton) {
+          const id = saveButton.dataset.id;
+          toggleSaveListing(id);
         renderListingModal(getListingById(id), 'listingModalContent');
         renderListings();
       }
@@ -1250,12 +1392,24 @@
         renderListings();
         closeModals();
         if (conversationId) sessionStorage.setItem('freesewaa-open-conversation', conversationId);
-        window.location.href = 'messages.html';
-      }
-    });
+          window.location.href = 'messages.html';
+        }
+      });
 
-    renderListings();
-  }
+      modal?.addEventListener('input', event => {
+        if (!event.target.matches('.route-origin-input')) return;
+        const planner = modal.querySelector('.listing-map-panel');
+        const frame = modal.querySelector('.listing-map-frame');
+        const listing = planner ? getListingById(planner.dataset.routeListingId) : null;
+        if (!frame || !listing) return;
+        const origin = event.target.value.trim() || getBuyerHomeQuery();
+        frame.src = getListingRouteEmbedUrl(listing, origin);
+        const link = modal.querySelector('.listing-map-actions .btn-hero');
+        if (link) link.href = getListingDirectionsUrl(listing, origin);
+      });
+
+      renderListings();
+    }
 
   function initDonatePage() {
     const form = document.getElementById('donateForm');
@@ -1266,12 +1420,13 @@
       category: document.getElementById('itemCategory'),
       description: document.getElementById('itemDescription'),
       condition: document.getElementById('itemCondition'),
-      pickup: document.getElementById('itemPickup'),
-      pickupWindow: document.getElementById('itemPickupWindow'),
-      location: document.getElementById('itemLocation'),
-      distance: document.getElementById('itemDistance'),
-      notes: document.getElementById('itemNotes'),
-      urgent: document.getElementById('itemUrgent')
+        pickup: document.getElementById('itemPickup'),
+        pickupWindow: document.getElementById('itemPickupWindow'),
+        location: document.getElementById('itemLocation'),
+        exactLocation: document.getElementById('itemExactLocation'),
+        distance: document.getElementById('itemDistance'),
+        notes: document.getElementById('itemNotes'),
+        urgent: document.getElementById('itemUrgent')
     };
 
     const uploadInput = document.getElementById('imageUpload');
@@ -1289,10 +1444,13 @@
     const nextButton = document.getElementById('nextStepButton');
     const prevButton = document.getElementById('prevStepButton');
     const saveDraftButton = document.getElementById('saveDraftButton');
-    const createAnotherButton = document.getElementById('createAnotherListing');
-    const stepLabel = document.getElementById('donateStepLabel');
-    const stepText = document.getElementById('donateStepText');
-    const stepperDots = Array.from(document.querySelectorAll('#donateStepper .step-dot'));
+      const createAnotherButton = document.getElementById('createAnotherListing');
+      const stepLabel = document.getElementById('donateStepLabel');
+      const stepText = document.getElementById('donateStepText');
+      const stepperDots = Array.from(document.querySelectorAll('#donateStepper .step-dot'));
+      const useCurrentPickupLocation = document.getElementById('useCurrentPickupLocation');
+      const previewPickupLocation = document.getElementById('previewPickupLocation');
+      const donateMapPreview = document.getElementById('donateMapPreview');
 
     let imagePreviews = [];
     let currentStep = 1;
@@ -1311,10 +1469,12 @@
       fields.category.value = draft.category || fields.category.value;
       fields.description.value = draft.description || '';
       fields.condition.value = draft.condition || fields.condition.value;
-      fields.pickup.value = draft.pickup || fields.pickup.value;
-      fields.pickupWindow.value = draft.pickupWindow || '';
-      fields.location.value = draft.location || '';
-      fields.distance.value = String(draft.distance || fields.distance.value);
+        fields.pickup.value = draft.pickup || fields.pickup.value;
+        fields.pickupWindow.value = draft.pickupWindow || '';
+        fields.location.value = draft.location || '';
+        if (fields.exactLocation) fields.exactLocation.value = draft.exactLocation || '';
+        if (fields.exactLocation && draft.coordinates) fields.exactLocation.dataset.coordinates = JSON.stringify(draft.coordinates);
+        fields.distance.value = String(draft.distance || fields.distance.value);
       fields.notes.value = draft.notes || '';
       fields.urgent.checked = Boolean(draft.urgent);
       if (Array.isArray(draft.images)) {
@@ -1323,16 +1483,23 @@
       }
     }
 
-    function getFormData() {
-      return {
-        title: fields.title.value.trim(),
-        category: fields.category.value,
+      function getFormData() {
+        let coordinates = null;
+        try {
+          coordinates = JSON.parse(fields.exactLocation?.dataset.coordinates || 'null');
+        } catch (error) {}
+
+        return {
+          title: fields.title.value.trim(),
+          category: fields.category.value,
         description: fields.description.value.trim(),
         condition: fields.condition.value,
-        pickup: fields.pickup.value,
-        pickupWindow: fields.pickupWindow.value.trim(),
-        location: fields.location.value.trim(),
-        distance: Number(fields.distance.value),
+          pickup: fields.pickup.value,
+          pickupWindow: fields.pickupWindow.value.trim(),
+          location: fields.location.value.trim(),
+          exactLocation: fields.exactLocation?.value.trim() || '',
+          coordinates,
+          distance: Number(fields.distance.value),
         notes: fields.notes.value.trim(),
         urgent: fields.urgent.checked,
         images: imagePreviews
@@ -1446,11 +1613,37 @@
       return 'Images added to your listing draft.';
     }
 
+    function getDonateMapQuery(data = getFormData()) {
+      if (data.coordinates) return `${data.coordinates.lat},${data.coordinates.lng}`;
+      return [data.exactLocation, data.location, 'South Korea'].filter(Boolean).join(', ') || 'Ulsan, South Korea';
+    }
+
+    function updatePickupPreview() {
+      const data = getFormData();
+      const query = getDonateMapQuery(data);
+      if (previewPickupLocation) {
+        previewPickupLocation.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+      }
+      if (donateMapPreview) {
+        donateMapPreview.classList.toggle('hidden', !data.location && !data.exactLocation && !data.coordinates);
+        donateMapPreview.innerHTML = `
+          <iframe
+            title="Selected pickup place"
+            src="https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=16&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        `;
+      }
+    }
+
     function updatePreview() {
       const data = getFormData();
       descriptionCount.textContent = `${data.description.length} / 240`;
       previewTitle.textContent = data.title || 'Your listing preview';
+      const previewLocation = data.exactLocation || data.location || 'Add location';
       previewMeta.textContent = [data.category, data.condition, data.location || 'Add location'].filter(Boolean).join(' • ') || 'Add details and watch this card update live.';
+      previewMeta.textContent = [data.category, data.condition, previewLocation].filter(Boolean).join(' - ') || 'Add details and watch this card update live.';
       previewImage.style.backgroundImage = `url('${escapeHtml(data.images[0] || 'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80')}')`;
 
       let score = 20;
@@ -1479,8 +1672,10 @@
           <div><span class="mini-label">Condition</span><strong>${escapeHtml(data.condition)}</strong></div>
           <div><span class="mini-label">Pickup</span><strong>${escapeHtml(data.pickup)}</strong></div>
           <div><span class="mini-label">Area</span><strong>${escapeHtml(data.location || 'Missing')}</strong></div>
+          <div><span class="mini-label">Exact point</span><strong>${escapeHtml(data.exactLocation || data.location || 'Missing')}</strong></div>
         </div>
       `;
+      updatePickupPreview();
     }
 
     function saveDraft() {
@@ -1538,10 +1733,12 @@
         ownerId: appState.user.id,
         ownerName: appState.user.name,
         title: data.title,
-        category: data.category,
-        condition: data.condition,
-        location: data.location,
-        distanceKm: data.distance,
+          category: data.category,
+          condition: data.condition,
+          location: data.location,
+          exactLocation: data.exactLocation || data.location,
+          ...(data.coordinates ? { coordinates: data.coordinates } : {}),
+          distanceKm: data.distance,
         pickup: data.pickup,
         pickupWindow: data.pickupWindow || 'Flexible timing',
         description: data.description,
@@ -1607,11 +1804,50 @@
       updatePreview();
     });
 
-    [fields.title, fields.category, fields.description, fields.condition, fields.pickup, fields.pickupWindow, fields.location, fields.distance, fields.notes, fields.urgent].forEach(field => {
+    [fields.title, fields.category, fields.description, fields.condition, fields.pickup, fields.pickupWindow, fields.location, fields.exactLocation, fields.distance, fields.notes, fields.urgent].filter(Boolean).forEach(field => {
       field.addEventListener(field.type === 'checkbox' ? 'change' : 'input', () => {
         setStatus('');
         updatePreview();
       });
+    });
+
+    fields.location?.addEventListener('input', () => {
+      if (fields.exactLocation) delete fields.exactLocation.dataset.coordinates;
+      updatePreview();
+    });
+    fields.exactLocation?.addEventListener('input', () => {
+      delete fields.exactLocation.dataset.coordinates;
+      updatePreview();
+    });
+    useCurrentPickupLocation?.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        setStatus('Location selection is not supported in this browser. Type the pickup point instead.', 'error');
+        return;
+      }
+      useCurrentPickupLocation.disabled = true;
+      useCurrentPickupLocation.textContent = 'Locating...';
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const coordinates = {
+            lat: Number(position.coords.latitude.toFixed(6)),
+            lng: Number(position.coords.longitude.toFixed(6))
+          };
+          if (fields.exactLocation) {
+            fields.exactLocation.dataset.coordinates = JSON.stringify(coordinates);
+            fields.exactLocation.value = fields.exactLocation.value.trim() || 'Pinned pickup location';
+          }
+          setStatus('Pickup place pinned from your current location.', 'success');
+          updatePreview();
+          useCurrentPickupLocation.disabled = false;
+          useCurrentPickupLocation.textContent = 'Use my current location';
+        },
+        () => {
+          setStatus('Could not access your location. Type the exact pickup point or landmark instead.', 'error');
+          useCurrentPickupLocation.disabled = false;
+          useCurrentPickupLocation.textContent = 'Use my current location';
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+      );
     });
 
     saveDraftButton.addEventListener('click', saveDraft);

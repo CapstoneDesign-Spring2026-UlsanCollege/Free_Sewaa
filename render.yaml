@@ -13,18 +13,20 @@ services:
       - key: DB_NAME
         value: freesewaa
       - key: FIREBASE_PROJECT_ID
-        value: free-sewaa
+        value: freesewaa-db4dc
       - key: MONGODB_URI
         sync: false
       - key: FIREBASE_API_KEY
-        sync: false
+        value: AIzaSyCcABHtxiz47sgmcKb96O3NXv4Uy3qXwC8
       - key: FIREBASE_AUTH_DOMAIN
-        sync: false
+        value: freesewaa-db4dc.firebaseapp.com
       - key: FIREBASE_STORAGE_BUCKET
-        sync: false
+        value: freesewaa-db4dc.firebasestorage.app
       - key: FIREBASE_MESSAGING_SENDER_ID
-        sync: false
+        value: "751406321487"
       - key: FIREBASE_APP_ID
-        sync: false
+        value: 1:751406321487:web:06a697a8dfc2ec82ccff3a
+      - key: FIREBASE_MEASUREMENT_ID
+        value: G-QFY073DLW0
       - key: SUPER_ADMIN_EMAILS
         sync: false

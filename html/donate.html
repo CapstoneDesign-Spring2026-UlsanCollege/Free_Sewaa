@@ -115,6 +115,12 @@
             <label class="field"><span>City / area</span><input type="text" id="itemLocation" placeholder="e.g. Ulsan, Samsan-dong" /></label>
             <label class="field"><span>Distance radius</span><select id="itemDistance"><option value="5">Within 5 km</option><option value="10">Within 10 km</option><option value="15">Within 15 km</option><option value="30">Within 30 km</option></select></label>
           </div>
+          <label class="field"><span>Exact pickup point</span><input type="text" id="itemExactLocation" placeholder="e.g. Samsan-dong public pickup point or nearby landmark" /></label>
+          <div class="pickup-location-tools">
+            <button class="btn btn-soft" type="button" id="useCurrentPickupLocation">Use my current location</button>
+            <a class="btn btn-soft" id="previewPickupLocation" href="https://www.google.com/maps/search/?api=1&query=Ulsan%2C%20South%20Korea" target="_blank" rel="noopener">Preview place</a>
+          </div>
+          <div class="donate-map-preview hidden" id="donateMapPreview"></div>
           <label class="field"><span>Pickup notes</span><textarea id="itemNotes" rows="4" placeholder="Add landmark details, delivery notes, or timing guidance for the receiver."></textarea></label>
           <label class="field checkbox-field"><input type="checkbox" id="itemUrgent" /> <span>Mark this listing as urgent support needed</span></label>
         </section>

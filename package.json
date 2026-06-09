@@ -5,7 +5,11 @@
   "description": "Free Sewaa connected frontend and backend",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "node server/server.js"
+    "dev": "node server/server.js",
+    "firebase:login": "npx -y firebase-tools@latest login --reauth",
+    "firebase:projects": "npx -y firebase-tools@latest projects:list",
+    "firebase:deploy:auth": "npx -y firebase-tools@latest deploy --only auth",
+    "firebase:deploy:firestore": "npx -y firebase-tools@latest deploy --only firestore"
   },
   "engines": {
     "node": ">=18.0.0"

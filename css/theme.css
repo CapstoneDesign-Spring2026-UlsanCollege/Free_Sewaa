@@ -1890,6 +1890,40 @@ body[data-page="browse"] .filters-panel{
   overflow:auto;
 }
 
+body[data-page="browse"] .modal-card {
+  width: min(1180px, calc(100vw - 32px));
+  max-height: calc(100vh - 28px);
+  overflow: auto;
+}
+
+body[data-page="browse"] .modal-shell:not(.hidden) .modal-close {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 20;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(4, 18, 21, 0.92);
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.34);
+}
+
+body[data-page="browse"] .modal-listing-layout {
+  grid-template-columns: minmax(500px, 1.05fr) minmax(380px, 0.95fr);
+  gap: 24px;
+}
+
+.modal-listing-visual {
+  display: grid;
+  gap: 14px;
+}
+
+body[data-page="browse"] .modal-listing-image {
+  min-height: 250px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+}
+
 /* Keep unread counts from squeezing or clipping the Messages icon. */
 .icon-link.has-nav-icon.has-unread-messages{
   overflow:visible;
@@ -1918,5 +1952,223 @@ body[data-page="browse"] .filters-panel{
     top:auto;
     max-height:none;
     overflow:visible;
+  }
+}
+.listing-map-panel {
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid rgba(96, 222, 203, 0.38);
+  border-radius: 8px;
+  background: rgba(9, 31, 34, 0.82);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.22);
+}
+
+.listing-map-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0.9rem;
+}
+
+.listing-map-title h3 {
+  margin: 0.15rem 0 0;
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.listing-map-title p,
+.pickup-map-note {
+  margin: 0.35rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.listing-map-actions,
+.pickup-location-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.route-summary-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+  gap: 0.55rem;
+  margin: 0 0.9rem 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(3, 20, 24, 0.24);
+}
+
+.route-point {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 0.65rem;
+}
+
+.route-point strong {
+  display: block;
+  margin-top: 0.15rem;
+  line-height: 1.35;
+}
+
+.route-dot {
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-top: 0.2rem;
+  border-radius: 999px;
+  background: #66e3c4;
+  box-shadow: 0 0 0 4px rgba(102, 227, 196, 0.16);
+}
+
+.route-point--destination .route-dot {
+  background: #ffd166;
+  box-shadow: 0 0 0 4px rgba(255, 209, 102, 0.18);
+}
+
+.route-line {
+  width: 2px;
+  min-height: 1.3rem;
+  margin-left: 0.43rem;
+  background: linear-gradient(180deg, rgba(102, 227, 196, 0.85), rgba(255, 209, 102, 0.85));
+}
+
+.listing-route-planner {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0 0.9rem 0.9rem;
+}
+
+.listing-route-planner .field {
+  margin: 0;
+}
+
+.listing-route-toolbar {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.route-current-location {
+  flex: 1 1 15rem;
+}
+
+.route-mode-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.route-mode-group .chip {
+  min-height: 2.35rem;
+}
+
+.pickup-map-note {
+  padding: 0 0.9rem 0.85rem;
+}
+
+.listing-map-panel iframe {
+  display: block;
+  width: 100%;
+  min-height: 390px;
+  border: 0;
+}
+
+.listing-map-compact-tools {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.65rem;
+  padding: 0.75rem;
+  background: rgba(2, 14, 17, 0.42);
+}
+
+.listing-map-compact-tools .route-origin-input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  padding: 0 0.85rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+}
+
+.listing-map-link {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.donate-map-preview {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.donate-map-preview iframe {
+  display: block;
+  width: 100%;
+  min-height: 220px;
+  border: 0;
+}
+
+.listing-footer--actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.listing-footer--actions .listing-action {
+  flex: 1 1 7rem;
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  body[data-page="browse"] .modal-listing-layout {
+    grid-template-columns: 1fr;
+  }
+
+  body[data-page="browse"] .modal-listing-image {
+    min-height: 260px;
+  }
+
+  .listing-map-panel__head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .listing-map-panel iframe {
+    min-height: 340px;
+  }
+
+  .listing-map-compact-tools {
+    grid-template-columns: 1fr;
+  }
+
+  .listing-map-actions,
+  .pickup-location-tools,
+  .listing-route-toolbar,
+  .route-mode-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .listing-map-link {
+    width: 100%;
+  }
+
+  .route-summary-card {
+    grid-template-columns: 1fr;
+  }
+
+  .route-line {
+    width: 2px;
+    min-height: 1.5rem;
+    margin-left: 0.43rem;
+    background: linear-gradient(180deg, rgba(102, 227, 196, 0.85), rgba(255, 209, 102, 0.85));
   }
 }
