@@ -1314,8 +1314,73 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (pathname === '/api/auth/signup' && req.method === 'POST') {
-      return sendJson(res, 410, {
-        error: 'Direct signup is disabled. Please create an account with Firebase email verification or verified phone.'
+      const {
+        firstName = '',
+        lastName = '',
+        email = '',
+        password = '',
+        phone = '',
+        city = 'Ulsan',
+        region = 'Nam-gu'
+      } = await readRequestBody(req);
+
+      const cleanFirstName = String(firstName || '').trim();
+      const cleanLastName = String(lastName || '').trim();
+      const normalizedEmail = String(email || '').trim().toLowerCase();
+      const normalizedPhone = normalizeUserPhone(phone || '');
+
+      if (!cleanFirstName) {
+        return sendJson(res, 400, { error: 'First name is required.' });
+      }
+
+      if (!cleanLastName) {
+        return sendJson(res, 400, { error: 'Last name is required.' });
+      }
+
+      if (!normalizedEmail) {
+        return sendJson(res, 400, { error: 'Email address is required.' });
+      }
+
+      if (!isRealEmailAddress(normalizedEmail)) {
+        return sendJson(res, 400, { error: EMAIL_ONLY_MESSAGE });
+      }
+
+      if (!isStrongPassword(password)) {
+        return sendJson(res, 400, { error: PASSWORD_POLICY_MESSAGE });
+      }
+
+      if (normalizedPhone && !isValidPhoneInput(normalizedPhone)) {
+        return sendJson(res, 400, { error: 'Please enter a valid phone number.' });
+      }
+
+      const duplicateQuery = [{ email: normalizedEmail }];
+      if (normalizedPhone) duplicateQuery.push({ phone: normalizedPhone });
+
+      const existing = await usersCollection.findOne({ $or: duplicateQuery });
+      if (existing) {
+        return sendJson(res, 409, { error: 'An account with this email or phone already exists.' });
+      }
+
+      const user = {
+        id: `user-${Date.now()}`,
+        firstName: cleanFirstName,
+        lastName: cleanLastName,
+        name: `${cleanFirstName} ${cleanLastName}`.trim(),
+        email: normalizedEmail,
+        password: String(password),
+        phone: normalizedPhone,
+        city: String(city || 'Ulsan').trim() || 'Ulsan',
+        region: String(region || 'Nam-gu').trim() || 'Nam-gu',
+        role: 'user',
+        createdAt: new Date().toISOString()
+      };
+
+      await usersCollection.insertOne(user);
+      await setUserState(user.id, defaultUserState(user));
+
+      return sendJson(res, 201, {
+        user: safeUser(user),
+        auth: { userId: user.id, isAuthenticated: true, role: user.role }
       });
     }
 
@@ -1343,11 +1408,6 @@ const server = http.createServer(async (req, res) => {
       }
 
       const role = isConfiguredSuperAdmin(user) ? 'superadmin' : user.role || 'user';
-      if (role !== 'superadmin') {
-        return sendJson(res, 403, {
-          error: 'Please sign in with a verified email account. If you used email/password signup, verify your email first.'
-        });
-      }
       if (role !== user.role) {
         await usersCollection.updateOne({ id: user.id }, { $set: { role, updatedAt: new Date().toISOString() } });
         user.role = role;
