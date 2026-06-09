@@ -2686,9 +2686,11 @@ body.light-mode .pricing-card h2{color:var(--text)}
   min-width:44px;
   height:44px;
   padding:0 14px;
-  border-radius:999px;
+  border-radius:14px;
   overflow:visible;
-  justify-content:center;
+  justify-content:flex-start;
+  background:transparent;
+  border-color:transparent;
 }
 
 .nav-link.has-nav-icon:hover,
@@ -2699,7 +2701,7 @@ body.light-mode .pricing-card h2{color:var(--text)}
 .header-actions .icon-link.has-nav-icon:focus-visible{
   width:auto;
   padding-inline:14px;
-  justify-content:center;
+  justify-content:flex-start;
 }
 
 .nav-link.has-nav-icon .nav-label,
