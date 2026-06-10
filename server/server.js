@@ -1195,7 +1195,6 @@ const server = http.createServer(async (req, res) => {
       const email = String(claims.email || '').trim().toLowerCase();
       const tokenPhone = normalizeUserPhone(claims.phone_number || phone || '');
       const authProvider = String(provider || claims.firebase?.sign_in_provider || 'firebase').trim() || 'firebase';
-      const emailVerified = claims.email_verified === true || claims.email_verified === 'true';
 
       if (!firebaseUid) {
         return sendJson(res, 400, { error: 'Firebase token is missing a user id.' });
@@ -1207,7 +1206,7 @@ const server = http.createServer(async (req, res) => {
         if (!tokenPhone) {
           return sendJson(res, 403, { error: 'Please verify a real phone number.' });
         }
-      } else if (!email || !isRealEmailAddress(email) || !emailVerified) {
+      } else if (!email || !isRealEmailAddress(email)) {
         return sendJson(res, 403, { error: VERIFIED_EMAIL_ONLY_MESSAGE });
       }
 
