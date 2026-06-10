@@ -2676,16 +2676,16 @@ body.light-mode .pricing-card h2{color:var(--text)}
   .hero__controls{margin-top:34px}
 }
 
-/* Keep the navigation text-first like the original header, not round icon bubbles. */
+/* Keep the app header as compact icon navigation with labels available on hover. */
 .nav-link.has-nav-icon,
 .icon-link.has-nav-icon,
 .header-actions .icon-link.has-nav-icon{
-  width:auto;
+  width:44px;
   min-width:44px;
   height:44px;
-  padding:0 14px;
+  padding:0;
   border-radius:999px;
-  overflow:visible;
+  overflow:hidden;
   justify-content:center;
 }
 
@@ -2695,18 +2695,22 @@ body.light-mode .pricing-card h2{color:var(--text)}
 .icon-link.has-nav-icon:focus-visible,
 .header-actions .icon-link.has-nav-icon:hover,
 .header-actions .icon-link.has-nav-icon:focus-visible{
-  width:auto;
+  width:var(--nav-expanded-width,148px);
   padding-inline:14px;
-  justify-content:center;
+  justify-content:flex-start;
 }
 
 .nav-link.has-nav-icon .nav-label,
-.icon-link.has-nav-icon .nav-label,
+.icon-link.has-nav-icon .nav-label{
+  max-width:0;
+  opacity:0;
+}
+
 .nav-link.has-nav-icon:hover .nav-label,
 .nav-link.has-nav-icon:focus-visible .nav-label,
 .icon-link.has-nav-icon:hover .nav-label,
 .icon-link.has-nav-icon:focus-visible .nav-label{
-  max-width:160px;
+  max-width:120px;
   opacity:1;
 }
 
@@ -2717,11 +2721,11 @@ body.light-mode .pricing-card h2{color:var(--text)}
 
 @media (max-width:760px){
   .header-actions .icon-link.has-nav-icon{
-    flex:0 0 auto;
+    flex:0 0 44px;
   }
 
   .header-actions .icon-link.has-nav-icon:hover,
   .header-actions .icon-link.has-nav-icon:focus-visible{
-    flex-basis:auto;
+    flex-basis:148px;
   }
 }
