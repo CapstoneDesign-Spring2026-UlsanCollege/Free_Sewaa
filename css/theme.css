@@ -2810,6 +2810,24 @@ body.light-mode .pricing-card h2{color:var(--text)}
   flex:1;
 }
 
+select option,
+select optgroup{
+  background:#17170f;
+  color:#fffaf0;
+}
+
+select option:checked,
+select option:hover{
+  background:#1f6fd1;
+  color:#ffffff;
+}
+
+body.light-mode select option,
+body.light-mode select optgroup{
+  background:#fffaf0;
+  color:#241c12;
+}
+
 @media (max-width:1150px){
   .hero-home .hero-inner{
     grid-template-columns:1fr;
