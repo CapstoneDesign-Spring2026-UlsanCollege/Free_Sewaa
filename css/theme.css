@@ -1761,27 +1761,26 @@ body.light-mode{
 
 .nav-link.has-nav-icon,
 .icon-link.has-nav-icon{
-  width:auto;
+  width:44px;
   height:44px;
-  min-width:44px;
-  padding:0 12px;
-  border-radius:14px;
-  overflow:visible;
-  justify-content:flex-start;
+  padding:0;
+  border-radius:999px;
+  overflow:hidden;
+  justify-content:center;
 }
 
 .nav-link.has-nav-icon:hover,
 .nav-link.has-nav-icon:focus-visible,
 .icon-link.has-nav-icon:hover,
 .icon-link.has-nav-icon:focus-visible{
-  width:auto;
-  padding-inline:12px;
+  width:var(--nav-expanded-width,148px);
+  padding-inline:14px;
   justify-content:flex-start;
 }
 
 .nav-label{
-  max-width:160px;
-  opacity:1;
+  max-width:0;
+  opacity:0;
 }
 
 .nav-link.has-nav-icon:hover .nav-label,
@@ -1800,8 +1799,7 @@ body.light-mode{
 }
 
 .header-actions .icon-link.has-nav-icon{
-  background:transparent;
-  border-color:transparent;
+  background:rgba(156,232,213,.06);
 }
 
 .btn-hero,
@@ -2686,11 +2684,9 @@ body.light-mode .pricing-card h2{color:var(--text)}
   min-width:44px;
   height:44px;
   padding:0 14px;
-  border-radius:14px;
+  border-radius:999px;
   overflow:visible;
-  justify-content:flex-start;
-  background:transparent;
-  border-color:transparent;
+  justify-content:center;
 }
 
 .nav-link.has-nav-icon:hover,
@@ -2701,7 +2697,7 @@ body.light-mode .pricing-card h2{color:var(--text)}
 .header-actions .icon-link.has-nav-icon:focus-visible{
   width:auto;
   padding-inline:14px;
-  justify-content:flex-start;
+  justify-content:center;
 }
 
 .nav-link.has-nav-icon .nav-label,

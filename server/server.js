@@ -288,6 +288,8 @@ function getNameParts({ firstName = '', lastName = '', displayName = '', email =
 }
 
 async function ensureIndexes() {
+  await usersCollection.updateMany({ phone: '' }, { $unset: { phone: '' } });
+
   await usersCollection.createIndex({ email: 1 }, { unique: true, sparse: true });
   await usersCollection.createIndex({ phone: 1 }, { unique: true, sparse: true });
   await usersCollection.createIndex({ id: 1 }, { unique: true });
@@ -1368,12 +1370,15 @@ const server = http.createServer(async (req, res) => {
         name: `${cleanFirstName} ${cleanLastName}`.trim(),
         email: normalizedEmail,
         password: String(password),
-        phone: normalizedPhone,
         city: String(city || 'Ulsan').trim() || 'Ulsan',
         region: String(region || 'Nam-gu').trim() || 'Nam-gu',
         role: 'user',
         createdAt: new Date().toISOString()
       };
+
+      if (normalizedPhone) {
+        user.phone = normalizedPhone;
+      }
 
       await usersCollection.insertOne(user);
       await setUserState(user.id, defaultUserState(user));
