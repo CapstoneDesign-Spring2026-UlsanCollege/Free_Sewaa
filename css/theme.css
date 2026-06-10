@@ -2684,7 +2684,10 @@ body.light-mode .pricing-card h2{color:var(--text)}
   min-width:44px;
   height:44px;
   padding:0;
-  border-radius:999px;
+  border-radius:0;
+  border-color:transparent;
+  background:transparent;
+  box-shadow:none;
   overflow:hidden;
   justify-content:center;
 }
@@ -2697,7 +2700,21 @@ body.light-mode .pricing-card h2{color:var(--text)}
 .header-actions .icon-link.has-nav-icon:focus-visible{
   width:var(--nav-expanded-width,148px);
   padding-inline:14px;
+  border-color:transparent;
+  background:transparent;
+  box-shadow:none;
   justify-content:flex-start;
+}
+
+.nav-link.has-nav-icon.active,
+.nav-link.has-nav-icon.active:hover,
+.nav-link.has-nav-icon.active:focus-visible,
+.icon-link.has-nav-icon.active,
+.icon-link.has-nav-icon.active:hover,
+.icon-link.has-nav-icon.active:focus-visible{
+  border-color:transparent;
+  background:transparent;
+  box-shadow:none;
 }
 
 .nav-link.has-nav-icon .nav-label,
