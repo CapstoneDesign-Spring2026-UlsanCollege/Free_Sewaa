@@ -1,16 +1,16 @@
 # Sprint 03 — Full Technical Implementation
 
-## Goal
+## Sprint Goal
 Build complete core functionality: auth, item management, messaging, and database.
 
-## Planned Work
+## What We Planned
 - Implement user authentication (signup/login)
 - Build item donation CRUD operations
 - Implement request system
 - Create messaging between users
 - Set up database schema
 
-## Completed Work
+## What We Completed
 - [Authentication system](../../../docs/AUTHENTICATION.md) — JWT-based signup and login
 - [Item management](../../../server/server.js) — Post, browse, view items
 - [Request system](../../../server/server.js) — Request items from donors
@@ -18,7 +18,7 @@ Build complete core functionality: auth, item management, messaging, and databas
 - [Database schema](../../../docs/DESIGN/DATABASE_SCHEMA.md) — users, items, requests, messages collections
 - [API endpoints](../../../docs/DESIGN/API_REFERENCE.md) — Full REST API
 
-## Incomplete Work
+## What Is Still Incomplete
 - Admin panel — UI scaffolded, backend pending
 - Email notifications — identified as future enhancement
 
@@ -26,18 +26,18 @@ Build complete core functionality: auth, item management, messaging, and databas
 - Added Google demo login for easier testing
 - Postponed admin panel backend to Sprint 4
 
-## Strongest Evidence
+## Strongest Evidence Links
 - [Sprint 3 Packet](../../../docs/sprints/SPRINT_3.md) — 604-line comprehensive technical document
 - [Week 3 Sprint Packet](../../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%203.md)
 - [Backend Plan](../../../docs/DESIGN/BACKEND_PLAN.md)
 - [Frontend Design](../../../docs/DESIGN/Frontend_DESIGN.md)
 
-## Bugs/Risks
+## Bugs and Risks
 - Auth session handling needed refinement
 - Item timestamps showed "Just now" permanently (known bug)
 - Chat button lacked item context passing
 
-## What Moved to Next Sprint
+## What Moved Into the Next Sprint
 - Admin panel backend
 - UI polish and responsive design
 - Deployment setup
