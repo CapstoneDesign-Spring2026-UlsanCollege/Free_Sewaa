@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Free Sewaa** is a community-driven donation platform developed as a Capstone Design project at **Ulsan College (Spring 2026)**. The platform enables users to donate reusable items, request needed goods, and communicate with one another through an organized and user-friendly web application.
+**Free Sewaa** is a community-driven donation platform developed as a Capstone Design project at **Ulsan College (Spring 2026)**. The platform enables users to donate reusable items, request needed goods, and connect with community members who share similar interests in sustainability.
 
 The project promotes sustainability, community support, and resource sharing by connecting donors and recipients in a single digital platform.
 
@@ -181,27 +181,27 @@ Users and administrators track platform activity through dedicated dashboards.
 
 ### 📖 Documentation Hub
 
-- [📖 Documentation Home](../../docs/README.md) — Complete project documentation
-- [📘 Capstone Portfolio](../../portfolio/README.md) — Academic submission portfolio
+- [📖 Documentation Home](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/README.md) — Complete project documentation
+- [📘 Capstone Portfolio](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/portfolio/README.md) — Academic submission portfolio
 
 ---
 
 ### 📋 Essential Review Documents
 
-- [📊 Final MVP Scope](../../docs/project-management/final-mvp-scope.md) — Features included, partially completed, and excluded
-- [🎤 Final Demo Script](../../docs/project-management/final-demo-script.md) — Complete demonstration walkthrough
-- [🏗️ Final Architecture](../../docs/architecture/system-architecture.md) — System design and architecture overview
-- [✅ QA Report](../../docs/testing/qa-report.md) — Testing results and known issues
-- [🐛 Bugs & Limitations](../../docs/testing/bugs-and-limitations.md) — Current limitations and future considerations
+- [📊 Final MVP Scope](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/project-management/final-mvp-scope.md) — Features included, partially completed, and excluded
+- [🎤 Final Demo Script](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/project-management/final-demo-script.md) — Complete demonstration walkthrough
+- [🏗️ Final Architecture](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/architecture/system-architecture.md) — System design and architecture overview
+- [✅ QA Report](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/testing/qa-report.md) — Testing results and known issues
+- [🐛 Bugs & Limitations](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/testing/bugs-and-limitations.md) — Current limitations and future considerations
 
 ---
 
 ### 🚀 Quick Navigation
 
-- [🚀 Quick Start](../../docs/setup/quick-start.md) — Local development setup instructions
-- [🔮 Future Improvements](../../docs/project-management/future-improvements.md) — Planned enhancements and roadmap
-- [🔌 API Reference](../../docs/api/api-reference.md) — Backend API endpoints and usage
-- [🗃️ Database Schema](../../docs/database/database-schema.md) — Database structure and data models
+- [🚀 Quick Start](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/setup/quick-start.md) — Local development setup instructions
+- [🔮 Future Improvements](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/project-management/future-improvements.md) — Planned enhancements and roadmap
+- [🔌 API Reference](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/api/api-reference.md) — Backend API endpoints and usage
+- [🗃️ Database Schema](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/database/database-schema.md) — Database structure and data models
 
 ---
 
@@ -244,4 +244,4 @@ Accessible through both Render and Vercel deployments for demonstration and test
 
 Free Sewaa demonstrates how technology can support sustainable community engagement by connecting people who have reusable resources with those who need them.
 
-The project successfully delivers a functional MVP showcasing modern full-stack development practices, responsive design principles, authentication systems, messaging functionality, and structured software engineering workflows.
+The project successfully delivers a functional MVP showcasing modern full-stack development practices, responsive design principles, authentication systems, messaging functionality, and structured software development methodologies.
