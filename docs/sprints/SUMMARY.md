@@ -1,6 +1,6 @@
-# Sprint Summary — Free Sewaa#
+# Sprint Summary - Free Sewaa
 
-Quick reference for all sprints. Full details in each weekly Sprint Packet Issue on GitHub.#
+Quick reference for all weekly sprint packets and final project evidence.
 
 | Week | Goal | Outcome | Status |
 |------|------|---------|--------|
@@ -15,10 +15,22 @@ Quick reference for all sprints. Full details in each weekly Sprint Packet Issue
 | Week 9 | UI polish, bug fixes, deployment optimization | UI refresh applied, P0 bugs identified, live deployment stable | ✅ Done |
 | Week 10 | Bug triage, AI workflow documentation | P0/P1 bugs documented, Code Ownership Audit completed | ✅ Done |
 | Week 11 | MVP Verification demo, Jest tests, screenshots | MVP flow verified, 3 Jest tests passing, 6 screenshots taken | ✅ Done |
-| Week 12 | QA Day, final testing, UML diagrams | 10 QA tests documented, UML section diagrams created | 🔄 In Progress |
+| Week 12 | QA Day, final testing, UML diagrams | Test evidence, sprint packet, and submission checklist recorded | Done |
+| Week 13 | Post-submission review and planning | Historical planning record preserved for review | Done |
+| Week 14 | Phase 2 planning record | Historical packet preserved; unsupported claims are not carried into final status | Done |
+| Week 15 | Final stabilization and evidence reconciliation | Scope, QA, risks, ownership, and presentation evidence aligned | Done |
+| Week 16 | Final capstone closure | Final MVP boundary, verification, handoff, and future work recorded | Final |
 
-> Sprint Packet Issues (with individual contribution receipts) are tracked on the [Project Board](https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/14).
+## Final Packets
+
+- [Week 15 Sprint Packet](./Weekly%20Sprint%20Packet%20%E2%80%94%20Week%2015.md)
+- [Week 16 Final Sprint Packet](./Weekly%20Sprint%20Packet%20%E2%80%94%20Week%2016.md)
+- [MVP Week 15 Progress](../PROGRESS/MVP_WEEK_15.md)
+- [MVP Week 16 Final Closure](../PROGRESS/MVP_WEEK_16.md)
+
+Sprint evidence is organized on the
+[Final Grading Evidence Board](https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/30).
 
 ---
 
-*Last updated: May 2026*
+*Final closure record prepared: June 12, 2026*
