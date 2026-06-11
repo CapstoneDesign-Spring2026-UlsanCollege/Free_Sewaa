@@ -1,15 +1,13 @@
-# 04 — Final Product
+# 04 - Final Product
 
-This section documents the final Free Sewaa MVP product, including demo instructions, setup guide, architecture, and deployment plan.
+This section is the current product reference. Historical design files remain available, but active code and configuration decide final behavior.
 
-## Documents
-
-| Document | Description |
-|----------|-------------|
-| [FINAL_MVP_DEMO.md](./FINAL_MVP_DEMO.md) | Demo flow, test credentials, screenshots, and known notes |
-| [SETUP_AND_RUN_GUIDE.md](./SETUP_AND_RUN_GUIDE.md) | How to clone, install, configure, and run the application |
-| [ARCHITECTURE_FINAL.md](./ARCHITECTURE_FINAL.md) | Final system architecture with ASCII diagram and component details |
-| [DEPLOYMENT_AND_DEMO_PLAN.md](./DEPLOYMENT_AND_DEMO_PLAN.md) | Render deployment setup, local backup, and demo contingency plan |
-| [screenshots/](./screenshots/) | Screenshot gallery with inventory and capture guide |
+| Document | Purpose |
+|---|---|
+| [Final MVP Demo](./FINAL_MVP_DEMO.md) | Demonstration flow, evidence, and honest failure handling |
+| [Setup and Run Guide](./SETUP_AND_RUN_GUIDE.md) | Reproducible installation, configuration, run, build, and test commands |
+| [Final Architecture](./ARCHITECTURE_FINAL.md) | Current runtime, data flow, authentication boundaries, and risks |
+| [Deployment and Demo Plan](./DEPLOYMENT_AND_DEMO_PLAN.md) | Render, Vercel, localhost, demo data, and contingencies |
+| [Screenshot Inventory](./screenshots/README.md) | Visual evidence and capture guidance |
 
 [Back to Portfolio Home](../README.md)

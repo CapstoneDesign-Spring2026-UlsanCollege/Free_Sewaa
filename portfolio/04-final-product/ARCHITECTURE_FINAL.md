@@ -1,93 +1,43 @@
 # Final Architecture
 
-## System Overview
-
-Free Sewaa follows a client-server architecture with a Node.js/Express backend and a frontend that combines static HTML pages with a React-based component system.
-
-```
-┌─────────────────────────────────────────────────┐
-│                   Client                         │
-│  ┌──────────────────┐  ┌─────────────────────┐  │
-│  │  Static HTML/CSS │  │  React (Vite Build) │  │
-│  │  (html/, css/,   │  │  (client/src/)      │  │
-│  │   js/)           │  │                     │  │
-│  └────────┬─────────┘  └──────────┬──────────┘  │
-│           │                       │              │
-│           └───────────┬───────────┘              │
-│                       │                          │
-│              HTTP Requests                        │
-└───────────────────────┼──────────────────────────┘
-                        │
-┌───────────────────────┼──────────────────────────┐
-│              Express.js Server                    │
-│  ┌─────────────┐  ┌──────────────┐               │
-│  │  API Routes │  │  Middleware  │               │
-│  │  - Auth     │  │  - JWT Auth  │               │
-│  │  - Items    │  │  - CORS      │               │
-│  │  - Requests │  │  - Body Parse│               │
-│  │  - Messages │  └──────────────┘               │
-│  │  - Users    │                                 │
-│  └──────┬──────┘                                 │
-│         │                                         │
-│  ┌──────┴──────┐                                 │
-│  │  Mongoose   │                                 │
-│  │  ODM        │                                 │
-│  └──────┬──────┘                                 │
-└─────────┼────────────────────────────────────────┘
-          │
-┌─────────┴────────────────────────────────────────┐
-│              MongoDB Atlas                         │
-│  ┌──────────┐ ┌──────────┐ ┌──────────────────┐  │
-│  │  users   │ │  items   │ │  requests        │  │
-│  ├──────────┤ ├──────────┤ ├──────────────────┤  │
-│  │  messages│ │  (chats) │ │  (notifications) │  │
-│  └──────────┘ └──────────┘ └──────────────────┘  │
-└──────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    U["Browser user"] --> UI["Static pages and React/Vite assets"]
+    UI --> API["Native Node.js HTTP server"]
+    API --> DB["MongoDB via mongodb driver"]
+    UI --> FB["Firebase client authentication"]
+    API --> FV["Firebase token verification"]
+    API --> FS["Static file serving"]
 ```
 
-## Frontend
+## Current Components
 
-- **Static Pages:** HTML/CSS/JS in `html/`, `css/`, `js/` — 18+ pages including landing, auth, browse, donate, dashboard, admin
-- **React Migration:** Client-side React app in `client/` built with Vite
-- **Responsive Design:** Mobile-first CSS with touch targets, iOS zoom prevention
-- **States:** Loading, empty, error, and edge case handling across all pages
+| Component | Responsibility |
+|---|---|
+| Browser interface | Forms, listings, requests, messages, panels, and responsive states |
+| Native HTTP server | Request parsing, API dispatch, static serving, JSON, and error responses |
+| MongoDB driver | Database connection and collection operations |
+| Local account flow | Local signup/signin; password handling requires production hardening |
+| Firebase flow | Identity-token verification and application-user mapping |
+| Render and Vercel | Public demonstration targets |
 
-## Backend
+## Request and Data Flow
 
-- **Framework:** Express.js running on Node.js
-- **API Style:** RESTful JSON endpoints
-- **Authentication:** JWT tokens with bcrypt (installed but not yet integrated for password hashing)
-- **Key Endpoints:**
-  - `POST /api/signup` — Create user account
-  - `POST /api/signin` — Authenticate user
-  - `GET/POST /api/items` — List and create items
-  - `POST /api/requests` — Submit item request
-  - `GET/POST /api/messages` — Send and receive messages
-  - `GET /api/users` — List users (admin)
-  - `POST /api/admin/login` — Admin authentication
+1. Browser JavaScript sends an HTTP request.
+2. The server parses method, URL, body, and available identity.
+3. Route logic validates required fields and permissions where implemented.
+4. MongoDB operations read or update application collections.
+5. The server returns JSON or a page/asset.
+6. The interface renders success, empty, or error feedback.
 
-## Database
+## Security Boundary
 
-- **Provider:** MongoDB Atlas (free tier)
-- **ODM:** Mongoose
-- **Collections:**
-  - `users` — User accounts and profiles
-  - `items` — Donation listings
-  - `requests` — Item requests
-  - `messages` — User communications
+Firebase identity tokens are externally verified. The active local account path stores and compares password values directly, so it is an academic-MVP limitation and must be hashed or removed before production use. Central validation, authorization consistency, abuse controls, and wider security testing also remain.
 
-## Deployment
+## Historical Designs
 
-- **Platform:** Render (free tier)
-- **Config:** `render.yaml` with automatic GitHub deploys
-- **Build:** `npm ci && npm run build` (Vite for React)
-- **Start:** `npm start`
+Earlier documents and commits include Express, Mongoose, JWT, and bcrypt-oriented architecture. They show project evolution but are not the final runtime reference.
 
-## Architecture Diagrams
-
-- [System Architecture (Docs)](../../docs/SYSTEM_ARCHITECTURE.md) — Full ASCII architecture diagram
-- [System Architecture (Design)](../../docs/DESIGN/SYSTEM_ARCHITECTURE.md) — Layer-based architecture view
-- [DESIGN_DOC-V1.md](../../docs/DESIGN/DESIGN_DOC-V1.md) — C4 architecture (context/container/component)
-- [UML Diagram Collection](../../docs/Project_UML%20diagram/README.md) — UML diagrams for all sections
-- [User Flow Diagram](../../docs/Project_UML%20diagram/USER_FLOW_DIAGRAM.md) — Complete user flow visualization
-- [UI Flow](../../docs/DESIGN/UI_FLOW.md) — Page connection diagram (Mermaid.js)
+- [Architecture history](../03-design-and-planning/architecture/README.md)
+- [Current server](../../server/server.js)
+- [UML collection](../../docs/Project_UML%20diagram/README.md)

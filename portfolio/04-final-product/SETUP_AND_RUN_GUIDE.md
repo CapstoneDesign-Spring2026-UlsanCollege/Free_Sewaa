@@ -2,76 +2,57 @@
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) (v18+ recommended)
-- [npm](https://www.npmjs.com/)
-- [MongoDB Atlas](https://www.mongodb.com/atlas) account (free tier) or local MongoDB
+- Node.js 18 or newer and npm
+- MongoDB connection string for database features
+- Firebase web configuration only when testing Firebase sign-in
 
-## Quick Start
+## Install and Configure
 
 ```bash
-# 1. Clone the repository
 git clone https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa.git
 cd Free_Sewaa
-
-# 2. Install dependencies
 npm install
-
-# 3. Create environment file
 cp .env.example .env
 ```
 
-## Environment Configuration
+Set `PORT` and `MONGODB_URI` in `.env`. Optional Firebase variables are listed in [`.env.example`](../../.env.example). Never commit a real `.env`.
 
-Edit `.env` with your settings:
-
-```
-PORT=3000
-MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/freesewaa
-JWT_SECRET=your-secret-key
-```
-
-## Run the Application
+## Run and Build
 
 ```bash
-# Start the server
 npm start
-
-# Or for development (with auto-reload)
-npx nodemon server/server.js
+npm run build
 ```
 
-The application will be available at `http://localhost:3000`.
+Open `http://localhost:3000`. Static pages and health checks can load without MongoDB, but database APIs require `MONGODB_URI` or `MONGO_URI`.
 
-## Run Tests
+## Automated Server Tests
+
+The root package has no test script. Use the server package:
 
 ```bash
-# Run Jest tests
+cd server
+npm install
 npm test
 ```
 
-Expected output: 3 passing tests (health endpoint, signup validation, weak password check).
+The suite is in [`server/__tests__/api.test.js`](../../server/__tests__/api.test.js).
 
-## Project Structure
+## Current Structure
 
-```
-Free_Sewaa/
-├── client/          # React frontend (Vite build)
-├── css/             # Stylesheets
-├── docs/            # Documentation
-├── html/            # Static HTML pages
-├── js/              # Client-side JavaScript
-├── server/          # Express.js backend
-│   ├── routes/      # API route handlers
-│   ├── models/      # MongoDB schemas
-│   └── tests/       # Jest test files
-├── package.json     # Dependencies and scripts
-├── render.yaml      # Render deployment config
-└── vite.config.js   # Vite build configuration
-```
+| Path | Purpose |
+|---|---|
+| `server/server.js` | Native Node.js HTTP server, API routing, static serving, and MongoDB access |
+| `html/`, root HTML files | Static application pages |
+| `css/`, `js/` | Shared styling and browser behavior |
+| `src/`, Vite configuration | React/Vite-oriented frontend assets |
+| `docs/`, `portfolio/` | Technical, semester, and assessment evidence |
 
 ## Troubleshooting
 
-Common issues and solutions are documented in:
-- [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
-- [docs/ENVIRONMENT_SETUP.md](../../docs/ENVIRONMENT_SETUP.md)
-- [docs/DEVELOPER_GUIDE.md](../../docs/DEVELOPER_GUIDE.md)
+- Database failure: verify URI, Atlas access, and credentials.
+- Firebase failure: verify public configuration and authorized domains.
+- Port conflict: change `PORT`.
+- Slow live load: pre-warm Render or use Vercel/localhost.
+
+See [Environment Setup](../../docs/ENVIRONMENT_SETUP.md) and [Troubleshooting](../../TROUBLESHOOTING.md).

@@ -1,83 +1,28 @@
 # Deployment and Demo Plan
 
-## Production Deployment
+| Priority | Environment | Access |
+|---|---|---|
+| Primary | Render | [free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com) |
+| Secondary | Vercel | [free-sewaa.vercel.app](https://free-sewaa.vercel.app) |
+| Backup | Localhost | `http://localhost:3000` |
 
-### Platform: Render
+## Pre-Demo Procedure
 
-The application is deployed on Render's free tier with automatic deploys from the main branch.
+1. Verify both public landing pages.
+2. Pre-warm Render.
+3. Test database-backed browse, account, post, request, and message actions.
+4. Verify Firebase authorized domains if that provider will be shown.
+5. Prepare non-sensitive demo users and records.
+6. Keep localhost and screenshot evidence open as fallbacks.
 
-**Config:** [render.yaml](../../render.yaml)
+## Risks and Responses
 
-### Deployment Details
-- **Live URL:** [https://free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com)
-- **Deploy method:** GitHub push to `main` branch
-- **Build command:** `npm ci && npm run build`
-- **Start command:** `npm start`
-- **Environment variables:** Configured in Render dashboard
+| Risk | Response |
+|---|---|
+| Render cold start | Open early; switch to Vercel or localhost |
+| Database/configuration failure | Use a verified environment or saved evidence |
+| Firebase mismatch | Use the already verified account path |
+| Live data changes | Prepare records immediately before presenting |
+| Network outage | Use localhost, screenshots, architecture, and script |
 
-### Pre-Deployment Checklist
-Deployment verification steps are documented in:
-- [DEPLOYMENT_CHECKLIST.md](../../DEPLOYMENT_CHECKLIST.md)
-- [RELEASE_CHECKLIST.md](../../RELEASE_CHECKLIST.md)
-
-### Known Deployment Limitations
-- **Cold start:** Free tier spins down after inactivity (~30 seconds to restart)
-- **Free tier limits:** 750 hours/month, 512 MB RAM
-- **No custom domain:** Uses Render's *.onrender.com subdomain
-
-## Local Backup Demo
-
-### Running Locally
-```bash
-git clone https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa.git
-cd Free_Sewaa
-npm install
-# Configure .env with local MongoDB or Atlas URI
-npm start
-# Open http://localhost:3000
-```
-
-### Local vs Production Differences
-| Aspect | Production | Local |
-|--------|-----------|-------|
-| URL | render.com | localhost:3000 |
-| Database | MongoDB Atlas | Local or Atlas |
-| Build | Vite production | Vite dev or static |
-| Cold start | ~30s | Instant |
-| Performance | Limited (free tier) | Full machine |
-
-## Demo Devices and Setup
-
-### Recommended Devices
-- **Primary:** Laptop/desktop with modern browser (Chrome, Firefox, Safari, Edge)
-- **Secondary:** Mobile device (iPhone/Android) for responsive design demo
-
-### Browser Compatibility
-Verified on all major browsers:
-- [Browser Testing Checklist](../../BROWSER_TESTING_CHECKLIST.md)
-
-## Demo Risks and Backup Plan
-
-| Risk | Probability | Impact | Mitigation |
-|------|-----------|--------|------------|
-| Render cold start | High | Medium | Pre-warm site 1 minute before demo |
-| Internet failure | Low | High | Switch to localhost demo |
-| Database connection issue | Low | High | Restart server or check MongoDB Atlas status |
-| Browser incompatibility | Low | Medium | Test on primary browser beforehand |
-| Screenshots not loading | Low | Low | Local copies available |
-
-### Backup Plan
-1. **Primary:** Live Render demo at [free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com)
-2. **Backup 1:** Localhost at `http://localhost:3000`
-3. **Backup 2:** Screenshots in [assets/screenshots/](../../assets/screenshots/) and [docs/evidence/week11/screenshots/](../../docs/evidence/week11/)
-4. **Backup 3:** Demo script walkthrough without live demo
-
-### Demo Credentials
-- User: Create account during demo or use pre-seeded credentials
-- Admin: Username `admin` / Password `admin123` (configured in server)
-
-## Screenshots
-
-Screenshot gallery links:
-- [Screenshot Inventory](../../assets/screenshots/README.md)
-- [Week 11 Evidence Screenshots](../../docs/evidence/week11/)
+Do not display a real `.env`, database URI, secret, private user data, or reusable password.
