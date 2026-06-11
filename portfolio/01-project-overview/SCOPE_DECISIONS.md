@@ -1,51 +1,5 @@
 # Scope Decisions
 
-## Strategic Scope Decisions
-
-### 1. Donation Platform Instead of Marketplace
-
-The team prioritized posting, browsing, requesting, and messaging over payments, auctions, shipping, and seller tooling. This kept the semester MVP centered on community reuse.
-
-**Evidence:** [Project pitch](../../docs/PROJECT/PROJECT_IDEA_PITCH.md), [initial design](../../docs/DESIGN/DESIGN_DOC-V1.md)
-
-### 2. JavaScript Across the Application
-
-The repository uses browser JavaScript, React/Vite assets, and a Node.js server. The current server is a native HTTP implementation using the MongoDB driver; earlier historical documents and commits reflect Express.js exploration.
-
-**Evidence:** [`package.json`](../../package.json), [`server/server.js`](../../server/server.js), [architecture history](../03-design-and-planning/architecture/README.md)
-
-### 3. Mixed Authentication During MVP Evolution
-
-The final repository supports Firebase identity-token integration alongside local account endpoints. This enabled multiple demonstration paths but increased security and consistency risk. The local path remains available for testing without external dependencies.
-
-**Evidence:** [`server/server.js`](../../server/server.js), [authentication documentation](../../docs/AUTHENTICATION.md)
-
-### 4. Preserve Static Pages During React Work
-
-React/Vite work was introduced without deleting the established static frontend. Preserving both reduced migration risk during the semester, but left two frontend structures to maintain.
-
-**Evidence:** [frontend guide](../../docs/FRONTEND_GUIDE.md), [Week 14](../02-semester-journey/weekly-sprints/WEEK_14.md)
-
-### 5. Two Public Demo Targets
-
-Render remains the primary documented environment because the repository contains `render.yaml`. A public Vercel deployment provides an additional demonstration route.
-
-**Evidence:** [`render.yaml`](../../render.yaml), [deployment plan](../04-final-product/DEPLOYMENT_AND_DEMO_PLAN.md)
-
-### 6. Evidence-First Testing Claims
-
-The portfolio distinguishes test plans and checklists from recorded execution. Automated server tests and saved logs are presented as direct evidence; broader manual metrics are labeled as historical observations.
-
-**Evidence:** [`server/__tests__/api.test.js`](../../server/__tests__/api.test.js), [saved test output](../../docs/evidence/week12/logs/test-output.txt), [QA report](../05-qa-and-stabilization/QA_REPORT.md)
-
-### 7. AI Assistance Requires Human Ownership
-
-AI tools could assist with drafts, debugging, code, tests, and documentation, but repository evidence and human explanation remain the basis for grading.
-
-**Evidence:** [AI use summary](../06-ai-and-code-ownership/AI_USE_SUMMARY.md), [ownership audit](../06-ai-and-code-ownership/AI_CODE_OWNERSHIP_AUDIT.md)
-
----
-
 ## Feature-Level Scope Decisions
 
 | Feature or Idea | Final Status | Why | Evidence |
@@ -77,16 +31,12 @@ AI tools could assist with drafts, debugging, code, tests, and documentation, bu
 | **Item Edit & Delete** | Incomplete | Structure present but not fully polished; marked as "Should" priority (FR-10, FR-11) | [Product requirements](../../docs/PRODUCT_REQUIREMENTS.md#item-management) |
 | **Request Status Management** | Incomplete | Basic structure; enhanced tracking planned for Phase 4 | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-4-notifications-and-messaging) |
 | **Email Notifications** | Nice Later | Production email system deferred; planned for Phase 4 | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-4-notifications-and-messaging) |
-| **User Rating System** | Nice Later | Trust & safety feature deferred to Phase 3 | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-3-trust-and-safety) |
 | **Verified Donor Badge** | Nice Later | Trust system enhancement planned for Phase 3 | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-3-trust-and-safety) |
 | **Report Post Feature** | Nice Later | Trust and safety mechanism deferred to Phase 3 | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-3-trust-and-safety) |
 | **Location-Based Filtering** | Nice Later | Planned enhancement for improved donation discovery | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-2-better-donation-experience) |
-| **Item Condition Labels** | Nice Later | Planned for Phase 2 to improve donation experience | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-2-better-donation-experience) |
 | **Saved Searches** | Nice Later | User convenience feature deferred to Phase 2 | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-2-better-donation-experience) |
-| **Donation History** | Nice Later | User analytics feature planned for Phase 2 | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-2-better-donation-experience) |
 | **Admin Statistics Dashboard** | Nice Later | Analytics features deferred to Phase 5 | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-5-admin-and-analytics) |
 | **Dark Mode** | Nice Later | UI enhancement deferred to Phase 6 | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-6-production-polish) |
-| **Multi-Language Support** | Nice Later | Internationalization deferred to Phase 6 | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-6-production-polish) |
 | **Accessibility Improvements** | Nice Later | Planned for Phase 6 polish and compliance | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-6-production-polish) |
 
 ---
