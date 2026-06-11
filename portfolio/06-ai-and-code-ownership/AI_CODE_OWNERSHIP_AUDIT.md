@@ -1,72 +1,40 @@
 # AI Code Ownership Audit
 
-## Overview
+## Purpose
 
-This document summarizes the AI-assisted development practices in the Free Sewaa project. The full audit is available at [docs/AI_CODE_OWNERSHIP_AUDIT.md](../../docs/AI_CODE_OWNERSHIP_AUDIT.md).
+This audit helps the professor see who can explain which parts of the project and how AI-assisted work was reviewed. It is not a claim that any one member owns every later revision of a shared file.
 
-## What AI Helped With
+## Human Review Process
 
-Based on the [AI Code Ownership Audit](../../docs/AI_CODE_OWNERSHIP_AUDIT.md):
+1. A team member creates or accepts a draft change.
+2. The diff is reviewed against the current repository pattern.
+3. The feature is manually tested, covered by automated tests, or documented as unverified.
+4. Evidence is linked through commits, PRs, issues, files, or sprint records.
+5. Remaining risks are listed rather than hidden.
 
-1. **Code generation** — Boilerplate code for routes, models, and UI components
-2. **Debugging** — Identifying and fixing bugs in auth flow, item listing, and messaging
-3. **Documentation** — Generating initial doc structures, README templates
-4. **Testing** — Writing Jest test cases and test scripts
-5. **Refactoring** — Suggesting code improvements and architecture changes
+## Explainable Ownership Areas
 
-## What Humans Reviewed
+| Area | Evidence owner to ask first | Representative evidence |
+|---|---|---|
+| Backend expansion and database integration | Ram Pathak | [server](../../server/), [architecture](../04-final-product/ARCHITECTURE_FINAL.md) |
+| Frontend pages and user experience | Sujan Shrestha | [html](../../html/), [UI flow](../../docs/DESIGN/UI_FLOW.md) |
+| Integration, testing, and documentation | Sujan Tamang | [testing plan](../../docs/TESTING_PLAN.md), [QA report](../05-qa-and-stabilization/QA_REPORT.md) |
+| Initial backend/API integration and vertical slice | Swarnim Jung Karki | [PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61), [PR #41](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/41) |
+| UI fixes, maintenance, and stabilization | Mohan Khadka | [bug reports](../../docs/ISSUES/BUGS/), [final review notes](../../FINAL_REVIEW_NOTES.md) |
 
-All AI-generated code was reviewed by team members before merging:
+## High-Risk Areas to Explain Honestly
 
-- **Authentication logic** — Reviewed by frontend and backend leads
-- **Security-sensitive code** — Reviewed by the full team
-- **Data validation** — Checked against existing patterns
-- **Deployment config** — Verified against Render requirements
-- **API endpoints** — Tested with curl and browser
-
-## What Humans Changed
-
-Team members made the following modifications to AI-generated code:
-
-- Fixed incorrect API endpoint paths
-- Added missing error handling
-- Updated CSS to match Figma designs
-- Removed unnecessary dependencies
-- Corrected database schema references
-- Added form validation logic
-
-## How AI-Assisted Work Was Tested
-
-- **Jest tests** — Backend endpoints tested with Supertest
-- **Manual QA** — All features tested per sprint
-- **PR review** — Code review before merging
-- **Browser testing** — Cross-browser verification
-- **Mobile testing** — Responsive design verification
-
-## Code Ownership Map
-
-| Code Area | Primary Owner | Can Explain | Evidence |
-|-----------|--------------|-------------|----------|
-| Backend API (routes, models) | Rampathak12 | Yes | [server/](../../server/), [server/](../../server/) |
-| Frontend UI (pages, components) | Sujan Shrestha | Yes | [html/](../../html/), [html/](../../html/) |
-| Testing & QA | Sujan Tamang | Yes | [docs/TESTING_PLAN.md](../../docs/TESTING_PLAN.md), checklists |
-| Styling & CSS | Swarnim Karki | Yes | [css/theme.css](../../css/theme.css), responsive design |
-| Bug fixes & stability | Mohan Khadka | Yes | Bug reports, commit history |
-
-## Risky/Confusing Areas
-
-| Area | Risk Level | Concern |
-|------|-----------|---------|
-| Auth session management | High | Session lost on refresh |
-| Password handling | High | Plain text storage (known gap) |
-| MongoDB queries | Medium | No proper indexing |
-| API error handling | Medium | Inconsistent error responses |
-| Frontend state management | Medium | No centralized store |
+| Area | Risk | Presentation answer |
+|---|---|---|
+| Local password path | Current code directly stores/compares values | Academic MVP limitation; harden before production |
+| Mixed frontend structures | Static and React-oriented assets coexist | Migration was started but not completed |
+| Manual QA metrics | Some reported metrics lack raw execution sheets | Present saved logs and checklists separately |
+| Historical architecture docs | Some mention Express/Mongoose/JWT/bcrypt | Treat them as historical, not current runtime truth |
+| AI-generated wording | Can overstate completion | Verify against repository evidence |
 
 ## Representative Contributions
 
-- [Rampathak12](../08-individual-portfolios/Rampathak12.md) — Backend API, database models
-- [Sujan Shrestha](../08-individual-portfolios/Sujan_Shrestha.md) — Frontend pages, UI components
-- [Sujan Tamang](../08-individual-portfolios/Sujan_Tamang.md) — Testing, documentation
-- [Swarnim Jung Karki](../08-individual-portfolios/Swarnim_Jung_Karki.md) — CSS, responsive design
-- [Mohan Khadka](../08-individual-portfolios/Mohan_Khadka.md) — Bug fixes, maintenance
+- [Individual portfolios](../08-individual-portfolios/README.md)
+- [Representative PRs and commits](./representative-prs/README.md)
+- [Final product architecture](../04-final-product/ARCHITECTURE_FINAL.md)
+- [Bugs and limitations](../05-qa-and-stabilization/BUGS_AND_LIMITATIONS.md)

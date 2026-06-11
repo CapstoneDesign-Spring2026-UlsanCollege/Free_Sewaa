@@ -1,13 +1,11 @@
-# 06 — AI and Code Ownership
+# 06 - AI and Code Ownership
 
-This section documents AI-assisted development practices, code ownership across team members, and the human review processes applied to AI-generated code.
+This section explains how AI assistance was used and how human ownership is shown through repository evidence.
 
-## Documents
-
-| Document | Description |
-|----------|-------------|
-| [AI_CODE_OWNERSHIP_AUDIT.md](./AI_CODE_OWNERSHIP_AUDIT.md) | Full AI code ownership audit with per-area ownership and risk levels |
-| [AI_USE_SUMMARY.md](./AI_USE_SUMMARY.md) | Summary of AI tools used, what they helped with, and review process |
-| [representative-prs/](./representative-prs/) | Links to representative PRs and commits showing team contributions |
+| Document | Purpose |
+|---|---|
+| [AI Use Summary](./AI_USE_SUMMARY.md) | What AI helped with, what it did not decide, and how claims are verified |
+| [AI Code Ownership Audit](./AI_CODE_OWNERSHIP_AUDIT.md) | Explainable ownership areas, review process, and high-risk code areas |
+| [Representative PRs and Commits](./representative-prs/README.md) | Direct links to reviewable evidence |
 
 [Back to Portfolio Home](../README.md)

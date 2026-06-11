@@ -1,64 +1,32 @@
 # AI Use Summary
 
-## How AI Was Used in This Project
+## Team Policy
 
-The Free Sewaa team used GitHub Copilot and other AI tools throughout the semester to accelerate development. This document summarizes how AI was used and how human oversight was maintained.
+AI tools were allowed as assistants for drafts, code suggestions, debugging ideas, tests, and documentation structure. AI output was not treated as finished work until a team member reviewed it, adapted it, and connected it to repository evidence.
 
-## Areas Where AI Assisted
+## Where AI Helped
 
-### 1. Code Generation
-- Express.js route handlers and middleware
-- MongoDB/Mongoose schema definitions
-- HTML page templates and CSS styling
-- JavaScript utility functions
-- Jest test cases
+| Area | Acceptable assistance | Required human check |
+|---|---|---|
+| Code scaffolding | Route, page, utility, and test skeleton ideas | Run code, inspect diff, verify data flow |
+| Debugging | Hypotheses and fix options | Reproduce issue and confirm the actual cause |
+| Documentation | Outline, wording, link organization | Check against real files, commits, issues, and behavior |
+| Testing | Test-case suggestions | Execute tests or label unexecuted cases honestly |
+| Refactoring | Cleanup ideas | Keep working behavior and avoid broad unreviewed rewrites |
 
-### 2. Debugging and Problem Solving
-- Identifying root causes of bugs (auth flow, item timestamps)
-- Suggesting fixes for CORS configuration
-- Debugging MongoDB connection issues
-- Optimizing frontend rendering
+## What AI Did Not Decide
 
-### 3. Documentation
-- Initial markdown structure for various docs
-- README templates and badges
-- API reference formatting
-- Checklist creation
+- Final project scope
+- Whether a feature was complete
+- Which contribution belonged to which student
+- Security acceptance
+- Presentation claims
+- Grading evidence
 
-### 4. Testing
-- Writing Jest test skeletons
-- Generating test data
-- Creating test scenarios
+## Verification Standard
 
-### 5. Refactoring
-- Suggesting code organization improvements
-- Identifying duplicate code
-- Recommending architecture changes
+For grading, repository evidence is stronger than AI-generated explanation. A claim should point to a file, commit, issue, pull request, test output, or sprint record.
 
-## Human Review Process
+## Remaining AI Risk
 
-Every piece of AI-generated code went through this process:
-
-1. **Generation** — AI produces initial code based on team direction
-2. **Review** — At least one team member reviews the code
-3. **Modification** — Team member adjusts code for correctness and style
-4. **Testing** — Code is tested (manual or automated)
-5. **Merge** — Code is merged via pull request
-
-## Code That Was NOT AI-Generated
-
-- Security-critical auth logic (reviewed extensively)
-- Database schema design
-- Project architecture decisions
-- Deployment configuration
-- Feature scope decisions
-
-## Key Principle
-
-**AI-assisted, not AI-replaced.** Every team member can explain the code areas they own. AI was a productivity tool, not a replacement for understanding.
-
-## Full Audit
-
-For the complete AI code ownership audit with per-member details:
-- [docs/AI_CODE_OWNERSHIP_AUDIT.md](../../docs/AI_CODE_OWNERSHIP_AUDIT.md)
-- [Individual Portfolio Pages](../08-individual-portfolios/)
+AI can make stale or unsupported claims sound polished. This portfolio reduces that risk by separating historical designs from current implementation, marking limitations, and linking evidence directly.
