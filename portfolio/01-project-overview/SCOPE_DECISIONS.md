@@ -7,10 +7,10 @@
 | **Payment Processing** | Cut | Donation platform prioritizes community reuse over commercial transactions | [Project pitch](../../docs/PROJECT/PROJECT_IDEA_PITCH.md) |
 | **Auctions and Bidding** | Cut | Kept MVP centered on straightforward posting and requesting, not competitive bidding | [Scope decision #1](#1-donation-platform-instead-of-marketplace) |
 | **Shipping Integration** | Cut | Platform focuses on local community connections; shipping logistics outside MVP scope | [Scope decision #1](#1-donation-platform-instead-of-marketplace) |
-| **Native Mobile Application** | Cut | Web-based MVP; responsive design covers mobile access without native app build | [Product summary](../PROJECT_SUMMARY.md#technology-stack) |
-| **Production Email Notifications** | Cut | Intentionally excluded from MVP; planned for Phase 4 | [Known limitations](../PROJECT_SUMMARY.md#known-limitations--future-scope) |
-| **Complete Password Recovery** | Cut | Basic authentication only; complete recovery workflow deferred | [Known limitations](../PROJECT_SUMMARY.md#known-limitations--future-scope) |
-| **Advanced Enterprise Security** | Cut | MVP prioritizes core functionality over complex security controls | [Known limitations](../PROJECT_SUMMARY.md#known-limitations--future-scope) |
+| **Native Mobile Application** | Cut | Web-based MVP; responsive design covers mobile access without native app build | [Product summary](PROJECT_SUMMARY.md#technology-stack) |
+| **Production Email Notifications** | Cut | Intentionally excluded from MVP; planned for Phase 4 | [Known limitations](PROJECT_SUMMARY.md#known-limitations--future-scope) |
+| **Complete Password Recovery** | Cut | Basic authentication only; complete recovery workflow deferred | [Known limitations](PROJECT_SUMMARY.md#known-limitations--future-scope) |
+| **Advanced Enterprise Security** | Cut | MVP prioritizes core functionality over complex security controls | [Known limitations](PROJECT_SUMMARY.md#known-limitations--future-scope) |
 | **Express.js Backend** | Included | JavaScript across application; Node.js server with Express chosen for rapid development | [`package.json`](../../package.json), [`server/server.js`](../../server/server.js) |
 | **React/Vite Frontend** | Included | Modern reactive UI with component reuse; Vite for fast development builds | [Frontend guide](../../docs/FRONTEND_GUIDE.md) |
 | **MongoDB Database** | Included | NoSQL flexibility for document-based user, item, and messaging data | [`server/server.js`](../../server/server.js) |
