@@ -26,7 +26,7 @@
 | **Vercel Deployment** | Included | Secondary public demo target for flexibility | [Deployment plan](../04-final-product/DEPLOYMENT_AND_DEMO_PLAN.md) |
 | **Automated Testing** | Included | Jest tests for server API validation (3/3 passing) | [`server/__tests__/api.test.js`](../../server/__tests__/api.test.js) |
 | **Responsive Design** | Included | Mobile, tablet, and desktop support required (NFR-02) | [Product requirements](../../docs/PRODUCT_REQUIREMENTS.md#non-functional-requirements) |
-| **Comprehensive Documentation** | Included | Portfolio and technical documentation for academic submission | [Documentation hub](../PROJECT_SUMMARY.md#documentation-hub) |
+| **Comprehensive Documentation** | Included | Portfolio and technical documentation for academic submission | [Documentation hub](PROJECT_SUMMARY.md#documentation-hub) |
 | **Category Filtering** | Incomplete | Basic structure present; advanced categorization planned for Phase 2 | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-2-better-donation-experience) |
 | **Item Edit & Delete** | Incomplete | Structure present but not fully polished; marked as "Should" priority (FR-10, FR-11) | [Product requirements](../../docs/PRODUCT_REQUIREMENTS.md#item-management) |
 | **Request Status Management** | Incomplete | Basic structure; enhanced tracking planned for Phase 4 | [Future enhancements](../../docs/FUTURE_ENHANCEMENTS.md#phase-4-notifications-and-messaging) |
