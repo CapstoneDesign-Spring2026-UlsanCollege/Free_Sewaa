@@ -1,6 +1,6 @@
 # QA Checklists
 
-The following QA checklists are available in the repository root, covering all feature areas of the Free Sewaa platform.
+The following QA checklists are available in the repository root. They show intended and manual review coverage; use [Test Evidence](../test-evidence/README.md) for preserved execution artifacts.
 
 | Checklist | Coverage |
 |-----------|----------|

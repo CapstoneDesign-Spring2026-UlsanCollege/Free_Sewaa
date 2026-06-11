@@ -20,7 +20,13 @@ Links to test plans, results, week 11 evidence, and bug reports for the Free Sew
 
 ## Bug Reports
 
-20 structured bug reports are available:
-- [docs/ISSUES/BUGS/](../../../docs/ISSUES/BUGS/) — bug1.md through bug11.md (bug12–20 are listed in BUGS_AND_LIMITATIONS.md but the files were not created)
+Bug evidence is split across files, commits, and summary tables:
+- [docs/ISSUES/BUGS/](../../../docs/ISSUES/BUGS/) — preserved bug files
+- [Week 15](../../02-semester-journey/weekly-sprints/WEEK_15.md) — later bug-report commits
+- [Bugs and Limitations](../BUGS_AND_LIMITATIONS.md) — current status summary
+
+## Evidence Caution
+
+Plans, checklists, and bug reports are useful, but they are not the same as passing test output. Use saved logs and test files when asked for direct execution evidence.
 
 [Back to QA and Stabilization](../README.md)

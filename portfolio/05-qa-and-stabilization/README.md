@@ -1,15 +1,17 @@
-# 05 — QA and Stabilization
+# 05 - QA and Stabilization
 
-This section documents all quality assurance and stabilization work, including testing results, bug tracking, and evidence of manual and automated testing.
+This section shows what the team tested, what evidence remains, what was stabilized, and what still carries risk.
 
-## Documents
+| Document | Purpose |
+|---|---|
+| [QA Report](./QA_REPORT.md) | Automated evidence, manual QA evidence, current confidence, and next tests |
+| [Bugs and Limitations](./BUGS_AND_LIMITATIONS.md) | Current open limitations and historical bug-evidence policy |
+| [QA Checklists](./qa-checklists/README.md) | Manual, browser, mobile, accessibility, security, release, and deployment checklists |
+| [Test Evidence](./test-evidence/README.md) | Test files, saved output, sprint evidence, and bug reports |
+| [Refactor Evidence](./refactor-evidence/README.md) | React migration and UI polish evidence |
 
-| Document | Description |
-|----------|-------------|
-| [QA_REPORT.md](./QA_REPORT.md) | QA summary with pass rates, testing results, and checklist links |
-| [BUGS_AND_LIMITATIONS.md](./BUGS_AND_LIMITATIONS.md) | Known bugs and limitations table with severity, status, and workarounds |
-| [qa-checklists/](./qa-checklists/) | Links to all QA checklist documents for each feature area |
-| [test-evidence/](./test-evidence/) | Test evidence, testing plans, and coverage reports |
-| [refactor-evidence/](./refactor-evidence/) | Refactoring and migration evidence (React migration, stability fixes) |
+## Reading Rule
+
+Checklist existence means the team planned or reviewed that area. Saved logs, committed tests, linked issues, and committed bug reports are stronger proof of execution.
 
 [Back to Portfolio Home](../README.md)
