@@ -2,6 +2,8 @@
 
 Links to risk management documents, bug triage, and scope documentation for the Free Sewaa project.
 
+Risk documents are time-specific snapshots. Current status is reconciled in [Bugs and Limitations](../../05-qa-and-stabilization/BUGS_AND_LIMITATIONS.md).
+
 ## Risk Management
 
 - [Risk Register](../../../docs/PROJECT/RISK_REGISTER.md) — 13 risks across technical, project, and documentation categories
@@ -12,5 +14,12 @@ Links to risk management documents, bug triage, and scope documentation for the 
 
 - [SCOPE_DECISIONS.md](../../01-project-overview/SCOPE_DECISIONS.md) — Key scope decisions made during the project
 - [LESSONS_LEARNED.md](../../../docs/PROJECT/LESSONS_LEARNED.md) — What went well and what could be better
+
+## Current Priority Risks
+
+- local-password storage and comparison;
+- mixed frontend architectures;
+- incomplete validation and automated coverage;
+- environment-dependent demo configuration.
 
 [Back to Design and Planning](../README.md)
