@@ -2,6 +2,8 @@
 
 Weekly progress tracking for Free Sewaa capstone project.
 
+Verified commit signing is configured for future documentation updates.
+
 ---
 
 ## Week-by-Week Progress
