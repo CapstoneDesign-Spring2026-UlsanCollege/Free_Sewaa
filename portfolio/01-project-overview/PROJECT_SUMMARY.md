@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Free Sewaa** is a community-driven donation platform developed as a Capstone Design project at **Ulsan College (Spring 2026)**. The platform enables users to donate reusable items, request needed goods, and connect with community members who share similar interests in sustainability.
+**Free Sewaa** is a community-driven donation platform developed as a Capstone Design project at **Ulsan College (Spring 2026)**. The platform enables users to donate reusable items, request needed goods, and connect with community members through integrated messaging.
 
 The project promotes sustainability, community support, and resource sharing by connecting donors and recipients in a single digital platform.
 
@@ -55,7 +55,7 @@ Platform moderators responsible for managing users, donation listings, requests,
 
 ## Problem Statement
 
-Many useful items are discarded despite remaining functional, while others struggle to access basic necessities. Existing donation processes are often unorganized and lack efficient communication channels.
+Many useful items are discarded despite remaining functional, while others struggle to access basic necessities. Existing donation processes are often unorganized and lack efficient communication channels between donors and recipients.
 
 Free Sewaa addresses these challenges by providing a centralized platform where users can donate, request, and manage reusable items within their community.
 
@@ -132,24 +132,33 @@ Users and administrators track platform activity through dedicated dashboards.
 
 ## Deployment Information
 
-| Platform | URL |
-|-----------|------|
-| Primary Deployment | `free-sewaa-qh05.onrender.com` |
+### 🚀 Live Platform
 
+**[🔗 Visit Free Sewaa Live](https://free-sewaa-qh05.onrender.com)**
+
+The platform is currently deployed and publicly accessible on Render.
 
 ---
 
 ## Demo Credentials
 
-### User Account
+### 👤 User Account
 
-**Email:** `pathakram09555@gmail.com`  
-**Password:** `123456`
+| Field | Value |
+|-------|-------|
+| **Email** | `pathakram09555@gmail.com` |
+| **Password** | `123456` |
 
-### Administrator Account
+[→ Sign in as User](https://free-sewaa-qh05.onrender.com)
 
-**Email:** `admin@freesewaa.local`  
-**Password:** `admin12345`
+### 👨‍💼 Administrator Account
+
+| Field | Value |
+|-------|-------|
+| **Email** | `admin@freesewaa.local` |
+| **Password** | `admin12345` |
+
+[→ Sign in as Admin](https://free-sewaa-qh05.onrender.com)
 
 ---
 
@@ -188,7 +197,7 @@ Users and administrators track platform activity through dedicated dashboards.
 
 ### 📋 Essential Review Documents
 
-- [�� Product Requirements](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/PRODUCT_REQUIREMENTS.md) — Features included, partially completed, and excluded
+- [📊 Product Requirements](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/PRODUCT_REQUIREMENTS.md) — Features included, partially completed, and excluded
 - [🎤 Demo Guide](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/DEMO_GUIDE.md) — Complete demonstration walkthrough
 - [🏗️ System Architecture](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/SYSTEM_ARCHITECTURE.md) — System design and architecture overview
 - [✅ Testing Strategy](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/TESTING_STRATEGY.md) — Testing results and known issues
@@ -244,4 +253,10 @@ Accessible through both Render and Vercel deployments for demonstration and test
 
 Free Sewaa demonstrates how technology can support sustainable community engagement by connecting people who have reusable resources with those who need them.
 
-The project successfully delivers a functional MVP showcasing modern full-stack development practices, responsive design principles, authentication systems, messaging functionality, and structured software development methodologies.
+The project successfully delivers a functional MVP showcasing modern full-stack development practices, responsive design principles, authentication systems, messaging functionality, and structured software documentation suitable for academic portfolio submission and capstone presentation.
+
+For more information, visit the [complete documentation](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs) or explore the [live platform](https://free-sewaa-qh05.onrender.com).
+
+---
+
+*Last updated: June 2026*
