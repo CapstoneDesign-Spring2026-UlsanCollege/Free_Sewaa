@@ -37,58 +37,83 @@ person owns every later revision of the affected files.
 | [PR #61 - Initial backend API](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61) | Swarnim | Swarnim Jung Karki | Added 20 backend files covering configuration, models, controllers, routes, middleware, and server entry point | Strong evidence for Swarnim's **initial** backend architecture. The original `backend/src/` paths are historical and the current server was later replaced and expanded |
 | [PR #148 - Final capstone portfolio](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/148) | Swarnim | Swarnim | Added the numbered portfolio structure and 62 documentation files | Strong evidence for initial portfolio organization. Many portfolio files were later reviewed or edited by teammates |
 
-## Swarnim Jung Karki - Backend, Integration, Security, and Portfolio
+## Representative Evidence Count
 
-| Commit | Authored by | Actual changed files | Current status |
-|---|---|---|---|
-| [`585cc74`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/585cc7409c1de455d87771ccd1efde09bb872a9b) - Initial backend API | Swarnim Jung Karki, `swarnimkarki50@gmail.com` | 20 files under `backend/`, including models, controllers, routes, auth middleware, database config, and `backend/src/server.js` | Historical architecture; `backend/src/` is no longer the current runtime |
-| [`cfc466f`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b) - Frontend/API integration | Swarnim Jung Karki, `swarnimkarki50@gmail.com` | Added `js/api.js`; changed browse, donate, signup, and shared script files | Historical root paths were later reorganized |
-| [`c1c8a9d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c1c8a9de3a755e0bfb1bbb5eecb4e0cbf3cc7549) - bcrypt work | `Swarnimkarki50` | `server/server.js`, `server/package.json`, and lockfile | Current files exist, but the final portfolio still records a separate local-password risk |
-| [`a8dd0cc`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a8dd0ccf01e37809ae07f5977978bfaba97216d6) - Jest tests | `Swarnimkarki50` | Added `server/__tests__/api.test.js`; updated server test dependencies | Current test file exists; the verified suite contains three focused tests |
-| [`2fe552d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/2fe552dcd274754ed49c14b87e7ec125a6226e96) - Individual portfolio and UML organization | `Swarnimkarki50` | Added `docs/UML_AND_MERMAID_DIAGRAMS.md`; revised all five individual portfolio pages and their index | Files exist; individual pages represent each member and are not claims of Swarnim owning their underlying technical work |
+| Team member | Number of representative commits below |
+|---|---:|
+| Swarnim Jung Karki | **8** |
+| Ram Pathak | **5** |
+| Sujan Tamang | **5** |
+| Sujan Shrestha | **5** |
+| Mohan Khadka | **5** |
+
+The shared pull-request table above provides additional context and is not
+included in these per-person commit counts.
+
+## Swarnim Jung Karki - 8 Representative Commits
+
+| # | Commit | Actual contribution | Evidence boundary |
+|---:|---|---|---|
+| 1 | [`585cc74`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/585cc7409c1de455d87771ccd1efde09bb872a9b) - Initial backend API | Added 20 files for models, controllers, routes, authentication middleware, database configuration, and the backend server | Historical `backend/src/` architecture; the current runtime was later replaced and expanded |
+| 2 | [`cfc466f`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b) - Frontend/API integration | Added `js/api.js` and connected browse, donate, signup, and shared scripts to API behavior | Original root paths were later reorganized |
+| 3 | [`c1c8a9d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c1c8a9de3a755e0bfb1bbb5eecb4e0cbf3cc7549) - bcrypt work | Updated `server/server.js`, `server/package.json`, and the lockfile | Current files exist; a separate local-password path remains a documented risk |
+| 4 | [`a8dd0cc`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a8dd0ccf01e37809ae07f5977978bfaba97216d6) - Jest tests | Added `server/__tests__/api.test.js` and server test dependencies | Current suite exists and contains three focused tests |
+| 5 | [`36d3b13`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/36d3b13) - CI safety | Updated `.github/workflows/ci.yml` | Current workflow exists and may have later edits |
+| 6 | [`2fe552d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/2fe552dcd274754ed49c14b87e7ec125a6226e96) - Portfolio and UML organization | Added `docs/UML_AND_MERMAID_DIAGRAMS.md` and revised the individual portfolio section | Organizing portfolio pages is not ownership of teammates' technical work |
+| 7 | [`5d6f2c6`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/5d6f2c6) - User-flow diagram correction | Fixed login-node conflict, admin flow, browse dead end, and dashboard ambiguity in the UML/Mermaid document | Current diagram file exists and later received collaborative edits |
+| 8 | [`e60a6f0`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/e60a6f0) - Final portfolio audit | Added `portfolio/FINAL_PORTFOLIO_AUDIT.md` and updated the final MVP demo document | Documentation audit evidence, not new application functionality |
 
 Related tracking:
 [Issue #62](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/62),
 [Issue #94](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/94), and
 [open Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95).
 
-## Ram Pathak - Figma Matching and UI Implementation
+## Ram Pathak - 5 Representative Commits
 
-| Commit | Authored by | Actual changed files | Current status |
-|---|---|---|---|
-| [`7399ae8`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/7399ae8) - Homepage Figma match | `Rampathak12` | `css/style.css`, `html/index.html`, and `js/index.js` | Current files exist and may include later revisions |
-| [`d26a904`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/d26a904) - Browse-page Figma match | `Rampathak12` | `css/theme.css` and `html/browse.html` | Current files exist and may include later revisions |
+| # | Commit | Actual contribution | Evidence boundary |
+|---:|---|---|---|
+| 1 | [`7399ae8`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/7399ae8) - Homepage Figma match | Updated `css/style.css`, `html/index.html`, and `js/index.js` | Current shared files include later revisions |
+| 2 | [`d26a904`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/d26a904) - Browse-page Figma match | Updated `css/theme.css` and `html/browse.html` | Current shared files include later revisions |
+| 3 | [`7dc196f`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/7dc196f) - React conversion | Added React generated pages, routing, styles, Vite configuration, and build/deployment changes | Migration remains partial because static and React structures coexist |
+| 4 | [`2849cc3`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/2849cc3) - Unread message count | Updated `css/theme.css` and `js/site.js` to show the unread badge | Current shared files may include later edits |
+| 5 | [`7491e56`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/7491e56) - Sticky browse filters | Updated `css/theme.css` for sticky filtering behavior | Styling evidence, not sole ownership of the complete browse page |
 
 These commits directly support Ram's UI implementation evidence. They do not
 prove sole ownership of every current line in those shared files.
 
-## Sujan Tamang - Sprint and Scope Documentation
+## Sujan Tamang - 5 Representative Commits
 
-| Commit | Authored by | Actual changed files | Current status |
-|---|---|---|---|
-| [`d8229f1`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/d8229f153b447c787660dfa8d4bc605c0749c401) - Week 14 sprint packet | `Tamang Sujan` / `SujanTamang20` | Added `docs/sprints/Weekly Sprint Packet - Week 14.md` | File exists; final portfolio labels unsupported statements in the historical packet honestly |
-| [`2327598`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/23275984c40b8b8982b1f47cabea8a773dddff0e) - Scope decisions | `Tamang Sujan` / `SujanTamang20` | Updated `portfolio/01-project-overview/SCOPE_DECISIONS.md` | Current file exists and may include earlier authors |
+| # | Commit | Actual contribution | Evidence boundary |
+|---:|---|---|---|
+| 1 | [`d8229f1`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/d8229f153b447c787660dfa8d4bc605c0749c401) - Week 14 sprint packet | Added `docs/sprints/Weekly Sprint Packet - Week 14.md` | Historical packet includes claims later qualified by the final portfolio |
+| 2 | [`db30d53`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/db30d53) - Week 12 sprint packet | Added the Week 12 sprint packet | Documentation evidence; completion claims require supporting tests or files |
+| 3 | [`c96ccaf`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c96ccaf) - Testing strategy | Updated `docs/TESTING_STRATEGY.md` with detailed plans and objectives | A strategy document is not proof every test was executed |
+| 4 | [`32b6c51`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/32b6c51) - API reference | Enhanced `docs/DESIGN/API_REFERENCE.md` | Documentation should be checked against the current server |
+| 5 | [`2327598`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/23275984c40b8b8982b1f47cabea8a773dddff0e) - Scope decisions | Updated `portfolio/01-project-overview/SCOPE_DECISIONS.md` | Current shared file includes earlier contributions |
 
 These commits support Sujan Tamang's documentation and scope-maintenance work.
 
-## Sujan Shrestha - Diagram Maintenance and Bug Evidence
+## Sujan Shrestha - 5 Representative Commits
 
-| Commit | Authored by | Actual changed files | Current status |
-|---|---|---|---|
-| [`ca9f848`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/ca9f848ace15ffaa92978517fa75a4c58c2af12a) - Mermaid diagram fixes | `suzmoon` | Updated `docs/UML_AND_MERMAID_DIAGRAMS.md` | Current file exists; the commit clearly shows later collaborative maintenance |
-| [`e661d0a`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/e661d0acfe31e9e718e44d770ff91f86fc7e6577) - Admin-login bug report | `suzmoon` | Updated `docs/ISSUES/BUGS/bug9.md` | Current bug-evidence path exists |
+| # | Commit | Actual contribution | Evidence boundary |
+|---:|---|---|---|
+| 1 | [`ca9f848`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/ca9f848ace15ffaa92978517fa75a4c58c2af12a) - Mermaid fixes | Updated `docs/UML_AND_MERMAID_DIAGRAMS.md` | Current shared file demonstrates collaborative maintenance |
+| 2 | [`e661d0a`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/e661d0acfe31e9e718e44d770ff91f86fc7e6577) - Admin-login bug report | Updated `docs/ISSUES/BUGS/bug9.md` | Bug documentation does not prove the fix |
+| 3 | [`40d08e9`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/40d08e9) - Logo documentation | Added `docs/logo.md` | Current documentation file exists |
+| 4 | [`1aff0bd`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/1aff0bd) - Midterm demo notes | Added `docs/ARCHIVE FILES/presentation.md` | Preserved presentation artifact, not application code |
+| 5 | [`f45fd1f`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/f45fd1f) - Ownership audit | Updated `docs/AI_CODE_OWNERSHIP_AUDIT.md` | Historical audit; final ownership interpretation is in this portfolio section |
 
 These commits support Sujan Shrestha's diagram and issue-documentation work.
 
-## Mohan Khadka - React Migration and Bug Reporting
+## Mohan Khadka - 5 Representative Commits
 
-| Commit | Authored by | Actual changed files | Current status |
-|---|---|---|---|
-| [`c57d2ab`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c57d2ab8e6663277c14803d268734d63e91599e8) - React migration snapshot | Mohan Khadka / `Mohankhadkaa` | Added the React client, generated page components, current server snapshot, static frontend files, checklists, and project documentation | Many paths exist. This proves authorship of the migration commit, not original authorship of every imported or generated file |
-| [`3e7c877`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/3e7c877ef0401f77443e98d73f8a471f76e33b95) - Slow-network bug report | Mohan Khadka / `Mohankhadkaa` | Added `docs/ISSUES/BUGS/bug20.md` | Current bug report exists; it records a risk, not a completed fix |
-
-Additional Week 15 bug-report commits by Mohan are linked from
-[Week 15](../../02-semester-journey/weekly-sprints/WEEK_15.md).
+| # | Commit | Actual contribution | Evidence boundary |
+|---:|---|---|---|
+| 1 | [`c57d2ab`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c57d2ab8e6663277c14803d268734d63e91599e8) - React migration snapshot | Added the React client, generated pages, server snapshot, static assets, checklists, and project documentation | Proves authorship of this migration snapshot, not original authorship of every imported/generated file |
+| 2 | [`c5bbd56`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c5bbd56) - Authentication redirect fix | Updated admin login, `js/auth.js`, `js/site.js`, and `server/server.js` | Current files exist and may have later revisions |
+| 3 | [`3e7c877`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/3e7c877ef0401f77443e98d73f8a471f76e33b95) - Slow-network report | Added historical `docs/ISSUES/BUGS/bug20.md` | Records the issue; does not prove a fix |
+| 4 | [`d483e0e`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/d483e0e) - Accessibility report | Added historical `docs/ISSUES/BUGS/bug18.md` | Records accessibility risk; does not prove remediation |
+| 5 | [`7ae75f9`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/7ae75f9) - Password-recovery report | Added historical `docs/ISSUES/BUGS/bug12.md` | Records an incomplete feature; password recovery remains future work |
 
 ## Attribution Rules for Grading
 
