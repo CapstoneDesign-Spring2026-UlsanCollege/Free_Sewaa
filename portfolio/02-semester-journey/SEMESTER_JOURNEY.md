@@ -1,5 +1,7 @@
 # Semester Journey
 
+This timeline is an evidence index, not a claim that every planned feature was completed. Weeks 1-12 link formal sprint packets; Weeks 13-16 use the repository evidence that remains.
+
 ## Timeline Overview
 
 The project spanned 16 weeks from project kickoff to final presentation.
@@ -34,6 +36,11 @@ The project spanned 16 weeks from project kickoff to final presentation.
 - **Week 12:** QA Day completed with 96% pass rate
 - **Week 16:** Final portfolio submission
 
+## Weekly Evidence
+
+- [Weeks 01-16](./weekly-sprints/)
+- [Five sprint summaries](./sprint-summaries/)
+
 ## Evidence Sources
 
 - [Sprint Summary Table](../../docs/sprints/SUMMARY.md)
@@ -42,3 +49,10 @@ The project spanned 16 weeks from project kickoff to final presentation.
 - [Midterm Docs](../../docs/MID-TERM/)
 - [Commit History](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main)
 - [Project Tasks Overview](../../PROJECT_TASKS.md)
+
+## Reading the Timeline
+
+- **Completed** means supported by a linked repository artifact.
+- **Partial** means work exists but the final behavior or verification is incomplete.
+- **Planned** means it appears in planning material and is not presented as delivered.
+- Missing instructor feedback is stated as missing rather than reconstructed.

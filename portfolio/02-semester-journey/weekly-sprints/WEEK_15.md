@@ -2,7 +2,7 @@
 
 We do not have a formal sprint packet for this week, but available repo evidence is linked below.
 
-## Evidence
+## Materials We Have
 
 ### Bug Reporting and Documentation
 The team created structured bug reports for remaining issues and improved project documentation.
@@ -21,3 +21,7 @@ The team created structured bug reports for remaining issues and improved projec
 ## Additional Context
 - [Sprint Summary Table](../../../docs/sprints/SUMMARY.md)
 - [Commit History](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main)
+
+## Note
+
+Bug-report commits prove documentation of risks, not that each reported bug remained open or was fixed.

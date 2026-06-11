@@ -2,7 +2,7 @@
 
 **Source:** [Weekly Sprint Packet — Week 12](../../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%2012.md)
 
-## Summary
+## Materials We Have
 
 This week's activities are documented in the formal sprint packet linked above. Key details from the packet include the weekly PM, shipped features, bugs encountered, and next sprint plan.
 
@@ -15,10 +15,12 @@ This week's activities are documented in the formal sprint packet linked above. 
 - [Progress Tracking](../../../docs/PROGRESS/) — Weekly progress files
 - [Sprint Summary Table](../../../docs/sprints/SUMMARY.md) — Master overview
 
-### Commits
-```bash
-git log --all --oneline --after="2026-01-01" --before="2026-06-01" | head -50
-```
+## Main Work This Week
 
-> *Note: Specific commits for this week can be found in the commit history.*
+- Dedicated QA activity
+- Manual checklist and saved-output review
+- Remaining-risk documentation
 
+## Instructor Feedback
+
+No separate feedback artifact was preserved; see the sprint packet.

@@ -2,7 +2,7 @@
 
 We do not have a formal sprint packet for this week, but available repo evidence is linked below.
 
-## Evidence
+## Materials We Have
 
 ### Figma Design Matching
 The team matched UI pages to the Figma design reference.
@@ -16,3 +16,7 @@ The team matched UI pages to the Figma design reference.
 ## Additional Context
 - [Sprint Summary Table](../../../docs/sprints/SUMMARY.md)
 - [Commit History](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main)
+
+## Note
+
+No formal Week 13 sprint packet or separate instructor-feedback file is preserved.
