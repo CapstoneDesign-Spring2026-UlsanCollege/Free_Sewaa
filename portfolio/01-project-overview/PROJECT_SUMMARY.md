@@ -182,26 +182,26 @@ Users and administrators track platform activity through dedicated dashboards.
 ### 📖 Documentation Hub
 
 - [📖 Documentation Home](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/README.md) — Complete project documentation
-- [📘 Capstone Portfolio](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/portfolio/README.md) — Academic submission portfolio
+- [📘 Capstone Portfolio](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/portfolio) — Academic submission portfolio
 
 ---
 
 ### 📋 Essential Review Documents
 
-- [📊 Final MVP Scope](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/project-management/final-mvp-scope.md) — Features included, partially completed, and excluded
-- [🎤 Final Demo Script](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/project-management/final-demo-script.md) — Complete demonstration walkthrough
-- [🏗️ Final Architecture](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/architecture/system-architecture.md) — System design and architecture overview
-- [✅ QA Report](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/testing/qa-report.md) — Testing results and known issues
-- [🐛 Bugs & Limitations](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/testing/bugs-and-limitations.md) — Current limitations and future considerations
+- [�� Product Requirements](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/PRODUCT_REQUIREMENTS.md) — Features included, partially completed, and excluded
+- [🎤 Demo Guide](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/DEMO_GUIDE.md) — Complete demonstration walkthrough
+- [🏗️ System Architecture](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/SYSTEM_ARCHITECTURE.md) — System design and architecture overview
+- [✅ Testing Strategy](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/TESTING_STRATEGY.md) — Testing results and known issues
+- [🐛 Troubleshooting](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/TROUBLESHOOTING.md) — Current limitations and resolution steps
 
 ---
 
 ### 🚀 Quick Navigation
 
-- [🚀 Quick Start](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/setup/quick-start.md) — Local development setup instructions
-- [🔮 Future Improvements](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/project-management/future-improvements.md) — Planned enhancements and roadmap
-- [🔌 API Reference](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/api/api-reference.md) — Backend API endpoints and usage
-- [🗃️ Database Schema](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/database/database-schema.md) — Database structure and data models
+- [🚀 Developer Guide](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/DEVELOPER_GUIDE.md) — Local development setup instructions
+- [🔮 Future Enhancements](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/FUTURE_ENHANCEMENTS.md) — Planned enhancements and roadmap
+- [🔌 API Reference](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/API_REFERENCE.md) — Backend API endpoints and usage
+- [🗃️ Database Schema](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/DATABASE_SCHEMA.md) — Database structure and data models
 
 ---
 
