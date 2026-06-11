@@ -1,58 +1,52 @@
 # Final MVP Scope
 
-## Feature Status Summary
+Status here reflects the current repository and demonstrable academic MVP. A page existing is not, by itself, proof that every production behavior behind it is complete.
 
-Based on evidence from [MVP_STATUS.md](../../docs/PROJECT/MVP_STATUS.md), [ROADMAP.md](../../ROADMAP.md), and the [sprint summary](../../docs/sprints/SUMMARY.md).
+## Included Core Flow
 
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Homepage / Landing | ✅ Working | Live on Render |
-| User Signup | ✅ Working | Secured with JWT |
-| User Login | ✅ Working | Session management active |
-| Browse Items | ✅ Working | Category filtering available |
-| Donate / Post Item | ✅ Working | Form with image upload |
-| Request Item | ✅ Working | Request system connected |
-| Messaging | ✅ Working | Direct chat between users |
-| User Dashboard | ✅ Working | Activity tracking |
-| Admin Login | ✅ Working | Separate admin auth |
-| Admin Panel | ✅ Working | User & listing management |
-| Responsive Design | ✅ Working | Mobile-friendly CSS |
-| MongoDB Integration | ✅ Working | Atlas cloud database |
-| Email Auth | ⚠️ Partly | Basic flow works |
-| Notifications | ⚠️ Partly | UI exists, backend pending |
-| Saved Items | ⚠️ Partly | UI structure in place |
-| Password Recovery | ❌ Not done | P0 bug, see [Known limitations](../../docs/ISSUES/BUGS/) |
+| Capability | Status | Evidence and boundary |
+|---|---|---|
+| Landing and navigation | Included | Application entry points and responsive navigation are present |
+| Account access | Included with limitations | Local and Firebase-related flows exist; security limitations remain |
+| Browse donations | Included | Listings, categories, search/filter interfaces, and item views exist |
+| Post a donation | Included | Donation form and item API behavior exist |
+| Request an item | Included | Request UI and API behavior support the main vertical slice |
+| Messaging | Included | Messaging interfaces and API behavior exist |
+| User activity views | Included | Profile, panel, request, and donation views exist |
+| Administration views | Included for demonstration | Admin screens and endpoints exist; production hardening is incomplete |
+| Responsive interface | Included | Shared CSS and mobile-focused adjustments are present |
 
-## MVP Verification
+## Partial Capabilities
 
-The MVP was verified in Week 11 with a full flow test:
+| Capability | Status | Remaining work |
+|---|---|---|
+| Firebase authentication | Partial | Provider setup and deployment configuration must match the active environment |
+| React migration | Partial | The repository still contains both static and React-oriented frontend structures |
+| Saved items and notifications | Partial | UI or supporting behavior exists, but end-to-end completeness is not claimed |
+| Input validation | Partial | Important checks exist; centralized validation is still needed |
+| Automated testing | Partial | Critical API cases are covered, but broad regression coverage is not |
+| Accessibility and browser coverage | Partial | Checklists exist; not every checklist item has recorded execution evidence |
 
-1. Landing page loads ✅
-2. Sign up new user ✅
-3. Sign in with credentials ✅
-4. Browse available items ✅
-5. Post a new donation item ✅
-6. Request an item ✅
-7. Send a message ✅
-8. View user dashboard ✅
-9. Admin login and panel access ✅
+## Cut or Not Delivered
 
-**Evidence links:**
-- [Week 11 MVP Verification](../../docs/PROGRESS/week11/MVP_VERIFICATION_CHECKLIST.md)
-- [Week 11 Demo Script](../../docs/PROGRESS/week11/WEEK_11_DEMO_SCRIPT.md)
-- [Week 11 Sprint Packet](../../docs/PROGRESS/week11/WEEK_11_SPRINT_PACKET.md)
-- [MVP Checklist (Progress)](../../docs/PROGRESS/MVP_CHECKLIST.md)
-- [FINAL_REVIEW_NOTES.md](../../FINAL_REVIEW_NOTES.md)
+- Payments, auctions, shipping, and marketplace seller features
+- A native mobile application
+- Production-grade email receipts and notification delivery
+- Complete password-recovery workflow
+- Production security controls such as comprehensive rate limiting and hardened local password storage
 
-## Project Phases
+## Nice Later
 
-From [ROADMAP.md](../../ROADMAP.md):
+- Complete the frontend consolidation strategy.
+- Centralize request validation and API error formats.
+- Hash or retire the local password-authentication path.
+- Add end-to-end browser tests and repeatable accessibility evidence.
+- Add image optimization, notification delivery, observability, and abuse controls.
 
-| Phase | Focus | Status |
-|-------|-------|--------|
-| Phase 1 | Foundation & Team Setup | ✅ Complete |
-| Phase 2 | Core MVP Features | ✅ Complete |
-| Phase 3 | Backend & Database | ✅ Complete |
-| Phase 4 | UI Polish & Responsive | ✅ Complete |
-| Phase 5 | Testing & QA | ✅ Complete |
-| Phase 6 | Deployment & Documentation | ✅ Complete |
+## Verification Evidence
+
+- [MVP status history](../../docs/PROJECT/MVP_STATUS.md)
+- [Week 11 verification checklist](../../docs/PROGRESS/week11/MVP_VERIFICATION_CHECKLIST.md)
+- [QA report](../05-qa-and-stabilization/QA_REPORT.md)
+- [Bugs and limitations](../05-qa-and-stabilization/BUGS_AND_LIMITATIONS.md)
+- [Current server](../../server/server.js)

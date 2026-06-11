@@ -1,51 +1,44 @@
 # Project Summary
 
-## Overview
+## Problem and Audience
 
-Free Sewaa is a web-based community donation platform developed as a capstone project by a team of 5 students at Ulsan College (Spring 2026). The platform connects donors with people in need, facilitating the sharing of reusable items through a user-friendly interface.
+Usable items are often discarded while nearby people need affordable access to everyday goods. Free Sewaa explores whether a focused donation platform can make giving, discovering, requesting, and discussing items easier.
 
-**Live Demo:** [free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com)  
-**Repository:** [github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)
+The primary users are donors and recipients. Administrators are a supporting user group responsible for reviewing users, listings, and platform activity.
 
-## Problem Statement
+## Value Statement
 
-Many usable items go to waste while community members lack access to essential goods. There is no centralized, trustworthy platform for item donation that ensures transparency, security, and ease of use for both donors and recipients.
+Free Sewaa connects the donation journey in one web application:
 
-## Target Users
+> Account access -> post or browse -> request -> message -> monitor activity
 
-- **Donors** — Individuals seeking to donate items (clothes, electronics, household goods)
-- **Recipients** — People in need of essential items
-- **Administrators** — Platform managers overseeing content and users
+Unlike a marketplace, the MVP prioritizes reuse and community exchange instead of payment, auctions, shipping, or commercial seller tools.
 
-## Features
+## Current Product
 
-| Feature | Description | Evidence |
-|---------|-------------|----------|
-| User signup/login | JWT-based authentication with secure session management | [Authentication docs](../../docs/AUTHENTICATION.md), [server/auth](../../server/) |
-| Item donation posting | Post items with categories, descriptions, and images | [Browse/Donate pages](../../html/), [server/items](../../server/) |
-| Item request system | Browse available items and submit requests | [Requests docs](../../docs/USER_FLOW.md), [server/requests](../../server/) |
-| Messaging | Direct communication between donors and requesters | [Messages UI](../../html/messages.html), [server/messages](../../server/) |
-| User dashboard | Track donations, requests, and account activity | [Dashboard](../../html/user_panel.html), [Profile](../../html/profile.html) |
-| Admin panel | User management, content moderation, listing oversight | [Admin panel](../../admin-panel.js), [Admin guide](../../docs/ADMIN_GUIDE.md) |
-| Responsive design | Mobile and desktop support with consistent UX | [CSS theme](../../css/theme.css), [Mobile checklist](../../MOBILE_TESTING_CHECKLIST.md) |
-| Documentation & testing | QA checklists, test plans, bug reports | [docs/](../../docs/), [QA checklists](../../MANUAL_TESTING_CHECKLIST.md) |
+| Area | Current repository evidence |
+|---|---|
+| Interface | Static HTML, CSS, and JavaScript pages plus React/Vite assets |
+| Server | Native Node.js HTTP server in [`server/server.js`](../../server/server.js) |
+| Data | MongoDB through the official `mongodb` driver |
+| Authentication | Local account endpoints and Firebase identity-token support |
+| Deployment | [Render](https://free-sewaa-qh05.onrender.com) and [Vercel](https://free-sewaa.vercel.app) |
+| Testing | Server API tests plus manual QA documents and recorded test evidence |
 
-## Technology Stack
+## Core MVP Flow
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | HTML/CSS/JS, React (migration in progress), Vite |
-| Backend | Node.js, Express.js |
-| Database | MongoDB (Atlas), Mongoose |
-| Authentication | JWT, bcrypt (installed) |
-| Deployment | Render |
-| Testing | Jest, Supertest |
+1. Open the application and access an account.
+2. Browse available donations or post a new item.
+3. Open an item and submit a request.
+4. Continue communication through messaging.
+5. Review activity through user or administration views.
 
-## Key Project Links
+The [Final MVP Demo](../04-final-product/FINAL_MVP_DEMO.md) gives the presentation sequence. The [Final MVP Scope](./FINAL_MVP_SCOPE.md) records partial and future work so the portfolio does not imply production readiness.
 
-- [README](../../README.md) — Project overview and badges
-- [docs/README.md](../../docs/README.md) — Documentation hub
-- [docs/PROJECT/PROJECT.md](../../docs/PROJECT/PROJECT.md) — Full project document
-- [docs/PROJECT/PROJECT_IDEA_PITCH.md](../../docs/PROJECT/PROJECT_IDEA_PITCH.md) — Original project pitch
-- [ROADMAP.md](../../ROADMAP.md) — Project timeline and phases
-- [PROJECT_BOARD.md](../../PROJECT_BOARD.md) — Kanban project board
+## Strongest Evidence
+
+- [Repository README](../../README.md)
+- [Project idea pitch](../../docs/PROJECT/PROJECT_IDEA_PITCH.md)
+- [User stories](../../docs/PROJECT/USER_STORIES.md)
+- [Final architecture](../04-final-product/ARCHITECTURE_FINAL.md)
+- [QA report](../05-qa-and-stabilization/QA_REPORT.md)
