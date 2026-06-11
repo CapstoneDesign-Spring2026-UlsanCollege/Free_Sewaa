@@ -1,44 +1,247 @@
-# Project Summary
+# Free Sewaa — Community Donation Platform
 
-## Problem and Audience
+## Project Overview
 
-Usable items are often discarded while nearby people need affordable access to everyday goods. Free Sewaa explores whether a focused donation platform can make giving, discovering, requesting, and discussing items easier.
+**Free Sewaa** is a community-driven donation platform developed as a Capstone Design project at **Ulsan College (Spring 2026)**. The platform enables users to donate reusable items, request needed goods, and communicate with one another through an organized and user-friendly web application.
 
-The primary users are donors and recipients. Administrators are a supporting user group responsible for reviewing users, listings, and platform activity.
+The project promotes sustainability, community support, and resource sharing by connecting donors and recipients in a single digital platform.
 
-## Value Statement
+---
 
-Free Sewaa connects the donation journey in one web application:
+## Project Information
 
-> Account access -> post or browse -> request -> message -> monitor activity
+| Field | Details |
+|---------|---------|
+| **Project Name** | Free Sewaa — Community Donation Platform |
+| **Course** | Capstone Design, Spring 2026 |
+| **Institution** | Ulsan College |
+| **Repository** | CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa |
+| **Current Status** | Final Capstone Review — QA & Documentation Phase |
 
-Unlike a marketplace, the MVP prioritizes reuse and community exchange instead of payment, auctions, shipping, or commercial seller tools.
+---
 
-## Current Product
+## Team Members
 
-| Area | Current repository evidence |
-|---|---|
-| Interface | Static HTML, CSS, and JavaScript pages plus React/Vite assets |
-| Server | Native Node.js HTTP server in [`server/server.js`](../../server/server.js) |
-| Data | MongoDB through the official `mongodb` driver |
-| Authentication | Local account endpoints and Firebase identity-token support |
-| Deployment | [Render](https://free-sewaa-qh05.onrender.com) and [Vercel](https://free-sewaa.vercel.app) |
-| Testing | Server API tests plus manual QA documents and recorded test evidence |
+| Role | Name |
+|--------|--------|
+| Project Manager | Ram Pathak |
+| Lead Developer | Sujan Tamang |
+| Demo Driver | Mohan Khadka |
+| QA Lead | Sujan Shrestha |
+| Scribe | Swarnim Jung Karki |
 
-## Core MVP Flow
+---
 
-1. Open the application and access an account.
-2. Browse available donations or post a new item.
-3. Open an item and submit a request.
-4. Continue communication through messaging.
-5. Review activity through user or administration views.
+## Target Users
 
-The [Final MVP Demo](../04-final-product/FINAL_MVP_DEMO.md) gives the presentation sequence. The [Final MVP Scope](./FINAL_MVP_SCOPE.md) records partial and future work so the portfolio does not imply production readiness.
+Free Sewaa is primarily designed to support individuals and communities in Korea through an accessible donation and resource-sharing platform.
 
-## Strongest Evidence
+### International Residents and Foreign Workers
+Foreign residents living in Korea who may face financial challenges, relocation needs, or limited access to affordable household items can obtain essential goods through community donations.
 
-- [Repository README](../../README.md)
-- [Project idea pitch](../../docs/PROJECT/PROJECT_IDEA_PITCH.md)
-- [User stories](../../docs/PROJECT/USER_STORIES.md)
-- [Final architecture](../04-final-product/ARCHITECTURE_FINAL.md)
-- [QA report](../05-qa-and-stabilization/QA_REPORT.md)
+### Students
+Domestic and international students who require furniture, electronics, books, clothing, and other everyday necessities can access donated items to reduce living expenses while pursuing their education.
+
+### Lower-Income Households
+Families and individuals with limited financial resources can receive donated goods and essential items, helping reduce economic burdens and improve quality of life.
+
+### Donors
+Community members who wish to donate reusable items instead of discarding them can easily connect with people who need those resources.
+
+### Administrators
+Platform moderators responsible for managing users, donation listings, requests, reports, and overall platform operations.
+
+---
+
+## Problem Statement
+
+Many useful items are discarded despite remaining functional, while others struggle to access basic necessities. Existing donation processes are often unorganized and lack efficient communication channels.
+
+Free Sewaa addresses these challenges by providing a centralized platform where users can donate, request, and manage reusable items within their community.
+
+---
+
+## Solution Overview
+
+| Community Problem | Free Sewaa Solution |
+|-------------------|---------------------|
+| Reusable items are frequently discarded | Users can donate reusable goods |
+| Individuals need affordable items | Users can request donated items |
+| Donation management is disorganized | Dashboard and request management system |
+| Communities lack sharing platforms | Connects donors and recipients in one ecosystem |
+
+---
+
+## Value Proposition
+
+Free Sewaa streamlines the complete donation journey through a single platform:
+
+**Account Access → Browse or Post Items → Request Donations → Message Users → Track Activities**
+
+Unlike traditional marketplaces, Free Sewaa prioritizes community sharing and sustainability rather than commercial transactions.
+
+---
+
+## Core MVP Workflow
+
+### 1. User Authentication
+Users register and securely log in to access platform features.
+
+### 2. Browse or Post Donations
+Users can browse available donations or create new donation listings.
+
+### 3. Submit Requests
+Interested recipients can request available items.
+
+### 4. Messaging System
+Donors and recipients communicate directly through the platform.
+
+### 5. Activity Monitoring
+Users and administrators track platform activity through dedicated dashboards.
+
+---
+
+## Core Features
+
+### User Features
+
+- ✅ User Registration & Login
+- ✅ Firebase Authentication Integration
+- ✅ Create Donation Listings
+- ✅ Browse Available Donations
+- ✅ Request Items
+- ✅ User-to-User Messaging
+- ✅ User Dashboard
+- ✅ Responsive User Interface
+
+### Administrative Features
+
+- ✅ User Management
+- ✅ Donation Listing Management
+- ✅ Report Monitoring
+- ✅ Administrative Dashboard
+
+### Project Features
+
+- ✅ Responsive Design (Desktop, Tablet, Mobile)
+- ✅ Comprehensive Documentation
+- ✅ Live Deployment
+- ✅ Version Control with GitHub
+
+---
+
+## Deployment Information
+
+| Platform | URL |
+|-----------|------|
+| Primary Deployment | `free-sewaa-qh05.onrender.com` |
+
+
+---
+
+## Demo Credentials
+
+### User Account
+
+**Email:** `pathakram09555@gmail.com`  
+**Password:** `123456`
+
+### Administrator Account
+
+**Email:** `admin@freesewaa.local`  
+**Password:** `admin12345`
+
+---
+
+## Technology Stack
+
+| Layer | Technology |
+|---------|------------|
+| Frontend | HTML, CSS, JavaScript, React, Vite |
+| Backend | Node.js, Express.js |
+| Database | MongoDB |
+| Authentication | JWT + Firebase Identity Tokens |
+| Deployment | Render, Vercel |
+| Version Control | GitHub |
+
+---
+
+## Project Status
+
+| Metric | Status |
+|----------|----------|
+| Development Phase | Final Sprint — QA & Documentation |
+| Deployment | ✅ Live |
+| Testing | ✅ 3/3 Jest Tests Passing |
+| User Interface | Premium Figma-Inspired Design |
+
+---
+
+## 📸 Screenshots & Key Links
+
+### 📖 Documentation Hub
+
+- [📖 Documentation Home](../../docs/README.md) — Complete project documentation
+- [📘 Capstone Portfolio](../../portfolio/README.md) — Academic submission portfolio
+
+---
+
+### 📋 Essential Review Documents
+
+- [📊 Final MVP Scope](../../docs/project-management/final-mvp-scope.md) — Features included, partially completed, and excluded
+- [🎤 Final Demo Script](../../docs/project-management/final-demo-script.md) — Complete demonstration walkthrough
+- [🏗️ Final Architecture](../../docs/architecture/system-architecture.md) — System design and architecture overview
+- [✅ QA Report](../../docs/testing/qa-report.md) — Testing results and known issues
+- [🐛 Bugs & Limitations](../../docs/testing/bugs-and-limitations.md) — Current limitations and future considerations
+
+---
+
+### 🚀 Quick Navigation
+
+- [🚀 Quick Start](../../docs/setup/quick-start.md) — Local development setup instructions
+- [🔮 Future Improvements](../../docs/project-management/future-improvements.md) — Planned enhancements and roadmap
+- [🔌 API Reference](../../docs/api/api-reference.md) — Backend API endpoints and usage
+- [🗃️ Database Schema](../../docs/database/database-schema.md) — Database structure and data models
+
+---
+
+## Known Limitations & Future Scope
+
+The following features are intentionally excluded from the MVP and may be considered for future development:
+
+### Not Included
+
+- ❌ Payment Processing
+- ❌ Auctions and Bidding
+- ❌ Shipping Integration
+- ❌ Native Mobile Application
+- ❌ Production Email Notification System
+- ❌ Complete Password Recovery Workflow
+- ❌ Advanced Enterprise Security Controls
+
+---
+
+## Unique Selling Points
+
+### 🌍 Community-Centered Platform
+Focuses on donations and resource sharing rather than commercial transactions.
+
+### 🎯 Complete End-to-End Workflow
+Provides a functional donation lifecycle from listing creation to recipient communication.
+
+### 📚 Academic Portfolio Quality
+Supported by comprehensive technical and project documentation.
+
+### 🧪 Transparent Development Process
+Includes detailed QA reports, testing documentation, known issues, and future improvements.
+
+### 🔄 Multiple Deployment Environments
+Accessible through both Render and Vercel deployments for demonstration and testing purposes.
+
+---
+
+## Conclusion
+
+Free Sewaa demonstrates how technology can support sustainable community engagement by connecting people who have reusable resources with those who need them.
+
+The project successfully delivers a functional MVP showcasing modern full-stack development practices, responsive design principles, authentication systems, messaging functionality, and structured software engineering workflows.
