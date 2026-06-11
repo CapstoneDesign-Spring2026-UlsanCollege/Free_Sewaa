@@ -1,14 +1,12 @@
-# 07 — Final Presentation
+# 07 - Final Presentation
 
-This section contains materials for the final capstone presentation, including the presentation script, technical defense preparation, and backup demo plan.
+This section prepares the team to present the project, demonstrate the MVP, answer technical questions, and recover if a live demo fails.
 
-## Documents
-
-| Document | Description |
-|----------|-------------|
-| [FINAL_PRESENTATION_SCRIPT.md](./FINAL_PRESENTATION_SCRIPT.md) | Full 15-minute presentation script with timing for each segment |
-| [TECHNICAL_DEFENSE_PREP.md](./TECHNICAL_DEFENSE_PREP.md) | Q&A preparation for technical defense (10 topic areas) |
-| [BACKUP_DEMO.md](./BACKUP_DEMO.md) | Backup demo plan with credentials, devices, and contingency steps |
-| [slides/](./slides/) | Presentation slides (PDF or PPTX) |
+| Document | Purpose |
+|---|---|
+| [Final Presentation Script](./FINAL_PRESENTATION_SCRIPT.md) | 15-minute story, demo order, QA, AI, and defense timing |
+| [Technical Defense Prep](./TECHNICAL_DEFENSE_PREP.md) | Current implementation questions and honest answers |
+| [Backup Demo Plan](./BACKUP_DEMO.md) | Render, Vercel, localhost, and evidence fallback |
+| [Slides](./slides/README.md) | Slide-deck placeholder or export location |
 
 [Back to Portfolio Home](../README.md)

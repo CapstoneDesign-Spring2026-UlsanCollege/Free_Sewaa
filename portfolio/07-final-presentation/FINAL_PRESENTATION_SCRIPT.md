@@ -1,109 +1,64 @@
 # Final Presentation Script
 
-**Total time: 15 minutes**
+**Target time:** 15 minutes
 
----
+## 1. Project Story - 2 minutes
 
-## Part 1: Project Story (2 minutes)
+"Free Sewaa is our community donation platform. The problem is that usable items are wasted while people nearby may need them. Our MVP focuses on a simple donation journey: create an account, browse or post an item, request it, communicate, and track activity."
 
-"Good morning/afternoon. Our capstone project is **Free Sewaa** — a web-based community donation platform that connects donors with people in need.
+"We intentionally kept the scope focused on donation exchange rather than payments, shipping, or a full marketplace."
 
-The problem we identified is simple: many usable items go to waste while community members lack access to essential goods. There was no centralized platform for item donation that ensured transparency and ease of use.
+## 2. Live Demo - 5 minutes
 
-Our solution is Free Sewaa: a platform where anyone can donate items, request what they need, and communicate directly with other users — all through a clean, responsive web interface.
+Use [Render](https://free-sewaa-qh05.onrender.com) first. Use [Vercel](https://free-sewaa.vercel.app), localhost, or screenshots if needed.
 
-Over this semester, our team of 5 built this platform from the ground up: starting with wireframes and project pitches, moving through frontend and backend development, testing and QA, and finally deploying a live MVP on Render."
+Demo sequence:
 
----
+1. Landing page and navigation
+2. Account access with a non-sensitive demo user
+3. Browse donations and filters
+4. Post a donation
+5. Request an item
+6. Messaging or communication path
+7. User panel and administration view
 
-## Part 2: Live Demo (5 minutes)
+If a step fails, say what failed and switch to saved evidence. Do not claim a failed live step worked.
 
-*Navigate to [free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com)*
+## 3. Semester Journey - 2 minutes
 
-### Flow:
-1. **Landing Page** — Overview of the platform, navigation
-2. **Sign Up** — Create a new user account (or use demo credentials)
-3. **Sign In** — Show authenticated state
-4. **Browse Items** — View available donation items with filtering
-5. **Post a Donation** — Fill out the form, upload an image
-6. **Request an Item** — Submit a request
-7. **Messages** — Show the messaging interface
-8. **Dashboard** — User activity overview
-9. **Admin Panel** — User management, content moderation
+"Our semester moved through setup, scope decisions, frontend and backend development, deployment, QA, UI polish, partial React migration, and final portfolio organization."
 
-*See [FINAL_MVP_DEMO.md](../04-final-product/FINAL_MVP_DEMO.md) for detailed demo steps.*
+Key evidence:
 
----
+- Weeks 1-12 formal sprint packets
+- Weeks 13-16 commit and documentation evidence
+- Five sprint summaries
+- Final MVP scope and limitations
 
-## Part 3: Semester Journey (2 minutes)
+## 4. QA and Stabilization - 2 minutes
 
-"Our journey spanned 16 weeks:
+"We used a hybrid QA approach. The strongest direct evidence is the committed server tests, saved test output, manual checklists, sprint packets, and bug records. Some broad manual metrics are preserved as historical sprint claims rather than independently reproducible raw data."
 
-- **Weeks 1-4:** Foundation — Repository setup, team agreement, frontend pages, initial backend
-- **Weeks 5-8:** Core development — Backend API, database integration, midterm delivery
-- **Weeks 9-12:** QA and stabilization — Bug triage, testing, QA Day with 96% pass rate
-- **Weeks 13-16:** Final polish — Figma design matching, React migration, portfolio
+Mention:
 
-Key challenges we overcame:
-- Shifting from marketplace to focused donation platform (Sprint 2)
-- Debugging auth session and item timestamp issues
-- Balancing feature development with testing
+- Server tests for health and signup validation
+- Manual QA checklists for core flows, browser, mobile, accessibility, and security
+- Known limitations: local-password hardening, validation, rate limiting, and partial frontend migration
 
-Key wins:
-- Live deployment on Render with all core features working
-- 50+ QA test cases with 96% pass rate
-- Comprehensive documentation with 20 structured bug reports"
+## 5. AI and Code Ownership - 1 minute
 
----
+"AI was used as an assistant for drafts, debugging ideas, documentation, and code suggestions. It did not decide scope, completion, security acceptance, or grading evidence. Claims in this portfolio are tied to repository files, commits, PRs, issues, and saved test evidence."
 
-## Part 4: QA and Testing Evidence (2 minutes)
+## 6. Technical Defense - 3 minutes
 
-"Our testing approach was comprehensive:
+Be ready to explain:
 
-**Manual Testing:** 50+ test cases across all features
-- Auth, Browse, Donate, Requests, Messages, Admin
-- Mobile (390×844 viewport), Cross-browser (Chrome, Firefox, Safari, Edge)
-- Form validation, Accessibility, Security
+- Current native Node.js HTTP server
+- MongoDB driver and application collections
+- Local and Firebase authentication boundaries
+- Post -> browse -> request -> message flow
+- Deployment on Render and Vercel
+- Why the app is an academic MVP, not production-hardened
+- Which areas each member can explain
 
-**Automated Testing:** 3 Jest tests for critical backend paths
-- Health endpoint, signup validation, weak password detection
-
-**Bug Tracking:** 20 structured bug reports (P0-P3 severity)
-
-**Week 12 QA Day Results:**
-- 96% pass rate
-- 0 P0 bugs remaining
-- Performance: Homepage 1.8s, API 280ms, DB 85ms
-
-*All checklists and evidence are linked in our portfolio.*"
-
----
-
-## Part 5: AI and Code Ownership (1 minute)
-
-"We used GitHub Copilot as an assistive tool throughout the semester. Every piece of AI-generated code was:
-
-1. Reviewed by at least one team member
-2. Modified for correctness and consistency
-3. Tested before merging
-
-No code was accepted without human understanding. Each team member can explain the code areas they own. Our full AI Code Ownership Audit documents every AI-assisted area, the human review process, and our team's code understanding.
-
-**Key principle:** AI-assisted, not AI-replaced."
-
----
-
-## Part 6: Technical Defense (3 minutes)
-
-*Be prepared to answer questions about:*
-- Authentication flow and JWT implementation
-- Backend API structure and endpoints
-- MongoDB database design and collections
-- Frontend routing and page architecture
-- Admin panel functionality
-- Security limitations and known gaps
-- Testing strategy and coverage
-- Deployment on Render
-- Known bugs and future improvements
-
-*See [TECHNICAL_DEFENSE_PREP.md](./TECHNICAL_DEFENSE_PREP.md) for detailed Q&A preparation.*
+Close with the next technical improvements: harden local passwords, centralize validation, add end-to-end tests, finish the frontend architecture decision, and add production security controls.
