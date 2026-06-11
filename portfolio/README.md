@@ -1,62 +1,77 @@
-# Free Sewaa — Capstone Portfolio
+# Free Sewaa Capstone Portfolio
 
-**Team:** Capstone Design — Spring 2026, Ulsan College  
-**Project:** Free Sewaa  
-**Live Demo:** [free-sewaa-qh05.onrender.com](https://free-sewaa-qh05.onrender.com)  
-**Repository:** [github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)
+**Team:** Capstone Design, Spring 2026, Ulsan College
 
----
+**Repository:** [CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa)
 
-## Project Description
+**Primary demo:** [Render](https://free-sewaa-qh05.onrender.com)
 
-Free Sewaa is a web-based community donation platform that connects donors with people in need, facilitating the sharing of reusable items through a user-friendly interface. The project focuses on community support, sustainability, and reducing waste by helping people share useful items instead of throwing them away.
+**Additional demo:** [Vercel](https://free-sewaa.vercel.app)
 
-## Target Users
+## Project at a Glance
 
-- Individuals seeking to donate items (clothes, electronics, household goods)  
-- People in need of essential items  
-- Administrators managing platform content and users  
+Free Sewaa is a community donation platform for people who want to give reusable items and people who need them. It reduces waste by supporting one connected journey:
 
-## Problem Statement
+> Create an account -> post or browse an item -> request it -> communicate -> track activity
 
-Many usable items go to waste while community members lack access to essential goods. There is no centralized, trustworthy platform for item donation that ensures transparency, security, and ease of use for both donors and recipients.
+The final repository includes account flows, donation listings, requests, messaging, user panels, administration screens, responsive interfaces, MongoDB-backed APIs, Firebase authentication support, deployment configuration, tests, and semester evidence.
 
-## Final MVP Summary
+## Target Users and Value
 
-The Free Sewaa platform delivers a fully functional donation system with:
+| User | Need | Free Sewaa response |
+|---|---|---|
+| Donor | Give a usable item without a complicated sales process | Create a listing and respond to requests |
+| Recipient | Find useful donated items | Browse, filter, request, and message |
+| Administrator | Review platform activity | Use administration views and moderation actions |
 
-- **User signup/login** — Secure authentication with JWT  
-- **Item donation posting** — Post items with categories, descriptions, and images  
-- **Item request system** — Browse and request items from other users  
-- **Messaging** — Communicate directly with donors and requesters  
-- **User dashboard** — Track donations, requests, and activity  
-- **Admin panel** — Moderate content, manage users and listings  
-- **Responsive design** — Works on mobile and desktop devices  
-- **Documentation and testing** — Comprehensive QA checklists, test evidence, and setup guides  
+The project is an academic MVP, not a production service. Known security, validation, test-coverage, and feature limitations are documented in [Bugs and Limitations](./05-qa-and-stabilization/BUGS_AND_LIMITATIONS.md).
 
----
+## Review This Portfolio
 
-## Portfolio Sections
+| Professor checklist area | Portfolio evidence |
+|---|---|
+| Project definition and scope | [01 - Project Overview](./01-project-overview/README.md) |
+| Sixteen-week history and sprint evidence | [02 - Semester Journey](./02-semester-journey/README.md) |
+| Proposals, research, designs, architecture, and risks | [03 - Design and Planning](./03-design-and-planning/README.md) |
+| Demo, setup, final architecture, and deployment | [04 - Final Product](./04-final-product/README.md) |
+| Tests, bugs, stabilization, and limitations | [05 - QA and Stabilization](./05-qa-and-stabilization/README.md) |
+| AI use, human review, and explainable ownership | [06 - AI and Code Ownership](./06-ai-and-code-ownership/README.md) |
+| Script, technical defense, and demo backup | [07 - Final Presentation](./07-final-presentation/README.md) |
+| Evidence for each student | [08 - Individual Portfolios](./08-individual-portfolios/README.md) |
 
-| # | Section | Description |
-|---|---------|-------------|
-| 01 | [Project Overview](./01-project-overview/README.md) | Summary, MVP scope, scope decisions |
-| 02 | [Semester Journey](./02-semester-journey/README.md) | Weekly sprints, sprint summaries |
-| 03 | [Design and Planning](./03-design-and-planning/README.md) | Proposals, research, wireframes, architecture |
-| 04 | [Final Product](./04-final-product/README.md) | Demo guide, setup, architecture, deployment |
-| 05 | [QA and Stabilization](./05-qa-and-stabilization/README.md) | QA report, bugs, test evidence |
-| 06 | [AI and Code Ownership](./06-ai-and-code-ownership/README.md) | AI usage audit, ownership map |
-| 07 | [Final Presentation](./07-final-presentation/README.md) | Script, defense prep, backup demo |
-| 08 | [Individual Portfolios](./08-individual-portfolios/README.md) | Per-member contribution evidence |
+## Final MVP Status
 
----
+The strongest demonstrable flow is account access, browsing or posting an item, requesting it, and continuing through messages or a user panel. Some supporting screens and integrations remain partial. Status labels in [Final MVP Scope](./01-project-overview/FINAL_MVP_SCOPE.md) distinguish verified core behavior from partial or future work.
 
-## Individual Portfolio Pages
+### Evidence shortcuts
 
-| Member | Role |
-|--------|------|
-| [Rampathak12](./08-individual-portfolios/Rampathak12.md) | Backend and core logic, database integration, system infrastructure |
-| [Sujan_Shrestha](./08-individual-portfolios/Sujan_Shrestha.md) | Frontend and UI development, user experience, page components |
-| [Sujan_Tamang](./08-individual-portfolios/Sujan_Tamang.md) | Testing, integration, documentation, connecting platform components |
-| [Swarnim Jung Karki](./08-individual-portfolios/Swarnim_Jung_Karki.md) | Styling/CSS, responsive design, UI polish, documentation management |
-| [Mohan_Khadka](./08-individual-portfolios/Mohan_Khadka.md) | Bug fixes, maintenance, refinements, stability support |
+- [Final MVP demonstration guide](./04-final-product/FINAL_MVP_DEMO.md)
+- [Setup and run guide](./04-final-product/SETUP_AND_RUN_GUIDE.md)
+- [Final architecture](./04-final-product/ARCHITECTURE_FINAL.md)
+- [QA report](./05-qa-and-stabilization/QA_REPORT.md)
+- [Representative PRs and commits](./06-ai-and-code-ownership/representative-prs/README.md)
+- [Presentation script](./07-final-presentation/FINAL_PRESENTATION_SCRIPT.md)
+
+## Team Evidence Index
+
+| Member | Evidence-based contribution areas |
+|---|---|
+| [Mohan Khadka](./08-individual-portfolios/Mohan_Khadka.md) | Interface work, bug fixes, maintenance, and stabilization evidence |
+| [Ram Pathak](./08-individual-portfolios/Rampathak12.md) | Backend expansion, database integration, application logic, and infrastructure evidence |
+| [Sujan Shrestha](./08-individual-portfolios/Sujan_Shrestha.md) | Frontend pages, interface components, and user-experience evidence |
+| [Sujan Tamang](./08-individual-portfolios/Sujan_Tamang.md) | Integration, testing, documentation, and platform-connection evidence |
+| [Swarnim Jung Karki](./08-individual-portfolios/Swarnim_Jung_Karki.md) | Initial backend architecture, API integration, vertical-slice UI, security/QA, and documentation evidence |
+
+## Evidence Policy
+
+GitHub history and repository files are the source of truth. The portfolio:
+
+- links existing evidence rather than inventing missing history;
+- separates implemented, partial, and future work;
+- avoids using commit counts or raw line totals as quality claims;
+- records limitations that the team should be ready to explain;
+- preserves individual pages as each member's own contribution statement.
+
+## Presentation Readiness
+
+Before presenting, verify both live URLs, prepare local startup as a fallback, open screenshot evidence, and review the current limitations. The complete sequence is in the [Final Presentation](./07-final-presentation/README.md) section.
