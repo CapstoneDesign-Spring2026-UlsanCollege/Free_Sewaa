@@ -4456,12 +4456,15 @@ body.light-mode{
 
 .hero-home .hero-overlay{
   background:
-    linear-gradient(90deg,rgba(251,247,239,.98) 0%,rgba(251,247,239,.90) 47%,rgba(251,247,239,.78) 100%),
-    radial-gradient(circle at 76% 31%,rgba(239,227,198,.70),transparent 35%);
+    linear-gradient(90deg,rgba(251,247,239,.98) 0%,rgba(251,247,239,.90) 43%,rgba(251,247,239,.74) 100%),
+    linear-gradient(180deg,rgba(251,247,239,.34),rgba(251,247,239,.92) 88%),
+    radial-gradient(circle at 76% 31%,rgba(239,227,198,.62),transparent 35%);
 }
 
 .hero-home .hero-home-bg{
-  background:#fbf7ef;
+  background:
+    linear-gradient(90deg,rgba(251,247,239,.96),rgba(251,247,239,.50)),
+    url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1800&q=84') center/cover no-repeat;
 }
 
 .hero-home .hero-home-bg::before{
