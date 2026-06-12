@@ -4726,33 +4726,26 @@ body.light-mode{
   }
 }
 
-/* Use the compact icon plus live text in navigation for better alignment. */
+/* Use only the compact symbol mark in navigation. */
 .site-header .brand,
 .header .brand,
 .footer .brand{
-  width:auto;
-  min-height:48px;
+  width:56px;
+  min-height:56px;
   padding:0;
-  gap:10px;
   display:inline-flex;
   align-items:center;
+  justify-content:center;
   color:#272522 !important;
-  font-family:"Inter",system-ui,sans-serif;
-  font-size:clamp(1.35rem,1.8vw,1.8rem) !important;
-  font-weight:900;
-  line-height:1;
-  background:none;
+  font-size:0 !important;
+  line-height:0;
+  background:url('/assets/free-sewaa-icon.svg') center / contain no-repeat;
 }
 
 .site-header .brand::before,
 .header .brand::before,
 .footer .brand::before{
-  content:"";
-  width:46px;
-  height:46px;
-  display:block !important;
-  flex:0 0 46px;
-  background:url('/assets/free-sewaa-icon.svg') center / contain no-repeat;
+  display:none !important;
 }
 
 .site-header .brand::after,
@@ -4765,15 +4758,7 @@ body.light-mode{
   .site-header .brand,
   .header .brand,
   .footer .brand{
-    min-height:42px;
-    font-size:1.28rem !important;
-  }
-
-  .site-header .brand::before,
-  .header .brand::before,
-  .footer .brand::before{
-    width:40px;
-    height:40px;
-    flex-basis:40px;
+    width:48px;
+    min-height:48px;
   }
 }
