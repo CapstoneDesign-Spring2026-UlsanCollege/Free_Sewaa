@@ -148,29 +148,32 @@ ownership claims.
 | [Representative PRs and commits](portfolio/06-ai-and-code-ownership/representative-prs/README.md) | Evidence boundaries and representative contributions for every team member |
 | [PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61) | Swarnim's initial Node.js, Express, and MongoDB backend architecture |
 | [PR #148](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/148) | Initial organization of the final capstone portfolio |
-| [Open Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95) | Remaining centralized signup and authentication validation work |
+| [Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95) | Unfinished centralized signup and authentication validation work |
 | [Commit history](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) | Chronological repository activity and signed commit metadata |
 
-### Swarnim Jung Karki
+### Team Contributions
 
-Swarnim contributed as a full-stack architecture, integration, and quality
-contributor. His strongest evidence covers the initial backend architecture,
-frontend-to-API integration, authentication security, focused tests, CI,
-technical diagrams, and final portfolio organization.
+Each member is represented through authored commits and repository evidence.
+The summaries describe demonstrated activity without assigning sole ownership
+of shared files or treating documentation of a risk as proof that it was fixed.
 
-- [Swarnim's individual portfolio](portfolio/08-individual-portfolios/Swarnim_Jung_Karki.md)
-- [Eight representative commits](portfolio/06-ai-and-code-ownership/representative-prs/README.md#swarnim-jung-karki---8-representative-commits)
-- [Initial backend PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61)
+| Team member | Evidence-based contribution area | Representative activity | Portfolio | Commit evidence |
+|---|---|---|---|---|
+| [Ram Pathak](https://github.com/Rampathak12) | Frontend and interface implementation | Homepage and browse-page UI, React conversion, unread-message badge, and sticky browse filters | [Individual portfolio](portfolio/08-individual-portfolios/Rampathak12.md) | [5 representative commits](portfolio/06-ai-and-code-ownership/representative-prs/README.md#ram-pathak---5-representative-commits) |
+| [Sujan Tamang](https://github.com/SujanTamang20) | Testing and project documentation | Testing strategy, weekly sprint packets, API reference updates, and scope-decision documentation | [Individual portfolio](portfolio/08-individual-portfolios/Sujan_Tamang.md) | [5 representative commits](portfolio/06-ai-and-code-ownership/representative-prs/README.md#sujan-tamang---5-representative-commits) |
+| [Sujan Shrestha](https://github.com/suzmoon) | Diagrams and supporting documentation | UML maintenance, issue documentation, logo documentation, presentation material, and ownership audit updates | [Individual portfolio](portfolio/08-individual-portfolios/Sujan_Shrestha.md) | [5 representative commits](portfolio/06-ai-and-code-ownership/representative-prs/README.md#sujan-shrestha---5-representative-commits) |
+| [Swarnim Jung Karki](https://github.com/Swarnimkarki50) | Full-stack architecture, integration, and quality | Initial backend architecture, API integration, password-security work, focused tests, CI, UML, and portfolio evidence | [Individual portfolio](portfolio/08-individual-portfolios/Swarnim_Jung_Karki.md) | [8 representative commits](portfolio/06-ai-and-code-ownership/representative-prs/README.md#swarnim-jung-karki---8-representative-commits) |
+| [Mohan Khadka](https://github.com/Mohankhadkaa) | Migration, authentication, and risk documentation | React migration snapshot, authentication redirect fix, and accessibility, network, and password-recovery risk reports | [Individual portfolio](portfolio/08-individual-portfolios/Mohan_Khadka.md) | [5 representative commits](portfolio/06-ai-and-code-ownership/representative-prs/README.md#mohan-khadka---5-representative-commits) |
 
-These links document Swarnim's verified contributions without assigning him
-sole ownership of shared files or work later expanded by teammates.
+See the [complete attribution guide](portfolio/06-ai-and-code-ownership/representative-prs/README.md)
+for changed-file details, historical context, and evidence boundaries.
 
 ## Current Limitations
 
 - Static and React frontend structures coexist and should be consolidated.
 - Automated tests cover selected API behavior rather than the full user journey.
-- Centralized request validation remains incomplete; see
-  [Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95).
+- Centralized request validation remains incomplete; the archived work is
+  recorded in [Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95).
 - Password recovery, rate limiting, notification delivery, and broader
   accessibility verification remain future work.
 - Deployment availability may vary because the project uses student/free-tier
