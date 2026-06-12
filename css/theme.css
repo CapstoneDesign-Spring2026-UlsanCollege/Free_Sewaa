@@ -5150,3 +5150,50 @@ body:not(.admin-v2-body) .step-dot{
     flex:1;
   }
 }
+
+/* ===== Form text readability sweep ===== */
+body:not(.admin-v2-body) label,
+body:not(.admin-v2-body) .field,
+body:not(.admin-v2-body) .field span,
+body:not(.admin-v2-body) .field label,
+body:not(.admin-v2-body) .form-label,
+body:not(.admin-v2-body) .input-label,
+body:not(.admin-v2-body) .checkbox,
+body:not(.admin-v2-body) .checkbox span{
+  color:rgba(39,37,34,.70) !important;
+  opacity:1 !important;
+}
+
+body:not(.admin-v2-body) input,
+body:not(.admin-v2-body) textarea,
+body:not(.admin-v2-body) select{
+  color:#11100f !important;
+  background:#fff !important;
+  border-color:rgba(39,37,34,.14) !important;
+  opacity:1 !important;
+}
+
+body:not(.admin-v2-body) input::placeholder,
+body:not(.admin-v2-body) textarea::placeholder{
+  color:rgba(39,37,34,.40) !important;
+  opacity:1 !important;
+}
+
+body:not(.admin-v2-body) input:focus,
+body:not(.admin-v2-body) textarea:focus,
+body:not(.admin-v2-body) select:focus{
+  border-color:rgba(88,120,61,.56) !important;
+  box-shadow:0 0 0 4px rgba(88,120,61,.12) !important;
+}
+
+body:not(.admin-v2-body) select option,
+body:not(.admin-v2-body) select optgroup{
+  color:#11100f !important;
+  background:#fff !important;
+}
+
+body:not(.admin-v2-body) .form-status[data-tone="default"],
+body:not(.admin-v2-body) .input-meta-row,
+body:not(.admin-v2-body) .helper-text{
+  color:rgba(39,37,34,.62) !important;
+}
