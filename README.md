@@ -1,132 +1,94 @@
 <div align="center">
 
-# 🌱 Free Sewaa
+# Free Sewaa
 
-### A community-driven donation platform that makes giving simple and meaningful.
+### A community donation platform for sharing useful items, reducing waste, and supporting local communities.
 
-🌱 Free Sewaa helps people share reusable items for free, support others in need 🤝, and reduce waste ♻️ through a smarter community exchange.
+[![Capstone Project](https://img.shields.io/badge/Capstone-Spring%202026-2563EB)](portfolio/README.md)
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=nodedotjs&logoColor=white)](package.json)
+[![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?logo=mongodb&logoColor=white)](docs/DATABASE_DESIGN.md)
+[![CI](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions/workflows/ci.yml/badge.svg)](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions/workflows/ci.yml)
 
-<p>
-  <img src="https://img.shields.io/badge/Capstone%20Final-2563EB?style=for-the-badge" alt="Capstone Final" />
-  <img src="https://img.shields.io/badge/Active%20Project-16A34A?style=for-the-badge" alt="Active Project" />
-  <img src="https://img.shields.io/badge/Web%20Application-7C3AED?style=for-the-badge" alt="Web Application" />
-  <img src="https://img.shields.io/badge/Ulsan%20College-F97316?style=for-the-badge" alt="Ulsan College" />
-</p>
-
-<p>
-  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js" />
-  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
-  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express" />
-  <img src="https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=black" alt="Render" />
-</p>
-
-<p>
-  <a href="https://free-sewaa-qh05.onrender.com">
-    <img src="https://img.shields.io/badge/Live%20Demo-Visit%20Site-16A34A?style=flat-square" alt="Live Demo" />
-  </a>
-  <a href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa">
-    <img src="https://img.shields.io/badge/GitHub-Repository-111827?style=flat-square" alt="GitHub Repository" />
-  </a>
-  <a href="docs/README.md">
-    <img src="https://img.shields.io/badge/Documentation-Read%20Docs-2563EB?style=flat-square" alt="Documentation" />
-  </a>
-  <a href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues">
-    <img src="https://img.shields.io/badge/Issues-Track%20Work-F97316?style=flat-square" alt="Issues" />
-  </a>
-  <a href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls">
-    <img src="https://img.shields.io/badge/Pull%20Requests-Review-7C3AED?style=flat-square" alt="Pull Requests" />
-  </a>
-</p>
+[Live Demo](https://free-sewaa.vercel.app) ·
+[Capstone Portfolio](portfolio/README.md) ·
+[Documentation](docs/README.md) ·
+[Project Evidence](portfolio/06-ai-and-code-ownership/representative-prs/README.md)
 
 </div>
 
 ---
 
-## 📖 Overview
+## Overview
 
-**Free Sewaa** is a web-based community donation platform that allows users to donate reusable items, request needed resources, communicate with other users, and manage donation activity through a simple dashboard. The project focuses on community support, sustainability, and reducing waste by helping people share useful items instead of throwing them away.
+Free Sewaa is a full-stack academic project that helps people give reusable
+items to others instead of discarding them. Users can create an account, post
+an item, browse available donations, send requests, communicate with other
+users, and review their activity from a dashboard.
 
----
+The project was developed by a five-member Capstone Design team at Ulsan
+College during Spring 2026. It demonstrates product planning, frontend and
+backend integration, database persistence, authentication, testing,
+deployment, and evidence-based team ownership.
 
-## 💡 Why Free Sewaa?
+> **Project status:** The semester MVP is complete and preserved for final
+> review. Free Sewaa is an academic prototype, not a production service.
 
-| Problem | Free Sewaa Solution |
+## MVP Experience
+
+```text
+Create account or sign in
+          |
+          v
+Post an item or browse available donations
+          |
+          v
+Request an item and contact the donor
+          |
+          v
+Track posts, requests, messages, and activity
+```
+
+| Capability | What it provides |
 |---|---|
-| Useful items are often wasted | Users can donate reusable items |
-| People may need items but cannot afford them | Users can request free items |
-| Donation process is usually unorganized | Dashboard and request system organize activity |
-| Communities need better sharing tools | Free Sewaa connects donors and receivers |
+| Authentication | Firebase-backed signup and sign-in for protected user actions |
+| Donation listings | Create, browse, search, filter, and inspect reusable items |
+| Requests | Express interest in an item and track request activity |
+| Messaging | Communicate between donors and potential recipients |
+| Dashboard | Review personal listings, requests, messages, and account activity |
+| Administration | Review platform records through restricted admin workflows |
+| Responsive interface | Support desktop, tablet, and mobile layouts |
 
----
+## Architecture
 
-## ✨ Core Features
-
-| Feature | Description |
-|---|---|
-| User Authentication | Signup and login for secure access |
-| Item Donation | Users can post reusable items for donation |
-| Item Request | Users can request available donation items |
-| Messaging | Users can communicate about donation items |
-| User Dashboard | Users can manage posts, requests, and activity |
-| Admin Panel | Admin can manage users, items, and reports |
-| Responsive Design | Works on desktop, tablet, and mobile |
-| Documentation | Includes project guide, testing plan, audit checklist, and roadmap |
-
----
-
-## 🗺️ Project Navigation
-
-| Section | Link |
-|---|---|
-| 🌐 Live Demo | https://free-sewaa-qh05.onrender.com |
-| 📂 GitHub Repository | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa |
-| 📖 Documentation Home | [docs/README.md](docs/README.md) |
-| 🔄 User Flow | [docs/USER_FLOW.md](docs/USER_FLOW.md) |
-| 🏗️ System Architecture | [docs/SYSTEM_ARCHITECTURE.md](docs/SYSTEM_ARCHITECTURE.md) |
-| 🔌 API Reference | [docs/API_REFERENCE.md](docs/API_REFERENCE.md) |
-| 🗃️ Database Design | [docs/DATABASE_DESIGN.md](docs/DATABASE_DESIGN.md) |
-| 🧪 Testing Plan | [docs/TESTING_PLAN.md](docs/TESTING_PLAN.md) |
-| 📋 Audit Checklist | [docs/AUDIT_CHECKLIST.md](docs/AUDIT_CHECKLIST.md) |
-| ✅ Release Checklist | [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) |
-| 🎤 Demo Script | [DEMO_SCRIPT.md](DEMO_SCRIPT.md) |
-| 📘 Capstone Portfolio | [portfolio/README.md](portfolio/README.md) |
-| 🧭 Roadmap | [docs/ROADMAP.md](docs/ROADMAP.md) |
-| 🔮 Future Enhancements | [docs/FUTURE_ENHANCEMENTS.md](docs/FUTURE_ENHANCEMENTS.md) |
-| 🚀 Deployment Guide | [docs/DEPLOYMENT_GUIDE.md](docs/DEPLOYMENT_GUIDE.md) |
-| 🔒 Security | [SECURITY.md](SECURITY.md) |
-| 🤝 Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) |
-| 📄 License | [MIT](https://opensource.org/licenses/MIT) |
-
----
-
-## 🎯 For Reviewers
-
-| What to Check | Link |
-|---|---|
-| 📖 Project Overview | [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md) |
-| 🎤 Final Demo Script | [DEMO_SCRIPT.md](DEMO_SCRIPT.md) |
-| ✅ Release Checklist | [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) |
-| 🧪 Testing Plan | [docs/TESTING_PLAN.md](docs/TESTING_PLAN.md) |
-| 📋 Audit Checklist | [docs/AUDIT_CHECKLIST.md](docs/AUDIT_CHECKLIST.md) |
-| 🔮 Future Plan | [docs/FUTURE_ENHANCEMENTS.md](docs/FUTURE_ENHANCEMENTS.md) |
-| 📊 Project Status | [docs/PROJECT_OVERVIEW.md](docs/PROJECT_OVERVIEW.md) |
-
----
-
-## 🛠️ Tech Stack
+Free Sewaa currently contains a Vite/React client alongside the project's
+static HTML, CSS, and JavaScript interface. A Node.js server exposes the API,
+serves built or static frontend assets, validates Firebase identity tokens,
+and persists application data in MongoDB.
 
 | Layer | Technology |
 |---|---|
-| Frontend | HTML, CSS, JavaScript |
-| Backend | Node.js, Express.js |
-| Database | MongoDB |
-| Authentication | JWT |
-| Deployment | Render |
-| Version Control | GitHub |
+| Interface | React, Vite, HTML, CSS, JavaScript |
+| Server | Node.js |
+| Data | MongoDB Node.js driver |
+| Authentication | Firebase Authentication and server-side token validation |
+| Testing | Jest and Supertest |
+| Automation | GitHub Actions |
+| Deployment | Vercel and Render configuration |
 
----
+See the [system architecture](docs/SYSTEM_ARCHITECTURE.md),
+[API reference](docs/API_REFERENCE.md), and
+[database design](docs/DATABASE_DESIGN.md) for implementation details.
 
-## 🚀 Quick Start
+## Quick Start
+
+### Requirements
+
+- Node.js 18 or newer
+- npm
+- A MongoDB connection string for database-backed features
+- Firebase project configuration for authentication
+
+### Run locally
 
 ```bash
 git clone https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa.git
@@ -135,51 +97,106 @@ npm install
 npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Requires **Node.js 18+** and **MongoDB 6+**.
+Open [http://localhost:3000](http://localhost:3000).
 
----
+The interface and health endpoint can start without MongoDB, but
+database-backed API operations require `MONGODB_URI` or `MONGO_URI`. Review the
+[deployment guide](docs/DEPLOYMENT_GUIDE.md) before configuring a complete
+environment. Do not commit secrets or private credentials.
 
-## 📊 Project Status
+### Build the client
 
-Free Sewaa is currently in the **final capstone review stage**. The main focus is project polish, testing, documentation, final demo readiness, and future improvement planning.
+```bash
+npm run build
+```
 
-| Status | Detail |
+### Run the server tests
+
+```bash
+cd server
+npm install
+npm test
+```
+
+The automated suite is intentionally focused and does not represent complete
+end-to-end browser coverage.
+
+## Documentation
+
+| Start here | Purpose |
 |---|---|
-| Phase | Final sprint — QA and documentation |
-| Deployment | Live on Render |
-| Test Status | 3/3 Jest tests passing |
-| UI Design | Figma-inspired premium UI |
+| [Capstone portfolio](portfolio/README.md) | Final project story, semester evidence, QA, ownership, and presentation material |
+| [Documentation index](docs/README.md) | Technical and project documentation |
+| [Project overview](docs/PROJECT_OVERVIEW.md) | Problem, users, objectives, and product context |
+| [User flow](docs/USER_FLOW.md) | Main user and administration journeys |
+| [System architecture](docs/SYSTEM_ARCHITECTURE.md) | Current components and data flow |
+| [API reference](docs/API_REFERENCE.md) | Server endpoints and request behavior |
+| [Testing plan](docs/TESTING_PLAN.md) | Test strategy, scope, and evidence |
+| [Deployment guide](docs/DEPLOYMENT_GUIDE.md) | Environment and deployment guidance |
+| [Demo script](DEMO_SCRIPT.md) | Structured final demonstration sequence |
+| [Security policy](SECURITY.md) | Security expectations and reporting guidance |
 
-### Demo Credentials
+## Evidence for Reviewers
 
-| Role | Email | Password |
-|---|---|---|
-| 👤 User | `pathakram09555@gmail.com` | `123456` |
-| 🔐 Admin | `admin@freesewaa.local` | `admin12345` |
+The repository uses pull requests, commits, issues, documentation, and
+individual portfolios to distinguish implementation evidence from broad
+ownership claims.
+
+| Evidence | What it demonstrates |
+|---|---|
+| [Semester journey](portfolio/02-semester-journey/SEMESTER_JOURNEY.md) | Weekly development from initial planning through final delivery |
+| [Representative PRs and commits](portfolio/06-ai-and-code-ownership/representative-prs/README.md) | Evidence boundaries and representative contributions for every team member |
+| [PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61) | Swarnim's initial Node.js, Express, and MongoDB backend architecture |
+| [PR #148](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/148) | Initial organization of the final capstone portfolio |
+| [Open Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95) | Remaining centralized signup and authentication validation work |
+| [Commit history](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main) | Chronological repository activity and signed commit metadata |
+
+### Swarnim Jung Karki
+
+Swarnim contributed as a full-stack architecture, integration, and quality
+contributor. His strongest evidence covers the initial backend architecture,
+frontend-to-API integration, authentication security, focused tests, CI,
+technical diagrams, and final portfolio organization.
+
+- [Swarnim's individual portfolio](portfolio/08-individual-portfolios/Swarnim_Jung_Karki.md)
+- [Eight representative commits](portfolio/06-ai-and-code-ownership/representative-prs/README.md#swarnim-jung-karki---8-representative-commits)
+- [Initial backend PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61)
+
+These links document Swarnim's verified contributions without assigning him
+sole ownership of shared files or work later expanded by teammates.
+
+## Current Limitations
+
+- Static and React frontend structures coexist and should be consolidated.
+- Automated tests cover selected API behavior rather than the full user journey.
+- Centralized request validation remains incomplete; see
+  [Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95).
+- Password recovery, rate limiting, notification delivery, and broader
+  accessibility verification remain future work.
+- Deployment availability may vary because the project uses student/free-tier
+  infrastructure.
+
+Additional scope decisions and risks are recorded in the
+[final portfolio](portfolio/README.md).
+
+## Team and Contribution Policy
+
+Free Sewaa is a shared team project. Contribution claims should be supported by
+the relevant commit, pull request, issue, or repository file and should account
+for later collaborative revisions.
+
+For contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md). For the
+complete attribution method, see the
+[representative evidence guide](portfolio/06-ai-and-code-ownership/representative-prs/README.md).
 
 ---
 
-## 🔮 Future Improvements
+<div align="center">
 
-- Location-based item search
-- Better image upload experience
-- Email or push notifications
-- User rating and trust system
-- Admin analytics dashboard
-- Multi-language support
-- Dark mode
-- Accessibility improvements
+**Capstone Design · Spring 2026 · Ulsan College**
 
----
+[Live Demo](https://free-sewaa.vercel.app) ·
+[Portfolio](portfolio/README.md) ·
+[Documentation](docs/README.md)
 
-## 📄 License
-
-This project is licensed under the MIT License. See the [LICENSE](https://opensource.org/licenses/MIT) file for details.
-
----
-
-<p align="center">
-  <sub>Capstone Design · Spring 2026 · Ulsan College</sub>
-  <br>
-  <sub>Last updated: May 2026</sub>
-</p>
+</div>
