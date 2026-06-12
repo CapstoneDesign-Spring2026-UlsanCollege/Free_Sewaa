@@ -147,7 +147,7 @@ export const pageRoutes = {
         },
         {
           "rel": "stylesheet",
-          "href": "/css/auth.css?v=20260418"
+          "href": "/css/auth.css?v=20260613"
         }
       ],
       "scripts": [
@@ -236,7 +236,7 @@ export const pageRoutes = {
         },
         {
           "rel": "stylesheet",
-          "href": "/css/auth.css?v=20260418"
+          "href": "/css/auth.css?v=20260613"
         }
       ],
       "scripts": []
@@ -874,7 +874,7 @@ export const pageRoutes = {
         },
         {
           "rel": "stylesheet",
-          "href": "/css/auth.css?v=20260527"
+          "href": "/css/auth.css?v=20260613"
         }
       ],
       "scripts": [
@@ -941,7 +941,7 @@ export const pageRoutes = {
         },
         {
           "rel": "stylesheet",
-          "href": "/css/auth.css?v=20260527"
+          "href": "/css/auth.css?v=20260613"
         }
       ],
       "scripts": [
@@ -1043,7 +1043,7 @@ export const pageRoutes = {
         },
         {
           "rel": "stylesheet",
-          "href": "/css/auth.css?v=20260418"
+          "href": "/css/auth.css?v=20260613"
         }
       ],
       "scripts": []
@@ -1075,7 +1075,7 @@ export const pageRoutes = {
         },
         {
           "rel": "stylesheet",
-          "href": "/css/auth.css?v=20260418"
+          "href": "/css/auth.css?v=20260613"
         }
       ],
       "scripts": [
