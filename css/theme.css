@@ -4680,3 +4680,48 @@ body.light-mode{
     grid-template-columns:1fr;
   }
 }
+
+/* ===== Free Sewaa logo asset ===== */
+.brand{
+  width:clamp(156px,16vw,214px);
+  min-height:58px;
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  flex:0 0 auto;
+  overflow:hidden;
+  color:transparent !important;
+  font-size:0 !important;
+  line-height:0;
+  text-shadow:none !important;
+  background:url('/assets/free-sewaa-logo.svg') left center / contain no-repeat;
+}
+
+.brand::before,
+.brand::after{
+  display:none !important;
+}
+
+.footer .brand{
+  width:190px;
+  min-height:66px;
+}
+
+.site-header .site-header__inner{
+  min-height:78px;
+}
+
+.auth-header .brand{
+  width:190px;
+}
+
+@media (max-width:760px){
+  .brand{
+    width:150px;
+    min-height:48px;
+  }
+
+  .site-header .site-header__inner{
+    min-height:0;
+  }
+}

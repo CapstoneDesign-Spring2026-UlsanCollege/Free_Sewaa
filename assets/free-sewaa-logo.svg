@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" role="img" aria-labelledby="title desc">
+  <title id="title">Free Sewaa logo</title>
+  <desc id="desc">A warm Free Sewaa wordmark with a person, flame, and leaves.</desc>
+  <defs>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#86b9a9" flood-opacity=".18"/>
+    </filter>
+  </defs>
+  <g filter="url(#softShadow)">
+    <path d="M335 45c9-24 23-30 37-27-6 39-21 78-44 116-14 24-21 48-20 72 0 15 7 26 22 32-32 5-55-9-65-32 20-9 32-25 37-50 6-32 14-69 33-111z" fill="#963b22"/>
+    <circle cx="319" cy="39" r="20" fill="#963b22"/>
+    <path d="M282 82c-39-15-69-41-91-78-23 51-20 99 33 146-5-34 2-61 21-81 21 19 33 43 37 72 15-24 15-46 0-59z" fill="#f28a1f"/>
+    <path d="M405 83c26 11 41 31 44 60 21-30 18-58-9-84 19 6 32 21 39 44 7 27-1 54-24 80-10-28-27-43-50-45 5-20 5-39 0-55z" fill="#82b8ab"/>
+    <path d="M434 142c41-43 92-61 154-52-10 51-47 82-112 94 33-24 63-43 90-58-43 5-77 26-102 62-9-16-19-31-30-46z" fill="#82b8ab"/>
+    <path d="M478 195c45-33 92-41 142-24-23 38-61 56-114 54 31-13 58-25 80-38-35-4-65 5-91 27-6-6-12-12-17-19z" fill="#4f8188"/>
+    <path d="M173 98c-41-8-79-8-114 0 19 54 54 88 105 102-20-34-42-59-66-75 40 8 74 31 102 68-1-34-10-66-27-95z" fill="#82b8ab"/>
+    <path d="M111 160c-37 0-67 12-91 36 37 42 83 55 138 38-34-4-64-12-90-25 34-7 66-1 95 18-10-28-27-50-52-67z" fill="#f28a1f"/>
+    <path d="M153 199c29 14 58 14 88 1-18 32-47 47-88 45-34-2-62-16-83-43 30 18 58 24 83 17-26-8-50-18-72-32 29-1 53 3 72 12z" fill="#f28a1f"/>
+    <path d="M388 100c18-8 29-23 32-45 22 19 24 42 7 68-10-7-23-15-39-23z" fill="#f28a1f"/>
+    <circle cx="420" cy="80" r="4" fill="#fff8e8"/>
+    <path d="M431 64c5 11 5 21 0 31" fill="none" stroke="#fff8e8" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="101" cy="133" r="5" fill="#fff8e8"/>
+    <path d="M82 148c12 4 23 4 33 0" fill="none" stroke="#fff8e8" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <text x="24" y="243" font-family="Inter, Arial, sans-serif" font-size="68" font-weight="800" letter-spacing="-2">
+    <tspan fill="#963b22">Free</tspan><tspan fill="#82b8ab">sewaa</tspan>
+  </text>
+</svg>
