@@ -4964,3 +4964,71 @@ body:not(.admin-v2-body) .route-dot,
 body:not(.admin-v2-body) .step-dot{
   color:#272522;
 }
+
+/* ===== Keep unread message badges from changing nav layout ===== */
+.site-header .main-nav .nav-link.has-nav-icon,
+.site-header .header-actions .icon-link.has-nav-icon,
+.site-header .icon-link.has-nav-icon{
+  position:relative;
+  width:44px !important;
+  min-width:44px !important;
+  max-width:44px !important;
+  height:44px;
+  padding:0 !important;
+  flex:0 0 44px;
+  overflow:visible;
+  justify-content:center;
+  gap:0;
+}
+
+.site-header .main-nav .nav-link.has-nav-icon:hover,
+.site-header .main-nav .nav-link.has-nav-icon:focus-visible,
+.site-header .header-actions .icon-link.has-nav-icon:hover,
+.site-header .header-actions .icon-link.has-nav-icon:focus-visible,
+.site-header .icon-link.has-nav-icon:hover,
+.site-header .icon-link.has-nav-icon:focus-visible{
+  width:44px !important;
+  min-width:44px !important;
+  max-width:44px !important;
+  padding:0 !important;
+  justify-content:center;
+}
+
+.site-header .nav-link.has-nav-icon .nav-label,
+.site-header .icon-link.has-nav-icon .nav-label{
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  max-width:1px !important;
+  margin:-1px !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  clip:rect(0 0 0 0) !important;
+  white-space:nowrap !important;
+  border:0 !important;
+  opacity:0 !important;
+}
+
+.site-header .message-count-badge,
+.site-header .icon-link.has-nav-icon .message-count-badge,
+.site-header .nav-link.has-nav-icon .message-count-badge,
+.header-actions .icon-link.has-nav-icon .message-count-badge{
+  position:absolute !important;
+  top:2px !important;
+  right:2px !important;
+  z-index:6;
+  min-width:20px;
+  height:20px;
+  padding:0 6px;
+  display:inline-grid;
+  place-items:center;
+  border-radius:999px;
+  background:#8ee7d7 !important;
+  color:#15302c !important;
+  border:2px solid #fbf7ef;
+  font-size:.72rem;
+  font-weight:900;
+  line-height:1;
+  box-shadow:0 8px 20px rgba(45,140,127,.22);
+  pointer-events:none;
+}
