@@ -5301,6 +5301,25 @@ body:not(.admin-v2-body) .helper-text{
   backdrop-filter:blur(16px);
 }
 
+.header > .brand{
+  width:56px !important;
+  min-height:56px;
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:transparent !important;
+  font-size:0 !important;
+  line-height:0;
+  text-shadow:none !important;
+  background:url('/assets/free-sewaa-icon.svg') center / contain no-repeat !important;
+}
+
+.header > .brand::before,
+.header > .brand::after{
+  display:none !important;
+}
+
 .header .btn--ghost,
 .header .btn--solid{
   color:#272522;
