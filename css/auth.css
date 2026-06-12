@@ -796,3 +796,45 @@ body::after,
     min-height:0;
   }
 }
+
+/* Use the compact icon plus live text in auth navigation for better alignment. */
+.auth-header .brand{
+  width:auto;
+  min-height:48px;
+  padding:0;
+  gap:10px;
+  display:inline-flex;
+  align-items:center;
+  color:#272522 !important;
+  font-family:"Inter",system-ui,sans-serif;
+  font-size:clamp(1.35rem,1.8vw,1.8rem) !important;
+  font-weight:900;
+  line-height:1;
+  background:none;
+}
+
+.auth-header .brand::before{
+  content:"";
+  width:46px;
+  height:46px;
+  display:block !important;
+  flex:0 0 46px;
+  background:url('/assets/free-sewaa-icon.svg') center / contain no-repeat;
+}
+
+.auth-header .brand::after{
+  display:none !important;
+}
+
+@media (max-width:760px){
+  .auth-header .brand{
+    min-height:42px;
+    font-size:1.28rem !important;
+  }
+
+  .auth-header .brand::before{
+    width:40px;
+    height:40px;
+    flex-basis:40px;
+  }
+}
