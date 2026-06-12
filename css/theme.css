@@ -5197,3 +5197,43 @@ body:not(.admin-v2-body) .input-meta-row,
 body:not(.admin-v2-body) .helper-text{
   color:rgba(39,37,34,.62) !important;
 }
+
+/* Softer nav active/hover state, replacing the flat grey box. */
+.site-header .nav-link,
+.site-header .icon-link{
+  position:relative;
+  transition:background .22s ease, color .22s ease, transform .22s ease, box-shadow .22s ease;
+}
+
+.site-header .nav-link::after,
+.site-header .icon-link::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  right:50%;
+  bottom:5px;
+  height:2px;
+  border-radius:999px;
+  background:#7fb7aa;
+  opacity:0;
+  transition:left .24s ease, right .24s ease, opacity .24s ease;
+}
+
+.site-header .nav-link:hover,
+.site-header .nav-link.active,
+.site-header .icon-link:hover,
+.site-header .active-link{
+  color:#272522;
+  background:linear-gradient(180deg,rgba(239,227,198,.72),rgba(255,255,255,.38));
+  box-shadow:0 10px 24px rgba(74,62,44,.08);
+  transform:translateY(-1px);
+}
+
+.site-header .nav-link:hover::after,
+.site-header .nav-link.active::after,
+.site-header .icon-link:hover::after,
+.site-header .active-link::after{
+  left:14px;
+  right:14px;
+  opacity:1;
+}
