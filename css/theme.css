@@ -4763,3 +4763,77 @@ body.light-mode{
     min-height:48px;
   }
 }
+
+/* ===== Light dashboard and nav contrast fixes ===== */
+.site-header .icon-link,
+.site-header .nav-link{
+  color:rgba(39,37,34,.76);
+}
+
+.site-header .icon-link svg,
+.site-header .nav-link svg,
+.site-header .nav-icon{
+  stroke:#4d4942;
+}
+
+.site-header .icon-link .icon-dot,
+.site-header .icon-link .icon-badge{
+  width:10px;
+  height:10px;
+  background:#6f6454;
+  box-shadow:0 0 0 4px rgba(111,100,84,.12);
+}
+
+.site-header .message-count-badge,
+.header-actions .icon-link.has-nav-icon .message-count-badge{
+  background:#8ee7d7;
+  color:#15302c;
+  border:2px solid #fbf7ef;
+  box-shadow:0 8px 20px rgba(45,140,127,.22);
+}
+
+.user-kpi-card,
+.user-action-card,
+.user-summary-card,
+.user-command-card,
+.contact-action{
+  color:#272522;
+  background:#fff;
+  border:1px solid rgba(39,37,34,.08);
+  box-shadow:0 18px 55px rgba(55,45,30,.10);
+}
+
+.user-kpi-card span,
+.user-action-card span,
+.user-summary-card span,
+.user-command-card span,
+.contact-action span{
+  color:rgba(39,37,34,.56);
+}
+
+.user-kpi-card strong,
+.user-action-card strong,
+.user-summary-card strong,
+.user-command-card strong,
+.contact-action strong{
+  color:#272522;
+}
+
+.user-kpi-card p,
+.user-action-card p,
+.user-summary-card p,
+.user-command-card p,
+.contact-action p{
+  color:rgba(39,37,34,.66);
+}
+
+.user-kpi-card strong{
+  color:#58783d;
+}
+
+.user-action-card:hover,
+.contact-action:hover{
+  border-color:rgba(88,120,61,.22);
+  background:#fffdf8;
+  box-shadow:0 22px 62px rgba(55,45,30,.14);
+}
