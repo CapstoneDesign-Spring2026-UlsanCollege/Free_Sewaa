@@ -4837,3 +4837,130 @@ body.light-mode{
   background:#fffdf8;
   box-shadow:0 22px 62px rgba(55,45,30,.14);
 }
+
+/* ===== Global light-mode readability sweep ===== */
+body:not(.admin-v2-body) .panel,
+body:not(.admin-v2-body) .page-badge,
+body:not(.admin-v2-body) .side-card,
+body:not(.admin-v2-body) .side-preview,
+body:not(.admin-v2-body) .listing-card,
+body:not(.admin-v2-body) .notification-card,
+body:not(.admin-v2-body) .conversation-list,
+body:not(.admin-v2-body) .message-thread,
+body:not(.admin-v2-body) .stack-list,
+body:not(.admin-v2-body) .empty-state,
+body:not(.admin-v2-body) .publish-review,
+body:not(.admin-v2-body) .success-state,
+body:not(.admin-v2-body) .user-kpi-card,
+body:not(.admin-v2-body) .user-action-card,
+body:not(.admin-v2-body) .user-summary-card,
+body:not(.admin-v2-body) .contact-action,
+body:not(.admin-v2-body) .bank-details,
+body:not(.admin-v2-body) .route-summary-card,
+body:not(.admin-v2-body) .review-score-card,
+body:not(.admin-v2-body) .review-community-card{
+  color:#272522;
+}
+
+body:not(.admin-v2-body) .panel h1,
+body:not(.admin-v2-body) .panel h2,
+body:not(.admin-v2-body) .panel h3,
+body:not(.admin-v2-body) .panel h4,
+body:not(.admin-v2-body) .panel strong,
+body:not(.admin-v2-body) .page-badge strong,
+body:not(.admin-v2-body) .side-card strong,
+body:not(.admin-v2-body) .side-preview strong,
+body:not(.admin-v2-body) .listing-card h3,
+body:not(.admin-v2-body) .notification-card strong,
+body:not(.admin-v2-body) .conversation-list strong,
+body:not(.admin-v2-body) .message-thread strong,
+body:not(.admin-v2-body) .stack-list strong,
+body:not(.admin-v2-body) .empty-state h3,
+body:not(.admin-v2-body) .user-kpi-card strong,
+body:not(.admin-v2-body) .user-action-card strong,
+body:not(.admin-v2-body) .user-summary-card strong,
+body:not(.admin-v2-body) .contact-action strong,
+body:not(.admin-v2-body) .bank-details strong,
+body:not(.admin-v2-body) .route-summary-card strong,
+body:not(.admin-v2-body) .review-score-card strong,
+body:not(.admin-v2-body) .review-community-card strong{
+  color:#11100f !important;
+  opacity:1 !important;
+}
+
+body:not(.admin-v2-body) .panel p,
+body:not(.admin-v2-body) .page-badge p,
+body:not(.admin-v2-body) .side-card p,
+body:not(.admin-v2-body) .side-preview p,
+body:not(.admin-v2-body) .listing-card p,
+body:not(.admin-v2-body) .notification-card p,
+body:not(.admin-v2-body) .conversation-list p,
+body:not(.admin-v2-body) .message-thread p,
+body:not(.admin-v2-body) .stack-list p,
+body:not(.admin-v2-body) .empty-state p,
+body:not(.admin-v2-body) .publish-review p,
+body:not(.admin-v2-body) .success-state p,
+body:not(.admin-v2-body) .user-kpi-card p,
+body:not(.admin-v2-body) .user-action-card p,
+body:not(.admin-v2-body) .user-summary-card p,
+body:not(.admin-v2-body) .contact-action p,
+body:not(.admin-v2-body) .bank-details p,
+body:not(.admin-v2-body) .route-summary-card p,
+body:not(.admin-v2-body) .review-score-card p,
+body:not(.admin-v2-body) .review-community-card p,
+body:not(.admin-v2-body) .helper-text,
+body:not(.admin-v2-body) .form-status,
+body:not(.admin-v2-body) .meta-text,
+body:not(.admin-v2-body) .listing-meta,
+body:not(.admin-v2-body) .request-meta,
+body:not(.admin-v2-body) .item-meta{
+  color:rgba(39,37,34,.68) !important;
+  opacity:1 !important;
+}
+
+body:not(.admin-v2-body) .panel span,
+body:not(.admin-v2-body) .stack-list span,
+body:not(.admin-v2-body) .user-kpi-card span,
+body:not(.admin-v2-body) .user-action-card span,
+body:not(.admin-v2-body) .user-summary-card span,
+body:not(.admin-v2-body) .contact-action span,
+body:not(.admin-v2-body) .mini-label,
+body:not(.admin-v2-body) .eyebrow,
+body:not(.admin-v2-body) .field-label,
+body:not(.admin-v2-body) .stat-label{
+  color:rgba(39,37,34,.56) !important;
+  opacity:1 !important;
+}
+
+body:not(.admin-v2-body) .stack-list a,
+body:not(.admin-v2-body) .stack-list button,
+body:not(.admin-v2-body) .list-row,
+body:not(.admin-v2-body) .request-row,
+body:not(.admin-v2-body) .saved-row,
+body:not(.admin-v2-body) .message-row,
+body:not(.admin-v2-body) .activity-row,
+body:not(.admin-v2-body) .chat-item,
+body:not(.admin-v2-body) .notification-card,
+body:not(.admin-v2-body) .conversation-item{
+  color:#272522 !important;
+  background:rgba(255,255,255,.72);
+  border-color:rgba(39,37,34,.08);
+}
+
+body:not(.admin-v2-body) .stack-list:empty::before,
+body:not(.admin-v2-body) .empty-message,
+body:not(.admin-v2-body) .empty-copy,
+body:not(.admin-v2-body) [data-empty-message]{
+  color:rgba(39,37,34,.58) !important;
+  opacity:1 !important;
+}
+
+body:not(.admin-v2-body) .badge,
+body:not(.admin-v2-body) .pill,
+body:not(.admin-v2-body) .sort-pill,
+body:not(.admin-v2-body) .feature-pill,
+body:not(.admin-v2-body) .event-meta span,
+body:not(.admin-v2-body) .route-dot,
+body:not(.admin-v2-body) .step-dot{
+  color:#272522;
+}
