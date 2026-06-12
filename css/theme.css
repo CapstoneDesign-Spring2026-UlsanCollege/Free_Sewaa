@@ -4964,3 +4964,26 @@ body:not(.admin-v2-body) .route-dot,
 body:not(.admin-v2-body) .step-dot{
   color:#272522;
 }
+
+/* Message unread count: style only the small number bubble. */
+.message-count-badge{
+  min-width:18px !important;
+  height:18px !important;
+  padding:0 5px !important;
+  display:inline-grid !important;
+  place-items:center;
+  border-radius:999px;
+  background:#8ee7d7 !important;
+  color:#15302c !important;
+  border:2px solid #fbf7ef;
+  font-size:.68rem !important;
+  font-weight:900;
+  line-height:1;
+  box-shadow:0 7px 18px rgba(45,140,127,.22);
+}
+
+.icon-link .message-count-badge,
+.nav-link .message-count-badge{
+  margin-left:4px;
+  flex:0 0 auto;
+}
