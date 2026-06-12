@@ -11,7 +11,7 @@
 |  | **Ram Pathak** | [@Rampathak12](https://github.com/Rampathak12) | Backend & Core Logic | API routes, database integration, JWT authentication |
 |  | **Sujan Shrestha** | [@SujanShrestha](https://github.com/suzmoon) | Frontend & UI Development | Main pages, navigation, UI components, project coordination |
 |  | **Sujan Tamang** | [@SujanTamang](https://github.com/SujanTamang20) | Testing, Integration & Docs | QA strategy, checklists, bug reporting, integration testing |
-|  | **Swarnim Jung Karki** | [@SwarnimJungKarki](https://github.com/Swarnimkarki50) | Styling, CSS & Documentation | Responsive design, CSS polish, accessibility, portfolio organization |
+|  | **Swarnim Jung Karki** | [@SwarnimJungKarki](https://github.com/Swarnimkarki50) | Full-Stack Architecture & Integration | Initial backend architecture, API integration, security/testing, CI, UML, and final evidence |
 |  | **Mohan Khadka** | [@MohanKhadka](https://github.com/Mohankhadkaa) | Bug Fixes & Maintenance | Debugging, stability improvements, issue tracking, final cleanup |
 
 ---
@@ -32,7 +32,7 @@ flowchart TD
     A[Free Sewaa Team Portfolio] --> B[Rampathak12<br/>Backend & Core Logic]
     A --> C[Sujan Shrestha<br/>Frontend & UI Development]
     A --> D[Sujan Tamang<br/>Testing, Integration & Documentation]
-    A --> E[Swarnim Jung Karki<br/>Styling, CSS & Documentation]
+    A --> E[Swarnim Jung Karki<br/>Full-Stack Architecture & Integration]
     A --> F[Mohan Khadka<br/>Bug Fixes & Maintenance]
 
     B --> B1[API Routes]
@@ -47,9 +47,9 @@ flowchart TD
     D --> D2[Integration Checks]
     D --> D3[Documentation Support]
 
-    E --> E1[Responsive Design]
-    E --> E2[CSS Polish]
-    E --> E3[Portfolio Organization]
+    E --> E1[Initial Backend Architecture]
+    E --> E2[API Integration and Testing]
+    E --> E3[UML and Evidence Leadership]
 
     F --> F1[Bug Fixing]
     F --> F2[Stability Improvements]
@@ -82,7 +82,7 @@ flowchart TD
 | 1 | **Ram Pathak** (`Rampathak12`) | Backend & Core Logic | [API Reference](../../docs/DESIGN/API_REFERENCE.md) · [Database Schema](../../docs/DESIGN/DATABASE_SCHEMA.md) · [Authentication](../../docs/AUTHENTICATION.md) · [Server Code](../../server/server.js) | [View Portfolio](./Rampathak12.md) |
 | 2 | **Sujan Shrestha** | Frontend & UI Development | [UI Flow](../../docs/DESIGN/UI_FLOW.md) · [Frontend Guide](../../docs/FRONTEND_GUIDE.md) · [Wireframes](../../docs/DESIGN/WIREFRAMES.md) · [HTML Pages](../../html/) | [View Portfolio](./Sujan_Shrestha.md) |
 | 3 | **Sujan Tamang** | Testing, Integration & Docs | [Testing Strategy](../../docs/TESTING_STRATEGY.md) · [QA Checklists](../../MANUAL_TESTING_CHECKLIST.md) · [Bug Reports](../../docs/ISSUES/BUGS/) · [Testing Log](../../docs/PROGRESS/TESTING_LOG.md) | [View Portfolio](./Sujan_Tamang.md) |
-| 4 | **Swarnim Jung Karki** | Styling, CSS & Documentation | [CSS Theme](../../css/theme.css) · [Mobile Checklist](../../MOBILE_TESTING_CHECKLIST.md) · [Accessibility Checklist](../../ACCESSIBILITY_CHECKLIST.md) · [Documentation Hub](../../docs/README.md) | [View Portfolio](./Swarnim_Jung_Karki.md) |
+| 4 | **Swarnim Jung Karki** | Full-Stack Architecture & Integration | [Initial Backend PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61) · [API Integration](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b) · [Server Tests](../../server/__tests__/api.test.js) · [Representative Evidence](../06-ai-and-code-ownership/representative-prs/README.md) | [View Portfolio](./Swarnim_Jung_Karki.md) |
 | 5 | **Mohan Khadka** | Bug Fixes & Maintenance | [Bug Reports](../../docs/ISSUES/BUGS/) · [Project Board](../../PROJECT_BOARD.md) · [QA Checklist](../../docs/QA_CHECKLIST.md) · [Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md) | [View Portfolio](./Mohan_Khadka.md) |
 
 > **Note:** All evidence links above point to real files in this repository. If a link does not resolve, please verify the file path from the repository root.
