@@ -8,6 +8,7 @@ export default function SigninPage() {
         <a href="index.html" className="brand">Free Sewaa</a>
         <nav className="auth-header__actions">
           <a href="/signin.html" className="mini-link is-active">Member Sign In</a>
+          <a href="/admin_login.html" className="mini-link">Admin Login</a>
           <a href="/signup.html" className="mini-link">Create Account</a>
         </nav>
       </header>
@@ -40,7 +41,7 @@ export default function SigninPage() {
               <button className="primary-btn" type="submit">Sign In</button>
             </form>
           </div>
-          <p className="auth-footer">Don't have an account? <a href="/signup.html">Create one</a></p>
+          <p className="auth-footer">Don't have an account? <a href="/signup.html">Create one</a><br /><a href="/admin_login.html">Admin login</a></p>
         </section>
       </main>
     </div>
