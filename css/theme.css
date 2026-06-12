@@ -4626,8 +4626,9 @@ body.light-mode{
 
 .browse-hero-bg{
   background:
-    linear-gradient(90deg,rgba(251,247,239,.94),rgba(251,247,239,.56)),
-    url('https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=1600&q=84') center/cover no-repeat;
+    linear-gradient(90deg,rgba(251,247,239,.94),rgba(251,247,239,.48)),
+    url('/assets/browse-help-bg.jpg') center/cover no-repeat,
+    url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1600&q=84') center/cover no-repeat;
 }
 
 .feature-media-1,
