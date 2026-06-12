@@ -18,7 +18,7 @@ export default function IndexPage() {
         </nav>
       </header>
       <main>
-        <section className="hero" id="hero">
+        <section className="hero landing-hero" id="hero">
           <div className="hero__slides">
             <div className="hero__slide is-active" data-bg="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1920&q=80" />
             <div className="hero__slide" data-bg="https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=1920&q=80" />

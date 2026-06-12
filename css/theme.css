@@ -5198,6 +5198,141 @@ body:not(.admin-v2-body) .helper-text{
   color:rgba(39,37,34,.62) !important;
 }
 
+/* ===== Public landing hero: keep images, use light overlapping UI ===== */
+.landing-hero{
+  min-height:100vh;
+  background:#fbf7ef;
+  padding:112px 0 64px;
+}
+
+.landing-hero .hero__slide{
+  filter:saturate(.92) contrast(1.02);
+}
+
+.landing-hero .hero__overlay{
+  background:
+    linear-gradient(90deg,rgba(251,247,239,.98) 0%,rgba(251,247,239,.88) 42%,rgba(251,247,239,.56) 100%),
+    linear-gradient(180deg,rgba(251,247,239,.10),rgba(251,247,239,.94) 92%),
+    radial-gradient(circle at 73% 34%,rgba(239,227,198,.45),transparent 32%);
+}
+
+.landing-hero .hero__content{
+  width:min(1180px,calc(100% - 48px));
+  grid-template-columns:minmax(0,1fr) minmax(360px,460px);
+  gap:clamp(44px,7vw,96px);
+  align-items:center;
+}
+
+.landing-hero .hero__copy{
+  max-width:650px;
+}
+
+.landing-hero .hero__title{
+  max-width:10ch;
+  color:#272522;
+  text-shadow:none;
+  font-size:clamp(4.2rem,7.8vw,7rem);
+  line-height:.94;
+}
+
+.landing-hero .hero__text{
+  max-width:560px;
+  color:rgba(39,37,34,.70);
+  font-size:1.08rem;
+}
+
+.landing-hero .eyebrow,
+.landing-hero .metric__label{
+  color:rgba(39,37,34,.54);
+}
+
+.landing-hero .btn--hero{
+  color:#272522;
+  background:#e6e6e3;
+  border:1px solid rgba(39,37,34,.10);
+  box-shadow:none;
+}
+
+.landing-hero .text-link{
+  color:#58783d;
+}
+
+.landing-hero .hero__glass{
+  color:#272522;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(39,37,34,.10);
+  box-shadow:0 24px 70px rgba(55,45,30,.14);
+  backdrop-filter:blur(18px) saturate(125%);
+}
+
+.landing-hero .metric strong{
+  color:#58783d;
+  text-shadow:none;
+}
+
+.landing-hero .hero__note{
+  border-top:1px solid rgba(39,37,34,.10);
+}
+
+.landing-hero .hero__note p{
+  color:rgba(39,37,34,.68);
+}
+
+.landing-hero .hero__controls{
+  width:min(1180px,calc(100% - 48px));
+}
+
+.landing-hero .hero__progress{
+  background:rgba(39,37,34,.12);
+}
+
+.landing-hero .hero__progress span,
+.landing-hero .dot.is-active{
+  background:#7fb7aa;
+}
+
+.landing-hero .dot{
+  background:rgba(39,37,34,.22);
+}
+
+.header{
+  background:rgba(251,247,239,.72);
+  border-bottom:1px solid rgba(39,37,34,.08);
+  backdrop-filter:blur(16px);
+}
+
+.header .btn--ghost,
+.header .btn--solid{
+  color:#272522;
+  border:1px solid rgba(39,37,34,.10);
+  background:rgba(255,255,255,.40);
+}
+
+.header .btn--solid{
+  background:#e6d0a0;
+}
+
+@media (max-width:980px){
+  .landing-hero .hero__content{
+    grid-template-columns:1fr;
+  }
+}
+
+@media (max-width:760px){
+  .landing-hero{
+    padding:96px 0 46px;
+  }
+
+  .landing-hero .hero__content,
+  .landing-hero .hero__controls{
+    width:calc(100% - 28px);
+  }
+
+  .landing-hero .hero__title{
+    font-size:clamp(3.2rem,14vw,4.8rem);
+  }
+}
+
 /* Softer nav active/hover state, replacing the flat grey box. */
 .site-header .nav-link,
 .site-header .icon-link{
