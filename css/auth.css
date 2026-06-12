@@ -1014,3 +1014,73 @@ body{
     font-size:clamp(3.15rem,14vw,4.55rem);
   }
 }
+
+/* ===== Portal page overlap fixes ===== */
+.portal-shell{
+  padding-top:150px;
+  align-items:start;
+}
+
+.portal-card{
+  overflow:visible;
+}
+
+.portal-option{
+  grid-template-columns:88px minmax(0,1fr);
+  align-items:start;
+  padding:26px;
+}
+
+.portal-option__badge{
+  position:static;
+  grid-column:2;
+  grid-row:1;
+  justify-self:start;
+  width:max-content;
+  max-width:100%;
+  margin:0 0 12px;
+  white-space:normal;
+}
+
+.portal-option__icon{
+  grid-column:1;
+  grid-row:1 / span 3;
+}
+
+.portal-option__body{
+  grid-column:2;
+  min-width:0;
+}
+
+.portal-option__body h3{
+  margin-top:0;
+  padding-right:0;
+}
+
+.portal-option__cta{
+  grid-column:2;
+}
+
+@media (max-width:1080px){
+  .portal-shell{
+    padding-top:132px;
+  }
+}
+
+@media (max-width:760px){
+  .portal-shell{
+    padding-top:142px;
+  }
+
+  .portal-option{
+    grid-template-columns:1fr;
+  }
+
+  .portal-option__badge,
+  .portal-option__icon,
+  .portal-option__body,
+  .portal-option__cta{
+    grid-column:auto;
+    grid-row:auto;
+  }
+}
