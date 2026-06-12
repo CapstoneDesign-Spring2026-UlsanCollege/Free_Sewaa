@@ -43,7 +43,9 @@ jobs:
           CI: true
 
       - name: Check HTML files
-        run: echo "HTML pages: $(ls ../html/*.html | wc -l)"
+        run: |
+          echo "HTML pages: $(ls ../html/*.html | wc -l)"
 
       - name: Check CSS files
-        run: echo "CSS files: $(ls ../css/*.css | wc -l)"
+        run: |
+          echo "CSS files: $(ls ../css/*.css | wc -l)"
