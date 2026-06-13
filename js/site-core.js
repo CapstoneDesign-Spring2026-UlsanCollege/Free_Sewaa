@@ -3088,24 +3088,7 @@
     launcher.className = 'chatbot-launcher';
     launcher.setAttribute('aria-label', 'Open Free Sewaa helper');
     launcher.setAttribute('aria-expanded', 'false');
-    launcher.innerHTML = `
-      <svg class="chatbot-launcher__logo" viewBox="0 0 420 480" aria-hidden="true" focusable="false">
-        <rect width="420" height="480" fill="#f4e8c7"></rect>
-        <g transform="translate(84 54)">
-          <path fill="#965715" d="M116 26c-31 20-52 48-65 81-10 24-24 45-43 61 12 9 24 16 37 21-2 43-2 82-31 116 28 2 52-7 67-27 15-19 21-45 18-76-2-20 0-40 6-61 11-41 28-80 51-115-13 1-27 4-40 10z"></path>
-          <path fill="#8d4a16" d="M43 157c10 0 18 3 25 9-12 2-22 1-31-3 2-3 4-5 6-6z"></path>
-          <path fill="#6aa49d" d="M181 76c37 61 46 118 29 171-13 39-35 66-67 80V184c20-26 33-61 38-108z"></path>
-          <path fill="#2f6868" d="M220 118c22 65 8 121-42 168 1-42 5-76 14-102 7-21 16-43 28-66z"></path>
-          <path fill="#b7671e" d="M91 333c24-62 54-108 91-137 37-28 61-63 72-104 1 42-13 78-41 108-17 19-38 34-61 47-25 15-45 43-61 86z"></path>
-          <path fill="#b7671e" d="M109 139c24 41 30 92 17 153-3 13-7 26-11 39 4-72-10-132-41-178l35-14z"></path>
-          <path fill="#2f6868" d="M120 50c28 35 34 72 18 111-29-31-35-68-18-111z"></path>
-          <path fill="#3e7772" d="M93 131c34 17 47 45 39 84-34-18-47-46-39-84z"></path>
-          <path fill="#2f6868" d="M145 147c37-3 61-23 72-60 13 39 2 72-33 99-17-12-30-25-39-39z"></path>
-          <path fill="#3e7772" d="M113 210c33 12 48 36 44 72-31-9-46-33-44-72z"></path>
-          <path fill="none" stroke="#f2dfb2" stroke-linecap="round" stroke-width="7" d="M122 65c4 40 9 78 15 114M100 142c12 15 24 27 36 37M145 162c18-22 33-43 45-63M116 219c13 14 27 25 42 32"></path>
-        </g>
-      </svg>
-    `;
+    launcher.innerHTML = '<span class="chatbot-launcher__mark" aria-hidden="true">AI</span>';
 
     const widget = document.createElement('section');
     widget.className = 'chatbot-widget';
@@ -3114,9 +3097,12 @@
     widget.innerHTML = `
       <div class="chatbot-panel" role="dialog" aria-modal="false" aria-labelledby="chatbotTitle">
         <div class="chatbot-panel__header">
-          <div>
-            <p class="chatbot-panel__eyebrow">AI helper</p>
-            <h2 id="chatbotTitle">Free Sewaa Chat</h2>
+          <div class="chatbot-panel__brand">
+            <span class="chatbot-panel__logo" aria-hidden="true">AI</span>
+            <div>
+              <p class="chatbot-panel__eyebrow">AI helper</p>
+              <h2 id="chatbotTitle">Free Sewaa Chat</h2>
+            </div>
           </div>
           <button type="button" class="chatbot-icon-button" data-chatbot-close aria-label="Close chat">x</button>
         </div>
@@ -3193,6 +3179,23 @@
       }
     }
 
+    function localChatbotReply(text) {
+      const lower = String(text || '').toLowerCase();
+      if (/\b(message|chat|contact|talk)\b/.test(lower)) {
+        return 'Open Messages from your dashboard or from an item request. Choose a conversation, type your message, and press Send.';
+      }
+      if (/\b(donate|post|upload|give)\b/.test(lower)) {
+        return 'To donate, open Donate, add the item title, category, condition, pickup window, notes, and a clear photo. Then publish the listing.';
+      }
+      if (/\b(request|claim|interested|reserve)\b/.test(lower)) {
+        return 'To request an item, open Browse, preview the item, then press Request. You can continue from Messages after the donor replies.';
+      }
+      if (/\b(pickup|location|meet|safe)\b/.test(lower)) {
+        return 'For pickup, use a public location, agree on a clear time, and keep exact address details inside Messages.';
+      }
+      return 'I can help with donating items, browsing, requests, pickup safety, messages, profile settings, and saved items. What do you want to do?';
+    }
+
     async function sendChatMessage(text) {
       const pending = renderMessage({ role: 'bot', text: 'Thinking...' });
       try {
@@ -3205,11 +3208,12 @@
         if (!response.ok) {
           throw new Error(data.error || 'Chatbot is unavailable.');
         }
-        pending.querySelector('p').textContent = data.reply;
-        history.push({ role: 'bot', text: data.reply });
+        const reply = data.reply || localChatbotReply(text);
+        pending.querySelector('p').textContent = reply;
+        history.push({ role: 'bot', text: reply });
         saveHistory(history);
       } catch (error) {
-        const fallback = 'I could not reach the helper service. Please try again in a moment.';
+        const fallback = localChatbotReply(text);
         pending.querySelector('p').textContent = fallback;
         history.push({ role: 'bot', text: fallback });
         saveHistory(history);
