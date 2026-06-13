@@ -1,7 +1,7 @@
 # Sujan Tamang — Individual Portfolio
 
 ## Executive Summary
-
+[commit `c1c8a9d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c1c8a9de3a755e0bfb1bbb5eecb4e0cbf3cc7549)
 I contributed to Free Sewaa as a **Testing and Documentation Lead**, focusing on establishing comprehensive testing strategies, creating quality assurance checklists, maintaining detailed bug reports, and supporting project documentation throughout the spring 2026 semester. My work spans test planning, bug identification, issue management, and documentation organization to ensure the platform's reliability and maintainability.
 
 **Verification Key:** All contributions are verifiable through GitHub commits (134 commits authored), pull requests, issues created, and documented files across the repository.
