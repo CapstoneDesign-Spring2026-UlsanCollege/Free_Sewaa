@@ -5394,34 +5394,35 @@ body:not(.admin-v2-body) .helper-text{
 
 /* AI helper: isolated readable widget. */
 .chatbot-launcher{
-  width:82px !important;
-  height:96px !important;
+  width:58px !important;
+  height:58px !important;
   right:22px !important;
   bottom:22px !important;
   display:inline-flex !important;
   align-items:center !important;
   justify-content:center !important;
-  padding:3px !important;
+  padding:0 !important;
   overflow:hidden !important;
-  color:transparent !important;
-  font-size:0 !important;
-  line-height:0 !important;
-  background:#fbf7ef !important;
-  border:2px solid rgba(125,62,15,.22) !important;
-  border-radius:18px !important;
-  box-shadow:0 18px 40px rgba(35,107,98,.30), 0 0 0 5px rgba(255,255,255,.86) !important;
+  color:#fbf7ef !important;
+  background:linear-gradient(135deg,#7d3e0f 0%,#bd6e24 48%,#2f7773 100%) !important;
+  border:2px solid rgba(255,255,255,.92) !important;
+  border-radius:16px !important;
+  box-shadow:0 16px 34px rgba(35,107,98,.30) !important;
 }
 
 .chatbot-helper-logo{
   width:100% !important;
   height:100% !important;
-  display:block !important;
+  display:grid !important;
+  place-items:center !important;
   flex:0 0 auto !important;
-  object-fit:contain !important;
-  object-position:center !important;
-  border-radius:14px !important;
-  background:#fbf7ef !important;
-  filter:contrast(1.08) saturate(1.08) !important;
+  color:inherit !important;
+  font-size:1.25rem !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+  letter-spacing:0 !important;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif !important;
+  text-shadow:0 1px 8px rgba(0,0,0,.26) !important;
 }
 
 .chatbot-widget{
@@ -5457,20 +5458,22 @@ body:not(.admin-v2-body) .helper-text{
 }
 
 .chatbot-panel__logo{
-  width:58px !important;
-  height:66px !important;
+  width:44px !important;
+  height:44px !important;
   display:grid !important;
   place-items:center !important;
   flex:0 0 auto !important;
   border-radius:12px !important;
-  background:#fbf7ef !important;
-  border:1px solid rgba(125,62,15,.16) !important;
+  color:#fbf7ef !important;
+  background:linear-gradient(135deg,#7d3e0f 0%,#bd6e24 48%,#2f7773 100%) !important;
+  border:1px solid rgba(255,255,255,.82) !important;
   overflow:hidden !important;
 }
 
 .chatbot-panel__logo .chatbot-helper-logo{
-  width:58px !important;
-  height:66px !important;
+  width:44px !important;
+  height:44px !important;
+  font-size:1rem !important;
 }
 
 .chatbot-panel__eyebrow{

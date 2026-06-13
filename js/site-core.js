@@ -3088,7 +3088,7 @@
     launcher.className = 'chatbot-launcher';
     launcher.setAttribute('aria-label', 'Open Free Sewaa helper');
     launcher.setAttribute('aria-expanded', 'false');
-    const helperLogo = '<img class="chatbot-helper-logo" src="/assets/ai-logo.svg" alt="" loading="eager" decoding="async" />';
+    const helperLogo = '<span class="chatbot-helper-logo" aria-hidden="true">FS</span>';
     launcher.innerHTML = helperLogo;
 
     const widget = document.createElement('section');
