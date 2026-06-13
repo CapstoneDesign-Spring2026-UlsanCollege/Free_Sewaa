@@ -1,5 +1,7 @@
 # 06 - AI and Code Ownership
 
+![AI ownership logo](../../assets/ai-logo.svg)
+
 This section explains how AI assistance was used and how human ownership is shown through repository evidence.
 
 | Document | Purpose |

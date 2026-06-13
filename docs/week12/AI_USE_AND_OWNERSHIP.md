@@ -1,5 +1,7 @@
 # AI Use and Code Ownership — Week 12
 
+![AI ownership logo](../../assets/ai-logo.svg)
+
 ## What AI Helped With
 
 - Writing QA checklist and test evidence templates

@@ -1,5 +1,7 @@
 # AI Code Ownership Audit
 
+![AI ownership logo](../assets/ai-logo.svg)
+
 > Purpose: Prove that the team understands the project, especially the parts created or changed with AI assistance.
 
 ---
