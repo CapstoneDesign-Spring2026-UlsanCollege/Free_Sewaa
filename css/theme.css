@@ -5391,3 +5391,24 @@ body:not(.admin-v2-body) .helper-text{
   right:14px;
   opacity:1;
 }
+
+/* AI helper launcher logo: replace the old question-mark button. */
+.chatbot-launcher{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:5px !important;
+  overflow:hidden !important;
+  color:transparent !important;
+  font-size:0 !important;
+  line-height:0 !important;
+  background:#f4e8c7 !important;
+  border-color:rgba(39,37,34,.14) !important;
+}
+
+.chatbot-launcher__logo{
+  width:100% !important;
+  height:100% !important;
+  display:block !important;
+  border-radius:50% !important;
+}
