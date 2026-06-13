@@ -139,7 +139,7 @@ I contributed to Free Sewaa as a **Testing and Documentation Lead**, focusing on
 **Evidence Link:**
 - [Issue #90 - Stabilization Goal](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/90)
 - [Bug Report Template Creation Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits?author=SujanTamang20)
-- [Testing Documentation](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs)
+- [Testing Documentation](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/TESTING_STRATEGY.md)
 
 ---
 
@@ -284,15 +284,12 @@ The testing and documentation framework I established:
 
 ---
 
-## Navigation
-
-- [Back to Individual Portfolios](./README.md)
-- [Back to Portfolio Home](../README.md)
-- [Back to Repository](../../README.md)
-
+### My Best Evidence Links
+1. [TESTING_STRATEGY.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/TESTING_STRATEGY.md)
+2. [TESTING_PLAN.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/TESTING_PLAN.md)
+3. [MANUAL_TESTING_CHECKLIST.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/MANUAL_TESTING_CHECKLIST.md)
+4. [Sprints](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/sprints)
+5. [Authentication Testing Documentation](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/AUTHENTICATION.md)
+6. [Testing Documentation](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/TESTING_STRATEGY.md)
 ---
 
-**Report Generated:** June 13, 2026  
-**Semester:** Spring 2026  
-**Project:** Free Sewaa Community Donation Platform  
-**Student:** Sujan Tamang (@SujanTamang20)
