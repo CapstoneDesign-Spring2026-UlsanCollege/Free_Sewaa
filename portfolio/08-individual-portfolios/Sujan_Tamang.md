@@ -162,7 +162,7 @@ I contributed to Free Sewaa as a **Testing and Documentation Lead**, focusing on
 
 | # | Date | Commit | Type | Verified Contribution |
 |:---:|---|---|---|---|
-| 1 | 2026-04-03 | [commit `585cc74`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/[commit `ae67702`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/ae67702a4966d37e348a0d34c85c751583627aa1)) | Repository Setup | Fresh start - removed all history, initialized clean repo structure |
+| 1 | 2026-04-03 | [commit `585cc74`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/[commit `36d3b13`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/36d3b13). | Repository Setup | Fresh start - removed all history, initialized clean repo structure |
 | 2 | 2026-04-03 | `16334691` | Maintenance | Trigger GitHub Pages rebuild |
 | 3 | 2026-04-03 | `b70936974` | Maintenance | Fix submodule error |
 | 4 | 2026-04-03 | `7e46e14e` | Organization | Remove duplicate Free_Sewaa folder |
