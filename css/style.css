@@ -207,6 +207,7 @@ a{text-decoration:none;color:inherit}
 .ai-feature__logo{
   width:112px;
   height:128px;
+  flex:0 0 auto;
   object-fit:contain;
   border-radius:16px;
   box-shadow:0 18px 48px rgba(0,0,0,.22);
