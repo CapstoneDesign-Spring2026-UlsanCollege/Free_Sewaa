@@ -3088,7 +3088,8 @@
     launcher.className = 'chatbot-launcher';
     launcher.setAttribute('aria-label', 'Open Free Sewaa helper');
     launcher.setAttribute('aria-expanded', 'false');
-    launcher.innerHTML = '<span class="chatbot-launcher__mark" aria-hidden="true">AI</span>';
+    const helperLogo = '<img class="chatbot-helper-logo" src="/assets/ai-logo.svg" alt="" loading="eager" decoding="async" />';
+    launcher.innerHTML = helperLogo;
 
     const widget = document.createElement('section');
     widget.className = 'chatbot-widget';
@@ -3098,7 +3099,7 @@
       <div class="chatbot-panel" role="dialog" aria-modal="false" aria-labelledby="chatbotTitle">
         <div class="chatbot-panel__header">
           <div class="chatbot-panel__brand">
-            <span class="chatbot-panel__logo" aria-hidden="true">AI</span>
+            <span class="chatbot-panel__logo" aria-hidden="true">${helperLogo}</span>
             <div>
               <p class="chatbot-panel__eyebrow">AI helper</p>
               <h2 id="chatbotTitle">Free Sewaa Chat</h2>

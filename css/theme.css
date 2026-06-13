@@ -5394,36 +5394,33 @@ body:not(.admin-v2-body) .helper-text{
 
 /* AI helper: isolated readable widget. */
 .chatbot-launcher{
-  width:62px !important;
-  height:62px !important;
+  width:74px !important;
+  height:74px !important;
   right:22px !important;
   bottom:22px !important;
   display:inline-flex !important;
   align-items:center !important;
   justify-content:center !important;
-  padding:0 !important;
+  padding:6px !important;
   overflow:hidden !important;
-  color:#fbf7ef !important;
+  color:transparent !important;
   font-size:0 !important;
   line-height:0 !important;
-  background:#236b62 !important;
+  background:#fbf7ef !important;
   border:3px solid #fbf7ef !important;
   border-radius:999px !important;
   box-shadow:0 18px 40px rgba(35,107,98,.28) !important;
 }
 
-.chatbot-launcher__mark{
-  width:46px !important;
-  height:46px !important;
-  display:grid !important;
-  place-items:center !important;
+.chatbot-helper-logo{
+  width:100% !important;
+  height:100% !important;
+  display:block !important;
+  flex:0 0 auto !important;
+  object-fit:cover !important;
+  object-position:center !important;
   border-radius:999px !important;
   background:#fbf7ef !important;
-  color:#236b62 !important;
-  font-size:1.08rem !important;
-  line-height:1 !important;
-  font-weight:900 !important;
-  letter-spacing:.03em !important;
 }
 
 .chatbot-widget{
@@ -5459,17 +5456,19 @@ body:not(.admin-v2-body) .helper-text{
 }
 
 .chatbot-panel__logo{
-  width:42px !important;
-  height:42px !important;
+  width:54px !important;
+  height:54px !important;
   display:grid !important;
   place-items:center !important;
   flex:0 0 auto !important;
   border-radius:12px !important;
-  background:#236b62 !important;
-  color:#fff !important;
-  font-size:1rem !important;
-  font-weight:900 !important;
-  letter-spacing:.03em !important;
+  background:#fbf7ef !important;
+  overflow:hidden !important;
+}
+
+.chatbot-panel__logo .chatbot-helper-logo{
+  width:54px !important;
+  height:54px !important;
 }
 
 .chatbot-panel__eyebrow{
