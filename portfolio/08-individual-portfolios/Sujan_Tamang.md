@@ -291,5 +291,6 @@ The testing and documentation framework I established:
 4. [Sprints](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/sprints)
 5. [Authentication Testing Documentation](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/AUTHENTICATION.md)
 6. [Testing Documentation](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/TESTING_STRATEGY.md)
+7. [Progress](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/PROGRESS)
 ---
 
