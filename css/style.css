@@ -195,7 +195,7 @@ a{text-decoration:none;color:inherit}
   position:relative;
   z-index:2;
   display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(260px,480px) auto;
+  grid-template-columns:auto minmax(0,1fr) minmax(260px,480px) auto;
   align-items:center;
   gap:32px;
   margin-top:0;
@@ -203,6 +203,13 @@ a{text-decoration:none;color:inherit}
   border:1px solid var(--line);
   border-radius:16px;
   background:rgba(255,255,255,.02);
+}
+.ai-feature__logo{
+  width:112px;
+  height:128px;
+  object-fit:contain;
+  border-radius:16px;
+  box-shadow:0 18px 48px rgba(0,0,0,.22);
 }
 .section-title{
   margin:10px 0 0;

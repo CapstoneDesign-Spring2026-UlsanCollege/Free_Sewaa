@@ -67,6 +67,15 @@ export default function IndexPage() {
           </div>
         </section>
         <section className="ai-feature wrap reveal-block">
+          <img
+            src="/assets/ai-logo.svg"
+            alt="Sewaa AI logo"
+            className="ai-feature__logo"
+            width={112}
+            height={128}
+            loading="lazy"
+            decoding="async"
+          />
           <div className="intro__left">
             <p className="eyebrow">New service</p>
             <h2 className="section-title">Sewaa AI helps users donate smarter and safer.</h2>
