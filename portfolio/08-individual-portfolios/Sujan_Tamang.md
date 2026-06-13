@@ -66,7 +66,7 @@ I contributed to Free Sewaa as a **Testing and Documentation Lead**, focusing on
 - **Evidence Link:** 
   - [Manual Testing Checklist Commits](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits?author=SujanTamang20&grep=testing)
   - [Issue #90 - Item Duplication & Security](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/90)
-  - [Authentication Testing Documentation](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs)
+  - [Authentication Testing Documentation](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/AUTHENTICATION.md)
 
 ---
 
