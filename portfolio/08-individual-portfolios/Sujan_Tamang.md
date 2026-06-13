@@ -28,7 +28,7 @@ I contributed to Free Sewaa as a **Testing and Documentation Lead**, focusing on
 
 | Contribution | What I Personally Did | Evidence Link |
 |---|---|---|
-| **Testing Strategy Development** | Developed comprehensive testing approach covering unit, integration, manual, accessibility, and regression testing methodologies | [docs/TESTING_STRATEGY.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs) |
+| **Testing Strategy Development** | Developed comprehensive testing approach covering unit, integration, manual, accessibility, and regression testing methodologies | [docs/TESTING_STRATEGY.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/TESTING_STRATEGY.md) |
 | **Test Plan Documentation** | Created detailed test plans with test cases for authentication, item posting, and messaging features | [docs/TESTING_PLAN.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs) |
 | **Bug Report System** | Established standardized bug report format with reproduction steps, severity levels, expected/actual results | [docs/ISSUES/BUGS/](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/ISSUES) |
 | **Manual QA Checklists** | Created comprehensive manual testing checklists for authentication, browse, donate, messaging, and admin features | [MANUAL_TESTING_CHECKLIST.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa) |
