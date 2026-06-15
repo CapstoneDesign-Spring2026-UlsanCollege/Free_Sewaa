@@ -74,7 +74,7 @@ Phone OTP is available through Firebase Phone Authentication. South Korea is exp
 The current Spark project reports a real SMS quota of 10 messages per day. A configured test-number fallback remains available:
 
 ```text
-Test phone: +1 650-555-3434
+Test phone: +82 10-0000-3434
 Test OTP:   654321
 ```
 
