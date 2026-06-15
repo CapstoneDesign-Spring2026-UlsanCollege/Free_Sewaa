@@ -65,26 +65,26 @@ Frontend behavior:
 
 ## Phone OTP
 
-Phone OTP is available through Firebase Phone Authentication. South Korea is explicitly allowed in the Firebase SMS region policy. Korean mobile numbers must use international format:
+Phone OTP is available through Firebase Phone Authentication. South Korea is explicitly allowed in the Firebase SMS region policy. Korean local mobile numbers are converted automatically:
 
 ```text
 010-1234-5678 → +82 10-1234-5678
 ```
 
-The current Spark project reports a real SMS quota of 10 messages per day. A configured test-number fallback remains available:
+The Spark project can use a configured fictional test number without sending an SMS:
 
 ```text
 Test phone: +82 10-0000-3434
 Test OTP:   654321
 ```
 
-Firebase does not send an SMS for the configured test number.
+Firebase does not send an SMS for the configured test number. Firebase's current published limits list real verification-code SMS as a Blaze-plan feature, so Google or Email Link is the recommended no-cost production verification method.
 
 Frontend behavior:
 
-1. User enters a phone number in international format.
+1. User enters either `010-...` or international `+82...` format.
 2. Firebase reCAPTCHA validates the browser session.
-3. Firebase sends an SMS OTP.
+3. Firebase sends an SMS OTP when real SMS billing is available, or accepts the configured test OTP without sending a message.
 4. User enters the code.
 5. The frontend sends the verified Firebase ID token to `/api/auth/firebase`.
 

@@ -323,9 +323,14 @@ function getFirebaseAuth() {
 }
 
 function normalizePhoneNumber(value = '') {
-  const phone = String(value || '').trim().replace(/[^\d+]/g, '');
-  if (!phone) return '';
-  return phone.startsWith('+') ? phone : '';
+  const raw = String(value || '').trim();
+  const digits = raw.replace(/\D/g, '');
+  if (!digits) return '';
+
+  if (raw.startsWith('+')) return `+${digits}`;
+  if (digits.startsWith('82')) return `+${digits}`;
+  if (digits.startsWith('0')) return `+82${digits.slice(1)}`;
+  return '';
 }
 
 function getSignupNamePayload(form) {
@@ -352,8 +357,11 @@ async function finishFirebaseSignin(result, provider, extra = {}) {
 function firebaseErrorMessage(error, fallback = 'Firebase authentication failed.') {
   const code = String(error?.code || '');
 
-  if (code.includes('popup-blocked') || code.includes('popup-closed')) {
-    return 'The Google sign-in window was blocked. Redirecting sign-in is now used instead.';
+  if (code.includes('popup-blocked')) {
+    return 'The Google sign-in window was blocked. Allow popups for this site and try again.';
+  }
+  if (code.includes('popup-closed') || code.includes('cancelled-popup-request')) {
+    return 'Google sign-in was cancelled before an account was selected.';
   }
   if (code.includes('invalid-phone-number')) {
     return 'Enter the phone number in international format, including + and country code.';
@@ -362,10 +370,10 @@ function firebaseErrorMessage(error, fallback = 'Firebase authentication failed.
     return 'Firebase could not validate reCAPTCHA. Refresh the page and try again.';
   }
   if (code.includes('billing-not-enabled')) {
-    return 'Firebase billing or SMS quota blocked this request. Use the configured Firebase test number or try again after the daily quota resets.';
+    return 'Real Firebase SMS requires billing for this project. Use Google, Email Link, or the configured Korean test number.';
   }
   if (code.includes('quota-exceeded') || code.includes('too-many-requests')) {
-    return 'Firebase SMS quota or abuse protection blocked this request. The free project currently allows 10 real SMS messages per day; use the configured test number if needed.';
+    return 'Firebase SMS quota or abuse protection blocked this request. Use Google, Email Link, or the configured Korean test number.';
   }
   if (code.includes('operation-not-allowed')) {
     return 'This Firebase sign-in method is not enabled for the project.';
@@ -469,7 +477,13 @@ async function startPhoneOtp(form) {
     }
 
     window.freesewaaPhoneConfirmation = await auth.signInWithPhoneNumber(phone, window.freesewaaRecaptchaVerifier);
-    showInlineMessage(form, 'OTP sent. Enter the 6-digit code to continue.', 'success');
+    showInlineMessage(
+      form,
+      phone === FIREBASE_TEST_PHONE
+        ? 'Test OTP ready. Enter 654321 to continue.'
+        : `OTP request accepted for ${phone}. Enter the SMS code to continue.`,
+      'success'
+    );
   } catch (error) {
     if (window.freesewaaRecaptchaVerifier?.clear) {
       window.freesewaaRecaptchaVerifier.clear();
@@ -522,11 +536,26 @@ document.querySelectorAll('[data-firebase-provider="google"]').forEach(button =>
       if (!auth) throw new Error('Firebase is not configured for this page.');
 
       button.disabled = true;
-      button.textContent = 'Redirecting to Google...';
+      button.textContent = 'Opening Google...';
       const provider = new window.firebase.auth.GoogleAuthProvider();
       provider.setCustomParameters({ prompt: 'select_account' });
-      await auth.signInWithRedirect(provider);
+      const result = await auth.signInWithPopup(provider);
+      button.textContent = 'Signing in...';
+      await finishFirebaseSignin(result, 'google.com');
     } catch (error) {
+      const code = String(error?.code || '');
+      if (code.includes('popup-blocked')) {
+        try {
+          button.textContent = 'Redirecting to Google...';
+          const auth = getFirebaseAuth();
+          const provider = new window.firebase.auth.GoogleAuthProvider();
+          provider.setCustomParameters({ prompt: 'select_account' });
+          await auth.signInWithRedirect(provider);
+          return;
+        } catch (redirectError) {
+          error = redirectError;
+        }
+      }
       console.warn('Google sign-in failed:', error);
       showCardMessage(button, firebaseErrorMessage(error, 'Google sign-in failed.'), 'error');
       button.disabled = false;
