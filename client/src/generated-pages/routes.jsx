@@ -90,7 +90,7 @@ export const pageRoutes = {
         },
         {
           "rel": "stylesheet",
-          "href": "/css/theme.css?v=adminrebuild20260418"
+          "href": "/css/theme.css?v=adminadvanced20260616"
         }
       ],
       "scripts": [
