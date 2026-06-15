@@ -22,7 +22,7 @@ afterAll(() => {
   if (server && server.close) server.close();
 });
 
-function request(method, path, body) {
+function request(method, path, body, headers = {}) {
   return new Promise((resolve) => {
     const url = new URL(path, BASE_URL);
     const options = {
@@ -30,7 +30,7 @@ function request(method, path, body) {
       hostname: url.hostname,
       port: url.port,
       path: url.pathname + url.search,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...headers },
     };
     const req = http.request(options, (res) => {
       let data = '';
@@ -97,5 +97,142 @@ describe('Auth validation', () => {
       email: 'test@example.com',
     });
     expect([400, 0]).toContain(res.status);
+  });
+});
+
+describe('Listing reports and admin moderation', () => {
+  const userHeaders = { 'x-user-id': 'user-demo' };
+  const adminHeaders = { 'x-user-id': 'admin-demo' };
+
+  it('includes accessible user and admin report controls without contact fields', () => {
+    const siteCore = fs.readFileSync(path.resolve(__dirname, '../../js/site-core.js'), 'utf8');
+    const adminPanel = fs.readFileSync(path.resolve(__dirname, '../../admin-panel.js'), 'utf8');
+
+    expect(siteCore).toContain('Report listing');
+    expect(siteCore).toContain('aria-live="polite"');
+    expect(siteCore).toContain('maxlength="500"');
+    expect(adminPanel).toContain('data-report-action="dismiss"');
+    expect(adminPanel).toContain('report.reporterName');
+    expect(adminPanel).not.toContain('report.email');
+    expect(adminPanel).not.toContain('report.phone');
+  });
+
+  it('validates report submissions', async () => {
+    const unauthenticated = await request('POST', '/api/reports', {
+      listingId: 'listing-203',
+      reason: 'other'
+    });
+    expect([401, 0]).toContain(unauthenticated.status);
+    if (unauthenticated.status === 0) return;
+
+    const missingReason = await request('POST', '/api/reports', {
+      listingId: 'listing-203'
+    }, userHeaders);
+    expect(missingReason.status).toBe(400);
+
+    const unsupportedReason = await request('POST', '/api/reports', {
+      listingId: 'listing-203',
+      reason: 'not-valid'
+    }, userHeaders);
+    expect(unsupportedReason.status).toBe(400);
+
+    const excessiveDetails = await request('POST', '/api/reports', {
+      listingId: 'listing-203',
+      reason: 'other',
+      details: 'x'.repeat(501)
+    }, userHeaders);
+    expect(excessiveDetails.status).toBe(400);
+
+    const missingListing = await request('POST', '/api/reports', {
+      listingId: 'listing-does-not-exist',
+      reason: 'other'
+    }, userHeaders);
+    expect(missingListing.status).toBe(404);
+
+    const ownListing = await request('POST', '/api/reports', {
+      listingId: 'listing-201',
+      reason: 'other'
+    }, userHeaders);
+    expect(ownListing.status).toBe(400);
+  });
+
+  it('supports report, dismiss, hide, restore, and delete workflows', async () => {
+    const createFirstListing = await request('POST', '/api/listings', {
+      title: `Report test listing ${Date.now()}`,
+      category: 'Home',
+      description: 'Temporary listing used by the automated moderation test.'
+    }, adminHeaders);
+    expect([201, 0]).toContain(createFirstListing.status);
+    if (createFirstListing.status === 0) return;
+
+    const firstListingId = createFirstListing.body.listing.id;
+    const firstReport = await request('POST', '/api/reports', {
+      listingId: firstListingId,
+      reason: 'misleading-information',
+      details: 'The description does not match the item.'
+    }, userHeaders);
+    expect(firstReport.status).toBe(201);
+
+    const duplicate = await request('POST', '/api/reports', {
+      listingId: firstListingId,
+      reason: 'duplicate-spam'
+    }, userHeaders);
+    expect(duplicate.status).toBe(409);
+
+    const regularUserResolution = await request('POST', '/api/admin/report-action', {
+      reportId: firstReport.body.report.id,
+      action: 'dismiss'
+    }, userHeaders);
+    expect(regularUserResolution.status).toBe(403);
+
+    const dismissed = await request('POST', '/api/admin/report-action', {
+      reportId: firstReport.body.report.id,
+      action: 'dismiss'
+    }, adminHeaders);
+    expect(dismissed.status).toBe(200);
+    expect(dismissed.body.payload.summary.openReports).toBeGreaterThanOrEqual(0);
+
+    const secondReport = await request('POST', '/api/reports', {
+      listingId: firstListingId,
+      reason: 'unsafe-pickup'
+    }, userHeaders);
+    expect(secondReport.status).toBe(201);
+
+    const hidden = await request('POST', '/api/admin/report-action', {
+      reportId: secondReport.body.report.id,
+      action: 'hide'
+    }, adminHeaders);
+    expect(hidden.status).toBe(200);
+
+    const hiddenListing = await request('GET', `/api/listings/${firstListingId}`);
+    expect(hiddenListing.status).toBe(200);
+    expect(hiddenListing.body.listing.status).toBe('hidden');
+
+    const restored = await request('POST', '/api/admin/listing-action', {
+      listingId: firstListingId,
+      action: 'restore'
+    }, adminHeaders);
+    expect(restored.status).toBe(200);
+
+    const thirdReport = await request('POST', '/api/reports', {
+      listingId: firstListingId,
+      reason: 'prohibited-item'
+    }, userHeaders);
+    expect(thirdReport.status).toBe(201);
+
+    const deleted = await request('POST', '/api/admin/report-action', {
+      reportId: thirdReport.body.report.id,
+      action: 'delete'
+    }, adminHeaders);
+    expect(deleted.status).toBe(200);
+    expect(deleted.body.payload.reports.some(report =>
+      report.id === thirdReport.body.report.id &&
+      report.status === 'actioned' &&
+      report.resolution === 'listing-deleted' &&
+      report.resolvedBy === 'admin-demo'
+    )).toBe(true);
+
+    const deletedListing = await request('GET', `/api/listings/${firstListingId}`);
+    expect(deletedListing.status).toBe(404);
   });
 });

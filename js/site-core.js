@@ -481,6 +481,21 @@
     return data;
   }
 
+  async function createRemoteReport(listingId, reason, details = '') {
+    if (!getCurrentUserId()) {
+      throw new Error('Sign in to report a listing.');
+    }
+
+    const response = await fetch(apiUrl('/api/reports'), {
+      method: 'POST',
+      headers: getSessionHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ listingId, reason, details })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Unable to submit this report.');
+    return data;
+  }
+
   async function fetchRemoteConversations() {
     try {
       const response = await fetch(apiUrl('/api/messages/conversations'), { headers: getSessionHeaders() });
@@ -628,6 +643,58 @@
         sessionStorage.setItem('freesewaa-open-conversation', conversationId);
         window.location.href = 'messages.html';
       }
+    }
+  });
+
+  document.addEventListener('click', async event => {
+    const toggleButton = event.target.closest('.modal-report-toggle');
+    const submitButton = event.target.closest('.modal-report-submit');
+
+    if (toggleButton) {
+      const panel = toggleButton.closest('.modal-listing-copy')?.querySelector('.listing-report-panel');
+      if (!panel) return;
+      const willOpen = panel.hidden;
+      panel.hidden = !willOpen;
+      toggleButton.setAttribute('aria-expanded', String(willOpen));
+      if (willOpen) panel.querySelector('select')?.focus();
+      return;
+    }
+
+    if (!submitButton) return;
+    const panel = submitButton.closest('.listing-report-panel');
+    const reasonInput = panel?.querySelector('.listing-report-reason');
+    const detailsInput = panel?.querySelector('.listing-report-details');
+    const status = panel?.querySelector('.listing-report-status');
+    const listingId = submitButton.dataset.id;
+    if (!panel || !reasonInput || !status || !listingId) return;
+
+    if (!reasonInput.value) {
+      status.textContent = 'Select a reason before submitting.';
+      status.dataset.tone = 'error';
+      reasonInput.focus();
+      return;
+    }
+
+    const previousText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = 'Submitting...';
+    status.textContent = '';
+    status.dataset.tone = '';
+
+    try {
+      const data = await createRemoteReport(listingId, reasonInput.value, detailsInput?.value || '');
+      panel.innerHTML = `
+        <div class="listing-report-confirmation" role="status">
+          <strong>Report submitted</strong>
+          <p>${escapeHtml(data.message || 'An administrator will review this listing.')}</p>
+        </div>
+      `;
+      showToast('Report submitted for administrator review.', 'success');
+    } catch (error) {
+      status.textContent = error.message || 'Unable to submit this report.';
+      status.dataset.tone = 'error';
+      submitButton.disabled = false;
+      submitButton.textContent = previousText;
     }
   });
 
@@ -1108,6 +1175,7 @@
     if (!container || !listing) return;
     const isSaved = listIncludesId(appState.user.savedListingIds, listing.id);
     const requested = listIncludesId(appState.user.requestedListingIds, listing.id);
+    const canReport = !idsMatch(listing.ownerId, getCurrentUserId());
       container.innerHTML = `
         <div class="modal-listing-layout">
           <div class="modal-listing-visual">
@@ -1141,6 +1209,37 @@
             <button type="button" class="btn btn-soft modal-save-button" data-id="${listing.id}">${isSaved ? 'Saved' : 'Save item'}</button>
             <button type="button" class="btn btn-hero modal-request-button" data-id="${listing.id}">${requested ? 'Open messages' : 'Request item'}</button>
           </div>
+          ${canReport ? `
+            <div class="listing-report">
+              <button type="button" class="listing-report-toggle modal-report-toggle" aria-expanded="false">
+                Report listing
+              </button>
+              <div class="listing-report-panel" hidden>
+                <label>
+                  <span>Reason</span>
+                  <select class="listing-report-reason">
+                    <option value="">Select a reason</option>
+                    <option value="misleading-information">Misleading information</option>
+                    <option value="prohibited-item">Prohibited item</option>
+                    <option value="unsafe-pickup">Unsafe pickup</option>
+                    <option value="harassment">Harassment</option>
+                    <option value="duplicate-spam">Duplicate or spam</option>
+                    <option value="other">Other</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Additional details <small>(optional)</small></span>
+                  <textarea
+                    class="listing-report-details"
+                    maxlength="500"
+                    rows="4"
+                    placeholder="Add information that will help the administrator review this listing."></textarea>
+                </label>
+                <p class="listing-report-status" role="alert" aria-live="polite"></p>
+                <button type="button" class="btn btn-soft modal-report-submit" data-id="${listing.id}">Submit report</button>
+              </div>
+            </div>
+          ` : ''}
         </div>
       </div>
     `;

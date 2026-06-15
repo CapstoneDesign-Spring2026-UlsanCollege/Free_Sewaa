@@ -166,6 +166,7 @@
     setText('[data-admin-active]', summary.activeListings || 0);
     setText('[data-admin-hidden]', hidden);
     setText('[data-admin-flagged]', summary.flaggedListings || 0);
+    setText('[data-admin-open-report-count]', summary.openReports || 0);
     setText('[data-admin-featured]', summary.featuredListings || 0);
     setText('[data-admin-unread]', summary.unreadNotifications || 0);
     setText('[data-admin-suggestions]', summary.suggestions || 0);
@@ -241,8 +242,40 @@
     return [
       listing.status || 'active',
       listing.featured ? 'featured' : '',
+      listing.reportCount ? `${listing.reportCount} report${listing.reportCount === 1 ? '' : 's'}` : '',
       ...(listing.flags || [])
     ].filter(Boolean);
+  }
+
+  function formatReportReason(reason = '') {
+    return String(reason || 'other')
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+
+  function reportDetails(listing) {
+    const reports = Array.isArray(listing.reports) ? listing.reports : [];
+    if (!reports.length) return '';
+
+    return `
+      <div class="admin-report-list">
+        ${reports.map(report => `
+          <section class="admin-report-item">
+            <div>
+              <strong>${escapeHtml(formatReportReason(report.reason))}</strong>
+              <p>${escapeHtml(report.details || 'No additional details provided.')}</p>
+              <span>Reported by ${escapeHtml(report.reporterName || 'Community member')} · ${escapeHtml(timeAgo(report.createdAt))}</span>
+            </div>
+            <div class="admin-row-actions">
+              <button class="admin-btn admin-btn--soft" type="button" data-report-action="dismiss" data-report-id="${escapeHtml(report.id)}">Dismiss</button>
+              <button class="admin-btn admin-btn--soft" type="button" data-report-action="hide" data-report-id="${escapeHtml(report.id)}">Hide listing</button>
+              <button class="admin-btn admin-btn--danger" type="button" data-report-action="delete" data-report-id="${escapeHtml(report.id)}">Delete listing</button>
+            </div>
+          </section>
+        `).join('')}
+      </div>
+    `;
   }
 
   function listingCard(listing, priority = false) {
@@ -257,6 +290,7 @@
           </div>
           <div class="admin-v2-tags">${tags.map(tag => `<span class="admin-tag">${escapeHtml(tag)}</span>`).join('')}</div>
         </div>
+        ${reportDetails(listing)}
         <div class="admin-row-actions">
           <button class="admin-btn admin-btn--soft" type="button" data-listing-action="${listing.featured ? 'unfeature' : 'feature'}" data-listing-id="${escapeHtml(listing.id)}">${listing.featured ? 'Unfeature' : 'Feature'}</button>
           <button class="admin-btn admin-btn--soft" type="button" data-listing-action="review" data-listing-id="${escapeHtml(listing.id)}">Mark Reviewed</button>
@@ -275,7 +309,7 @@
       const text = `${listing.title || ''} ${listing.ownerName || ''} ${listing.category || ''} ${listing.location || ''}`.toLowerCase();
       const statusOk =
         state.listingStatus === 'all' ||
-        (state.listingStatus === 'flagged' && ((listing.flags || []).length || !listing.reviewed)) ||
+        (state.listingStatus === 'flagged' && (listing.reportCount || (listing.flags || []).length || !listing.reviewed)) ||
         (state.listingStatus === 'hidden' && listing.status === 'hidden') ||
         (state.listingStatus === 'featured' && listing.featured) ||
         (state.listingStatus === 'active' && listing.status === 'active');
@@ -290,6 +324,7 @@
     if (!target) return;
 
     const items = (state.dashboard?.moderationQueue || []).filter(item => {
+      if (state.queueFilter === 'reported') return Number(item.reportCount || 0) > 0;
       if (state.queueFilter === 'urgent') return item.urgent || item.status === 'hidden' || !item.reviewed;
       if (state.queueFilter === 'reviewed') return item.reviewed;
       return true;
@@ -381,9 +416,10 @@
     document.addEventListener('click', async event => {
       const userButton = event.target.closest('[data-user-action]');
       const listingButton = event.target.closest('[data-listing-action]');
-      if (!userButton && !listingButton) return;
+      const reportButton = event.target.closest('[data-report-action]');
+      if (!userButton && !listingButton && !reportButton) return;
 
-      const button = userButton || listingButton;
+      const button = userButton || listingButton || reportButton;
       const previousText = button.textContent;
       button.disabled = true;
       button.textContent = 'Working...';
@@ -407,6 +443,16 @@
             action
           });
           toast('Listing updated.');
+        }
+
+        if (reportButton) {
+          const action = reportButton.dataset.reportAction;
+          if (action === 'delete' && !window.confirm('Delete this listing and retain the report as audit evidence?')) return;
+          await postAction('/api/admin/report-action', {
+            reportId: reportButton.dataset.reportId,
+            action
+          });
+          toast(action === 'dismiss' ? 'Report dismissed.' : 'Report resolved and listing updated.');
         }
       } catch (error) {
         console.error(error);

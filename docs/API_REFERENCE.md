@@ -199,6 +199,46 @@ Delete a listing (owner or admin). Requires `?userId=` or `x-user-id` header.
 
 ---
 
+## Listing Reports
+
+### `POST /api/reports`
+
+Submit a listing for manual administrator review. Requires an authenticated
+Free Sewaa user through the existing session headers. Reporting does not hide
+the listing automatically.
+
+**Request Body:**
+```json
+{
+  "listingId": "listing-203",
+  "reason": "unsafe-pickup",
+  "details": "The pickup instructions request a private location."
+}
+```
+
+**Reasons:** `misleading-information`, `prohibited-item`, `unsafe-pickup`,
+`harassment`, `duplicate-spam`, `other`
+
+**Response (201):**
+```json
+{
+  "report": {
+    "id": "report-1712345678-a1b2c3",
+    "listingId": "listing-203",
+    "reporterId": "user-a1b2c3d4",
+    "reason": "unsafe-pickup",
+    "status": "open",
+    "createdAt": "2026-06-15T10:00:00.000Z"
+  },
+  "message": "Report submitted for administrator review."
+}
+```
+
+**Errors:** 400 (invalid reason, self-report, or details over 500 characters),
+401 (not authenticated), 404 (listing not found), 409 (duplicate open report)
+
+---
+
 ## Requests
 
 ### `GET /api/requests/mine`
@@ -361,10 +401,27 @@ Perform admin action on a listing.
 
 **Request Body:**
 ```json
-{ "action": "remove", "listingId": "listing-201", "adminId": "admin-x1y2z3" }
+{ "action": "hide", "listingId": "listing-201" }
 ```
 
-**Actions:** `remove`, `restore`
+**Actions:** `feature`, `unfeature`, `review`, `hide`, `restore`, `delete`
+
+### `POST /api/admin/report-action`
+
+Resolve an open listing report. Restricted to administrators.
+
+**Request Body:**
+```json
+{ "action": "dismiss", "reportId": "report-1712345678-a1b2c3" }
+```
+
+**Actions:**
+- `dismiss` — close the report without changing the listing.
+- `hide` — hide the listing and resolve all of its open reports as actioned.
+- `delete` — delete the listing while retaining resolved report audit records.
+
+The admin overview response includes `reports`, `openReports`,
+`reportedListings`, and report details on affected moderation queue entries.
 
 ---
 

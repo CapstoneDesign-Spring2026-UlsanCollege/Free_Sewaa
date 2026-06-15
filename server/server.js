@@ -16,6 +16,15 @@ const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'freesewaa-c8a41'
 const FIREBASE_CERT_URL = 'https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com';
 const FALLBACK_LISTING_IMAGE = 'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80';
 const MAX_INLINE_IMAGE_LENGTH = 180000;
+const MAX_REPORT_DETAILS_LENGTH = 500;
+const REPORT_REASONS = new Set([
+  'misleading-information',
+  'prohibited-item',
+  'unsafe-pickup',
+  'harassment',
+  'duplicate-spam',
+  'other'
+]);
 
 const PUBLIC_PAGE_ALIASES = {
   '/auth-choice.html': 'auth_choice.html',
@@ -96,6 +105,7 @@ let messagesCollection;
 let notificationsCollection;
 let suggestionsCollection;
 let reviewsCollection;
+let reportsCollection;
 
 function defaultUserState(user) {
   const name =
@@ -421,6 +431,16 @@ async function ensureIndexes() {
   await reviewsCollection.createIndex({ id: 1 }, { unique: true });
   await reviewsCollection.createIndex({ createdAt: -1 });
   await reviewsCollection.createIndex({ rating: 1 });
+
+  await reportsCollection.createIndex({ id: 1 }, { unique: true });
+  await reportsCollection.createIndex({ listingId: 1 });
+  await reportsCollection.createIndex({ reporterId: 1 });
+  await reportsCollection.createIndex({ status: 1 });
+  await reportsCollection.createIndex({ createdAt: -1 });
+  await reportsCollection.createIndex(
+    { listingId: 1, reporterId: 1, status: 1 },
+    { unique: true, partialFilterExpression: { status: 'open' } }
+  );
 }
 
 /**
@@ -980,13 +1000,14 @@ async function buildChatbotReply(message) {
  * @returns {Object} Dashboard data with summary, users, listings, moderationQueue, activity.
  */
 async function buildAdminDashboardData() {
-  const [users, listings, requests, conversations, notifications, suggestions, meta] = await Promise.all([
+  const [users, listings, requests, conversations, notifications, suggestions, reports, meta] = await Promise.all([
     usersCollection.find({}).toArray(),
     listingsCollection.find({}).toArray(),
     requestsCollection.find({}).toArray(),
     conversationsCollection.find({}).toArray(),
     notificationsCollection.find({}).toArray(),
     suggestionsCollection.find({}).sort({ createdAt: -1 }).limit(25).toArray(),
+    reportsCollection.find({}).sort({ createdAt: -1 }).toArray(),
     metaCollection.findOne({ key: 'app-meta' })
   ]);
 
@@ -1009,20 +1030,41 @@ async function buildAdminDashboardData() {
     })
     .sort((left, right) => String(left.name || '').localeCompare(String(right.name || '')));
 
+  const normalizedReports = reports.map(report => {
+    const normalized = normalizeDoc(report) || {};
+    return {
+      ...normalized,
+      reporterName: normalized.reporterName || 'Community member'
+    };
+  });
+  const openReports = normalizedReports.filter(report => report.status === 'open');
+  const reportsByListing = openReports.reduce((map, report) => {
+    const key = String(report.listingId || '');
+    if (!map.has(key)) map.set(key, []);
+    map.get(key).push(report);
+    return map;
+  }, new Map());
+
   const normalizedListings = listings
     .map(listing => {
       const normalized = normalizeDoc(listing) || {};
       const reviewed = Boolean(normalized.reviewed);
+      const listingReports = reportsByListing.get(String(normalized.id || '')) || [];
 
       return {
         ...normalized,
         reviewed,
+        reportCount: listingReports.length,
+        reports: listingReports,
         flags: getListingFlags({ ...normalized, reviewed })
       };
     })
     .sort((left, right) => String(right.createdAt || '').localeCompare(String(left.createdAt || '')));
 
-  const moderationQueue = normalizedListings.filter(item => item.flags.length || item.urgent || item.status === 'hidden' || !item.reviewed);
+  const moderationQueue = normalizedListings.filter(
+    item => item.reportCount || item.flags.length || item.urgent || item.status === 'hidden' || !item.reviewed
+  );
+  const reportedListings = normalizedListings.filter(item => item.reportCount > 0);
 
   const summary = {
     users: normalizedUsers.length,
@@ -1035,10 +1077,12 @@ async function buildAdminDashboardData() {
     donatedListings: normalizedListings.filter(item => item.status === 'donated').length,
     featuredListings: normalizedListings.filter(item => item.featured).length,
     flaggedListings: moderationQueue.length,
+    openReports: openReports.length,
+    reportedListings: reportedListings.length,
     unreadNotifications: notifications.filter(item => !item.read).length,
     suggestions: suggestions.length,
     conversations: conversations.length,
-    openRisks: moderationQueue.filter(item => item.urgent || item.status === 'hidden' || !item.reviewed).length,
+    openRisks: moderationQueue.filter(item => item.reportCount || item.urgent || item.status === 'hidden' || !item.reviewed).length,
     healthScore: Math.max(0, 100 - (users.filter(user => user.isBlocked).length * 12) - (moderationQueue.length * 4) - Math.min(20, notifications.filter(item => !item.read).length)),
     lastUpdatedAt: meta?.lastUpdatedAt || new Date().toISOString()
   };
@@ -1054,6 +1098,11 @@ async function buildAdminDashboardData() {
       detail: `${item.requesterName || 'A user'} requested listing ${item.listingId}.`,
       createdAt: item.requestedAt || new Date().toISOString()
     })),
+    ...openReports.slice(0, 3).map(item => ({
+      title: 'Listing report submitted',
+      detail: `${item.listingTitle || 'A listing'} was reported for ${String(item.reason || 'review').replace(/-/g, ' ')}.`,
+      createdAt: item.createdAt || new Date().toISOString()
+    })),
     ...normalizedListings.slice(0, 3).map(item => ({
       title: `Listing ${item.status || 'updated'}`,
       detail: `${item.title || 'Listing'} is currently ${item.status || 'active'}.`,
@@ -1068,6 +1117,9 @@ async function buildAdminDashboardData() {
     users: normalizedUsers,
     listings: normalizedListings.map(normalizeListingForClient),
     moderationQueue,
+    reports: normalizedReports,
+    openReports,
+    reportedListings: reportedListings.map(normalizeListingForClient),
     suggestions: suggestions.map(normalizeDoc),
     activity
   };
@@ -1174,6 +1226,7 @@ async function applyAdminUserAction(targetUserId, action, actor) {
     const ownedListingIds = ownedListings.map(listing => listing.id);
     const ownedConversations = await conversationsCollection.find({ participantIds: targetUserId }).toArray();
     const ownedConversationIds = ownedConversations.map(conversation => conversation.id);
+    const resolvedAt = new Date().toISOString();
 
     await Promise.all([
       usersCollection.deleteOne({ id: targetUserId }),
@@ -1187,6 +1240,18 @@ async function applyAdminUserAction(targetUserId, action, actor) {
         ]
       }),
       notificationsCollection.deleteMany({ userId: targetUserId }),
+      reportsCollection.updateMany(
+        { listingId: { $in: ownedListingIds }, status: 'open' },
+        {
+          $set: {
+            status: 'actioned',
+            resolution: 'listing-deleted',
+            resolvedAt,
+            updatedAt: resolvedAt,
+            resolvedBy: actor.id
+          }
+        }
+      ),
       conversationsCollection.deleteMany({
         $or: [
           { participantIds: targetUserId },
@@ -1203,7 +1268,7 @@ async function applyAdminUserAction(targetUserId, action, actor) {
   throw new Error('Unsupported user action.');
 }
 
-async function applyAdminListingAction(listingId, action) {
+async function applyAdminListingAction(listingId, action, actor = null) {
   const listing = await listingsCollection.findOne({ id: listingId });
   if (!listing) {
     throw new Error('Listing not found.');
@@ -1216,21 +1281,80 @@ async function applyAdminListingAction(listingId, action) {
   } else if (action === 'review') {
     await listingsCollection.updateOne({ id: listingId }, { $set: { reviewed: true, updatedAt: new Date().toISOString() } });
   } else if (action === 'hide') {
-    await listingsCollection.updateOne({ id: listingId }, { $set: { status: 'hidden', updatedAt: new Date().toISOString() } });
+    const resolvedAt = new Date().toISOString();
+    await listingsCollection.updateOne({ id: listingId }, { $set: { status: 'hidden', updatedAt: resolvedAt } });
+    await reportsCollection.updateMany(
+      { listingId, status: 'open' },
+      {
+        $set: {
+          status: 'actioned',
+          resolution: 'listing-hidden',
+          resolvedAt,
+          updatedAt: resolvedAt,
+          ...(actor?.id ? { resolvedBy: actor.id } : {})
+        }
+      }
+    );
   } else if (action === 'restore') {
     await listingsCollection.updateOne({ id: listingId }, { $set: { status: 'active', updatedAt: new Date().toISOString() } });
   } else if (action === 'delete') {
     const relatedConversations = await conversationsCollection.find({ listingId }).toArray();
     const relatedConversationIds = relatedConversations.map(conversation => conversation.id);
+    const resolvedAt = new Date().toISOString();
 
     await Promise.all([
       listingsCollection.deleteOne({ id: listingId }),
       requestsCollection.deleteMany({ listingId }),
       conversationsCollection.deleteMany({ listingId }),
-      messagesCollection.deleteMany({ conversationId: { $in: relatedConversationIds } })
+      messagesCollection.deleteMany({ conversationId: { $in: relatedConversationIds } }),
+      reportsCollection.updateMany(
+        { listingId, status: 'open' },
+        {
+          $set: {
+            status: 'actioned',
+            resolution: 'listing-deleted',
+            resolvedAt,
+            updatedAt: resolvedAt,
+            ...(actor?.id ? { resolvedBy: actor.id } : {})
+          }
+        }
+      )
     ]);
   } else {
     throw new Error('Unsupported listing action.');
+  }
+
+  await touchMeta();
+  return buildAdminDashboardData();
+}
+
+async function applyAdminReportAction(reportId, action, admin) {
+  const report = await reportsCollection.findOne({ id: reportId });
+  if (!report) {
+    throw new Error('Report not found.');
+  }
+  if (report.status !== 'open') {
+    throw new Error('This report has already been resolved.');
+  }
+
+  const resolvedAt = new Date().toISOString();
+  if (action === 'dismiss') {
+    await reportsCollection.updateOne(
+      { id: reportId },
+      {
+        $set: {
+          status: 'dismissed',
+          resolution: 'no-action',
+          resolvedAt,
+          updatedAt: resolvedAt,
+          resolvedBy: admin.id
+        }
+      }
+    );
+  } else if (action === 'hide' || action === 'delete') {
+    await applyAdminListingAction(report.listingId, action, admin);
+  } else {
+    throw new Error('Unsupported report action.');
   }
 
   await touchMeta();
@@ -1649,8 +1773,36 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: 'listingId and action are required.' });
       }
 
-      const payload = await applyAdminListingAction(listingId, action);
+      const payload = await applyAdminListingAction(listingId, action, admin.user);
       return sendJson(res, 200, { payload });
+    }
+
+    if (pathname === '/api/admin/report-action' && req.method === 'POST') {
+      const admin = await requireAdminUser(req, url);
+      if (admin.error) {
+        return sendJson(res, 403, { error: admin.error });
+      }
+
+      const { reportId = '', action = '' } = await readRequestBody(req);
+      if (!reportId || !action) {
+        return sendJson(res, 400, { error: 'reportId and action are required.' });
+      }
+
+      try {
+        const payload = await applyAdminReportAction(reportId, action, admin.user);
+        return sendJson(res, 200, { payload });
+      } catch (error) {
+        if (error.message === 'Report not found.') {
+          return sendJson(res, 404, { error: error.message });
+        }
+        if (error.message === 'This report has already been resolved.') {
+          return sendJson(res, 409, { error: error.message });
+        }
+        if (error.message === 'Unsupported report action.') {
+          return sendJson(res, 400, { error: error.message });
+        }
+        throw error;
+      }
     }
 
     if (pathname === '/api/state' && req.method === 'GET') {
@@ -1834,10 +1986,98 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 403, { error: 'You can only delete your own listing.' });
       }
 
-      await listingsCollection.deleteOne({ id });
+      const resolvedAt = new Date().toISOString();
+      await Promise.all([
+        listingsCollection.deleteOne({ id }),
+        reportsCollection.updateMany(
+          { listingId: id, status: 'open' },
+          {
+            $set: {
+              status: 'actioned',
+              resolution: 'listing-deleted',
+              resolvedAt,
+              updatedAt: resolvedAt,
+              resolvedBy: userId
+            }
+          }
+        )
+      ]);
       await touchMeta();
 
       return sendJson(res, 200, { ok: true });
+    }
+
+    if (pathname === '/api/reports' && req.method === 'POST') {
+      const reporterId = getUserId(req, url);
+      if (!reporterId) {
+        return sendJson(res, 401, { error: 'Sign in to report a listing.' });
+      }
+
+      const reporter = await usersCollection.findOne({ id: reporterId });
+      if (!reporter) {
+        return sendJson(res, 401, { error: 'Your account could not be verified.' });
+      }
+      if (reporter.isBlocked) {
+        return sendJson(res, 403, { error: 'This account is blocked.' });
+      }
+
+      const body = await readRequestBody(req);
+      const listingId = String(body.listingId || '').trim();
+      const reason = String(body.reason || '').trim().toLowerCase();
+      const details = String(body.details || '').trim();
+
+      if (!listingId || !reason) {
+        return sendJson(res, 400, { error: 'listingId and reason are required.' });
+      }
+      if (!REPORT_REASONS.has(reason)) {
+        return sendJson(res, 400, { error: 'Select a valid report reason.' });
+      }
+      if (details.length > MAX_REPORT_DETAILS_LENGTH) {
+        return sendJson(res, 400, { error: `Report details must be ${MAX_REPORT_DETAILS_LENGTH} characters or fewer.` });
+      }
+
+      const listing = await listingsCollection.findOne({ id: listingId });
+      if (!listing) {
+        return sendJson(res, 404, { error: 'Listing not found.' });
+      }
+      if (listing.ownerId === reporterId) {
+        return sendJson(res, 400, { error: 'You cannot report your own listing.' });
+      }
+
+      const existing = await reportsCollection.findOne({ listingId, reporterId, status: 'open' });
+      if (existing) {
+        return sendJson(res, 409, { error: 'You already reported this listing. An administrator will review it.' });
+      }
+
+      const createdAt = new Date().toISOString();
+      const report = {
+        id: `report-${Date.now()}-${crypto.randomBytes(3).toString('hex')}`,
+        listingId,
+        listingTitle: listing.title || 'Untitled listing',
+        listingOwnerId: listing.ownerId || '',
+        reporterId,
+        reporterName: getUserDisplayName(reporter),
+        reason,
+        details,
+        status: 'open',
+        createdAt,
+        updatedAt: createdAt
+      };
+
+      try {
+        await reportsCollection.insertOne(report);
+      } catch (error) {
+        if (error?.code === 11000) {
+          return sendJson(res, 409, { error: 'You already reported this listing. An administrator will review it.' });
+        }
+        throw error;
+      }
+
+      await touchMeta();
+      return sendJson(res, 201, {
+        report: normalizeDoc(report),
+        message: 'Report submitted for administrator review.'
+      });
     }
 
     if (pathname === '/api/requests/mine' && req.method === 'GET') {
@@ -2388,6 +2628,7 @@ async function startServer() {
     notificationsCollection = db.collection('notifications');
     suggestionsCollection = db.collection('suggestions');
     reviewsCollection = db.collection('reviews');
+    reportsCollection = db.collection('reports');
 
     await ensureIndexes();
     await ensureSeedData();

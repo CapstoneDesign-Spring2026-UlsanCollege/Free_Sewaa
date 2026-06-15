@@ -2,7 +2,7 @@
 
 ## Collections
 
-Free Sewaa uses MongoDB with 10 collections. All IDs are custom string IDs (e.g. `user-1712345678`, `listing-201`).
+Free Sewaa uses MongoDB with 11 collections. All IDs are custom string IDs (e.g. `user-1712345678`, `listing-201`).
 
 See the full schema at [DATABASE_SCHEMA.md](DATABASE_SCHEMA.md) for detailed field listings.
 
@@ -14,8 +14,10 @@ erDiagram
     USERS ||--o{ MESSAGES : sends
     USERS ||--o{ NOTIFICATIONS : receives
     USERS ||--o{ STATES : has
+    USERS ||--o{ REPORTS : submits
     LISTINGS ||--o{ REQUESTS : receives
     LISTINGS ||--o{ CONVERSATIONS : about
+    LISTINGS ||--o{ REPORTS : receives
     CONVERSATIONS ||--o{ MESSAGES : contains
 
     USERS {
@@ -68,6 +70,15 @@ erDiagram
         string type
         boolean read
     }
+
+    REPORTS {
+        string id PK
+        string listingId FK
+        string reporterId FK
+        string reason
+        string status
+        string resolution
+    }
 ```
 
 ## Key Relationships
@@ -77,7 +88,9 @@ erDiagram
 - A **Listing** can receive many **Requests**
 - A **Conversation** belongs to a **Listing** and has many **Messages**
 - A **User** receives many **Notifications**
+- A **User** can submit one open **Report** per **Listing**
+- A **Report** remains as audit evidence after an admin dismisses it or acts on the listing
 
 ---
 
-*Last updated: May 2026*
+*Last updated: June 2026*

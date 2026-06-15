@@ -1,6 +1,6 @@
 # Database Schema
 
-Free Sewaa uses MongoDB with 10 collections. All IDs are custom string IDs (e.g. `user-1712345678`, `listing-201`), not MongoDB ObjectIds.
+Free Sewaa uses MongoDB with 11 collections. All IDs are custom string IDs (e.g. `user-1712345678`, `listing-201`), not MongoDB ObjectIds.
 
 ---
 
@@ -162,6 +162,30 @@ Stores app-level metadata.
 
 ---
 
+## 11. Reports Collection
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | String | Yes | Unique report ID (`report-...`) |
+| `listingId` | String | Yes | Reference to the reported Listing |
+| `listingTitle` | String | Yes | Listing title captured when reported |
+| `listingOwnerId` | String | Yes | Reference to the Listing owner |
+| `reporterId` | String | Yes | Reference to the reporting User |
+| `reporterName` | String | Yes | Safe display name; contact details are not exposed |
+| `reason` | String | Yes | Fixed moderation reason |
+| `details` | String | No | Optional details, maximum 500 characters |
+| `status` | String | Yes | `"open"`, `"dismissed"`, or `"actioned"` |
+| `resolution` | String | No | `"no-action"`, `"listing-hidden"`, or `"listing-deleted"` |
+| `resolvedBy` | String | No | User ID that performed the resolving deletion or moderation action |
+| `createdAt` | String | Yes | ISO timestamp |
+| `updatedAt` | String | Yes | ISO timestamp |
+| `resolvedAt` | String | No | ISO timestamp |
+
+One open report is allowed per reporter and listing. Closed reports are kept
+as moderation audit evidence.
+
+---
+
 ## Indexes
 
 | Collection | Index | Purpose |
@@ -191,7 +215,13 @@ Stores app-level metadata.
 | Reviews | `id` (unique) | Review lookup |
 | Reviews | `createdAt` (desc) | Recent first |
 | Reviews | `rating` | Sort by rating |
+| Reports | `id` (unique) | Report lookup |
+| Reports | `listingId` | Reports for a listing |
+| Reports | `reporterId` | Reports submitted by a user |
+| Reports | `status` | Open moderation work |
+| Reports | `createdAt` (desc) | Recent reports first |
+| Reports | `listingId + reporterId + status` (unique for open reports) | Prevent duplicate active reports |
 
 ---
 
-*Last updated: May 2026*
+*Last updated: June 2026*
