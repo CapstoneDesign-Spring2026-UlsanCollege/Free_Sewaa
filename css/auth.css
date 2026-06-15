@@ -1104,3 +1104,6 @@ body{
     grid-row:auto;
   }
 }
+.portal-option[hidden] {
+  display: none !important;
+}

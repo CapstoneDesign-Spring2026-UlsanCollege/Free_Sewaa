@@ -24,10 +24,10 @@
   <main class="auth-shell portal-shell">
     <section class="auth-left portal-left">
       <p class="eyebrow">CONTROL ACCESS</p>
-      <h1>Choose the right entrance for your role.</h1>
+      <h1>Continue to your Free Sewaa account.</h1>
       <p class="auth-copy">
-        Free Sewaa keeps public member access separate from restricted administrative tools. Users can donate,
-        request, message, and manage their activity from the member portal.
+        Everyone starts from the same sign-in flow. Regular members continue to their user dashboard,
+        while the verified super admin is sent directly to the admin command center.
       </p>
 
       <div class="auth-feature-list portal-feature-list">
@@ -41,15 +41,15 @@
         <article class="auth-feature">
           <div class="auth-feature__dot"></div>
           <div>
-            <strong>Admin Command Center</strong>
-            <p>Administrative tools are hidden from public portal navigation and require a verified super admin session.</p>
+            <strong>Role-based routing</strong>
+            <p>The app sends each signed-in account to the right dashboard automatically.</p>
           </div>
         </article>
         <article class="auth-feature">
           <div class="auth-feature__dot"></div>
           <div>
-            <strong>Safer Access Flow</strong>
-            <p>Clean separation between community access and administrative controls for better security.</p>
+            <strong>Protected admin tools</strong>
+            <p>Admin pages still require a verified super admin session before they load.</p>
           </div>
         </article>
       </div>
@@ -58,8 +58,8 @@
     <section class="auth-card portal-card">
       <div class="auth-card__top portal-card__top">
         <p class="eyebrow">WELCOME</p>
-        <h2>Select your portal</h2>
-        <p class="auth-card__text">Community members can sign in here. Admin access is restricted to authorized staff.</p>
+        <h2>Sign in once</h2>
+        <p class="auth-card__text">Use the normal login. Super admin accounts are routed to admin tools automatically.</p>
       </div>
 
       <div class="portal-grid">
@@ -78,7 +78,7 @@
           <span class="portal-option__cta">Continue as user</span>
         </a>
 
-        <div class="portal-option portal-option--admin" aria-label="Restricted admin access">
+        <div class="portal-option portal-option--admin" aria-label="Restricted admin access" hidden>
           <div class="portal-option__badge">Restricted Access</div>
           <div class="portal-option__icon">🛡️</div>
           <div class="portal-option__body">

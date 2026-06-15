@@ -13,10 +13,10 @@ export default function AuthChoicePage() {
       <main className="auth-shell portal-shell">
         <section className="auth-left portal-left">
           <p className="eyebrow">CONTROL ACCESS</p>
-          <h1>Choose the right entrance for your role.</h1>
+          <h1>Continue to your Free Sewaa account.</h1>
           <p className="auth-copy">
-            Free Sewaa keeps public member access separate from restricted administrative tools. Users can donate,
-            request, message, and manage their activity from the member portal.
+            Everyone starts from the same sign-in flow. Regular members continue to their user dashboard,
+            while the verified super admin is sent directly to the admin command center.
           </p>
           <div className="auth-feature-list portal-feature-list">
             <article className="auth-feature">
@@ -29,15 +29,15 @@ export default function AuthChoicePage() {
             <article className="auth-feature">
               <div className="auth-feature__dot" />
               <div>
-                <strong>Admin Command Center</strong>
-                <p>Administrative tools are hidden from public portal navigation and require a verified super admin session.</p>
+                <strong>Role-based routing</strong>
+                <p>The app sends each signed-in account to the right dashboard automatically.</p>
               </div>
             </article>
             <article className="auth-feature">
               <div className="auth-feature__dot" />
               <div>
-                <strong>Safer Access Flow</strong>
-                <p>Clean separation between community access and administrative controls for better security.</p>
+                <strong>Protected admin tools</strong>
+                <p>Admin pages still require a verified super admin session before they load.</p>
               </div>
             </article>
           </div>
@@ -45,8 +45,8 @@ export default function AuthChoicePage() {
         <section className="auth-card portal-card">
           <div className="auth-card__top portal-card__top">
             <p className="eyebrow">WELCOME</p>
-            <h2>Select your portal</h2>
-            <p className="auth-card__text">Community members can sign in here. Admin access is restricted to authorized staff.</p>
+            <h2>Sign in once</h2>
+            <p className="auth-card__text">Use the normal login. Super admin accounts are routed to admin tools automatically.</p>
           </div>
           <div className="portal-grid">
             <a className="portal-option portal-option--user" href="/signin.html">
@@ -63,7 +63,7 @@ export default function AuthChoicePage() {
               </div>
               <span className="portal-option__cta">Continue as user</span>
             </a>
-            <div className="portal-option portal-option--admin" aria-label="Restricted admin access">
+            <div className="portal-option portal-option--admin" aria-label="Restricted admin access" hidden>
               <div className="portal-option__badge">Restricted Access</div>
               <div className="portal-option__icon">🛡️</div>
               <div className="portal-option__body">
