@@ -171,6 +171,11 @@
 
   function applyPageLanguage() {
     const lang = selectedLanguage();
+    const hasPageDictionary = Boolean(pageText[lang]);
+    const hasRememberedText = Boolean(document.querySelector('[data-page-i18n-key], [data-page-i18n-placeholder]'));
+
+    if (!hasPageDictionary && (lang !== 'en' || !hasRememberedText)) return;
+
     translateTextNodes(lang);
     translatePlaceholders(lang);
     translateDynamicScore(lang);
