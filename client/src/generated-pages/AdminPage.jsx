@@ -26,12 +26,23 @@ export default function AdminPage() {
                 <a href="/user_panel.html">View user dashboard</a>
                 <a href="/security_audit.html">Security audit</a>
                 <a href="accessibility-audit.html">Accessibility audit</a>
-                <button type="button" className="admin-v2-logoutlink" id="adminLogoutButton">Logout</button>
               </div>
             </div>
           </div>
         </aside>
         <main className="admin-v2-main">
+          <nav className="admin-v2-topnav" aria-label="Admin account">
+            <div>
+              <span className="mini-label">Signed in as</span>
+              <strong>Super Admin</strong>
+            </div>
+            <div className="admin-v2-topnav__actions">
+              <a href="/index.html">Home</a>
+              <a href="/security_audit.html">Security audit</a>
+              <button type="button" className="admin-v2-logoutlink" id="adminLogoutButton">Logout</button>
+            </div>
+          </nav>
+
           <header className="admin-v2-hero" id="section-overview">
             <div>
               <p className="eyebrow">ADMIN CONTROL CENTER</p>
