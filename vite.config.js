@@ -31,7 +31,7 @@ function serveExistingStaticFile(req, res, next) {
 }
 
 export default defineConfig({
-  root: 'client',
+  root: 'client', 
   plugins: [
     react(),
     {
