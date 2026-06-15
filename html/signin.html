@@ -41,7 +41,7 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
       <div class="auth-card__top">
         <p class="eyebrow">SIGN IN</p>
         <h2>Welcome back</h2>
-        <p class="auth-card__text">Sign in with Google, phone OTP, or your existing email account.</p>
+        <p class="auth-card__text">Sign in with Google, a verified email link, phone OTP test mode, or your existing account.</p>
       </div>
 
       <div class="social-row">
@@ -49,8 +49,9 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
       </div>
       <div class="divider"><span>or continue with</span></div>
 
-      <div class="auth-toggle">
+      <div class="auth-toggle auth-toggle--three">
         <button class="toggle-btn is-active" type="button" data-panel-target="emailPanel">Email</button>
+        <button class="toggle-btn" type="button" data-panel-target="emailLinkPanel">Email Link</button>
         <button class="toggle-btn" type="button" data-panel-target="phonePanel">Phone OTP</button>
       </div>
 
@@ -72,19 +73,30 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
         </form>
       </div>
 
+      <div class="auth-panel" id="emailLinkPanel">
+        <form class="auth-form" data-firebase-auth="email-link">
+          <label class="field">
+            <span>Gmail or verified email address</span>
+            <input type="email" data-email-link-input placeholder="you@gmail.com" autocomplete="email" />
+          </label>
+          <p class="auth-help">Firebase sends a secure sign-in link to this address. No paid email service is required.</p>
+          <button class="primary-btn" type="submit">Send Sign-In Link</button>
+        </form>
+      </div>
+
       <div class="auth-panel" id="phonePanel">
         <form class="auth-form firebase-phone-form" data-firebase-auth="phone">
           <label class="field">
             <span>Phone number</span>
-            <input type="tel" data-phone-input placeholder="+1 555 210 9090" autocomplete="tel" />
+            <input type="tel" data-phone-input placeholder="+82 10-1234-5678" autocomplete="tel" />
           </label>
-          <button class="secondary-btn" type="button" data-phone-action="send">Send OTP</button>
+          <p class="auth-help">Korean numbers: replace the first 0 with <strong>+82</strong>, for example <strong>010-1234-5678 → +82 10-1234-5678</strong>. Free quota: 10 real SMS/day. Test fallback: +1 650-555-3434, OTP 654321.</p>
+          <button class="secondary-btn" id="firebasePhoneSendSignin" type="button" data-phone-action="send">Send OTP</button>
           <label class="field">
             <span>Verification code</span>
             <input type="text" data-phone-code placeholder="6-digit code" inputmode="numeric" autocomplete="one-time-code" />
           </label>
           <button class="primary-btn" type="submit">Verify and Sign In</button>
-          <div id="firebaseRecaptcha"></div>
         </form>
       </div>
 

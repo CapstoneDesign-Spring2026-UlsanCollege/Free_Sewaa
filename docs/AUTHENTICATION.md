@@ -65,7 +65,20 @@ Frontend behavior:
 
 ## Phone OTP
 
-Phone OTP is available through Firebase Phone Authentication.
+Phone OTP is available through Firebase Phone Authentication. South Korea is explicitly allowed in the Firebase SMS region policy. Korean mobile numbers must use international format:
+
+```text
+010-1234-5678 → +82 10-1234-5678
+```
+
+The current Spark project reports a real SMS quota of 10 messages per day. A configured test-number fallback remains available:
+
+```text
+Test phone: +1 650-555-3434
+Test OTP:   654321
+```
+
+Firebase does not send an SMS for the configured test number.
 
 Frontend behavior:
 
@@ -75,11 +88,11 @@ Frontend behavior:
 4. User enters the code.
 5. The frontend sends the verified Firebase ID token to `/api/auth/firebase`.
 
-Use Firebase test phone numbers during grading rehearsals to avoid quota or billing surprises.
+Use the configured test phone during grading rehearsals to avoid quota or billing surprises.
 
 ## Email Verification
 
-Firebase email verification is supported at the backend token level: Firebase email/password tokens are accepted only when `email_verified=true`.
+Firebase email verification is supported through passwordless email sign-in links. The link is sent by Firebase and opening it proves ownership of the Gmail or other recognized email address.
 
 Important distinction:
 

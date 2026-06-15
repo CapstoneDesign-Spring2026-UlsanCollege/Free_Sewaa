@@ -316,13 +316,15 @@ function getFirebaseAuth() {
     window.firebase.initializeApp(window.FREESEWAA_FIREBASE_CONFIG);
   }
 
-  return window.firebase.auth();
+  const auth = window.firebase.auth();
+  auth.useDeviceLanguage();
+  return auth;
 }
 
 function normalizePhoneNumber(value = '') {
   const phone = String(value || '').trim().replace(/[^\d+]/g, '');
   if (!phone) return '';
-  return phone.startsWith('+') ? phone : `+1${phone}`;
+  return phone.startsWith('+') ? phone : '';
 }
 
 function getSignupNamePayload(form) {
@@ -346,22 +348,121 @@ async function finishFirebaseSignin(result, provider, extra = {}) {
   setSession(data);
 }
 
+function firebaseErrorMessage(error, fallback = 'Firebase authentication failed.') {
+  const code = String(error?.code || '');
+
+  if (code.includes('popup-blocked') || code.includes('popup-closed')) {
+    return 'The Google sign-in window was blocked. Redirecting sign-in is now used instead.';
+  }
+  if (code.includes('invalid-phone-number')) {
+    return 'Enter the phone number in international format, including + and country code.';
+  }
+  if (code.includes('captcha-check-failed') || code.includes('invalid-app-credential')) {
+    return 'Firebase could not validate reCAPTCHA. Refresh the page and try again.';
+  }
+  if (code.includes('billing-not-enabled')) {
+    return 'Firebase billing or SMS quota blocked this request. Use the configured Firebase test number or try again after the daily quota resets.';
+  }
+  if (code.includes('quota-exceeded') || code.includes('too-many-requests')) {
+    return 'Firebase SMS quota or abuse protection blocked this request. The free project currently allows 10 real SMS messages per day; use the configured test number if needed.';
+  }
+  if (code.includes('operation-not-allowed')) {
+    return 'This Firebase sign-in method is not enabled for the project.';
+  }
+  if (code.includes('unauthorized-domain')) {
+    return 'This website domain is not authorized in Firebase Authentication.';
+  }
+  if (code.includes('invalid-action-code') || code.includes('expired-action-code')) {
+    return 'This email sign-in link is invalid or expired. Request a new link.';
+  }
+
+  return error?.message || fallback;
+}
+
+function getEmailLinkSettings() {
+  const url = new URL(window.location.href);
+  url.search = '';
+  url.hash = '';
+  url.searchParams.set('firebaseEmailLink', '1');
+
+  return {
+    url: url.toString(),
+    handleCodeInApp: true
+  };
+}
+
+async function sendFirebaseEmailLink(form) {
+  const auth = getFirebaseAuth();
+  if (!auth) throw new Error('Firebase is not configured for this page.');
+
+  const email = form.querySelector('[data-email-link-input]')?.value.trim().toLowerCase() || '';
+  if (!isRealEmailAddress(email)) throw new Error(EMAIL_ONLY_MESSAGE);
+
+  if (getPageMode() === 'signup') {
+    if (!form.querySelector('[data-email-link-terms]')?.checked) {
+      throw new Error('Please agree to the Terms and Privacy Policy.');
+    }
+
+    localStorage.setItem('freesewaa-email-link-profile', JSON.stringify(getSignupNamePayload(form)));
+  }
+
+  await auth.sendSignInLinkToEmail(email, getEmailLinkSettings());
+  localStorage.setItem('freesewaa-email-for-signin', email);
+  showInlineMessage(form, `Verification link sent to ${email}. Open that email on this browser to continue.`, 'success');
+}
+
+async function completeFirebaseEmailLink() {
+  const auth = getFirebaseAuth();
+  if (!auth || !auth.isSignInWithEmailLink(window.location.href)) return;
+
+  const email = localStorage.getItem('freesewaa-email-for-signin') || '';
+  if (!email) {
+    const emailPanelButton = document.querySelector('[data-panel-target="emailLinkPanel"]');
+    emailPanelButton?.click();
+    const form = document.querySelector('[data-firebase-auth="email-link"]');
+    if (form) {
+      showInlineMessage(form, 'Enter the same email address used to request this link, then request a new link.', 'error');
+    }
+    return;
+  }
+
+  const profile = JSON.parse(localStorage.getItem('freesewaa-email-link-profile') || '{}');
+  const result = await auth.signInWithEmailLink(email, window.location.href);
+  localStorage.removeItem('freesewaa-email-for-signin');
+  localStorage.removeItem('freesewaa-email-link-profile');
+  window.history.replaceState({}, document.title, window.location.pathname);
+  await finishFirebaseSignin(result, 'password', profile);
+}
+
+async function completeGoogleRedirect() {
+  const auth = getFirebaseAuth();
+  if (!auth) return;
+
+  const result = await auth.getRedirectResult();
+  if (result?.user) {
+    await finishFirebaseSignin(result, 'google.com');
+  }
+}
+
 async function startPhoneOtp(form) {
   const auth = getFirebaseAuth();
   if (!auth) throw new Error('Firebase is not configured for this page.');
 
   const phone = normalizePhoneNumber(form.querySelector('[data-phone-input]')?.value);
-  if (!phone) throw new Error('Please enter a phone number in international format.');
+  if (!phone) throw new Error('Enter the phone number in international format, including + and country code.');
 
   const sendButton = form.querySelector('[data-phone-action="send"]');
   sendButton.disabled = true;
   sendButton.textContent = 'Sending OTP...';
 
   try {
-    const recaptchaId = form.querySelector('#firebaseRecaptcha')?.id || 'firebaseRecaptcha';
+    const recaptchaId = sendButton.id;
+    if (!recaptchaId) throw new Error('Phone verification button is missing its reCAPTCHA identifier.');
+
     if (!window.freesewaaRecaptchaVerifier) {
       window.freesewaaRecaptchaVerifier = new window.firebase.auth.RecaptchaVerifier(recaptchaId, {
-        size: 'invisible'
+        size: 'invisible',
+        callback: () => {}
       });
     }
 
@@ -419,14 +520,13 @@ document.querySelectorAll('[data-firebase-provider="google"]').forEach(button =>
       if (!auth) throw new Error('Firebase is not configured for this page.');
 
       button.disabled = true;
-      button.textContent = 'Opening Google...';
+      button.textContent = 'Redirecting to Google...';
       const provider = new window.firebase.auth.GoogleAuthProvider();
       provider.setCustomParameters({ prompt: 'select_account' });
-      const result = await auth.signInWithPopup(provider);
-      await finishFirebaseSignin(result, 'google.com');
+      await auth.signInWithRedirect(provider);
     } catch (error) {
       console.warn('Google sign-in failed:', error);
-      showCardMessage(button, error.message || 'Google sign-in failed.', 'error');
+      showCardMessage(button, firebaseErrorMessage(error, 'Google sign-in failed.'), 'error');
       button.disabled = false;
       button.textContent = defaultText;
     }
@@ -443,7 +543,7 @@ document.querySelectorAll('[data-phone-action="send"]').forEach(button => {
       await startPhoneOtp(form);
     } catch (error) {
       console.warn('Phone OTP send failed:', error);
-      showInlineMessage(form, error.message || 'Could not send OTP.', 'error');
+      showInlineMessage(form, firebaseErrorMessage(error, 'Could not send OTP.'), 'error');
     }
   });
 });
@@ -451,6 +551,24 @@ document.querySelectorAll('[data-phone-action="send"]').forEach(button => {
 document.querySelectorAll('.auth-form').forEach(form => {
   form.addEventListener('submit', async e => {
     e.preventDefault();
+
+    if (form.dataset.firebaseAuth === 'email-link') {
+      const submitButton = form.querySelector('.primary-btn');
+      const defaultButtonText = submitButton.textContent;
+      try {
+        clearInlineMessage(form);
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending Link...';
+        await sendFirebaseEmailLink(form);
+      } catch (error) {
+        console.warn('Email link send failed:', error);
+        showInlineMessage(form, firebaseErrorMessage(error, 'Could not send the email link.'), 'error');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = defaultButtonText;
+      }
+      return;
+    }
 
     if (form.dataset.firebaseAuth === 'phone') {
       const submitButton = form.querySelector('.primary-btn');
@@ -462,7 +580,7 @@ document.querySelectorAll('.auth-form').forEach(form => {
         await completePhoneOtp(form);
       } catch (error) {
         console.warn('Phone OTP verification failed:', error);
-        showInlineMessage(form, error.message || 'Phone verification failed.', 'error');
+        showInlineMessage(form, firebaseErrorMessage(error, 'Phone verification failed.'), 'error');
         submitButton.disabled = false;
         submitButton.textContent = defaultButtonText;
       }
@@ -509,3 +627,12 @@ document.querySelectorAll('.auth-form').forEach(form => {
     }
   });
 });
+
+Promise.resolve()
+  .then(completeFirebaseEmailLink)
+  .then(completeGoogleRedirect)
+  .catch(error => {
+    console.warn('Firebase redirect completion failed:', error);
+    const card = document.querySelector('.auth-card');
+    if (card) showCardMessage(card, firebaseErrorMessage(error), 'error');
+  });

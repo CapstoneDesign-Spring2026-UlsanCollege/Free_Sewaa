@@ -1,6 +1,8 @@
 process.env.MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/freesewaa_test';
 
 const http = require('http');
+const fs = require('fs');
+const path = require('path');
 
 const BASE_URL = 'http://localhost:3000';
 let server;
@@ -70,6 +72,13 @@ describe('Firebase auth configuration', () => {
       idToken: 'bad-token'
     });
     expect([400, 0]).toContain(res.status);
+  });
+
+  it('includes Google, email-link, and phone OTP controls', () => {
+    const html = fs.readFileSync(path.resolve(__dirname, '../../html/signin.html'), 'utf8');
+    expect(html).toContain('Continue with Google');
+    expect(html).toContain('Send Sign-In Link');
+    expect(html).toContain('+82 10-1234-5678');
   });
 });
 
