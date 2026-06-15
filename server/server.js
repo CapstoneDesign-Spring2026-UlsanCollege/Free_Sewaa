@@ -1,6 +1,8 @@
 require('dotenv').config();
 
 const http = require('http');
+const https = require('https');
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
@@ -10,7 +12,8 @@ const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
 const PUBLIC_ROOT = path.resolve(__dirname, '..');
 const DIST_ROOT = path.resolve(PUBLIC_ROOT, 'dist');
-const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'free-sewaa';
+const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'freesewaa-c8a41';
+const FIREBASE_CERT_URL = 'https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com';
 const FALLBACK_LISTING_IMAGE = 'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80';
 const MAX_INLINE_IMAGE_LENGTH = 180000;
 
@@ -34,6 +37,16 @@ const SUPER_ADMIN_USER_IDS = String(process.env.SUPER_ADMIN_USER_IDS || process.
 const EMAIL_ONLY_MESSAGE = 'Please use a real email address from a recognized email provider.';
 const VERIFIED_EMAIL_ONLY_MESSAGE = 'Please sign in with a verified real email account.';
 const PASSWORD_POLICY_MESSAGE = 'Password must be 8-10 characters and include uppercase, lowercase, and a number.';
+const FIREBASE_WEB_CONFIG = {
+  apiKey: 'AIzaSyCvyZutFOJCjUlWZSxK11BTMgve5nk3dpE',
+  authDomain: 'freesewaa-c8a41.firebaseapp.com',
+  projectId: 'freesewaa-c8a41',
+  storageBucket: 'freesewaa-c8a41.firebasestorage.app',
+  messagingSenderId: '325251516727',
+  appId: '1:325251516727:web:65379ef1d78f615531f2b2',
+  measurementId: 'G-8Y2L714510'
+};
+let firebaseCertCache = { expiresAt: 0, certs: null };
 const DEMO_EMAIL_DOMAINS = new Set([
   'demo.com',
   'example.com',
@@ -249,13 +262,24 @@ function decodeBase64UrlJson(value = '') {
   return JSON.parse(Buffer.from(padded, 'base64').toString('utf8'));
 }
 
-function decodeFirebaseToken(idToken = '') {
+function base64UrlToBuffer(value = '') {
+  const normalized = String(value).replace(/-/g, '+').replace(/_/g, '/');
+  const padded = normalized.padEnd(normalized.length + ((4 - (normalized.length % 4)) % 4), '=');
+  return Buffer.from(padded, 'base64');
+}
+
+function decodeFirebaseTokenParts(idToken = '') {
   const parts = String(idToken || '').split('.');
-  if (parts.length < 2) {
+  if (parts.length !== 3) {
     throw new Error('Invalid Firebase token.');
   }
 
-  return decodeBase64UrlJson(parts[1]);
+  return {
+    header: decodeBase64UrlJson(parts[0]),
+    claims: decodeBase64UrlJson(parts[1]),
+    signedContent: `${parts[0]}.${parts[1]}`,
+    signature: base64UrlToBuffer(parts[2])
+  };
 }
 
 function isExpectedFirebaseToken(claims) {
@@ -264,8 +288,82 @@ function isExpectedFirebaseToken(claims) {
     claims &&
     claims.aud === FIREBASE_PROJECT_ID &&
     claims.iss === `https://securetoken.google.com/${FIREBASE_PROJECT_ID}` &&
-    Number(claims.exp || 0) > now
+      Number(claims.exp || 0) > now
   );
+}
+
+function fetchJson(url) {
+  return new Promise((resolve, reject) => {
+    https
+      .get(url, response => {
+        let body = '';
+        response.on('data', chunk => {
+          body += chunk;
+        });
+        response.on('end', () => {
+          if (response.statusCode < 200 || response.statusCode >= 300) {
+            reject(new Error(`Request failed with ${response.statusCode}`));
+            return;
+          }
+
+          let parsed;
+          try {
+            parsed = JSON.parse(body);
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          const cacheControl = String(response.headers['cache-control'] || '');
+          const maxAgeMatch = cacheControl.match(/max-age=(\d+)/);
+          const maxAge = maxAgeMatch ? Number(maxAgeMatch[1]) : 3600;
+          resolve({ data: parsed, maxAge });
+        });
+      })
+      .on('error', reject);
+  });
+}
+
+async function getFirebaseCerts() {
+  const now = Date.now();
+  if (firebaseCertCache.certs && firebaseCertCache.expiresAt > now + 30000) {
+    return firebaseCertCache.certs;
+  }
+
+  const { data, maxAge } = await fetchJson(FIREBASE_CERT_URL);
+  firebaseCertCache = {
+    certs: data,
+    expiresAt: now + maxAge * 1000
+  };
+  return data;
+}
+
+async function verifyFirebaseIdToken(idToken = '') {
+  const { header, claims, signedContent, signature } = decodeFirebaseTokenParts(idToken);
+
+  if (header.alg !== 'RS256' || !header.kid) {
+    throw new Error('Unsupported Firebase token.');
+  }
+
+  if (!isExpectedFirebaseToken(claims)) {
+    throw new Error('Firebase token is expired or does not belong to this app.');
+  }
+
+  const certs = await getFirebaseCerts();
+  const cert = certs[header.kid];
+  if (!cert) {
+    throw new Error('Firebase signing certificate was not found.');
+  }
+
+  const verifier = crypto.createVerify('RSA-SHA256');
+  verifier.update(signedContent);
+  verifier.end();
+
+  if (!verifier.verify(cert, signature)) {
+    throw new Error('Firebase token signature is invalid.');
+  }
+
+  return claims;
 }
 
 function getNameParts({ firstName = '', lastName = '', displayName = '', email = '' } = {}) {
@@ -694,21 +792,17 @@ function sendJavaScript(res, body) {
 }
 
 function getFirebaseWebConfig() {
-  const projectId = process.env.FIREBASE_PROJECT_ID || 'free-sewaa';
+  const projectId = process.env.FIREBASE_PROJECT_ID || FIREBASE_WEB_CONFIG.projectId;
   const authDomain = process.env.FIREBASE_AUTH_DOMAIN || `${projectId}.firebaseapp.com`;
 
-  if (!process.env.FIREBASE_API_KEY) {
-    return null;
-  }
-
   return {
-    apiKey: process.env.FIREBASE_API_KEY,
+    apiKey: process.env.FIREBASE_API_KEY || FIREBASE_WEB_CONFIG.apiKey,
     authDomain,
     projectId,
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET || `${projectId}.appspot.com`,
-    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || '',
-    appId: process.env.FIREBASE_APP_ID || '',
-    measurementId: process.env.FIREBASE_MEASUREMENT_ID || ''
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET || FIREBASE_WEB_CONFIG.storageBucket,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || FIREBASE_WEB_CONFIG.messagingSenderId,
+    appId: process.env.FIREBASE_APP_ID || FIREBASE_WEB_CONFIG.appId,
+    measurementId: process.env.FIREBASE_MEASUREMENT_ID || FIREBASE_WEB_CONFIG.measurementId
   };
 }
 
@@ -1182,25 +1276,24 @@ const server = http.createServer(async (req, res) => {
 
       let claims;
       try {
-        claims = decodeFirebaseToken(idToken);
+        claims = await verifyFirebaseIdToken(idToken);
       } catch (error) {
-        return sendJson(res, 400, { error: 'Invalid Firebase token.' });
-      }
-
-      if (!isExpectedFirebaseToken(claims)) {
-        return sendJson(res, 401, { error: 'Firebase token is expired or does not belong to this app.' });
+        const tokenHasThreeParts = String(idToken || '').split('.').length === 3;
+        return sendJson(res, tokenHasThreeParts ? 401 : 400, { error: error.message || 'Invalid Firebase token.' });
       }
 
       const firebaseUid = String(claims.user_id || claims.sub || '').trim();
       const email = String(claims.email || '').trim().toLowerCase();
       const tokenPhone = normalizeUserPhone(claims.phone_number || phone || '');
       const authProvider = String(provider || claims.firebase?.sign_in_provider || 'firebase').trim() || 'firebase';
+      const isEmailVerified = claims.email_verified === true;
 
       if (!firebaseUid) {
         return sendJson(res, 400, { error: 'Firebase token is missing a user id.' });
       }
 
       const isPhoneProvider = authProvider === 'phone' || claims.firebase?.sign_in_provider === 'phone';
+      const isEmailPasswordProvider = authProvider === 'password' || claims.firebase?.sign_in_provider === 'password';
 
       if (isPhoneProvider) {
         if (!tokenPhone) {
@@ -1208,6 +1301,8 @@ const server = http.createServer(async (req, res) => {
         }
       } else if (!email || !isRealEmailAddress(email)) {
         return sendJson(res, 403, { error: VERIFIED_EMAIL_ONLY_MESSAGE });
+      } else if (isEmailPasswordProvider && !isEmailVerified) {
+        return sendJson(res, 403, { error: 'Please verify your email before continuing.' });
       }
 
       const lookup = [{ firebaseUid }];
@@ -1237,6 +1332,9 @@ const server = http.createServer(async (req, res) => {
           city: 'Ulsan',
           region: 'Nam-gu',
           role: 'user',
+          emailVerified: isEmailVerified,
+          phoneVerified: Boolean(tokenPhone),
+          lastAuthProvider: authProvider,
           createdAt: new Date().toISOString()
         };
 
@@ -1249,6 +1347,9 @@ const server = http.createServer(async (req, res) => {
         const updates = {
           firebaseUid,
           provider: user.provider || authProvider,
+          emailVerified: user.emailVerified || isEmailVerified,
+          phoneVerified: user.phoneVerified || Boolean(tokenPhone),
+          lastAuthProvider: authProvider,
           updatedAt: new Date().toISOString()
         };
 

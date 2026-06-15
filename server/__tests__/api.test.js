@@ -55,6 +55,24 @@ describe('Health endpoint', () => {
   });
 });
 
+describe('Firebase auth configuration', () => {
+  it('serves the final Firebase project config', async () => {
+    const res = await request('GET', '/firebase-config.js');
+    expect([200, 0]).toContain(res.status);
+    if (res.status === 200) {
+      expect(String(res.body)).toContain('freesewaa-c8a41');
+      expect(String(res.body)).toContain('FREESEWAA_FIREBASE_CONFIG');
+    }
+  });
+
+  it('rejects malformed Firebase tokens', async () => {
+    const res = await request('POST', '/api/auth/firebase', {
+      idToken: 'bad-token'
+    });
+    expect([400, 0]).toContain(res.status);
+  });
+});
+
 describe('Auth validation', () => {
   it('rejects signup without firstName', async () => {
     const res = await request('POST', '/api/auth/signup', {

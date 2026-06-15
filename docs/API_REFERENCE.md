@@ -5,7 +5,7 @@
 
 All API routes are prefixed with `/api`. The server is a custom Node.js HTTP server (not Express).
 
-**Auth:** User ID is sent as a query parameter (`?userId=...`) or `x-user-id` header. No JWT tokens.
+**Auth:** User ID is sent as a query parameter (`?userId=...`) or `x-user-id` header after login. Firebase Google and phone OTP sign-ins use Firebase ID tokens only during `/api/auth/firebase` exchange.
 
 ---
 
@@ -89,15 +89,31 @@ Check if current user session is valid. Requires `?userId=` or `x-user-id` heade
 
 ### `POST /api/auth/firebase`
 
-Firebase token authentication.
+Firebase verified identity authentication for Google Sign-In, phone OTP, and verified Firebase email/password users. The backend verifies the Firebase ID token signature and requires tokens from project `freesewaa-c8a41`.
 
 **Request Body:**
 ```json
-{ "idToken": "firebase-id-token-abc123", "firstName": "", "lastName": "", "phone": "" }
+{
+  "idToken": "firebase-id-token-abc123",
+  "provider": "google.com",
+  "firstName": "",
+  "lastName": "",
+  "phone": ""
+}
 ```
 
 **Response (200):** User object with auth status.
-**Errors:** 400/401/403 (invalid or expired token)
+
+**Errors:**
+- 400 — missing or malformed token
+- 401 — invalid signature, expired token, or wrong Firebase project
+- 403 — unverified phone/email identity or blocked account
+
+**Notes:**
+- Google users must provide a real recognized email address.
+- Phone OTP users must include a Firebase-verified phone number.
+- Firebase email/password users must have `email_verified=true`.
+- Admin access is still controlled separately by `SUPER_ADMIN_EMAILS` or `SUPER_ADMIN_USER_IDS`.
 
 ### `POST /api/auth/google-demo`
 

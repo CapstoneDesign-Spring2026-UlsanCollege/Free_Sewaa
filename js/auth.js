@@ -222,6 +222,21 @@ function clearInlineMessage(form) {
   }
 }
 
+function showCardMessage(source, message, tone = 'default') {
+  const card = source.closest('.auth-card') || document.body;
+  let el = card.querySelector(':scope > .auth-message');
+
+  if (!el) {
+    el = document.createElement('p');
+    el.className = 'auth-message';
+    const footer = card.querySelector('.auth-footer');
+    card.insertBefore(el, footer || null);
+  }
+
+  el.textContent = message;
+  el.dataset.tone = tone;
+}
+
 async function postJson(url, payload) {
   try {
     const response = await fetch(url, {
@@ -292,6 +307,97 @@ function validateSigninEmailForm(values) {
   if (!password) throw new Error('Please enter your password.');
 }
 
+function getFirebaseAuth() {
+  if (!window.firebase || !window.FREESEWAA_FIREBASE_CONFIG?.apiKey) {
+    return null;
+  }
+
+  if (!window.firebase.apps.length) {
+    window.firebase.initializeApp(window.FREESEWAA_FIREBASE_CONFIG);
+  }
+
+  return window.firebase.auth();
+}
+
+function normalizePhoneNumber(value = '') {
+  const phone = String(value || '').trim().replace(/[^\d+]/g, '');
+  if (!phone) return '';
+  return phone.startsWith('+') ? phone : `+1${phone}`;
+}
+
+function getSignupNamePayload(form) {
+  return {
+    firstName: form.querySelector('[data-first-name]')?.value.trim() || '',
+    lastName: form.querySelector('[data-last-name]')?.value.trim() || ''
+  };
+}
+
+async function finishFirebaseSignin(result, provider, extra = {}) {
+  const user = result?.user || getFirebaseAuth()?.currentUser;
+  if (!user) throw new Error('Firebase did not return a signed-in user.');
+
+  const idToken = await user.getIdToken(true);
+  const data = await postJson(apiUrl('/api/auth/firebase'), {
+    idToken,
+    provider,
+    ...extra
+  });
+
+  setSession(data);
+}
+
+async function startPhoneOtp(form) {
+  const auth = getFirebaseAuth();
+  if (!auth) throw new Error('Firebase is not configured for this page.');
+
+  const phone = normalizePhoneNumber(form.querySelector('[data-phone-input]')?.value);
+  if (!phone) throw new Error('Please enter a phone number in international format.');
+
+  const sendButton = form.querySelector('[data-phone-action="send"]');
+  sendButton.disabled = true;
+  sendButton.textContent = 'Sending OTP...';
+
+  try {
+    const recaptchaId = form.querySelector('#firebaseRecaptcha')?.id || 'firebaseRecaptcha';
+    if (!window.freesewaaRecaptchaVerifier) {
+      window.freesewaaRecaptchaVerifier = new window.firebase.auth.RecaptchaVerifier(recaptchaId, {
+        size: 'invisible'
+      });
+    }
+
+    window.freesewaaPhoneConfirmation = await auth.signInWithPhoneNumber(phone, window.freesewaaRecaptchaVerifier);
+    showInlineMessage(form, 'OTP sent. Enter the 6-digit code to continue.', 'success');
+  } catch (error) {
+    if (window.freesewaaRecaptchaVerifier?.clear) {
+      window.freesewaaRecaptchaVerifier.clear();
+    }
+    window.freesewaaRecaptchaVerifier = null;
+    throw error;
+  } finally {
+    sendButton.disabled = false;
+    sendButton.textContent = 'Send OTP';
+  }
+}
+
+async function completePhoneOtp(form) {
+  const code = form.querySelector('[data-phone-code]')?.value.trim();
+  if (!window.freesewaaPhoneConfirmation) {
+    throw new Error('Please send the OTP first.');
+  }
+  if (!code) throw new Error('Please enter the verification code.');
+
+  if (getPageMode() === 'signup') {
+    const agreed = form.querySelector('[data-phone-terms]')?.checked;
+    if (!agreed) throw new Error('Please agree to the Terms and Privacy Policy.');
+  }
+
+  const result = await window.freesewaaPhoneConfirmation.confirm(code);
+  await finishFirebaseSignin(result, 'phone', {
+    ...getSignupNamePayload(form),
+    phone: normalizePhoneNumber(form.querySelector('[data-phone-input]')?.value)
+  });
+}
+
 document.querySelectorAll('[data-password-action="generate"]').forEach(btn => {
   btn.addEventListener('click', e => {
     e.preventDefault();
@@ -305,9 +411,63 @@ document.querySelectorAll('[data-password-action="generate"]').forEach(btn => {
   });
 });
 
+document.querySelectorAll('[data-firebase-provider="google"]').forEach(button => {
+  button.addEventListener('click', async () => {
+    const defaultText = button.textContent;
+    try {
+      const auth = getFirebaseAuth();
+      if (!auth) throw new Error('Firebase is not configured for this page.');
+
+      button.disabled = true;
+      button.textContent = 'Opening Google...';
+      const provider = new window.firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+      const result = await auth.signInWithPopup(provider);
+      await finishFirebaseSignin(result, 'google.com');
+    } catch (error) {
+      console.warn('Google sign-in failed:', error);
+      showCardMessage(button, error.message || 'Google sign-in failed.', 'error');
+      button.disabled = false;
+      button.textContent = defaultText;
+    }
+  });
+});
+
+document.querySelectorAll('[data-phone-action="send"]').forEach(button => {
+  button.addEventListener('click', async () => {
+    const form = button.closest('[data-firebase-auth="phone"]');
+    if (!form) return;
+
+    try {
+      clearInlineMessage(form);
+      await startPhoneOtp(form);
+    } catch (error) {
+      console.warn('Phone OTP send failed:', error);
+      showInlineMessage(form, error.message || 'Could not send OTP.', 'error');
+    }
+  });
+});
+
 document.querySelectorAll('.auth-form').forEach(form => {
   form.addEventListener('submit', async e => {
     e.preventDefault();
+
+    if (form.dataset.firebaseAuth === 'phone') {
+      const submitButton = form.querySelector('.primary-btn');
+      const defaultButtonText = submitButton.textContent;
+      try {
+        clearInlineMessage(form);
+        submitButton.disabled = true;
+        submitButton.textContent = 'Verifying...';
+        await completePhoneOtp(form);
+      } catch (error) {
+        console.warn('Phone OTP verification failed:', error);
+        showInlineMessage(form, error.message || 'Phone verification failed.', 'error');
+        submitButton.disabled = false;
+        submitButton.textContent = defaultButtonText;
+      }
+      return;
+    }
 
     const pageMode = getPageMode();
     const submitButton = form.querySelector('.primary-btn');

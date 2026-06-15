@@ -40,7 +40,17 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
       <div class="auth-card__top">
         <p class="eyebrow">SIGN UP</p>
         <h2>Create account</h2>
-        <p class="auth-card__text">Create your account with your email address and password.</p>
+        <p class="auth-card__text">Create your account with Google, phone OTP, or an existing email/password flow.</p>
+      </div>
+
+      <div class="social-row">
+        <button class="social-btn" type="button" data-firebase-provider="google">Continue with Google</button>
+      </div>
+      <div class="divider"><span>or continue with</span></div>
+
+      <div class="auth-toggle">
+        <button class="toggle-btn is-active" type="button" data-panel-target="emailPanel">Email</button>
+        <button class="toggle-btn" type="button" data-panel-target="phonePanel">Phone OTP</button>
       </div>
 
       <div class="auth-panel is-active" id="emailPanel">
@@ -57,11 +67,35 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
         </form>
       </div>
 
+      <div class="auth-panel" id="phonePanel">
+        <form class="auth-form firebase-phone-form" data-firebase-auth="phone">
+          <div class="field-grid">
+            <label class="field"><span>First name</span><input type="text" data-first-name placeholder="First name" /></label>
+            <label class="field"><span>Last name</span><input type="text" data-last-name placeholder="Last name" /></label>
+          </div>
+          <label class="field">
+            <span>Phone number</span>
+            <input type="tel" data-phone-input placeholder="+1 555 210 9090" autocomplete="tel" />
+          </label>
+          <button class="secondary-btn" type="button" data-phone-action="send">Send OTP</button>
+          <label class="field">
+            <span>Verification code</span>
+            <input type="text" data-phone-code placeholder="6-digit code" inputmode="numeric" autocomplete="one-time-code" />
+          </label>
+          <label class="checkbox"><input type="checkbox" data-phone-terms /><span>I agree to the Terms and Privacy Policy</span></label>
+          <button class="primary-btn" type="submit">Verify and Create Account</button>
+          <div id="firebaseRecaptcha"></div>
+        </form>
+      </div>
+
       <p class="auth-footer">Already have an account? <a href="/signin.html">Sign in</a></p>
     </section>
   </main>
 
 <script src="api-config.js"></script>
-<script src="/js/auth.js?v=20260610-mongo-only-2"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="/firebase-config.js"></script>
+<script src="/js/auth.js?v=20260615-firebase-auth"></script>
 </body>
 </html>
