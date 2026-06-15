@@ -77,9 +77,24 @@
     return (value || '').replace(/\s+/g, ' ').trim();
   }
 
+  function isLineBreakTitle(element) {
+    return element.matches('.page-title, .hero-title');
+  }
+
+  function normalizeElementText(element) {
+    if (!isLineBreakTitle(element)) return normalize(element.textContent);
+
+    const clone = element.cloneNode(true);
+    clone.querySelectorAll('br').forEach((br) => br.replaceWith(' '));
+    return normalize(clone.textContent);
+  }
+
   function rememberText(element) {
     if (!element.dataset.pageI18nKey) {
-      element.dataset.pageI18nKey = normalize(element.textContent);
+      if (isLineBreakTitle(element) && element.querySelector('br')) {
+        element.dataset.pageI18nOriginalHtml = element.innerHTML;
+      }
+      element.dataset.pageI18nKey = normalizeElementText(element);
     }
     return element.dataset.pageI18nKey;
   }
@@ -92,7 +107,7 @@
   }
 
   function writeText(element, value) {
-    if (element.matches('.page-title, .hero-title') && value.includes('<br')) {
+    if (isLineBreakTitle(element) && value.includes('<br')) {
       element.innerHTML = value;
       return;
     }
@@ -114,7 +129,11 @@
       if (translated) {
         writeText(element, translated);
       } else if (lang === 'en' || !pageText[lang]) {
-        writeText(element, key);
+        if (isLineBreakTitle(element) && element.dataset.pageI18nOriginalHtml) {
+          element.innerHTML = element.dataset.pageI18nOriginalHtml;
+        } else {
+          writeText(element, key);
+        }
       }
     });
   }
