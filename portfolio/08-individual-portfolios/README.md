@@ -8,7 +8,7 @@
 
 | Badge | Member | GitHub | Role | Primary Contribution |
 |-------|--------|--------|------|---------------------|
-|  | **Ram Pathak** | [@Rampathak12](https://github.com/Rampathak12) | Backend & Core Logic | API routes, database integration, JWT authentication |
+|  | **Ram Pathak** | [@Rampathak12](https://github.com/Rampathak12) | Project Coordination & Full-Stack Integration | UI, React migration, auth/deploy fixes, chat/events, backend connection |
 |  | **Sujan Shrestha** | [@SujanShrestha](https://github.com/suzmoon) | Frontend & UI Development | Main pages, navigation, UI components, project coordination |
 |  | **Sujan Tamang** | [@SujanTamang](https://github.com/SujanTamang20) | Testing, Integration & Docs | QA strategy, checklists, bug reporting, integration testing |
 |  | **Swarnim Jung Karki** | [@SwarnimJungKarki](https://github.com/Swarnimkarki50) | Full-Stack Architecture & Integration | Initial backend architecture, API integration, security/testing, CI, UML, and final evidence |
@@ -29,15 +29,15 @@
 
 ```mermaid
 flowchart TD
-    A[Free Sewaa Team Portfolio] --> B[Rampathak12<br/>Backend & Core Logic]
+    A[Free Sewaa Team Portfolio] --> B[Rampathak12<br/>Project Coordination & Full-Stack Integration]
     A --> C[Sujan Shrestha<br/>Frontend & UI Development]
     A --> D[Sujan Tamang<br/>Testing, Integration & Documentation]
     A --> E[Swarnim Jung Karki<br/>Full-Stack Architecture & Integration]
     A --> F[Mohan Khadka<br/>Bug Fixes & Maintenance]
 
-    B --> B1[API Routes]
-    B --> B2[Database Integration]
-    B --> B3[Authentication Flow]
+    B --> B1[UI and React Migration]
+    B --> B2[Auth Deploy and Backend Connection]
+    B --> B3[Chat Events and Evidence]
 
     C --> C1[Main Pages]
     C --> C2[UI Components]
@@ -79,7 +79,7 @@ flowchart TD
 
 | # | Member | Role | Key Evidence | Portfolio |
 |---|--------|------|-------------|-----------|
-| 1 | **Ram Pathak** (`Rampathak12`) | Backend & Core Logic | [API Reference](../../docs/DESIGN/API_REFERENCE.md) · [Database Schema](../../docs/DESIGN/DATABASE_SCHEMA.md) · [Authentication](../../docs/AUTHENTICATION.md) · [Server Code](../../server/server.js) | [View Portfolio](./Rampathak12.md) |
+| 1 | **Ram Pathak** (`Rampathak12`) | Project Coordination & Full-Stack Integration | [Commit History](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits/main?author=Rampathak12) · [Pull Requests](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls?q=is%3Apr+author%3ARampathak12) · [Representative Commits](../06-ai-and-code-ownership/representative-prs/README.md#ram-pathak---5-representative-commits) | [View Portfolio](./Rampathak12.md) |
 | 2 | **Sujan Shrestha** | Frontend & UI Development | [UI Flow](../../docs/DESIGN/UI_FLOW.md) · [Frontend Guide](../../docs/FRONTEND_GUIDE.md) · [Wireframes](../../docs/DESIGN/WIREFRAMES.md) · [HTML Pages](../../html/) | [View Portfolio](./Sujan_Shrestha.md) |
 | 3 | **Sujan Tamang** | Testing, Integration & Docs | [Testing Strategy](../../docs/TESTING_STRATEGY.md) · [QA Checklists](../../docs/QA/MANUAL_TESTING_CHECKLIST.md) · [Bug Reports](../../docs/ISSUES/BUGS/) · [Testing Log](../../docs/PROGRESS/TESTING_LOG.md) | [View Portfolio](./Sujan_Tamang.md) |
 | 4 | **Swarnim Jung Karki** | Full-Stack Systems & Evidence | [Initial Backend PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61) · [API Integration](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b) · [Server Tests](../../server/__tests__/api.test.js) · [UML Evidence](../../docs/Project_UML%20diagram/README.md) · [Final Audit](../FINAL_PORTFOLIO_AUDIT.md) | [View Portfolio](./Swarnim_Jung_Karki.md) |
