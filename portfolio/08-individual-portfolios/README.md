@@ -2,7 +2,7 @@
 
 > This section presents each Free Sewaa team member's individual contribution, technical ownership, evidence of work, AI usage reflection, and personal learning journey. Each portfolio is written in the member's own voice and reflects their honest role in the project.
 
----
+--- 
 
 ## Team Overview
 
