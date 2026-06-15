@@ -110,7 +110,7 @@ export const pageRoutes = {
         },
         {
           "attrs": {
-            "src": "/admin-panel.js?v=adminonly20260513"
+            "src": "/admin-panel.js?v=adminadvanced20260616"
           },
           "content": ""
         },

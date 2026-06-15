@@ -115,6 +115,11 @@
     return `${Math.floor(diffHr / 24)}d ago`;
   }
 
+  function percent(part, total) {
+    if (!total) return 0;
+    return Math.round((Number(part || 0) / Number(total || 1)) * 100);
+  }
+
   async function requestJson(path, options = {}) {
     const response = await fetch(apiUrl(path), {
       ...options,
@@ -186,6 +191,60 @@
 
     const bar = document.querySelector('[data-admin-health-bar]');
     if (bar) bar.style.width = `${Math.max(5, Math.min(100, health))}%`;
+  }
+
+  function renderAdvancedInsights() {
+    const summary = state.dashboard?.summary || {};
+    const listings = state.dashboard?.listings || [];
+    const queue = state.dashboard?.moderationQueue || [];
+    const suggestions = state.dashboard?.suggestions || [];
+    const activity = state.dashboard?.activity || [];
+
+    const reported = listings.filter(item => Number(item.reportCount || 0) > 0).length;
+    const urgent = queue.filter(item => item.urgent || item.status === 'hidden' || !item.reviewed || Number(item.reportCount || 0) > 0).length;
+    const hidden = listings.filter(item => item.status === 'hidden').length;
+    const reviewed = listings.filter(item => item.reviewed).length;
+    const coverage = percent(reviewed, listings.length);
+    const communitySignals = Number(summary.unreadNotifications || 0) + Number(summary.suggestions || 0) + Number(summary.conversations || 0);
+    const riskPressure = reported + urgent + hidden + Number(summary.blockedUsers || 0);
+    const riskLevel = riskPressure >= 12 ? 'High priority' : riskPressure >= 5 ? 'Watch closely' : 'Stable';
+
+    setText('[data-admin-risk-level]', riskLevel);
+    setText('[data-admin-risk-pressure]', riskPressure);
+    setText('[data-admin-risk-pressure-text]', riskPressure ? `${reported} reported, ${urgent} urgent, ${hidden} hidden items need attention.` : 'No major risk pressure detected right now.');
+    setText('[data-admin-resolution-rate]', `${coverage}%`);
+    setText('[data-admin-resolution-text]', listings.length ? `${reviewed} of ${listings.length} listings are marked reviewed.` : 'No listings are waiting in the review model.');
+    setText('[data-admin-community-signal]', communitySignals);
+    setText('[data-admin-community-text]', `${summary.unreadNotifications || 0} unread alerts, ${summary.suggestions || 0} suggestions, ${summary.conversations || 0} conversations.`);
+    setText('[data-admin-pipeline-reported]', reported);
+    setText('[data-admin-pipeline-urgent]', urgent);
+    setText('[data-admin-pipeline-hidden]', hidden);
+    setText('[data-admin-pipeline-reviewed]', reviewed);
+
+    const riskPill = document.querySelector('[data-admin-risk-level]');
+    if (riskPill) {
+      riskPill.dataset.tone = riskPressure >= 12 ? 'danger' : riskPressure >= 5 ? 'warning' : 'success';
+    }
+
+    const focus = [];
+    if (reported) focus.push({ title: 'Clear reported listings', detail: `${reported} listing${reported === 1 ? '' : 's'} have active community reports.` });
+    if (urgent) focus.push({ title: 'Review urgent queue', detail: `${urgent} moderation item${urgent === 1 ? '' : 's'} should be checked first.` });
+    if (summary.blockedUsers) focus.push({ title: 'Audit blocked users', detail: `${summary.blockedUsers} blocked account${summary.blockedUsers === 1 ? '' : 's'} need periodic review.` });
+    if (suggestions.length) focus.push({ title: 'Read user suggestions', detail: `${suggestions.length} suggestion${suggestions.length === 1 ? '' : 's'} can guide product improvements.` });
+    if (!focus.length) focus.push({ title: 'Platform steady', detail: activity.length ? 'Recent activity is available for monitoring.' : 'No immediate admin intervention is required.' });
+
+    const focusTarget = document.getElementById('adminFocusList');
+    if (focusTarget) {
+      focusTarget.innerHTML = focus.slice(0, 4).map((item, index) => `
+        <article class="admin-v2-focus-item">
+          <span>${index + 1}</span>
+          <div>
+            <strong>${escapeHtml(item.title)}</strong>
+            <p>${escapeHtml(item.detail)}</p>
+          </div>
+        </article>
+      `).join('');
+    }
   }
 
   function userCard(user) {
@@ -365,6 +424,7 @@
 
   function renderAll() {
     renderSummary();
+    renderAdvancedInsights();
     renderQueue();
     renderUsers();
     renderListings();
@@ -464,10 +524,52 @@
     });
   }
 
+  function bindUtilities() {
+    document.getElementById('adminRefreshButton')?.addEventListener('click', async event => {
+      const button = event.currentTarget;
+      const previousText = button.textContent;
+      button.disabled = true;
+      button.textContent = 'Refreshing...';
+      try {
+        await loadDashboard();
+        toast('Dashboard refreshed.');
+      } catch (error) {
+        console.error(error);
+        toast(error.message || 'Refresh failed.', 'error');
+      } finally {
+        button.disabled = false;
+        button.textContent = previousText;
+      }
+    });
+
+    document.getElementById('adminCopyReportButton')?.addEventListener('click', async () => {
+      const summary = state.dashboard?.summary || {};
+      const report = [
+        'Free Sewaa admin snapshot',
+        `Health: ${summary.healthScore || 0}/100`,
+        `Users: ${summary.users || 0}`,
+        `Listings: ${summary.listings || 0}`,
+        `Open reports: ${summary.openReports || 0}`,
+        `Unread alerts: ${summary.unreadNotifications || 0}`,
+        `Suggestions: ${summary.suggestions || 0}`,
+        `Generated: ${new Date().toLocaleString()}`
+      ].join('\n');
+
+      try {
+        await navigator.clipboard.writeText(report);
+        toast('Admin report copied.');
+      } catch (error) {
+        console.warn(error);
+        toast(report, 'success');
+      }
+    });
+  }
+
   async function boot() {
     bindNavigation();
     bindFilters();
     bindActions();
+    bindUtilities();
 
     try {
       if (window.FREESEWAA_VERIFY_ADMIN && typeof window.FREESEWAA_VERIFY_ADMIN.then === 'function') {

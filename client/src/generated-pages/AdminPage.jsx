@@ -8,6 +8,7 @@ export default function AdminPage() {
           <p className="admin-v2-copy">A dedicated moderation workspace with platform-wide control over users, posts, review queues, and safety signals.</p>
           <nav className="admin-v2-nav" aria-label="Admin sections">
             <button type="button" className="admin-v2-nav__link is-active" data-admin-nav="overview">Overview</button>
+            <button type="button" className="admin-v2-nav__link" data-admin-nav="insights">Insights</button>
             <button type="button" className="admin-v2-nav__link" data-admin-nav="moderation">Moderation</button>
             <button type="button" className="admin-v2-nav__link" data-admin-nav="users">Users</button>
             <button type="button" className="admin-v2-nav__link" data-admin-nav="listings">Listings</button>
@@ -37,6 +38,8 @@ export default function AdminPage() {
               <strong>Super Admin</strong>
             </div>
             <div className="admin-v2-topnav__actions">
+              <button type="button" className="admin-v2-utility-btn" id="adminRefreshButton">Refresh</button>
+              <button type="button" className="admin-v2-utility-btn" id="adminCopyReportButton">Copy report</button>
               <a href="/index.html">Home</a>
               <a href="/security_audit.html">Security audit</a>
               <button type="button" className="admin-v2-logoutlink" id="adminLogoutButton">Logout</button>
@@ -57,8 +60,8 @@ export default function AdminPage() {
             <section className="admin-v2-healthcard">
               <span className="mini-label">Health monitor</span>
               <strong data-admin-health-score-big>--</strong>
-              <p data-admin-health-text>Loading dashboard status??/p&gt;
-              </p><div className="admin-v2-progress"><span data-admin-health-bar /></div>
+              <p data-admin-health-text>Loading dashboard status...</p>
+              <div className="admin-v2-progress"><span data-admin-health-bar /></div>
               <div className="admin-v2-healthmeta">
                 <div><span>Security</span><strong data-admin-security-status>--</strong></div>
                 <div><span>Accessibility</span><strong data-admin-accessibility-status>--</strong></div>
@@ -85,6 +88,49 @@ export default function AdminPage() {
               <span>Inbox alerts</span>
               <strong data-admin-unread>0</strong>
               <p><span data-admin-conversations>0</span> conversations · <span data-admin-suggestions>0</span> suggestions</p>
+            </article>
+          </section>
+          <section className="admin-v2-grid admin-v2-grid--insights" id="section-insights">
+            <article className="admin-v2-panel admin-v2-panel--wide">
+              <div className="admin-v2-panel__head">
+                <div>
+                  <p className="eyebrow">OPERATIONS INTELLIGENCE</p>
+                  <h2>Live platform command summary</h2>
+                </div>
+                <span className="admin-v2-status-pill" data-admin-risk-level>Loading</span>
+              </div>
+              <div className="admin-v2-intel-grid">
+                <div className="admin-v2-intel-card">
+                  <span>Risk pressure</span>
+                  <strong data-admin-risk-pressure>--</strong>
+                  <p data-admin-risk-pressure-text>Calculating moderation pressure...</p>
+                </div>
+                <div className="admin-v2-intel-card">
+                  <span>Resolution coverage</span>
+                  <strong data-admin-resolution-rate>--</strong>
+                  <p data-admin-resolution-text>Checking review coverage...</p>
+                </div>
+                <div className="admin-v2-intel-card">
+                  <span>Community signal</span>
+                  <strong data-admin-community-signal>--</strong>
+                  <p data-admin-community-text>Reading user feedback and inbox activity...</p>
+                </div>
+              </div>
+              <div className="admin-v2-pipeline" aria-label="Moderation pipeline">
+                <div><span>Reported</span><strong data-admin-pipeline-reported>0</strong></div>
+                <div><span>Urgent</span><strong data-admin-pipeline-urgent>0</strong></div>
+                <div><span>Hidden</span><strong data-admin-pipeline-hidden>0</strong></div>
+                <div><span>Reviewed</span><strong data-admin-pipeline-reviewed>0</strong></div>
+              </div>
+            </article>
+            <article className="admin-v2-panel">
+              <div className="admin-v2-panel__head">
+                <div>
+                  <p className="eyebrow">TODAY'S FOCUS</p>
+                  <h2>Admin action plan</h2>
+                </div>
+              </div>
+              <div className="admin-v2-focus-list" id="adminFocusList" />
             </article>
           </section>
           <section className="admin-v2-grid admin-v2-grid--top" id="section-moderation">
@@ -211,25 +257,25 @@ export default function AdminPage() {
               <div className="admin-v2-audits">
                 <div className="admin-v2-audititem">
                   <span>Security status</span>
-                  <strong data-admin-security-title>Loading??/strong&gt;
-                    <p data-admin-security-text>Checking security posture??/p&gt;
-                    </p></strong></div><strong data-admin-security-title>
-                  <div className="admin-v2-audititem">
-                    <span>Accessibility status</span>
-                    <strong data-admin-accessibility-title>Loading??/strong&gt;
-                      <p data-admin-accessibility-text>Checking accessibility quality??/p&gt;
-                      </p></strong></div><strong data-admin-accessibility-title>
-                    <div className="admin-v2-audititem">
-                      <span>System guidance</span>
-                      <strong>Admin only workspace</strong>
-                      <p>This panel is intentionally separate from the user experience so moderation powers stay restricted.</p>
-                    </div>
-                  </strong></strong></div><strong data-admin-security-title><strong data-admin-accessibility-title>
-                </strong></strong></article><strong data-admin-security-title><strong data-admin-accessibility-title>
-              </strong></strong></section><strong data-admin-security-title><strong data-admin-accessibility-title>
-            </strong></strong></main><strong data-admin-security-title><strong data-admin-accessibility-title>
-          </strong></strong></div><strong data-admin-security-title><strong data-admin-accessibility-title>
-          <div className="admin-toast" id="adminToast" />
-        </strong></strong></div>
+                  <strong data-admin-security-title>Loading...</strong>
+                  <p data-admin-security-text>Checking security posture...</p>
+                </div>
+                <div className="admin-v2-audititem">
+                  <span>Accessibility status</span>
+                  <strong data-admin-accessibility-title>Loading...</strong>
+                  <p data-admin-accessibility-text>Checking accessibility quality...</p>
+                </div>
+                <div className="admin-v2-audititem">
+                  <span>System guidance</span>
+                  <strong>Admin only workspace</strong>
+                  <p>This panel is intentionally separate from the user experience so moderation powers stay restricted.</p>
+                </div>
+              </div>
+            </article>
+          </section>
+        </main>
+      </div>
+      <div className="admin-toast" id="adminToast" />
+    </div>
   );
 }
