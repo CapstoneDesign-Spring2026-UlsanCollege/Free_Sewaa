@@ -1,47 +1,204 @@
 # Swarnim Jung Karki - Individual Portfolio
 
-## Professional Profile
+## Executive Summary
 
-I contributed to Free Sewaa as a **full-stack architecture, integration, and
-quality contributor**. My strongest technical work established the project's
-initial backend structure, connected frontend behavior to API resources, and
-strengthened authentication, automated tests, CI, UML, and final evidence.
+I contributed to Free Sewaa as a **full-stack systems and evidence contributor**.
+My strongest work was turning separate prototype pages into a defensible
+full-stack MVP story: initial backend architecture, frontend-to-API integration,
+security improvement, automated tests, CI, UML diagrams, and final portfolio
+evidence.
 
-My work spans implementation and technical communication: I can explain how a
-browser action becomes an authenticated API request, how that request reaches
-the persistence layer, how failures should be handled, and how repository
-evidence proves what was actually delivered.
+My best grading argument is simple: I can connect what I built to a user-facing
+MVP flow, explain the technical path behind it, and prove the work through
+commits, pull requests, issues, tests, diagrams, and final demo links.
 
-> **Ownership boundary:** I claim the initial backend architecture and the
-> commits I authored. The current server and shared frontend files were later
-> expanded or revised by teammates, so I do not claim sole ownership of their
-> final state.
+> **Ownership boundary:** I claim my authored commits, initial backend
+> architecture, API integration work, security/test/CI contributions, UML work,
+> and evidence organization. I do not claim sole ownership of the final shared
+> server, shared frontend files, or teammate-authored portfolio content.
 
-## Contribution Snapshot
+## Fast Grading Evidence Map
 
-| Area | My verified contribution | Strongest evidence |
+| Grading area | What I can prove | Best evidence |
 |---|---|---|
-| Backend architecture | Created the initial Express/MongoDB models, controllers, routes, middleware, and server structure | [PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61), [`585cc74`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/585cc7409c1de455d87771ccd1efde09bb872a9b) |
-| API integration | Connected browse, donate, signup, and shared frontend scripts to backend resources and responses | [`cfc466f`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b), [Issue #65](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/65) |
-| Core product flow | Helped establish the Post Item -> Browse Items -> Request Item vertical-slice direction | [Issue #39](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/39), [PR #41](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/41) |
-| Security and validation | Added historical bcrypt password handling and supported authentication validation work | [`c1c8a9d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c1c8a9de3a755e0bfb1bbb5eecb4e0cbf3cc7549), [Issue #94](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/94) |
-| Tests and CI | Added focused Jest tests and improved the GitHub Actions workflow | [`a8dd0cc`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a8dd0ccf01e37809ae07f5977978bfaba97216d6), [`36d3b13`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/36d3b13) |
-| Technical communication | Improved UML flow accuracy, portfolio structure, and the final evidence audit | [`5d6f2c6`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/5d6f2c6), [`e60a6f0`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/e60a6f0) |
+| Backend foundation | I created the first structured Express/MongoDB backend baseline with models, controllers, routes, middleware, configuration, and server entry point | [PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61), [`585cc74`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/585cc7409c1de455d87771ccd1efde09bb872a9b) |
+| API integration | I connected frontend pages/scripts to backend API behavior so browser actions had a server path | [`cfc466f`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b), [Issue #65](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/65) |
+| MVP vertical slice | I helped define and present the Post Item -> Browse Items -> Request Item flow | [Issue #39](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/39), [PR #41](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/41) |
+| Security and QA | I added historical bcrypt work, focused Jest tests, and CI workflow safety | [`c1c8a9d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c1c8a9de3a755e0bfb1bbb5eecb4e0cbf3cc7549), [`a8dd0cc`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a8dd0ccf01e37809ae07f5977978bfaba97216d6), [`36d3b13`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/36d3b13) |
+| Diagrams and evidence | I improved UML/portfolio organization and created final audit evidence | [`2fe552d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/2fe552dcd274754ed49c14b87e7ec125a6226e96), [`5d6f2c6`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/5d6f2c6), [`e60a6f0`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/e60a6f0) |
 
-## 1. My Role and Responsibility
+## MVP and Demo Evidence
 
-My role evolved with the project. Early in the semester, I focused on turning
-frontend prototypes into a connected product by establishing a backend
-architecture and API integration path. Later, I worked on security, tests, CI,
-technical diagrams, evidence quality, and final portfolio organization.
+| Evidence | Link | Why it matters |
+|---|---|---|
+| Live MVP | [Render deployment](https://free-sewaa-qh05.onrender.com) | Shows the project as a public working academic MVP |
+| Final demo flow | [Final MVP Demo Guide](../04-final-product/FINAL_MVP_DEMO.md) | Lists the exact demo sequence: landing, account access, browse, post, request, message, admin, tests, limitations |
+| Final architecture | [Final Architecture](../04-final-product/ARCHITECTURE_FINAL.md) | Separates current runtime from historical architecture |
+| UML documentation | [Project UML diagrams](../../docs/Project_UML%20diagram/README.md) | Shows request, dashboard, auth, and admin flows |
+| Final audit | [Final Portfolio Audit](../FINAL_PORTFOLIO_AUDIT.md) | Shows professor-checklist coverage and honest limitations |
+| Representative ledger | [Representative PRs and commits](../06-ai-and-code-ownership/representative-prs/README.md) | Confirms author attribution and evidence boundaries |
 
-The professional value of this work was not only adding code. I helped create
-clear boundaries between the interface, API, authentication, persistence,
-testing, and documentation layers. I also reviewed the final evidence so that
-historical designs, current behavior, open risks, and individual ownership were
-not confused with one another.
+## My Strongest Technical Story
 
-### Git Identity Note
+Free Sewaa began with many page-level prototypes. My strongest contribution was
+helping move the project toward a connected product path:
+
+1. I created an initial backend architecture so users, items, requests,
+   messages, and authentication had server-side structure.
+2. I connected frontend behavior to API calls so pages could communicate with
+   backend resources instead of staying browser-only.
+3. I helped define the Post Item -> Browse Items -> Request Item flow as the
+   core MVP story.
+4. I added security, tests, and CI evidence so the project could be evaluated
+   technically, not only visually.
+5. I improved diagrams and portfolio evidence so the professor could verify
+   what was built, who built it, and what limitations remained.
+
+That combination is my strongest point among the team: I can defend both the
+system design and the proof trail.
+
+## Architecture I Can Explain
+
+```mermaid
+flowchart LR
+    User["Browser user"] --> UI["HTML/JS interface"]
+    UI --> Helper["API helper"]
+    Helper --> Route["Backend route"]
+    Route --> Middleware["Auth and validation middleware"]
+    Middleware --> Controller["Controller logic"]
+    Controller --> Model["Model or collection operation"]
+    Model --> DB["MongoDB"]
+    DB --> Model
+    Model --> Controller
+    Controller --> Response["JSON response"]
+    Response --> UIState["Success, empty, validation, or error UI"]
+```
+
+This is the technical area I can defend live. I can explain how a browser
+action becomes an API request, how the backend decides what to do, how data is
+read or written, how the response returns to the page, and where validation,
+auth, database, or UI failures can occur.
+
+## Contribution Case Studies
+
+### 1. Initial Backend Architecture
+
+**Problem:** The project needed server-side structure rather than keeping the
+main product behavior only in static pages and browser scripts.
+
+**Action:** In [PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61)
+and [commit `585cc74`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/585cc7409c1de455d87771ccd1efde09bb872a9b),
+I added 20 backend files: database config, resource models, controllers, routes,
+JWT middleware, environment setup, and server entry point.
+
+**Result:** The team received a structured backend baseline for users, items,
+requests, messages, and authentication. It created a vocabulary for the team to
+discuss API contracts, persistence, auth, and server responsibilities.
+
+**Boundary:** This was the initial backend architecture. The current production
+server was later replaced and expanded by teammates in shared files.
+
+### 2. Frontend-to-Backend API Integration
+
+**Problem:** A working MVP needed browser actions to reach backend resources
+with predictable responses and error states.
+
+**Action:** In [commit `cfc466f`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b),
+I added an API helper and connected browse, donate, signup, and shared scripts
+to backend behavior. This work is tracked by
+[Issue #65](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/65).
+
+**Result:** The project gained a clearer path from UI actions to API responses.
+That made the donation and request flow easier to demonstrate and easier to
+debug.
+
+**Boundary:** The original root-level page paths changed later. This commit
+proves the integration work, not ownership of every current page.
+
+### 3. MVP Vertical Slice
+
+**Problem:** The team needed one simple product story that a professor could
+understand quickly.
+
+**Action:** I helped define the Post Item -> Browse Items -> Request Item flow
+through [Issue #39](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/39)
+and [PR #41](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/41).
+
+**Result:** The final demo could be explained as a coherent donation lifecycle:
+someone posts an item, another user browses it, then the recipient requests or
+contacts the donor.
+
+**Boundary:** [PR #41](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/41)
+is workflow evidence because GitHub reports zero changed files. The stronger
+implementation proof is the related issue and commits.
+
+### 4. Security, Tests, and CI
+
+**Problem:** A professional capstone needs more than UI. It needs testable
+behavior and honest security discussion.
+
+**Action:** I added historical bcrypt password work in
+[commit `c1c8a9d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c1c8a9de3a755e0bfb1bbb5eecb4e0cbf3cc7549),
+focused Jest tests in
+[commit `a8dd0cc`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a8dd0ccf01e37809ae07f5977978bfaba97216d6),
+and CI safety in
+[commit `36d3b13`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/36d3b13).
+
+**Result:** The repository gained direct evidence for backend behavior and a
+repeatable check path. The final project can point to a real Jest suite rather
+than only manual testing.
+
+**Boundary:** The current suite is focused, not comprehensive. [Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95)
+and the final architecture docs still identify centralized validation and
+local-password hardening as future work.
+
+### 5. UML and Evidence Leadership
+
+**Problem:** Strong work is hard to grade if the proof is scattered or
+overclaimed.
+
+**Action:** I standardized individual portfolio structure and UML context in
+[commit `2fe552d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/2fe552dcd274754ed49c14b87e7ec125a6226e96),
+fixed user-flow diagram ambiguity in
+[commit `5d6f2c6`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/5d6f2c6),
+and created the final portfolio audit in
+[commit `e60a6f0`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/e60a6f0).
+
+**Result:** The portfolio became easier to grade: sections are organized,
+evidence is linked, limitations are visible, and individual ownership is not
+invented.
+
+## Professor Defense: What I Can Answer
+
+| Question | My answer |
+|---|---|
+| What was your clearest technical contribution? | The initial backend architecture in PR #61 and commit `585cc74`, plus the API integration path in `cfc466f`. |
+| Can you draw the request lifecycle? | Yes. I can trace UI input -> API helper -> route -> middleware -> controller -> model/database -> JSON response -> UI state. |
+| How do you prove your work? | Through direct commit metadata, PRs, issues, current files, tests, UML docs, and the representative evidence ledger. |
+| What is honest unfinished work? | Issue #95, centralized validation, broader test coverage, and production hardening of local password behavior. |
+| Why should this score strongly? | My evidence covers architecture, integration, MVP flow, security, tests, CI, diagrams, and final audit. It is broad, technical, and verifiable. |
+
+## AI Use and Human Verification
+
+I used AI as a support tool for brainstorming, debugging hypotheses, test-case
+ideas, Markdown structure, and evidence organization. I did not use AI as an
+authority for ownership or completion claims.
+
+My verification process was:
+
+1. Inspect the diff before accepting generated work.
+2. Check file paths, commit authors, PRs, issues, and current file states.
+3. Run relevant tests or verify the affected workflow.
+4. Separate historical architecture from current runtime.
+5. Remove or narrow any claim that evidence did not support.
+
+Important examples: I identify [PR #35](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/35)
+as shared branch history, treat [PR #41](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/41)
+as workflow evidence because it has zero changed files, and keep
+[Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95)
+as remaining work rather than pretending validation is complete.
+
+## Git Identity Note
 
 My semester history appears under these author identities:
 
@@ -52,222 +209,56 @@ My semester history appears under these author identities:
 - `jung@Swarnims-MacBook-Pro.local`
 
 The author names include `Swarnim Jung Karki` and `Swarnimkarki50`. I use
-focused, reviewable evidence instead of a raw commit count because repository
-history also contains merges, reverts, and branch duplication.
+focused representative evidence instead of a raw commit count because repository
+history includes merges, reverts, generated files, and branch duplication.
 
-## 2. Strongest Technical Contributions
+## Eight Representative Commits
 
-### Case Study A: Establishing the Initial Backend
+| # | Date | Commit | Grading category | Verified contribution | Boundary |
+|---:|---|---|---|---|---|
+| 1 | 2026-04-08 | [`585cc74`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/585cc7409c1de455d87771ccd1efde09bb872a9b) | Architecture | Initial backend models, controllers, routes, middleware, config, and server | Historical backend baseline |
+| 2 | 2026-04-08 | [`cfc466f`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b) | Integration | API helper and frontend-to-backend connection | Original paths later reorganized |
+| 3 | 2026-05-16 | [`c1c8a9d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c1c8a9de3a755e0bfb1bbb5eecb4e0cbf3cc7549) | Security | Historical bcrypt password hashing and comparison | Final password risks remain |
+| 4 | 2026-05-16 | [`a8dd0cc`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a8dd0ccf01e37809ae07f5977978bfaba97216d6) | Testing | Jest health and authentication tests | Focused suite, not full coverage |
+| 5 | 2026-05-22 | [`36d3b13`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/36d3b13) | CI | Safer GitHub Actions workflow behavior | Workflow later evolved |
+| 6 | 2026-06-04 | [`2fe552d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/2fe552dcd274754ed49c14b87e7ec125a6226e96) | Portfolio/UML | Individual portfolio template and UML overview | Organization is not teammate ownership |
+| 7 | 2026-06-04 | [`5d6f2c6`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/5d6f2c6) | Diagram quality | Fixed user-flow ambiguity and dead ends | Shared docs later evolved |
+| 8 | 2026-06-11 | [`e60a6f0`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/e60a6f0) | Final evidence | Final portfolio audit and MVP demo evidence refinement | Documentation/evidence contribution |
 
-**Problem:** The project needed a structured server-side foundation rather than
-placing application state and business behavior entirely inside page scripts.
-
-**Action:** In [PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61),
-I added 20 backend files covering database configuration, resource models,
-controllers, routes, JWT middleware, environment setup, and a server entry
-point. The implementation is preserved in
-[commit `585cc74`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/585cc7409c1de455d87771ccd1efde09bb872a9b).
-
-**Result:** The team gained an architectural baseline for users, items,
-requests, messages, and authentication. This made it possible to reason about
-API contracts and persistence separately from the interface.
-
-**Boundary:** The original `backend/src/` architecture is historical. Teammates
-later replaced and expanded the runtime in `server/server.js`.
-
-### Case Study B: Connecting the Frontend to the API
-
-**Problem:** Early pages depended on prototype or browser-only behavior, so
-actions were not consistently connected to server resources and errors.
-
-**Action:** In
-[commit `cfc466f`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b),
-I added an API helper and changed browse, donate, signup, and shared frontend
-scripts to communicate with backend endpoints. The work is tracked by
-[Issue #65](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/65).
-
-**Result:** Browser interactions gained a path to persistent resources,
-structured responses, and visible error handling.
-
-**Boundary:** The original root-level frontend paths were later reorganized.
-The commit proves my integration work, not ownership of every current page.
-
-### Case Study C: Building a Demonstrable Product Flow
-
-The team needed a coherent experience rather than disconnected screens. I
-opened [Issue #39](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/39)
-to define the Post Item -> Browse Items -> Request Item vertical slice and
-opened [PR #41](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/41)
-for that workflow.
-
-Two attribution details matter:
-
-- [PR #35](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/35)
-  was opened and merged by me, but its branch history contains commits from
-  multiple teammates and Copilot. I present it as shared evidence.
-- GitHub reports zero changed files for PR #41. It is useful workflow evidence,
-  while Issue #39 and implementation commits provide stronger delivery proof.
-
-### Case Study D: Security, Tests, and CI
-
-I added historical bcrypt password handling in
-[commit `c1c8a9d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c1c8a9de3a755e0bfb1bbb5eecb4e0cbf3cc7549),
-tracked by [Issue #94](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/94).
-I then added Jest checks for health and authentication behavior in
-[commit `a8dd0cc`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a8dd0ccf01e37809ae07f5977978bfaba97216d6)
-and improved CI safety in
-[commit `36d3b13`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/36d3b13).
-
-The current verified suite contains three focused tests, not broad regression
-coverage. [Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95)
-remains open for centralized signup/auth validation. The final project also
-documents a separate local-password path that still needs production hardening.
-
-### Case Study E: UML and Evidence Leadership
-
-I standardized the individual portfolio and UML context in
-[commit `2fe552d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/2fe552dcd274754ed49c14b87e7ec125a6226e96),
-then corrected ambiguity in the user-flow diagram in
-[commit `5d6f2c6`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/5d6f2c6).
-Finally, I created the final portfolio audit in
-[commit `e60a6f0`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/e60a6f0).
-
-This work made the project easier to evaluate: claims are connected to evidence,
-open limitations remain visible, and team documentation is not used to invent
-individual ownership.
-
-## 3. Technical Area I Can Defend
-
-### API Architecture and Request Lifecycle
-
-I can explain the initial request lifecycle end to end:
-
-1. The browser collects and validates user input.
-2. A frontend API helper serializes the request and sends it to an endpoint.
-3. The router maps the method and path to a controller.
-4. Authentication middleware verifies the token for protected operations.
-5. The controller validates context and coordinates business behavior.
-6. A model reads or changes MongoDB data.
-7. The controller returns a JSON response with a meaningful status code.
-8. The frontend converts the response into success, empty, validation, or error UI.
-
-The design separates concerns: route definitions stay small, controllers own
-request behavior, models describe data, middleware handles cross-cutting
-authentication, and the frontend focuses on presentation.
-
-Important failure modes include malformed input, missing or expired tokens,
-duplicate account data, unavailable database connections, unexpected response
-shapes, and partial UI updates. The next engineering step should be centralized
-schema validation and integration tests for every protected write endpoint.
-
-## 4. AI Use and Human Verification
-
-I used AI for scaffolding ideas, debugging hypotheses, test-case suggestions,
-documentation structure, and Markdown cleanup. AI did not decide project scope,
-security acceptance, feature completion, or individual ownership.
-
-My review process was:
-
-1. Inspect the proposed diff instead of accepting generated output directly.
-2. Compare it with the repository's current architecture and conventions.
-3. Run the affected test or manually reproduce the workflow.
-4. Check links, authors, file paths, and issue states against GitHub.
-5. Remove inflated claims when the evidence did not support them.
-
-Examples of human corrections include identifying PR #35 as shared history,
-recording PR #41's zero-file result, distinguishing the historical backend from
-the current server, and keeping Issue #95 open rather than presenting validation
-as complete.
-
-## 5. Problem I Helped Solve
-
-### Moving Authentication Toward Safer Password Handling
-
-The historical authentication implementation needed to avoid persisting and
-comparing passwords as plain values. In
-[commit `c1c8a9d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c1c8a9de3a755e0bfb1bbb5eecb4e0cbf3cc7549),
-I added bcrypt support to the server dependencies and updated registration and
-login behavior to hash and compare credentials.
-
-This work reduced the risk of exposing usable passwords if stored data were
-compromised. It also reinforced an important lesson: security must be reflected
-in persistence, controller behavior, error handling, and tests rather than
-added as a final visual feature.
-
-The accurate final statement is narrower than “authentication is completely
-secure.” The repository later evolved, and the final risk review still
-identifies local password handling and centralized validation as unfinished.
-
-## 6. Reflection and Growth
-
-### What I Learned
-
-I learned how one user-facing action crosses interface state, network requests,
-middleware, controllers, persistence, and tests. I also learned that a concise,
-well-scoped commit is stronger grading evidence than a large activity count.
-
-### What I Am Most Proud Of
-
-I am most proud of creating the initial backend baseline and connecting it to
-frontend behavior. That work helped move Free Sewaa from independent prototype
-pages toward a full-stack product flow.
-
-### What I Would Improve
-
-I would introduce shared validation schemas and integration tests earlier,
-maintain one Git author identity, and divide broad changes into smaller PRs with
-explicit acceptance criteria. I would also document architecture transitions
-as they happen so historical and current implementations remain easy to
-distinguish.
-
-### Strongest Skill Developed
-
-My strongest growth was in **full-stack systems thinking**: understanding both
-the code path and the proof path. I can explain how the feature works, where it
-can fail, how it should be tested, and which Git artifact supports the claim.
-
-## 7. Eight Representative Commits
-
-| # | Date | Commit | Verified contribution | Evidence boundary |
-|---:|---|---|---|---|
-| 1 | 2026-04-08 | [`585cc74`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/585cc7409c1de455d87771ccd1efde09bb872a9b) | Added the initial backend models, controllers, routes, middleware, configuration, and server | Historical backend architecture |
-| 2 | 2026-04-08 | [`cfc466f`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b) | Connected frontend scripts to API behavior | Original paths were later reorganized |
-| 3 | 2026-05-16 | [`c1c8a9d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/c1c8a9de3a755e0bfb1bbb5eecb4e0cbf3cc7549) | Added historical bcrypt password hashing and comparison | Separate final password risks remain |
-| 4 | 2026-05-16 | [`a8dd0cc`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a8dd0ccf01e37809ae07f5977978bfaba97216d6) | Added Jest health and authentication tests | Three focused tests, not broad coverage |
-| 5 | 2026-05-22 | [`36d3b13`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/36d3b13) | Improved `.github/workflows/ci.yml` safety | Workflow received later edits |
-| 6 | 2026-06-04 | [`2fe552d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/2fe552dcd274754ed49c14b87e7ec125a6226e96) | Standardized individual portfolios and added UML context | Organization is not ownership of teammates' work |
-| 7 | 2026-06-04 | [`5d6f2c6`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/5d6f2c6) | Corrected user-flow diagram ambiguity and dead ends | Shared documentation later evolved |
-| 8 | 2026-06-11 | [`e60a6f0`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/e60a6f0) | Added the final portfolio audit and refined final MVP demo evidence | Documentation and grading-readiness work |
-
-## 8. Five Best Evidence Links
+## Five Best Evidence Links
 
 1. [PR #61 - Initial backend API](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61)
-   demonstrates the clearest single-author technical foundation: 20 backend files.
+   proves the strongest single technical foundation: 20 backend files.
 2. [Commit `cfc466f` - Frontend/API integration](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b)
-   shows cross-layer integration rather than isolated page work.
+   proves cross-layer integration work.
 3. [Commit `a8dd0cc` - Jest tests](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a8dd0ccf01e37809ae07f5977978bfaba97216d6)
-   proves direct testing work and dependency setup.
-4. [Issue #94 and commit `c1c8a9d`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/94)
-   provide a traceable security problem and implementation trail.
+   proves direct automated-test work.
+4. [Issue #94 - Security improvement trail](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/94)
+   connects security discussion to implementation evidence.
 5. [PR #148 - Final capstone portfolio](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/148)
-   demonstrates evidence organization across the complete submission.
+   proves final evidence organization across the submission.
 
-## Technical Defense Readiness
+## Reflection
 
-I am prepared to:
+My biggest growth was learning to think like a full-stack engineer rather than
+only a page builder. I learned that a feature is not just a screen: it includes
+input handling, API design, auth boundaries, persistence, failure states, tests,
+documentation, and a clear proof trail.
 
-- Draw and explain the initial route -> middleware -> controller -> model flow.
-- Trace a frontend action into an API request and response.
-- Explain why bcrypt is preferable to plain password storage.
-- Run and interpret the current Jest suite and CI workflow.
-- Explain why PR #35 is shared evidence and PR #41 is workflow evidence.
-- Distinguish my historical backend contribution from the current server.
-- Identify Issue #95 and the local-password path as unfinished work.
-- Defend all eight representative commits without relying on a raw commit count.
+If I improved the project again, I would introduce shared validation schemas
+earlier, expand integration and browser tests, keep one Git identity from the
+start, and document architecture transitions as they happen. I would also keep
+each PR smaller so the evidence is even easier to review.
+
+The work I am most proud of is the backend/API foundation plus final evidence
+clarity. That combination shows both technical implementation and professional
+accountability.
 
 ## Navigation
 
 - [Representative contribution evidence](../06-ai-and-code-ownership/representative-prs/README.md)
-- [AI and code ownership audit](../06-ai-and-code-ownership/AI_CODE_OWNERSHIP_AUDIT.md)
+- [Final MVP Demo Guide](../04-final-product/FINAL_MVP_DEMO.md)
+- [Final Architecture](../04-final-product/ARCHITECTURE_FINAL.md)
+- [Project UML diagrams](../../docs/Project_UML%20diagram/README.md)
 - [Back to Individual Portfolios](./README.md)
 - [Back to Portfolio Home](../README.md)
