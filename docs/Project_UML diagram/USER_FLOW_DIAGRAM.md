@@ -59,9 +59,9 @@ flowchart LR
 
     Explore --> Browse[Browse Services]
     Explore --> Events[Events]
-    Explore --> Premium[Premium / Donate]
+    Explore --> Premium[Free Services / Donate]
 
-    Activity --> Orders[Orders]
+    Activity --> RequestTracking[Request Tracking]
     Activity --> Requests[Requests]
     Activity --> Posts[My Posts]
     Activity --> Saved[Saved Items]
@@ -78,7 +78,7 @@ flowchart LR
 
     class Dashboard core;
     class Explore,Activity,Communication,Account group;
-    class Browse,Events,Premium,Orders,Requests,Posts,Saved,Messages,Notifications,Profile,Logout item;
+    class Browse,Events,Premium,RequestTracking,Requests,Posts,Saved,Messages,Notifications,Profile,Logout item;
 ```
 
 ---
@@ -95,27 +95,27 @@ flowchart LR
     Select --> Booking[Enter Booking Details]
     Booking --> Payment[Payment]
     Payment --> Confirm[Booking Confirmation]
-    Confirm --> Orders[Saved in Orders]
+    Confirm --> RequestTracking[Saved in Request Tracking]
 
     classDef process fill:#f5f5f5,stroke:#666,color:#111;
     classDef important fill:#e8f5e9,stroke:#2e7d32,color:#111;
 
     class Dashboard,Browse,Details,Select,Booking,Payment process;
-    class Confirm,Orders important;
+    class Confirm,RequestTracking important;
 ```
 
 ---
 
 ## 4. Donation / Request Flow
 
-This diagram shows the main flow for requests and donation or premium actions.
+This diagram shows the main flow for requests and donation or free service actions.
 
 ```mermaid
 flowchart LR
     Dashboard[User Dashboard] --> Action{Choose Action}
 
     Action -->|Request Help / Service| RequestFlow[Request Flow]
-    Action -->|Donate / Premium| DonateFlow[Donation / Premium Flow]
+    Action -->|Donate / Free Services| DonateFlow[Donation / Free Services Flow]
 
     RequestFlow --> RequestForm[Fill Request Details]
     RequestForm --> SubmitRequest[Submit Request]
@@ -123,7 +123,7 @@ flowchart LR
 
     DonateFlow --> ChoosePlan[Choose Amount / Plan]
     ChoosePlan --> Payment[Payment]
-    Payment --> DonateSuccess[Donation / Premium Confirmed]
+    Payment --> DonateSuccess[Donation / Free Services Confirmed]
 
     classDef process fill:#f5f5f5,stroke:#666,color:#111;
     classDef decision fill:#fff8e1,stroke:#999,color:#111;
@@ -200,7 +200,7 @@ flowchart LR
 | Authentication Flow | Shows how new users, returning users, and admins enter the system |
 | User Dashboard Flow | Shows the main features available after user login |
 | Service Booking Flow | Shows how users browse and book services |
-| Donation / Request Flow | Shows request, donation, and premium-related actions |
+| Donation / Request Flow | Shows request, donation, and free-service-related actions |
 | Admin Flow | Shows how admins manage the platform |
 | Logout Flow | Shows how users and admins leave the system |
 

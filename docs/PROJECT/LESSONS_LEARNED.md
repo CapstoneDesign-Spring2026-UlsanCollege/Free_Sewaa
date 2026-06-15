@@ -13,7 +13,7 @@
 - Weekly sprint packets were submitted on time
 
 ### 2. Frontend Design
-- Premium UI (Airbnb/Karrot inspired) made the app look professional
+- Polished UI (Airbnb/Karrot inspired) made the app look professional
 - Dark mode, animations, and responsive design impressed during demos 
 - 18+ HTML pages created and integrated
 

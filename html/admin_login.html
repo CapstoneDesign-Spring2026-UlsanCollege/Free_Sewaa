@@ -45,17 +45,13 @@
         <p class="eyebrow">ADMIN LOGIN</p>
         <h2>Welcome admin</h2>
         <p class="auth-card__text">Use your administrator credentials to continue securely.</p>
-        <div class="auth-demo-note auth-demo-note--admin">
-          <strong>Restricted admin access</strong>
-          <span>Administrative credentials are intentionally hidden from the interface.</span>
-          <span>Only authorized administrators should continue here.</span>
-        </div>
+        <p class="auth-card__text">Admin credentials are not displayed publicly. Only authorized project administrators should continue here.</p>
       </div>
 
       <form class="auth-form" id="adminLoginForm" novalidate>
         <label class="field">
           <span>Admin email address</span>
-          <input id="adminEmail" type="email" placeholder="admin@yourmail.com" autocomplete="username" required />
+          <input id="adminEmail" type="email" placeholder="admin@example.com" autocomplete="username" required />
         </label>
         <label class="field">
           <span>Password</span>

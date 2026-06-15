@@ -40,13 +40,13 @@ Affected: Homepage, shared sections across all pages
 
 ## Expected Behavior
 
-The platform should use a clean, warm, premium, and consistent gradient palette across all pages.
+The platform should use a clean, warm, polished, and consistent gradient palette across all pages.
 
 ---
 
 ## Actual Behavior
 
-The colors felt visually inconsistent and reduced the premium feel of the website.
+The colors felt visually inconsistent and reduced the polished feel of the website.
 
 ---
 

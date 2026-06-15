@@ -23,8 +23,8 @@ export default function DonateUsPage() {
               </button>
               <div className="settings-menu">
                 <a href="my-posts.html">My Posts</a>
-                <a href="orders.html">Track Your Order</a>
-                <a href="premium.html">Premium Plans</a>
+                <a href="orders.html">Track Your Request</a>
+                <a href="premium.html">Free Services</a>
                 <a href="profile.html">Personal Information</a>
                 <a href="profile.html#edit">Edit Profile</a>
                 <a href="region.html">Change Region</a>
@@ -113,7 +113,7 @@ export default function DonateUsPage() {
               <div><strong>Reference</strong><span>Your name + support purpose</span></div>
             </div>
             <p className="helper-text">For real payments, publish only verified bank or payment information approved by your team. Keep receipts for transparency.</p>
-            <a className="btn btn-soft" href="mailto:support@freesewaa.org?subject=Free Sewaa donation receipt">Request receipt by email</a>
+            <a className="btn btn-soft" href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues">Request receipt by email</a>
           </aside>
         </section>
         <section className="wrap support-layout support-layout--secondary">

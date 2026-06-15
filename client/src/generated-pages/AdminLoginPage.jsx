@@ -22,16 +22,12 @@ export default function AdminLoginPage() {
             <p className="eyebrow">ADMIN LOGIN</p>
             <h2>Welcome admin</h2>
             <p className="auth-card__text">Use your administrator credentials to continue securely.</p>
-            <div className="auth-demo-note auth-demo-note--admin">
-              <strong>Restricted admin access</strong>
-              <span>Administrative credentials are intentionally hidden from the interface.</span>
-              <span>Only authorized administrators should continue here.</span>
-            </div>
+          <p className="auth-card__text">Admin credentials are not displayed publicly. Only authorized project administrators should continue here.</p>
           </div>
           <form className="auth-form" id="adminLoginForm" noValidate>
             <label className="field">
               <span>Admin email address</span>
-              <input id="adminEmail" type="email" placeholder="admin@yourmail.com" autoComplete="username" required />
+              <input id="adminEmail" type="email" placeholder="admin@example.com" autoComplete="username" required />
             </label>
             <label className="field">
               <span>Password</span>

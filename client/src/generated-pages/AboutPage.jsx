@@ -23,8 +23,8 @@ export default function AboutPage() {
               </button>
               <div className="settings-menu">
                 <a href="my-posts.html">My Posts</a>
-                <a href="orders.html">Track Your Order</a>
-                <a href="premium.html">Premium Plans</a>
+                <a href="orders.html">Track Your Request</a>
+                <a href="premium.html">Free Services</a>
                 <a href="profile.html">Personal Information</a>
                 <a href="profile.html#edit">Edit Profile</a>
                 <a href="region.html">Change Region</a>
@@ -75,11 +75,11 @@ export default function AboutPage() {
           <div className="contact-band__left">
             <p className="eyebrow">CONTACT</p>
             <h2 className="section-title small">Get in touch with Free Sewaa</h2>
-            <p className="section-text">Questions, support, partnerships, or community collaboration - we would love to hear from you.</p>
+            <p className="section-text">Questions, support, partnerships, or community collaboration can be shared through the project repository.</p>
           </div>
           <div className="contact-list">
-            <div><strong>Email</strong><span>support@freesewaa.org</span></div>
-            <div><strong>Phone</strong><span>+1 (555) 210-9090</span></div>
+            <div><strong>Support</strong><span>GitHub Issues</span></div>
+            <div><strong>Project</strong><span>Capstone Design Spring 2026</span></div>
             <div><strong>Location</strong><span>Brampton, Ontario, Canada</span></div>
           </div>
         </section>

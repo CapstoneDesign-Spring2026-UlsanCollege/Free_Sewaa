@@ -39,7 +39,7 @@ flowchart LR
 - localStorage-based auth with userId stored in browser
 - Password comparison (plaintext — bcryptjs available for future use)
 - Admin role check via database field
-- Firebase token support for phone/email auth
+- Firebase configuration support for email-based authentication
 
 ### Deployment Layer
 - Hosted on Render

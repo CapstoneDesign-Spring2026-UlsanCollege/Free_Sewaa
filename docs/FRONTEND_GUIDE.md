@@ -28,12 +28,12 @@ js/
 | Profile | `profile.html` | User profile |
 | Admin Panel | `admin.html` | Admin dashboard |
 | Events | `events.html` | Community events |
-| Orders | `orders.html` | User orders |
+| Request Tracking | `orders.html` | User request tracking |
 | Requests | `requests.html` | Incoming/outgoing requests |
 | Notifications | `notifications.html` | User notifications |
 | Saved Items | `saved.html` | Bookmarked items |
 | My Posts | `my-posts.html` | User's posted items |
-| Premium | `premium.html` | Premium/donate page |
+| Free Services | `premium.html` | Free service options and donation links |
 
 ## CSS Conventions
 

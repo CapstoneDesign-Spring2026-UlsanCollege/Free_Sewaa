@@ -27,7 +27,7 @@ Before the demo:
 ### 1. Landing Page
 Open the live site: https://free-sewaa-qh05.onrender.com
 
-- Show the Figma-inspired landing page with premium UI
+- Show the Figma-inspired landing page with polished UI
 - Point out navigation links: Browse, Donate, Sign Up, Login
 - Emphasize: no account needed to browse
 

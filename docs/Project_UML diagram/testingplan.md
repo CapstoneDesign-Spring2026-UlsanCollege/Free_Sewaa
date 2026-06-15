@@ -25,7 +25,7 @@ The main goal of this testing plan is to make sure Free Sewaa works correctly fo
 - Admin users
 - Service booking
 - Requests
-- Donation / premium features
+- Donation / free service features
 - Dashboard navigation
 - Messages / AI chat
 - Notifications
@@ -139,8 +139,8 @@ Functional testing checks whether each feature works as expected.
 | DASH-07 | User clicks Saved Items | Saved items page opens | P2 |
 | DASH-08 | User clicks My Posts | Posts page opens | P2 |
 | DASH-09 | User clicks Requests | Requests page opens | P1 |
-| DASH-10 | User clicks Premium / Donate | Premium or donation page opens | P1 |
-| DASH-11 | User clicks Orders | Orders page opens | P1 |
+| DASH-10 | User clicks Free Services / Donate | Free services or donation page opens | P1 |
+| DASH-11 | User clicks Request Tracking | Request tracking page opens | P1 |
 
 ---
 
@@ -157,7 +157,7 @@ flowchart LR
     B --> C[Select Service]
     C --> D[Enter Booking Details]
     D --> E[Payment / Confirmation]
-    E --> F[Order Saved]
+    E --> F[Request Saved]
 
     classDef step fill:#F0FDFA,stroke:#0F766E,color:#111827;
     classDef success fill:#DCFCE7,stroke:#16A34A,color:#111827;
@@ -173,7 +173,7 @@ flowchart LR
 | BOOK-03 | User enters booking details | Booking form accepts valid input | P0 |
 | BOOK-04 | User leaves required fields empty | Validation message appears | P1 |
 | BOOK-05 | User confirms booking | Confirmation message appears | P0 |
-| BOOK-06 | User opens Orders | New booking appears in orders | P0 |
+| BOOK-06 | User opens Request Tracking | New booking/request appears in request tracking | P0 |
 
 ---
 
@@ -184,9 +184,9 @@ flowchart LR
 | REQ-01 | User opens Requests page | Request page loads | P1 |
 | REQ-02 | User submits valid request | Request is created | P0 |
 | REQ-03 | User submits empty request form | Validation error appears | P1 |
-| DON-01 | User opens Premium / Donate page | Page loads correctly | P1 |
-| DON-02 | User selects donation or premium option | Payment/confirmation flow starts | P1 |
-| DON-03 | Donation/premium is completed | Success message appears | P1 |
+| DON-01 | User opens Free Services / Donate page | Page loads correctly | P1 |
+| DON-02 | User selects donation or free service option | Payment/confirmation flow starts | P1 |
+| DON-03 | Donation request is completed | Success message appears | P1 |
 
 ---
 
@@ -248,7 +248,7 @@ Integration testing checks that connected features work together.
 | Browse Services → Service Details | Correct service data appears |
 | Service Details → Booking | Booking form opens with selected service |
 | Booking → Confirmation | Booking confirmation appears |
-| Confirmation → Orders | Order is saved and visible |
+| Confirmation → Request Tracking | Request is saved and visible |
 
 ---
 
@@ -277,7 +277,7 @@ E2E testing checks the app like a real user.
 | 4 | Login | User dashboard opens |
 | 5 | Browse services | Service list appears |
 | 6 | Book service | Booking confirmation appears |
-| 7 | Open Orders | Booking is visible |
+| 7 | Open Request Tracking | Booking is visible |
 | 8 | Logout | User returns to landing/login page |
 
 ---
@@ -337,7 +337,7 @@ Performance testing checks if the app runs smoothly.
 | Login/Register | Form appears without delay |
 | User Dashboard | Cards and menu load smoothly |
 | Browse Services | Service list loads correctly |
-| Orders | Order data loads smoothly |
+| Request Tracking | Request data loads smoothly |
 | Admin Dashboard | Admin data loads without freezing |
 
 ## Performance Checklist
@@ -410,8 +410,8 @@ Performance testing checks if the app runs smoothly.
 - [ ] Saved items page works
 - [ ] My posts page works
 - [ ] Requests page works
-- [ ] Premium / Donate page works
-- [ ] Orders page works
+- [ ] Free Services / Donate page works
+- [ ] Request tracking page works
 
 ## Admin Features
 
@@ -483,7 +483,7 @@ Free Sewaa is ready for demo/release only when:
 - [ ] Login/register works
 - [ ] User dashboard works
 - [ ] Service booking works
-- [ ] Orders page works
+- [ ] Request tracking page works
 - [ ] Request/donation flow works
 - [ ] Admin dashboard works
 - [ ] Logout works

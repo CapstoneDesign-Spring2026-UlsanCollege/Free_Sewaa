@@ -14,8 +14,8 @@ flowchart TD
     Dashboard --> Saved[Saved Items]
     Dashboard --> Posts[My Posts]
     Dashboard --> Requests[Requests]
-    Dashboard --> Premium[Premium / Donate]
-    Dashboard --> Orders[Orders]
+    Dashboard --> Premium[Free Services / Donate]
+    Dashboard --> RequestTracking[Request Tracking]
     Dashboard --> Logout[Logout]
 
     classDef page fill:#f4f4f4,stroke:#555,stroke-width:1px,color:#111;
@@ -29,13 +29,13 @@ flowchart TD
 | Browse Services | View all donation items. Filter by category or search keyword. |
 | Events | See upcoming community donation drives and events. |
 | Messages / AI Assistant | Chat with other users or get help from the AI bot. |
-| Notifications | Alerts for messages, requests, and order updates. |
+| Notifications | Alerts for messages, requests, and request updates. |
 | Profile | Edit name, email, profile picture, and password. |
 | Saved Items | Items bookmarked for later. |
 | My Posts | Items you posted. Edit or delete them. |
 | Requests | People who requested your items. Accept or decline. |
-| Premium / Donate | Upgrade account or donate to support the platform. |
-| Orders | Items you successfully claimed. |
+| Free Services / Donate | Upgrade account or donate to support the platform. |
+| Request Tracking | Items you successfully claimed. |
 
 ---
 

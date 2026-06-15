@@ -97,9 +97,9 @@ export default function UserPanelPage() {
                 <span>Call</span>
                 <strong>010-9664-6162</strong>
               </a>
-              <a className="contact-action" href="mailto:support@freesewaa.org">
+              <a className="contact-action" href="https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues">
                 <span>Email</span>
-                <strong>support@freesewaa.org</strong>
+                <strong>GitHub Issues</strong>
               </a>
             </div>
           </article>

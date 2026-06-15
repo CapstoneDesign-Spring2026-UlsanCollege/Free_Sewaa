@@ -1,12 +1,12 @@
 # 📌 Week 5 MVP Specifications – Free Sewaa
 
 ## Overview
-Week 5 focuses on **product experience and advanced frontend features** for Free Sewaa. Building on the foundation from Weeks 1-4, the goal is to deliver a polished, demo-ready application with a premium user interface.
+Week 5 focuses on **product experience and advanced frontend features** for Free Sewaa. Building on the foundation from Weeks 1-4, the goal is to deliver a polished, demo-ready application with a polished user interface.
 
 ---
 
 ## 🎯 Objectives
-- Deliver a **premium, modern UI** across all pages
+- Deliver a **polished, modern UI** across all pages
 - Implement **user authentication flow** (Login/Signup/Logout)
 - Ensure all core features work seamlessly together
 - Make the application **demo-ready** for final presentation
@@ -23,11 +23,11 @@ Week 5 focuses on **product experience and advanced frontend features** for Free
 
 ---
 
-### 2. Premium UI/UX Design
+### 2. Polished UI/UX Design
 - Modern, Airbnb-inspired visual design
 - Consistent color palette and typography
 - Glass-morphism effects and smooth animations
-- Premium button styles and interactions
+- Polished button styles and interactions
 - Responsive layout (mobile/tablet/desktop)
 
 ---
@@ -80,7 +80,7 @@ Demonstrate the full user journey:
 ---
 
 ## 📦 Deliverables
-- Premium, fully-styled frontend application
+- Polished, fully-styled frontend application
 - Functional authentication flow
 - Browse, Donate, and Chat pages working
 - Consistent design system across all pages
@@ -90,4 +90,4 @@ Demonstrate the full user journey:
 ---
 
 ## ✅ Conclusion
-Week 5 delivers a **polished, demo-ready product** that showcases Free Sewaa as a professional community donation platform with a premium user experience.
+Week 5 delivers a **polished, demo-ready product** that showcases Free Sewaa as a professional community donation platform with a polished user experience.

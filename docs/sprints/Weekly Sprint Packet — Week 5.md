@@ -99,7 +99,7 @@ If live demo fails:
 * Browse page UI improved
 * Donate page upgraded with validation & image upload
 * Responsive layout (mobile/tablet/desktop)
-* Button and interaction redesign (premium feel)
+* Button and interaction redesign (polished feel)
 
 ---
 
@@ -119,7 +119,7 @@ If live demo fails:
 
 Sprint 5 is complete when:
 
-* All main pages follow **consistent premium design system**
+* All main pages follow **consistent polished design system**
 * Login → Dashboard → Logout flow works correctly
 * Browse and Donate pages are fully functional (frontend level)
 * UI is responsive across all screen sizes
@@ -136,7 +136,7 @@ During Sprint 5, the project moved from a **basic template to a near real-world 
 
 Key achievements:
 
-* Complete **frontend redesign** to premium-level UI (Airbnb/Karrot inspired)
+* Complete **frontend redesign** to polished UI (Airbnb/Karrot inspired)
 * Implemented **dashboard-style homepage after login**
 * Added **logout system inside profile/settings**
 * Improved **color gradients and visual hierarchy**

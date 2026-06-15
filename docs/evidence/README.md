@@ -14,7 +14,7 @@ Each week has its own section with links to Sprint Packets, PRs, issues, and scr
 | **Week 2** | [Reset Week & Planning](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%202.md) | ✅ Complete |
 | **Week 3** | [Frontend MVP](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%203%20.md) | ✅ Complete |
 | **Week 4** | [Browse & Filtering](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%204.md) | ✅ Complete |
-| **Week 5** | [Premium UI Redesign](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%205.md) | ✅ Complete |
+| **Week 5** | [Polished UI Redesign](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%205.md) | ✅ Complete |
 | **Week 6** | [Backend Foundation](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%206.md) | ✅ Complete |
 | **Week 7** | [Midterm Preparation](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%207.md) | ✅ Complete |
 | **Week 8** | [Midterm Presentation](docs/sprints/Weekly%20Sprint%20Packet%20—%20Week%208.md) | ✅ Complete |

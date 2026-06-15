@@ -22,8 +22,8 @@ export default function PremiumPage() {
               </button>
               <div className="settings-menu">
                 <a href="my-posts.html">My Posts</a>
-                <a href="orders.html">Track Your Order</a>
-                <a href="premium.html">Premium Plans</a>
+                <a href="orders.html">Track Your Request</a>
+                <a href="premium.html">Free Services</a>
                 <a href="profile.html">Personal Information</a>
                 <a href="profile.html#edit">Edit Profile</a>
                 <a href="region.html">Change Region</a>
@@ -42,53 +42,53 @@ export default function PremiumPage() {
           <div className="hero-overlay" />
           <div className="page-hero__content wrap">
             <div>
-              <p className="eyebrow reveal">PREMIUM PLANS</p>
-              <h1 className="page-title reveal reveal-1">Choose a plan that<br />fits your activity.</h1>
-              <p className="page-text reveal reveal-2">Three professional plan options for users who want fewer ads, more requests, and stronger platform visibility.</p>
+              <p className="eyebrow reveal">FREE COMMUNITY SERVICES</p>
+              <h1 className="page-title reveal reveal-1">Everything here is<br />free to use.</h1>
+              <p className="page-text reveal reveal-2">Free Sewaa does not sell paid plans, upgrades, or paid visibility. The platform is built for free local giving and support.</p>
             </div>
             <div className="page-badge reveal reveal-3">
-              <span className="mini-label">UPGRADE</span>
-              <strong>More visibility and flexibility</strong>
-              <p>Plans are designed for people who use Free Sewaa more frequently.</p>
+              <span className="mini-label">NO PAID TIERS</span>
+              <strong>Community access for everyone</strong>
+              <p>Donors, receivers, and volunteers can use the core service without monthly fees.</p>
             </div>
           </div>
         </section>
         <section className="pricing-grid wrap">
           <article className="pricing-card reveal-card">
-            <p className="eyebrow">BASIC</p>
-            <h2>Free</h2>
+            <p className="eyebrow">DONATE</p>
+            <h2>Post items</h2>
             <div className="price">$0<span>/month</span></div>
             <ul>
-              <li>Standard listing access</li>
-              <li>Basic browse experience</li>
-              <li>Normal ad visibility</li>
-              <li>Standard request limit</li>
+              <li>Create donation listings</li>
+              <li>Add item details and pickup area</li>
+              <li>Share useful items with neighbors</li>
+              <li>No listing fee or paid placement</li>
             </ul>
-            <button className="btn btn-soft wide">Current Plan</button>
+            <a className="btn btn-soft wide" href="donate.html">Donate an Item</a>
           </article>
           <article className="pricing-card featured-plan reveal-card">
-            <p className="eyebrow">PLUS</p>
-            <h2>Premium Plus</h2>
-            <div className="price">$9<span>/month</span></div>
+            <p className="eyebrow">REQUEST</p>
+            <h2>Find support</h2>
+            <div className="price">$0<span>/month</span></div>
             <ul>
-              <li>Less ads across the platform</li>
-              <li>More item requests per month</li>
-              <li>Priority listing visibility</li>
-              <li>Faster message support</li>
+              <li>Browse available donations</li>
+              <li>Send item requests</li>
+              <li>Coordinate pickup through messages</li>
+              <li>No paid request limit in the MVP</li>
             </ul>
-            <button className="btn btn-hero wide">Upgrade to Plus</button>
+            <a className="btn btn-hero wide" href="browse.html">Browse Items</a>
           </article>
           <article className="pricing-card reveal-card">
-            <p className="eyebrow">PRO</p>
-            <h2>Community Pro</h2>
-            <div className="price">$19<span>/month</span></div>
+            <p className="eyebrow">COMMUNITY</p>
+            <h2>Stay connected</h2>
+            <div className="price">$0<span>/month</span></div>
             <ul>
-              <li>Minimal ads experience</li>
-              <li>Highest request limit</li>
-              <li>Top placement for listings</li>
-              <li>Premium badge and extra tools</li>
+              <li>View requests and saved items</li>
+              <li>Track donation/request progress</li>
+              <li>Use region settings for local results</li>
+              <li>Designed for free community use</li>
             </ul>
-            <button className="btn btn-soft wide">Choose Pro</button>
+            <a className="btn btn-soft wide" href="requests.html">View Requests</a>
           </article>
         </section>
       </main>

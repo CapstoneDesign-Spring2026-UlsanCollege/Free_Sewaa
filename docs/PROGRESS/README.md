@@ -14,7 +14,7 @@ Verified commit signing is configured for future documentation updates.
 | Week 2 | Reset Week & Planning | [MVP_WEEK_2.md](MVP_WEEK_2.md) |
 | Week 3 | Frontend MVP | [MVP_WEEK_3.md](MVP_WEEK_3.md) |
 | Week 4 | Browse & Filtering | [MVP_WEEK_4.md](MVP_WEEK_4.md) |
-| Week 5 | Premium UI Redesign | [MVP_WEEK_5.md](MVP_WEEK_5.md) |
+| Week 5 | Polished UI Redesign | [MVP_WEEK_5.md](MVP_WEEK_5.md) |
 | Week 6 | Backend Foundation | [MVP_WEEK_6.md](MVP_WEEK_6.md) |
 | Week 7 | Midterm Preparation | — |
 | Week 8 | Midterm Presentation | — |

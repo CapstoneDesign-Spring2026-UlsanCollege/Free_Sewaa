@@ -77,8 +77,8 @@
 |------|--------|-------|
 | Home (index.html) | ✅ Done | Landing page |
 | About | ✅ Done | About page |
-| Premium Plans | ✅ Done | Pricing page |
-| Orders/Tracking | ✅ Done | Request tracking |
+| Free Services | ✅ Done | Pricing page |
+| Request Tracking | ✅ Done | Request tracking |
 | Admin Panel | ⚠️ Pending | PR #78 |
 
 ---

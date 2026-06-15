@@ -443,7 +443,7 @@ export const pageRoutes = {
     } },
   '/logout.html': { Component: LogoutPage, meta: {
       "title": "Free Sewaa — Logout",
-      "description": "Free Sewaa premium page",
+      "description": "Free Sewaa free community services page",
       "bodyAttrs": {},
       "links": [
         {
@@ -589,8 +589,8 @@ export const pageRoutes = {
       ]
     } },
   '/orders.html': { Component: OrdersPage, meta: {
-      "title": "Free Sewaa — Track Your Order",
-      "description": "Free Sewaa premium page",
+      "title": "Free Sewaa — Track Your Request",
+      "description": "Free Sewaa community services page",
       "bodyAttrs": {},
       "links": [
         {
@@ -630,8 +630,8 @@ export const pageRoutes = {
       ]
     } },
   '/premium.html': { Component: PremiumPage, meta: {
-      "title": "Free Sewaa — Premium Plans",
-      "description": "Free Sewaa premium page",
+      "title": "Free Sewaa — Free Services",
+      "description": "Free Sewaa community services page",
       "bodyAttrs": {},
       "links": [
         {
@@ -706,7 +706,7 @@ export const pageRoutes = {
     } },
   '/region.html': { Component: RegionPage, meta: {
       "title": "Free Sewaa — Change Region",
-      "description": "Free Sewaa premium page",
+      "description": "Free Sewaa community services page",
       "bodyAttrs": {},
       "links": [
         {

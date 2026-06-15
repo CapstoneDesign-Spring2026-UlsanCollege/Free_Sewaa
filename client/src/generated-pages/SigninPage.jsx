@@ -16,7 +16,7 @@ export default function SigninPage() {
         <section className="auth-left">
           <p className="eyebrow">WELCOME BACK</p>
           <h1>Sign in to continue sharing care.</h1>
-          <p className="auth-copy">Access your donations, requests, messages, and community activity in one calm, premium space.</p>
+          <p className="auth-copy">Access your donations, requests, messages, and community activity in one calm, polished space.</p>
         </section>
         <section className="auth-card">
           <div className="auth-card__top">

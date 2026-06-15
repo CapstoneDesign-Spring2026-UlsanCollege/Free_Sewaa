@@ -22,8 +22,8 @@ export default function RegionPage() {
               </button>
               <div className="settings-menu">
                 <a href="my-posts.html">My Posts</a>
-                <a href="orders.html">Track Your Order</a>
-                <a href="premium.html">Premium Plans</a>
+                <a href="orders.html">Track Your Request</a>
+                <a href="premium.html">Free Services</a>
                 <a href="profile.html">Personal Information</a>
                 <a href="profile.html#edit">Edit Profile</a>
                 <a href="region.html">Change Region</a>
@@ -44,7 +44,7 @@ export default function RegionPage() {
             <div>
               <p className="eyebrow reveal">LOCATION SETTINGS</p>
               <h1 className="page-title reveal reveal-1">Change your<br />region.</h1>
-              <p className="page-text reveal reveal-2">Select a city or area to improve nearby results, messages, and pickup relevance.</p>
+              <p className="page-text reveal reveal-2">Select a city or area to improve nearby results, messages, and pickup relevance in the demo experience.</p>
             </div>
           </div>
         </section>
@@ -52,7 +52,7 @@ export default function RegionPage() {
           <article className="panel reveal-card">
             <p className="eyebrow">CURRENT REGION</p>
             <h2 className="section-title small">Brampton, Ontario</h2>
-            <p className="section-text">Your current region controls nearby browse results and pickup visibility.</p>
+            <p className="section-text">Your selected region helps sort nearby browse results and pickup visibility. It is not a verified live location.</p>
           </article>
           <article className="panel reveal-card">
             <p className="eyebrow">CHANGE REGION</p>

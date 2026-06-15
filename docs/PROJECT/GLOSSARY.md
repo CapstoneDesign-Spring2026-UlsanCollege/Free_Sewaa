@@ -14,7 +14,7 @@ Terms used in the Free Sewaa project.
 | **Donation** | An item listed for free on the platform |
 | **Request** | An action where a requester asks for a donation item |
 | **Pickup** | The physical exchange of a donated item |
-| **Premium UI** | High-quality user interface inspired by Airbnb/Karrot design |
+| **Polished UI** | High-quality user interface inspired by Airbnb/Karrot design |
 
 ## Technical Terms
 

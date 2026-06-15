@@ -22,8 +22,8 @@ export default function MessagesPage() {
               </button>
               <div className="settings-menu">
                 <a href="my-posts.html">My Posts</a>
-                <a href="orders.html">Track Your Order</a>
-                <a href="premium.html">Premium Plans</a>
+                <a href="orders.html">Track Your Request</a>
+                <a href="premium.html">Free Services</a>
                 <a href="profile.html">Personal Information</a>
                 <a href="profile.html#edit">Edit Profile</a>
                 <a href="region.html">Change Region</a>

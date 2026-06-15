@@ -6,7 +6,7 @@
 - Email domain whitelist — only recognized providers can register
 - Password strength validation (8-10 chars, upper + lower + number)
 - Admin accounts protected by role-based access
-- Firebase token verification for phone/email auth
+- Firebase configuration is present for email-based authentication support
 
 ### Input Validation
 - HTML escaping on all user-generated content (`escapeHtml()` utility)
@@ -24,12 +24,12 @@
 ## Security Checklist
 
 - [x] Email domain validation
-- [x] Password strength validation
+- [ ] Production password policy and hashing
 - [x] Input escaping (XSS prevention)
 - [x] Payload size limits
 - [x] Role-based admin access
 - [x] Ownership verification for edits
-- [ ] Password hashing (bcryptjs installed, not yet implemented)
+- [ ] Password hashing with bcryptjs in all local-password paths
 - [ ] Rate limiting on auth endpoints
 - [ ] HTTPS enforcement
 - [ ] Security headers (CSP, HSTS)

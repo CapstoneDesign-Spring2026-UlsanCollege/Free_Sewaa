@@ -114,7 +114,7 @@ export default function IndexPage() {
             <div className="story-card__overlay" />
             <div className="story-card__content">
               <p className="story-card__tag">02 • JOY</p>
-              <h3>Every moment of kindness deserves a premium experience.</h3>
+              <h3>Every moment of kindness deserves a polished experience.</h3>
               <p>Elegant typography, layered gradients, and soft motion make generosity feel warm, modern, and memorable.</p>
             </div>
           </article>
@@ -124,7 +124,7 @@ export default function IndexPage() {
             <div className="story-card__content">
               <p className="story-card__tag">03 • GIVING</p>
               <h3>Giving should look intentional, trusted, and real.</h3>
-              <p>From first impression to first donation, the experience is designed to feel clear, premium, and emotionally grounded.</p>
+              <p>From first impression to first donation, the experience is designed to feel clear, polished, and emotionally grounded.</p>
             </div>
           </article>
         </section>

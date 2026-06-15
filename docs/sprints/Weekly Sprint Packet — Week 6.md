@@ -27,7 +27,7 @@
 
 ## ✅ DONE
 
-- Premium frontend UI (Home, Browse, Donate, Chat pages)
+- Polished frontend UI (Home, Browse, Donate, Chat pages)
 - Browse page with search and category filtering
 - Donate page with image upload and live preview
 - User authentication flow (login/logout)
@@ -109,7 +109,7 @@ Post Item → Browse Item → Request Item → Contact/Confirmation
 ### Demo Script
 
 1. Introduce **Free Sewaa**, a community donation platform.
-2. Show the **homepage** with premium UI design.
+2. Show the **homepage** with polished UI design.
 3. Demonstrate **user authentication** (login/logout flow).
 4. Show the **browse page** with item cards and category filtering.
 5. Demonstrate **posting a donation item** with live preview.
@@ -138,7 +138,7 @@ If the live demo fails, present:
 
 ## What Shipped
 
-- Completed premium frontend redesign
+- Completed polished frontend redesign
 - Fixed browse.html with full functionality (search, filtering, modal view)
 - Updated documentation templates
 - Fixed sprint packet filenames

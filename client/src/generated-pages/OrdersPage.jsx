@@ -22,8 +22,8 @@ export default function OrdersPage() {
               </button>
               <div className="settings-menu">
                 <a href="my-posts.html">My Posts</a>
-                <a href="orders.html">Track Your Order</a>
-                <a href="premium.html">Premium Plans</a>
+                <a href="orders.html">Track Your Request</a>
+                <a href="premium.html">Free Services</a>
                 <a href="profile.html">Personal Information</a>
                 <a href="profile.html#edit">Edit Profile</a>
                 <a href="region.html">Change Region</a>
@@ -42,12 +42,12 @@ export default function OrdersPage() {
           <div className="hero-overlay" />
           <div className="page-hero__content wrap">
             <div>
-              <p className="eyebrow reveal">TRACK YOUR ORDER</p>
+              <p className="eyebrow reveal">TRACK YOUR REQUEST</p>
               <h1 className="page-title reveal reveal-1">Follow every step<br />professionally.</h1>
-              <p className="page-text reveal reveal-2">A more polished order/request tracking page where users can see approval, pickup, and completion progress clearly.</p>
+              <p className="page-text reveal reveal-2">A clear request tracking page where users can see approval, pickup, and completion progress.</p>
             </div>
             <div className="page-badge reveal reveal-3">
-              <span className="mini-label">ORDER STATUS</span>
+              <span className="mini-label">REQUEST STATUS</span>
               <strong>Clear progress at a glance</strong>
               <p>Know exactly where your request stands.</p>
             </div>
@@ -66,7 +66,7 @@ export default function OrdersPage() {
             </div>
           </article>
           <aside className="panel reveal-card">
-            <p className="eyebrow">ORDER DETAILS</p>
+            <p className="eyebrow">REQUEST DETAILS</p>
             <div className="detail-stack">
               <div><strong>Item</strong><span>Winter Jacket</span></div>
               <div><strong>Donor</strong><span>Sarah Kim</span></div>

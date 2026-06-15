@@ -174,7 +174,7 @@ export default function AdminPage() {
                 </div>
                 <div className="admin-v2-audititem">
                   <span>Email</span>
-                  <strong>support@freesewaa.org</strong>
+                  <strong>GitHub Issues</strong>
                   <p>Users can email the organization from the dashboard contact card.</p>
                 </div>
               </div>
