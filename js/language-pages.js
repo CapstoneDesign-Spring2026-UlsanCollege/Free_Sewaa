@@ -128,7 +128,7 @@
       const translated = dictionary[key];
       if (translated) {
         writeText(element, translated);
-      } else if (lang === 'en' || !pageText[lang]) {
+      } else if (lang === 'en') {
         if (isLineBreakTitle(element) && element.dataset.pageI18nOriginalHtml) {
           element.innerHTML = element.dataset.pageI18nOriginalHtml;
         } else {
@@ -147,7 +147,7 @@
 
       if (dictionary[key]) {
         element.setAttribute('placeholder', dictionary[key]);
-      } else if (lang === 'en' || !pageText[lang]) {
+      } else if (lang === 'en') {
         element.setAttribute('placeholder', key);
       }
     });

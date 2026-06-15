@@ -7,7 +7,13 @@
     document.body.appendChild(script);
   }
 
-  loadScript('/api-config.js', () => {
+  function loadSiteScripts() {
     loadScript('/js/site-core.js', () => loadScript('/js/language-pages.js'));
-  });
+  }
+
+  if (window.FREESEWAA_API_BASE_URL) {
+    loadSiteScripts();
+  } else {
+    loadScript('/api-config.js', loadSiteScripts);
+  }
 })();
