@@ -1,5 +1,7 @@
 # Roadmap
 
+> **Final capstone status (June 2026):** Phases 1–4 represent the submitted semester MVP. The remaining trust, safety, and production-polish items are deferred post-capstone work rather than active semester commitments.
+
 ## Development Phases
 
 ```mermaid
@@ -42,7 +44,7 @@ flowchart LR
 - [x] Listing management (remove/restore)
 - [x] Platform overview statistics
 
-## Phase 5: Trust & Safety 🔄 In Progress
+## Phase 5: Trust & Safety — Deferred After Capstone
 
 - [ ] Password hashing with bcrypt
 - [ ] Rate limiting on auth
@@ -50,7 +52,7 @@ flowchart LR
 - [ ] User reporting system
 - [ ] Content moderation tools
 
-## Phase 6: Production Polish 📌 Planned
+## Phase 6: Production Polish — Future Work
 
 - [ ] Expanded test coverage
 - [ ] Performance optimization
@@ -60,4 +62,4 @@ flowchart LR
 
 ---
 
-*Last updated: May 2026*
+*Last updated: June 2026*

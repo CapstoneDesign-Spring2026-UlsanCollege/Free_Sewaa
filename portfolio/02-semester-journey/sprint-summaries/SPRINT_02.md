@@ -14,7 +14,7 @@ Define MVP scope and begin core feature implementation.
 - [Browse page structure started](../../../html/browse.html)
 - [Post Item form layout designed](../../../html/donate.html)
 - Issue templates created: [bug report](../../../.github/ISSUE_TEMPLATE/bug_report.md), [feature request](../../../.github/ISSUE_TEMPLATE/feature_request.md)
-- [Project board](../../../PROJECT_BOARD.md) set up with To Do/Doing/Done/Blocked columns
+- [Project board](../../../docs/PROJECT/PROJECT_BOARD.md) set up with To Do/Doing/Done/Blocked columns
 
 ## What Is Still Incomplete
 - Item detail modal — moved to Sprint 3

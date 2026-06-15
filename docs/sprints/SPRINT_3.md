@@ -496,8 +496,8 @@ npm run test:coverage     # Coverage report
 |----------|-----|
 | **Main Repository** | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa |
 | **Live Application** | https://free-sewaa-qh05.onrender.com |
-| **Project Tasks** | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/PROJECT_TASKS.md |
-| **Roadmap** | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/ROADMAP.md |
+| **Project Tasks** | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/PROJECT/PROJECT_TASKS.md |
+| **Roadmap** | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/ROADMAP.md |
 | **Contributing Guide** | https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/CONTRIBUTING.md |
 
 ### Documentation

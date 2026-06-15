@@ -2,7 +2,7 @@
 
 ## Admin Login
 - [ ] Admin login page loads
-- [ ] Admin credentials work: admin@freesewaa.local / admin12345
+- [ ] Authorized admin credentials work without being published in the repository
 - [ ] User login cannot access admin panel
 
 ## Dashboard Overview

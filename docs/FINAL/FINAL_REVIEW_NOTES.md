@@ -1,5 +1,9 @@
 # Final Review Notes — Free Sewaa
 
+> **Historical Week 12 review:** This document preserves the review state from
+> May 2026. For final closure, see
+> [MVP Week 16](../PROGRESS/MVP_WEEK_16.md).
+
 **Date:** May 2026 (Week 12 — Final Sprint + QA Day)
 **Course:** Capstone Design — Spring 2026, Ulsan College
 **Live Site:** https://free-sewaa-qh05.onrender.com

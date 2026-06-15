@@ -30,7 +30,7 @@ Stabilize the MVP core flow and make evidence easy to check.
 
 ## Board Snapshot and Shipped Work
 
-- **Project board:** [PROJECT_BOARD.md](../PROJECT_BOARD.md)
+- **Project board:** [PROJECT_BOARD.md](PROJECT_BOARD.md)
 - **Completed issues:** *[To be updated after triage]*
 - **Important PRs:** [PR #78 - MongoDB Backend](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/78)
 

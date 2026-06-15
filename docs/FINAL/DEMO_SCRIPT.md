@@ -71,7 +71,7 @@ Open the live site: https://free-sewaa-qh05.onrender.com
 
 ### 8. Admin Demo
 - Log out (click Logout)
-- Log in as admin: admin@freesewaa.local / admin12345
+- Log in with an authorized administrator account; do not publish credentials
 - Show admin dashboard
 - User management: view users, block/unblock
 - Listing management: view listings, remove if needed

@@ -20,7 +20,7 @@ This audit helps the professor see who can explain which parts of the project an
 | Frontend pages and user experience | Sujan Shrestha | [html](../../html/), [UI flow](../../docs/DESIGN/UI_FLOW.md) |
 | Integration, testing, and documentation | Sujan Tamang | [testing plan](../../docs/TESTING_PLAN.md), [QA report](../05-qa-and-stabilization/QA_REPORT.md) |
 | Initial backend/API integration and vertical slice | Swarnim Jung Karki | [PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61), [PR #41](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/41) |
-| UI fixes, maintenance, and stabilization | Mohan Khadka | [bug reports](../../docs/ISSUES/BUGS/), [final review notes](../../FINAL_REVIEW_NOTES.md) |
+| UI fixes, maintenance, and stabilization | Mohan Khadka | [bug reports](../../docs/ISSUES/BUGS/), [final review notes](../../docs/FINAL/FINAL_REVIEW_NOTES.md) |
 
 ## High-Risk Areas to Explain Honestly
 

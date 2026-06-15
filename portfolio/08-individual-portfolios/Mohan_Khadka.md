@@ -20,8 +20,8 @@ I focused on identifying and fixing bugs, improving stability, and supporting th
 | Bug Identification | Discovered and documented bugs with reproduction steps in the issues folder | [Bugs Folder](../../docs/ISSUES/BUGS/) |
 | Authentication Fixes | Debugged admin login failures, session loss on refresh, and invalid login responses | [Bug 8](../../docs/ISSUES/BUGS/bug8.md), [Bug 9](../../docs/ISSUES/BUGS/bug9.md), [Bug 11](../../docs/ISSUES/BUGS/bug11.md) |
 | Navigation & UI Fixes | Corrected broken links, missing buttons, and inconsistent styling across pages | [Bug Reports](../../docs/ISSUES/BUGS/) |
-| Testing & QA Support | Assisted in running manual tests, verifying fixes, updating checklists | [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md) |
-| Project Board | Kept project board updated with task statuses, priorities, and assignments | [Project Board](../../PROJECT_BOARD.md) |
+| Testing & QA Support | Assisted in running manual tests, verifying fixes, updating checklists | [Manual Testing Checklist](../../docs/QA/MANUAL_TESTING_CHECKLIST.md) |
+| Project Board | Kept project board updated with task statuses, priorities, and assignments | [Project Board](../../docs/PROJECT/PROJECT_BOARD.md) |
 
 ## 4. Technical Ownership
 
@@ -32,11 +32,11 @@ I owned the bug tracking and stability improvement domain. The bug reports in `d
 - [Bug 8](../../docs/ISSUES/BUGS/bug8.md) — Admin login error after account creation (authentication flow fix)
 - [Bug 9](../../docs/ISSUES/BUGS/bug9.md) — Admin login invalid response (server response handling)
 - [Bug 11](../../docs/ISSUES/BUGS/bug11.md) — User session lost after page refresh (localStorage token persistence)
-- [Project Board](../../PROJECT_BOARD.md) — Task tracking and maintenance work
+- [Project Board](../../docs/PROJECT/PROJECT_BOARD.md) — Task tracking and maintenance work
 - [JavaScript Site File](../../js/site.js) — Login/logout logic and localStorage token handling
 - [Admin Login Page](../../html/admin-login.html) — Admin authentication interface
 - [QA Checklist](../../docs/QA_CHECKLIST.md) — Quality assurance checklist used for verification
-- [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md) — Test procedures used for manual testing
+- [Manual Testing Checklist](../../docs/QA/MANUAL_TESTING_CHECKLIST.md) — Test procedures used for manual testing
 
 ## 6. AI Usage Reflection
 

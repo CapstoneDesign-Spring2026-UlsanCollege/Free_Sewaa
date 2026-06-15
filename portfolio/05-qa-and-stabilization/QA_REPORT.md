@@ -24,11 +24,11 @@ npm test
 
 | Evidence | Notes |
 |---|---|
-| [Manual Testing Checklist](../../MANUAL_TESTING_CHECKLIST.md) | Planned/manual coverage areas |
-| [Browser Testing Checklist](../../BROWSER_TESTING_CHECKLIST.md) | Cross-browser checklist |
-| [Mobile Testing Checklist](../../MOBILE_TESTING_CHECKLIST.md) | Mobile viewport checklist |
-| [Accessibility Checklist](../../ACCESSIBILITY_CHECKLIST.md) | Accessibility review areas |
-| [Security Checklist](../../SECURITY_CHECKLIST.md) | Security review areas and known gaps |
+| [Manual Testing Checklist](../../docs/QA/MANUAL_TESTING_CHECKLIST.md) | Planned/manual coverage areas |
+| [Browser Testing Checklist](../../docs/QA/BROWSER_TESTING_CHECKLIST.md) | Cross-browser checklist |
+| [Mobile Testing Checklist](../../docs/QA/MOBILE_TESTING_CHECKLIST.md) | Mobile viewport checklist |
+| [Accessibility Checklist](../../docs/QA/ACCESSIBILITY_CHECKLIST.md) | Accessibility review areas |
+| [Security Checklist](../../docs/QA/SECURITY_CHECKLIST.md) | Security review areas and known gaps |
 | [Week 12 sprint packet](../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%2012.md) | Historical QA Day summary |
 
 The portfolio preserves the reported "50+ tests" and "96% pass rate" as historical sprint-record claims. It does not treat those numbers as independently reproducible without the underlying raw execution sheet.

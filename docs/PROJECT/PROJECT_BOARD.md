@@ -1,5 +1,8 @@
 # Free Sewaa — Project Board
 
+> **Historical planning snapshot:** This file preserves the semester board
+> structure and should not be read as the current GitHub Project status.
+
 **Board:** https://github.com/orgs/CapstoneDesign-Spring2026-UlsanCollege/projects/14
 
 ---
@@ -45,7 +48,7 @@
 | Issue | Severity | Status |
 |-------|----------|--------|
 | Passwords in plain text | P1 | Known — bcryptjs installed but unused |
-| Demo credentials in README | P3 | Accepted for capstone demo |
+| Demo access configuration | P3 | Historical capstone planning item |
 | CORS wide open | P2 | Known — acceptable for demo |
 
 ---

@@ -29,7 +29,7 @@
 - No CSRF protection
 - No security headers (CSP, HSTS, X-Frame-Options)
 
-See full plan: [`docs/SECURITY_PLAN.md`](docs/SECURITY_PLAN.md)
+See full plan: [`docs/SECURITY_PLAN.md`](../SECURITY_PLAN.md)
 
 ---
 

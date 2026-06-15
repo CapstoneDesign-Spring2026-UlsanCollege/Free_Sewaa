@@ -31,7 +31,7 @@
 
 | Item | Link |
 |------|------|
-| **Project Board** | [PROJECT_BOARD.md](../../PROJECT_BOARD.md) |
+| **Project Board** | [PROJECT_BOARD.md](PROJECT_BOARD.md) |
 | **Week 12 Sprint Packet** | [docs/week12/SPRINT_PACKET.md](../week12/SPRINT_PACKET.md) |
 | **Week 11 Sprint Packet** | [docs/sprints/Weekly Sprint Packet — Week 11.md](../sprints/Weekly%20Sprint%20Packet%20—%20Week%2011.md) |
 | **Week 10 Sprint Packet** | [docs/sprints/Weekly Sprint Packet — Week 10.md](../sprints/Weekly%20Sprint%20Packet%20—%20Week%2010.md) |
@@ -87,7 +87,7 @@
 | Item | Link |
 |------|------|
 | **Setup Guide** | [docs/DEVELOPER_GUIDE.md](../DEVELOPER_GUIDE.md) |
-| **Roadmap** | [ROADMAP.md](../../ROADMAP.md) |
+| **Roadmap** | [ROADMAP.md](../ROADMAP.md) |
 | **System Architecture** | [docs/DESIGN/SYSTEM_ARCHITECTURE.md](../DESIGN/SYSTEM_ARCHITECTURE.md) |
 | **Database Schema** | [docs/DATABASE_SCHEMA.md](../DATABASE_SCHEMA.md) |
 | **API Reference** | [docs/API_REFERENCE.md](../API_REFERENCE.md) |

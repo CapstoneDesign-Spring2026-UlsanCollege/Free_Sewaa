@@ -6,9 +6,9 @@ These files are historical planning records. Their checkboxes and status labels 
 
 ## Project Management
 
-- [ROADMAP.md](../../../ROADMAP.md) — 6-phase project timeline and milestones
-- [PROJECT_BOARD.md](../../../PROJECT_BOARD.md) — Kanban board with To Do/Doing/Done/Blocked columns
-- [PROJECT_TASKS.md](../../../PROJECT_TASKS.md) — Sprint overview with status for all 12 weeks
+- [ROADMAP.md](../../../docs/ROADMAP.md) — 6-phase project timeline and milestones
+- [PROJECT_BOARD.md](../../../docs/PROJECT/PROJECT_BOARD.md) — Kanban board with To Do/Doing/Done/Blocked columns
+- [PROJECT_TASKS.md](../../../docs/PROJECT/PROJECT_TASKS.md) — Sprint overview with status for all 12 weeks
 
 ## Team Documentation
 

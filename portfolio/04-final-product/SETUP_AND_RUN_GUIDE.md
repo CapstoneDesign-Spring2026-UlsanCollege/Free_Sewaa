@@ -55,4 +55,4 @@ The suite is in [`server/__tests__/api.test.js`](../../server/__tests__/api.test
 - Port conflict: change `PORT`.
 - Slow live load: pre-warm Render or use Vercel/localhost.
 
-See [Environment Setup](../../docs/ENVIRONMENT_SETUP.md) and [Troubleshooting](../../TROUBLESHOOTING.md).
+See [Environment Setup](../../docs/ENVIRONMENT_SETUP.md) and [Troubleshooting](../../docs/TROUBLESHOOTING.md).

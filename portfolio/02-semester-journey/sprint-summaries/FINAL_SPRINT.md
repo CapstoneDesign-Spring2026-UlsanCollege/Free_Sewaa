@@ -45,7 +45,7 @@ Stabilize the academic MVP, document test evidence and limitations, organize the
 2. [Week 12 sprint packet](../../../docs/PROGRESS/week12/WEEK_12_SPRINT_PACKET.md)
 3. [Server API tests](../../../server/__tests__/api.test.js)
 4. [Saved test output](../../../docs/evidence/week12/logs/test-output.txt)
-5. [Final review notes](../../../FINAL_REVIEW_NOTES.md)
+5. [Final review notes](../../../docs/FINAL/FINAL_REVIEW_NOTES.md)
 
 ## Bugs and Risks
 

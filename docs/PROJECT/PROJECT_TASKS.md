@@ -1,5 +1,9 @@
 # Free Sewaa — Project Tasks
 
+> **Historical planning snapshot:** The status below reflects the original
+> twelve-week task plan. See [MVP Week 16](../PROGRESS/MVP_WEEK_16.md) for the
+> final capstone closure.
+
 ## Sprint Overview
 
 | Weeks | Focus | Status |

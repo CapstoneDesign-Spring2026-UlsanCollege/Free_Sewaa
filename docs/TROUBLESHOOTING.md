@@ -31,6 +31,13 @@
 | Data not persisting | MongoDB not connected | Check `MONGODB_URI` in `.env` |
 | Duplicate email error | Email already registered | Use a different email or log in with the existing account |
 
+## API Issues
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| API returns `401` | Required user identity or Firebase token is missing or invalid | Sign in again and confirm the request sends the expected authentication data |
+| API returns `500` | Server-side request or database failure | Check the server logs and validate the configured environment variables |
+
 ## Render Deployment Issues
 
 | Symptom | Cause | Fix |
@@ -41,4 +48,4 @@
 
 ---
 
-*Last updated: May 2026*
+*Last updated: June 2026*

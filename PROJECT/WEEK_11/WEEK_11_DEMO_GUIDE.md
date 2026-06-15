@@ -48,7 +48,7 @@ Before the demo, make sure:
 |----------|------|
 | **Evidence Index (Week 1-10)** | [`docs/evidence/README.md`](../../docs/evidence/README.md) |
 | **Week 10 Sprint Packet** | [`docs/sprints/Weekly Sprint Packet — Week 10.md`](../../docs/sprints/Weekly%20Sprint%20Packet%20%E2%80%94%20Week%2010.md) |
-| **Roadmap** | [`ROADMAP.md`](../../ROADMAP.md) |
+| **Roadmap** | [`ROADMAP.md`](../../docs/ROADMAP.md) |
 | **Changelog** | [`CHANGELOG.md`](../../CHANGELOG.md) |
 | **README** | [`README.md`](../../README.md) |
 | **Bug Reports** | [`docs/bugs/`](../../docs/bugs/) |

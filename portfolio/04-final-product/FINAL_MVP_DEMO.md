@@ -23,7 +23,7 @@ Do not publish reusable demo passwords. Prepare accounts before the presentation
 
 - [Screenshot inventory](../../assets/screenshots/README.md)
 - [Week 11 screenshots](../../docs/evidence/week11/)
-- [Full demo script](../../DEMO_SCRIPT.md)
+- [Full demo script](../../docs/FINAL/DEMO_SCRIPT.md)
 - [Additional demo guide](../../docs/DEMO_GUIDE.md)
 
 ## Honest Failure Handling

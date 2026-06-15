@@ -4,7 +4,7 @@
 
 | Limitation | Severity | Status | Evidence | Next step |
 |---|---|---|---|---|
-| Local passwords are stored/compared directly | P1 security | Open | [`server/server.js`](../../server/server.js), [Security Checklist](../../SECURITY_CHECKLIST.md) | Hash credentials or remove local password auth |
+| Local passwords are stored/compared directly | P1 security | Open | [`server/server.js`](../../server/server.js), [Security Checklist](../../docs/QA/SECURITY_CHECKLIST.md) | Hash credentials or remove local password auth |
 | Central validation is incomplete | P1 quality/security | Open | [Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95) | Add shared validation for write endpoints |
 | Password recovery is not complete | P1 feature gap | Open | [bug report history](../../docs/ISSUES/BUGS/) | Implement reset flow |
 | End-to-end automation is limited | P2 quality | Open | [QA Report](./QA_REPORT.md) | Add browser and integration tests |
@@ -19,7 +19,7 @@
 | [docs/ISSUES/BUGS/](../../docs/ISSUES/BUGS/) | Preserved bug files available in the repository |
 | [Week 11 bug list](../../docs/PROGRESS/week11/BUG_LIST.md) | Historical critical-fix summary |
 | [Week 15](../02-semester-journey/weekly-sprints/WEEK_15.md) | Later bug-report commits and documentation |
-| [Final review notes](../../FINAL_REVIEW_NOTES.md) | End-of-semester review context |
+| [Final review notes](../../docs/FINAL/FINAL_REVIEW_NOTES.md) | End-of-semester review context |
 
 Bug reports document discovery and triage. A listed bug should not be read as fixed unless a linked commit, PR, or verification file supports that status.
 

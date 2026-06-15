@@ -56,17 +56,11 @@
 
 | Document | Description |
 |---|---|
+| [QA Document Index](QA/README.md) | Focused accessibility, admin, browser, form, manual, mobile, and security checklists |
 | [Testing Plan](TESTING_PLAN.md) | Unit, integration, E2E, and security tests |
 | [QA Checklist](QA_CHECKLIST.md) | Pre-release quality assurance checklist |
 | [Audit Checklist](AUDIT_CHECKLIST.md) | Security, accessibility, performance audit |
 | [Best Practice Audit](BEST_PRACTICE_AUDIT.md) | Pre-release best practice review |
-| [Manual Testing Checklist](../MANUAL_TESTING_CHECKLIST.md) | Manual test flows for all features |
-| [Accessibility Checklist](../ACCESSIBILITY_CHECKLIST.md) | Screen reader, keyboard, color tests |
-| [Security Checklist](../SECURITY_CHECKLIST.md) | Security audit checklist |
-| [Admin Review Checklist](../ADMIN_REVIEW_CHECKLIST.md) | Admin panel test checklist |
-| [Mobile Testing Checklist](../MOBILE_TESTING_CHECKLIST.md) | Mobile viewport test cases |
-| [Browser Testing Checklist](../BROWSER_TESTING_CHECKLIST.md) | Cross-browser test cases |
-| [Form Validation Checklist](../FORM_VALIDATION_CHECKLIST.md) | Form validation rules |
 
 ---
 
@@ -75,8 +69,8 @@
 | Document | Description |
 |---|---|
 | [Deployment Guide](DEPLOYMENT_GUIDE.md) | Production deployment on Render |
-| [Deployment Checklist](../DEPLOYMENT_CHECKLIST.md) | Pre and post-deployment checks |
-| [Release Checklist](../RELEASE_CHECKLIST.md) | Final release readiness checklist |
+| [Deployment Checklist](DEPLOYMENT_CHECKLIST.md) | Pre and post-deployment checks |
+| [Release Checklist](FINAL/RELEASE_CHECKLIST.md) | Final release readiness checklist |
 | [Release Notes](RELEASE_NOTES.md) | Version history and changelog |
 | [Security Plan](SECURITY_PLAN.md) | Security measures and known gaps |
 | [Maintenance Plan](MAINTENANCE_PLAN.md) | Post-release maintenance |
@@ -88,12 +82,23 @@
 
 | Document | Description |
 |---|---|
-| [Final Demo Script](../DEMO_SCRIPT.md) | Step-by-step presentation script |
-| [Final Review Notes](../FINAL_REVIEW_NOTES.md) | Project summary, limitations, key numbers |
+| [Final Submission Index](FINAL/README.md) | Presentation, review, and release materials |
+| [Final Demo Script](FINAL/DEMO_SCRIPT.md) | Step-by-step presentation script |
+| [Final Review Notes](FINAL/FINAL_REVIEW_NOTES.md) | Historical review notes and final checks |
 | [Project Audit Checklist](AUDIT_CHECKLIST.md) | Security, accessibility, performance audit |
-| [Sprint Packets](sprints/) | Weekly sprint documentation (Weeks 1–12) |
-| [Week 12 Sprint](week12/SPRINT_PACKET.md) | Final sprint with QA Day results |
-| [Individual Receipts](week12/INDIVIDUAL_RECEIPTS.md) | Team contribution evidence |
+| [Sprint Packets](sprints/) | Weekly sprint documentation (Weeks 1–16) |
+| [Week 16 MVP Progress](PROGRESS/MVP_WEEK_16.md) | Final capstone progress record |
+| [Final Portfolio Audit](../portfolio/FINAL_PORTFOLIO_AUDIT.md) | Submission structure and evidence review |
+
+---
+
+## 🗂️ Project History
+
+| Document | Description |
+|---|---|
+| [Project Board Snapshot](PROJECT/PROJECT_BOARD.md) | Historical project-board record |
+| [Project Links](PROJECT/PROJECT_LINKS.md) | Historical planning and evidence links |
+| [Project Tasks](PROJECT/PROJECT_TASKS.md) | Historical task record |
 
 ---
 
@@ -101,11 +106,11 @@
 
 | Status | Detail |
 |---|---|
-| Phase | Final sprint — QA and documentation |
+| Phase | Final capstone submission complete |
 | Deployment | Live on Render |
-| Test Status | 3/3 Jest tests passing |
+| Test Status | 6/6 Jest tests passing |
 | Team Size | 5 members |
-| Sprint Packets | 12 weeks complete |
+| Sprint Packets | 16 weeks complete |
 
 ---
 
@@ -123,4 +128,4 @@ Capstone Design — Spring 2026, Ulsan College.
 
 ---
 
-*Last updated: May 2026*
+*Last updated: June 2026*

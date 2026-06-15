@@ -15,8 +15,8 @@
 | File | Contribution | Evidence |
 |--------|-------------|----------|
 | [README.md](../../README.md) | Updated project overview, features, live demo links, and API documentation | GitHub Commit History |
-| [ROADMAP.md](../../ROADMAP.md) | Organized development phases and MVP checklist | GitHub Commit History |
-| [PROJECT_BOARD.md](../../PROJECT_BOARD.md) | Created and maintained project board structure | GitHub Commit History |
+| [ROADMAP.md](../ROADMAP.md) | Organized development phases and MVP checklist | GitHub Commit History |
+| [PROJECT_BOARD.md](PROJECT_BOARD.md) | Created and maintained project board structure | GitHub Commit History |
 | [AI_CODE_OWNERSHIP_AUDIT.md](../AI_CODE_OWNERSHIP_AUDIT.md) | Documented AI usage and code ownership verification | File Documentation |
 | [PROJECT.md](./PROJECT.md) | Organized project documentation structure | File Documentation |
 | [USER_STORIES.md](./USER_STORIES.md) | Defined user stories and acceptance criteria | File Documentation |
@@ -118,9 +118,9 @@
 |--------|-------------|----------|
 | [TESTING_STRATEGY.md](../../docs/TESTING_STRATEGY.md) | Developed project testing strategy and QA approach | Documentation |
 | [TESTING_PLAN.md](../../docs/TESTING_PLAN.md) | Created testing plans and testing levels | Documentation |
-| [MANUAL_TESTING_CHECKLIST.md](../../MANUAL_TESTING_CHECKLIST.md) | Developed manual testing procedures | Documentation |
-| [FORM_VALIDATION_CHECKLIST.md](../../FORM_VALIDATION_CHECKLIST.md) | Created validation testing checklist | Documentation |
-| [ROADMAP.md](../../ROADMAP.md) | Assisted with roadmap planning and updates | Documentation |
+| [MANUAL_TESTING_CHECKLIST.md](../QA/MANUAL_TESTING_CHECKLIST.md) | Developed manual testing procedures | Documentation |
+| [FORM_VALIDATION_CHECKLIST.md](../QA/FORM_VALIDATION_CHECKLIST.md) | Created validation testing checklist | Documentation |
+| [ROADMAP.md](../ROADMAP.md) | Assisted with roadmap planning and updates | Documentation |
 | [API_REFERENCE.md](../../docs/DESIGN/API_REFERENCE.md) | Documentation support and maintenance | Documentation |
 | [docs/ISSUES/BUGS/](../../docs/ISSUES/BUGS/) | Bug reporting and issue tracking | Bug Reports |
 

@@ -1,5 +1,8 @@
 # Release Checklist — Free Sewaa
 
+> **Historical v0.4.0 checklist:** The final capstone release is
+> [`v1.0.0-final-capstone`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/releases/tag/v1.0.0-final-capstone).
+
 **Version:** 0.4.0
 **Release Date:** May 2026
 **Live URL:** https://free-sewaa-qh05.onrender.com

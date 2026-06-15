@@ -133,7 +133,7 @@ end-to-end browser coverage.
 | [API reference](docs/API_REFERENCE.md) | Server endpoints and request behavior |
 | [Testing plan](docs/TESTING_PLAN.md) | Test strategy, scope, and evidence |
 | [Deployment guide](docs/DEPLOYMENT_GUIDE.md) | Environment and deployment guidance |
-| [Demo script](DEMO_SCRIPT.md) | Structured final demonstration sequence |
+| [Demo script](docs/FINAL/DEMO_SCRIPT.md) | Structured final demonstration sequence |
 | [Security policy](SECURITY.md) | Security expectations and reporting guidance |
 
 ## Evidence for Reviewers

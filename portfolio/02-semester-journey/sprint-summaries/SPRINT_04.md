@@ -17,7 +17,7 @@ Shift focus from building to verification: test all features, fix critical bugs,
 - [3 Jest tests](../../../server/__tests__/) — Health, signup validation, weak password
 - [Bug reports 1–11](../../../docs/ISSUES/BUGS/bug1.md) — Structured bug reports created
 - [Bug Triage Guide](../../../docs/PROJECT/BUG_TRIAGE.md) — Severity level definitions
-- [Project Board](../../../PROJECT_BOARD.md) — All tasks tracked
+- [Project Board](../../../docs/PROJECT/PROJECT_BOARD.md) — All tasks tracked
 
 ## What Is Still Incomplete
 - 80% test coverage target (achieved ~60%)

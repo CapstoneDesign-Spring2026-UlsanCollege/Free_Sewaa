@@ -31,7 +31,7 @@ I contributed to Free Sewaa as a **Testing and Documentation Lead**, focusing on
 | **Testing Strategy Development** | Developed comprehensive testing approach covering unit, integration, manual, accessibility, and regression testing methodologies | [docs/TESTING_STRATEGY.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/TESTING_STRATEGY.md) |
 | **Test Plan Documentation** | Created detailed test plans with test cases for authentication, item posting, and messaging features | [docs/TESTING_PLAN.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/TESTING_PLAN.md) |
 | **Bug Report System** | Established standardized bug report format with reproduction steps, severity levels, expected/actual results | [docs/ISSUES/BUGS](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/ISSUES/BUGS) |
-| **Manual QA Checklists** | Created comprehensive manual testing checklists for authentication, browse, donate, messaging, and admin features | [MANUAL_TESTING_CHECKLIST.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/MANUAL_TESTING_CHECKLIST.md) |
+| **Manual QA Checklists** | Created comprehensive manual testing checklists for authentication, browse, donate, messaging, and admin features | [MANUAL_TESTING_CHECKLIST.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/QA/MANUAL_TESTING_CHECKLIST.md) |
 | **Sprint Documentation** | Created and maintained 14+ weekly sprint packets documenting team activities, progress, and decisions | [docs/sprints](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/sprints) |
 | **Issue Management** | Created and tracked 10+ GitHub issues for bugs, features, and stabilization goals | [Issues #8, #11, #12, #59, #90, #135-#143](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues?q=author:SujanTamang20) |
 | **Repository Structure** | Organized project documentation hierarchy and maintained README files across the repository | [Portfolio commits: 134 total](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commits?author=SujanTamang20) |
@@ -287,7 +287,7 @@ The testing and documentation framework I established:
 ### My Best Evidence Links
 1. [TESTING_STRATEGY.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/TESTING_STRATEGY.md)
 2. [TESTING_PLAN.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/TESTING_PLAN.md)
-3. [MANUAL_TESTING_CHECKLIST.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/MANUAL_TESTING_CHECKLIST.md)
+3. [MANUAL_TESTING_CHECKLIST.md](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/blob/main/docs/QA/MANUAL_TESTING_CHECKLIST.md)
 4. [Sprints](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/sprints)
 5. [Authentication Testing Documentation](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/AUTHENTICATION.md)
 6. [Testing Documentation](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/tree/main/docs/TESTING_STRATEGY.md)
