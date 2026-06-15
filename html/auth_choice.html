@@ -26,9 +26,8 @@
       <p class="eyebrow">CONTROL ACCESS</p>
       <h1>Choose the right entrance for your role.</h1>
       <p class="auth-copy">
-        Free Sewaa has separate spaces for community members and administrators. Users can donate,
-        request, message, and manage their activity. Admins can review listings, manage users,
-        handle moderation, and keep the platform safe.
+        Free Sewaa keeps public member access separate from restricted administrative tools. Users can donate,
+        request, message, and manage their activity from the member portal.
       </p>
 
       <div class="auth-feature-list portal-feature-list">
@@ -43,7 +42,7 @@
           <div class="auth-feature__dot"></div>
           <div>
             <strong>Admin Command Center</strong>
-            <p>Review posts, block or restore users, feature listings, and monitor platform activity.</p>
+            <p>Administrative tools are hidden from public portal navigation and require a verified super admin session.</p>
           </div>
         </article>
         <article class="auth-feature">
@@ -60,7 +59,7 @@
       <div class="auth-card__top portal-card__top">
         <p class="eyebrow">WELCOME</p>
         <h2>Select your portal</h2>
-        <p class="auth-card__text">Choose the space that matches how you want to enter Free Sewaa.</p>
+        <p class="auth-card__text">Community members can sign in here. Admin access is restricted to authorized staff.</p>
       </div>
 
       <div class="portal-grid">
@@ -79,20 +78,20 @@
           <span class="portal-option__cta">Continue as user</span>
         </a>
 
-        <a class="portal-option portal-option--admin" href="/admin_login.html">
+        <div class="portal-option portal-option--admin" aria-label="Restricted admin access">
           <div class="portal-option__badge">Restricted Access</div>
           <div class="portal-option__icon">🛡️</div>
           <div class="portal-option__body">
-            <h3>Admin Login</h3>
-            <p>Open the command center to moderate listings, manage users, and oversee activity.</p>
+            <h3>Admin Access Restricted</h3>
+            <p>Administrative tools are available only to authorized staff with a verified super admin session.</p>
             <ul>
               <li>User controls</li>
               <li>Listing moderation</li>
               <li>Admin tools & review</li>
             </ul>
           </div>
-          <span class="portal-option__cta">Continue as admin</span>
-        </a>
+          <span class="portal-option__cta">Authorized staff only</span>
+        </div>
       </div>
 
       <div class="portal-footer-links">

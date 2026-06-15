@@ -15,9 +15,8 @@ export default function AuthChoicePage() {
           <p className="eyebrow">CONTROL ACCESS</p>
           <h1>Choose the right entrance for your role.</h1>
           <p className="auth-copy">
-            Free Sewaa has separate spaces for community members and administrators. Users can donate,
-            request, message, and manage their activity. Admins can review listings, manage users,
-            handle moderation, and keep the platform safe.
+            Free Sewaa keeps public member access separate from restricted administrative tools. Users can donate,
+            request, message, and manage their activity from the member portal.
           </p>
           <div className="auth-feature-list portal-feature-list">
             <article className="auth-feature">
@@ -31,7 +30,7 @@ export default function AuthChoicePage() {
               <div className="auth-feature__dot" />
               <div>
                 <strong>Admin Command Center</strong>
-                <p>Review posts, block or restore users, feature listings, and monitor platform activity.</p>
+                <p>Administrative tools are hidden from public portal navigation and require a verified super admin session.</p>
               </div>
             </article>
             <article className="auth-feature">
@@ -47,7 +46,7 @@ export default function AuthChoicePage() {
           <div className="auth-card__top portal-card__top">
             <p className="eyebrow">WELCOME</p>
             <h2>Select your portal</h2>
-            <p className="auth-card__text">Choose the space that matches how you want to enter Free Sewaa.</p>
+            <p className="auth-card__text">Community members can sign in here. Admin access is restricted to authorized staff.</p>
           </div>
           <div className="portal-grid">
             <a className="portal-option portal-option--user" href="/signin.html">
@@ -64,20 +63,20 @@ export default function AuthChoicePage() {
               </div>
               <span className="portal-option__cta">Continue as user</span>
             </a>
-            <a className="portal-option portal-option--admin" href="/admin_login.html">
+            <div className="portal-option portal-option--admin" aria-label="Restricted admin access">
               <div className="portal-option__badge">Restricted Access</div>
               <div className="portal-option__icon">🛡️</div>
               <div className="portal-option__body">
-                <h3>Admin Login</h3>
-                <p>Open the command center to moderate listings, manage users, and oversee activity.</p>
+                <h3>Admin Access Restricted</h3>
+                <p>Administrative tools are available only to authorized staff with a verified super admin session.</p>
                 <ul>
                   <li>User controls</li>
                   <li>Listing moderation</li>
                   <li>Admin tools &amp; review</li>
                 </ul>
               </div>
-              <span className="portal-option__cta">Continue as admin</span>
-            </a>
+              <span className="portal-option__cta">Authorized staff only</span>
+            </div>
           </div>
           <div className="portal-footer-links">
             <a className="text-link" href="/signup.html">Need an account? Create one</a>

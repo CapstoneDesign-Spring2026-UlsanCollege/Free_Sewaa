@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Login - Free Sewaa</title>
+  <meta name="robots" content="noindex,nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
@@ -160,16 +161,7 @@
     }
 
     async function signInAdmin(email, password) {
-      try {
-        return await postJson('/api/auth/admin/signin', { email, password });
-      } catch (error) {
-        const fallback = await postJson('/api/auth/signin', { email, password });
-        const fallbackUser = fallback.user || {};
-        if (fallbackUser.role !== 'superadmin' && fallback.auth?.role !== 'superadmin') {
-          throw error;
-        }
-        return fallback;
-      }
+      return await postJson('/api/auth/admin/signin', { email, password });
     }
 
     form.addEventListener('submit', async (e) => {
