@@ -327,9 +327,8 @@ function normalizePhoneNumber(value = '') {
   const digits = raw.replace(/\D/g, '');
   if (!digits) return '';
 
-  if (raw.startsWith('+')) return `+${digits}`;
-  if (digits.startsWith('82')) return `+${digits}`;
-  if (digits.startsWith('0')) return `+82${digits.slice(1)}`;
+  if (/^010\d{8}$/.test(digits)) return `+82${digits.slice(1)}`;
+  if (/^8210\d{8}$/.test(digits)) return `+${digits}`;
   return '';
 }
 
@@ -458,7 +457,9 @@ async function startPhoneOtp(form) {
   if (!auth) throw new Error('Firebase is not configured for this page.');
 
   const phone = normalizePhoneNumber(form.querySelector('[data-phone-input]')?.value);
-  if (!phone) throw new Error('Enter the phone number in international format, including + and country code.');
+  if (!phone) {
+    throw new Error('Enter a valid Korean mobile number such as 010-1234-5678 or +82 10-1234-5678.');
+  }
 
   const sendButton = form.querySelector('[data-phone-action="send"]');
   sendButton.disabled = true;

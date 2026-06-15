@@ -88,7 +88,7 @@ if (localStorage.getItem('freesewaa-auth') === 'true' && localStorage.getItem('f
         <form class="auth-form firebase-phone-form" data-firebase-auth="phone">
           <label class="field">
             <span>Phone number</span>
-            <input type="tel" data-phone-input placeholder="010-1234-5678 or +82 10-1234-5678" autocomplete="tel" />
+            <input type="tel" data-phone-input placeholder="010-1234-5678 or +82 10-1234-5678" autocomplete="off" inputmode="tel" />
           </label>
           <p class="auth-help">Korean <strong>010</strong> numbers are converted to <strong>+82</strong> automatically. Real Firebase SMS may require billing. Free test: <strong>+82 10-0000-3434</strong>, OTP <strong>654321</strong>.</p>
           <button class="secondary-btn" id="firebasePhoneSendSignin" type="button" data-phone-action="send">Send OTP</button>
