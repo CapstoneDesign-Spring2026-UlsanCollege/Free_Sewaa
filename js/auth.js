@@ -84,6 +84,7 @@ const STORAGE_KEYS = {
 
 const EMAIL_ONLY_MESSAGE = 'Please use a real email address from a recognized email provider.';
 const PASSWORD_POLICY_MESSAGE = 'Password must be 8-10 characters and include uppercase, lowercase, and a number.';
+const FIREBASE_TEST_PHONE = '+16505553434';
 const DEMO_EMAIL_DOMAINS = new Set([
   'demo.com',
   'example.com',
@@ -456,6 +457,7 @@ async function startPhoneOtp(form) {
   sendButton.textContent = 'Sending OTP...';
 
   try {
+    auth.settings.appVerificationDisabledForTesting = phone === FIREBASE_TEST_PHONE;
     const recaptchaId = sendButton.id;
     if (!recaptchaId) throw new Error('Phone verification button is missing its reCAPTCHA identifier.');
 
