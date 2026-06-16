@@ -3,7 +3,7 @@
 ## 1. Performance Summary
 
 My contribution to Free Sewaa was not limited to one small feature. I worked across project coordination, frontend implementation, React migration, authentication, deployment, backend/database integration, messaging, events, admin controls, UI polish, documentation, and final evidence preparation.
-
+ 
 Git history shows 300+ authored commits under `Rampathak12` across the project timeline, from early planning work in March through final fixes in June. My work includes merged pull requests, direct commits, deployment fixes, UI improvements, sprint documents, and evidence updates. This portfolio collects that work into a clear performance record so my contribution can be evaluated from real repository evidence rather than only from a short role label.
 
 I also want to be honest about shared work. Some files, especially `server/server.js`, `css/theme.css`, `js/site.js`, and the React generated pages, were touched by multiple team members. I can explain the parts I changed and the features I worked on, but I do not claim sole ownership of every line in shared files.
