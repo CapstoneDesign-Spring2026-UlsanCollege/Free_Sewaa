@@ -1108,9 +1108,9 @@ body{
   display: none !important;
 }
 
-/* ===== Portal page: screenshot-style split logo and sign-in card ===== */
+/* ===== Portal page: welcome split logo and sign-in card ===== */
 .portal-page{
-  background:#70776e;
+  background:#fff;
 }
 
 .portal-page .auth-header{
@@ -1118,32 +1118,32 @@ body{
 }
 
 .portal-page .auth-overlay{
-  background:
-    radial-gradient(circle at 50% 50%,rgba(251,247,239,.16),transparent 38%),
-    linear-gradient(180deg,rgba(91,99,91,.94),rgba(102,102,95,.94));
+  background:#fff;
 }
 
 .portal-page .portal-shell{
-  width:min(1040px,calc(100% - 44px));
+  width:min(1180px,calc(100% - 44px));
   min-height:100vh;
   grid-template-columns:1fr 1fr;
   gap:0;
   align-items:stretch;
-  padding:clamp(48px,8vh,92px) 0;
+  padding:clamp(36px,6vh,78px) 0;
 }
 
 .portal-page .portal-left,
 .portal-page .portal-card{
-  min-height:610px;
+  min-height:min(760px,calc(100vh - 72px));
 }
 
 .portal-page .portal-left{
   display:grid;
   place-items:center;
-  padding:clamp(38px,5vw,70px);
-  background:#a9cdbc;
+  padding:clamp(34px,5vw,68px);
+  background:
+    radial-gradient(circle at 52% 30%,rgba(255,255,255,.24),transparent 34%),
+    linear-gradient(180deg,#b6d8c9 0%,#a4cbbb 100%);
   border:0;
-  box-shadow:-28px 34px 90px rgba(39,37,34,.24);
+  box-shadow:none;
 }
 
 .portal-brand-panel{
@@ -1156,28 +1156,37 @@ body{
   color:#fbf7ef;
 }
 
+.portal-brand-panel__image{
+  width:min(390px,82%);
+  aspect-ratio:1.2;
+  display:grid;
+  place-items:center;
+  margin-bottom:clamp(24px,5vh,54px);
+}
+
 .portal-brand-panel__logo{
-  width:min(310px,78%);
+  width:100%;
   height:auto;
-  margin-bottom:22px;
-  filter:drop-shadow(0 18px 30px rgba(39,37,34,.14));
+  filter:drop-shadow(0 24px 42px rgba(55,89,73,.18));
 }
 
 .portal-brand-panel h1{
   margin:0;
   color:#fbf7ef;
   font-family:"Inter",system-ui,sans-serif;
-  font-size:clamp(1.45rem,2.4vw,2rem);
-  font-weight:800;
+  font-size:clamp(2.2rem,4vw,3.3rem);
+  font-weight:900;
   line-height:1.18;
-  text-shadow:0 10px 24px rgba(39,37,34,.12);
+  text-shadow:0 12px 28px rgba(55,89,73,.18);
 }
 
 .portal-brand-panel p{
-  max-width:330px;
+  max-width:390px;
   margin:0;
-  color:rgba(255,255,255,.82);
-  line-height:1.5;
+  color:rgba(255,255,255,.88);
+  font-size:1.12rem;
+  font-weight:700;
+  line-height:1.55;
 }
 
 .portal-brand-panel__dots{
@@ -1204,23 +1213,23 @@ body{
   display:grid;
   align-content:center;
   justify-items:center;
-  gap:34px;
-  padding:clamp(44px,5vw,74px);
+  gap:32px;
+  padding:clamp(44px,6vw,92px);
   border-radius:0;
   background:#fff;
   border:0;
-  box-shadow:28px 34px 90px rgba(39,37,34,.24);
+  box-shadow:none;
 }
 
 .portal-signin-head{
   display:grid;
   justify-items:center;
-  gap:42px;
+  gap:34px;
   text-align:center;
 }
 
 .portal-signin-head img{
-  width:min(172px,64vw);
+  width:min(210px,64vw);
   height:auto;
   object-fit:contain;
 }
@@ -1228,7 +1237,7 @@ body{
 .portal-signin-head p{
   margin:0;
   color:rgba(39,37,34,.58);
-  font-size:1.1rem;
+  font-size:1.18rem;
   line-height:1.5;
 }
 
@@ -1270,8 +1279,8 @@ body{
   margin:0;
   color:rgba(39,37,34,.58);
   font-family:"Inter",system-ui,sans-serif;
-  font-size:.95rem;
-  font-weight:500;
+  font-size:1.05rem;
+  font-weight:700;
 }
 
 .portal-page .portal-option__body p,
@@ -1281,7 +1290,7 @@ body{
 
 .portal-page .portal-option__cta{
   width:min(230px,100%);
-  min-height:54px;
+  min-height:56px;
   grid-column:auto;
   display:inline-flex;
   align-items:center;
@@ -1289,8 +1298,8 @@ body{
   margin-top:0;
   border-radius:999px;
   color:#fff;
-  background:#62625f;
-  box-shadow:0 16px 34px rgba(39,37,34,.16);
+  background:#656865;
+  box-shadow:0 18px 42px rgba(39,37,34,.13);
   font-weight:800;
 }
 
@@ -1324,7 +1333,7 @@ body{
   .portal-page .portal-shell{
     width:min(560px,calc(100% - 28px));
     grid-template-columns:1fr;
-    padding:28px 0;
+    padding:0;
   }
 
   .portal-page .portal-left,
@@ -1333,6 +1342,10 @@ body{
   }
 
   .portal-page .portal-left{
-    min-height:390px;
+    min-height:430px;
+  }
+
+  .portal-page .portal-card{
+    min-height:430px;
   }
 }

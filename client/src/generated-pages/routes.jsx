@@ -236,7 +236,7 @@ export const pageRoutes = {
         },
         {
           "rel": "stylesheet",
-          "href": "/css/auth.css?v=20260616-ss"
+          "href": "/css/auth.css?v=20260616-welcome"
         }
       ],
       "scripts": []
@@ -1043,7 +1043,7 @@ export const pageRoutes = {
         },
         {
           "rel": "stylesheet",
-          "href": "/css/auth.css?v=20260616-ss"
+          "href": "/css/auth.css?v=20260616-welcome"
         }
       ],
       "scripts": []

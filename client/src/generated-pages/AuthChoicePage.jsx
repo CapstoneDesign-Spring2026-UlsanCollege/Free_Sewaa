@@ -13,9 +13,11 @@ export default function AuthChoicePage() {
       <main className="auth-shell portal-shell">
         <section className="auth-left portal-left">
           <div className="portal-brand-panel">
-            <img className="portal-brand-panel__logo" src="/assets/free-sewaa-logo.svg" alt="Free Sewaa" />
-            <h1>Share freely. Help locally.</h1>
-            <p>Give items a second life through your community.</p>
+            <div className="portal-brand-panel__image">
+              <img className="portal-brand-panel__logo" src="/assets/free-sewaa-logo.svg" alt="Free Sewaa" />
+            </div>
+            <h1>Welcome back</h1>
+            <p>Share freely. Help locally. Give what you can, find what you need.</p>
             <div className="portal-brand-panel__dots" aria-hidden="true">
               <span />
               <span />
@@ -27,7 +29,7 @@ export default function AuthChoicePage() {
         <section className="auth-card portal-card">
           <div className="portal-signin-head">
             <img src="/assets/free-sewaa-logo.svg" alt="Free Sewaa" />
-            <p>Welcome to Free Sewaa</p>
+            <p>Welcome back to Free Sewaa</p>
           </div>
           <div className="portal-grid">
             <a className="portal-option portal-option--user" href="/signin.html">
