@@ -1135,22 +1135,22 @@ body{
   max-width:none;
   height:100vh;
   min-height:100vh;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:1fr;
   gap:0;
-  align-items:stretch;
+  align-items:center;
+  justify-items:center;
   padding:0;
 }
 
 .portal-page .portal-left,
 .portal-page .portal-card{
-  min-height:100vh;
+  min-height:0;
 }
 
 .portal-page .portal-left{
-  position:relative;
-  display:grid;
-  place-items:center;
-  padding:clamp(34px,5vw,76px);
+  position:absolute;
+  inset:0;
+  padding:0;
   background:transparent;
   border:0;
   box-shadow:none;
@@ -1277,13 +1277,18 @@ body{
   align-content:center;
   justify-items:center;
   gap:20px;
-  padding:clamp(30px,5vw,74px);
+  width:min(640px,calc(100% - 40px));
+  padding:clamp(20px,3vw,34px);
   border-radius:0;
   background:transparent;
   border:0;
   box-shadow:none;
   overflow:visible;
   backdrop-filter:none;
+}
+
+.portal-page .portal-card > *{
+  justify-self:center;
 }
 
 .portal-page .portal-card::before{
@@ -1302,6 +1307,7 @@ body{
   gap:12px;
   text-align:center;
   width:min(500px,100%);
+  max-width:100%;
   padding:clamp(22px,3.4vw,36px);
   border-radius:8px;
   background:rgba(255,255,255,.48);
@@ -1450,6 +1456,7 @@ body{
 
 .portal-page .portal-footer-links{
   margin:0;
+  justify-self:center;
   padding:10px 14px;
   border-radius:999px;
   background:rgba(255,255,255,.48);
