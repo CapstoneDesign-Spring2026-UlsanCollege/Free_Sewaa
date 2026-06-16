@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/auth.css?v=20260616-quote" />
+  <link rel="stylesheet" href="../css/auth.css?v=20260616-video" />
 </head>
 <body class="auth-page portal-page">
   <div class="auth-overlay"></div>
@@ -23,6 +23,15 @@
 
   <main class="auth-shell portal-shell">
     <section class="auth-left portal-left">
+      <div class="portal-video-shell" aria-hidden="true">
+        <video class="portal-video" autoplay muted loop playsinline poster="/assets/free-sewaa-logo.svg">
+          <source src="/assets/free-sewaa-welcome.webm" type="video/webm">
+          <source src="/assets/free-sewaa-welcome.mp4" type="video/mp4">
+        </video>
+        <div class="portal-video-fallback">
+          <img src="/assets/free-sewaa-logo.svg" alt="">
+        </div>
+      </div>
       <div class="portal-brand-panel">
         <div class="portal-brand-panel__image">
           <img class="portal-brand-panel__logo" src="/assets/free-sewaa-logo.svg" alt="Free Sewaa">

@@ -1155,6 +1155,61 @@ body{
   overflow:hidden;
 }
 
+.portal-video-shell{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+}
+
+.portal-video-shell::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg,rgba(72,137,112,.06),rgba(43,105,88,.18)),
+    radial-gradient(circle at 50% 32%,rgba(255,255,255,.30),transparent 34%);
+}
+
+.portal-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.55;
+  mix-blend-mode:multiply;
+}
+
+.portal-video-fallback{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 50% 34%,rgba(255,255,255,.36),transparent 26%),
+    radial-gradient(circle at 22% 20%,rgba(255,145,38,.22),transparent 18%),
+    radial-gradient(circle at 78% 64%,rgba(43,111,121,.24),transparent 20%);
+  animation:portalVisualDrift 10s ease-in-out infinite alternate;
+}
+
+.portal-video-fallback img{
+  width:min(480px,70%);
+  height:auto;
+  opacity:.82;
+  filter:drop-shadow(0 32px 56px rgba(45,93,75,.25));
+  animation:portalLogoFloat 5.8s ease-in-out infinite;
+}
+
+@keyframes portalVisualDrift{
+  0%{transform:scale(1) translate3d(-1%,0,0)}
+  100%{transform:scale(1.06) translate3d(1.5%,-1%,0)}
+}
+
+@keyframes portalLogoFloat{
+  0%,100%{transform:translateY(0) rotate(-1deg)}
+  50%{transform:translateY(-10px) rotate(1deg)}
+}
+
 .portal-page .portal-left::before,
 .portal-page .portal-left::after{
   content:"";
@@ -1194,17 +1249,17 @@ body{
 }
 
 .portal-brand-panel__image{
-  width:min(460px,78%);
+  width:min(330px,62%);
   aspect-ratio:1.16;
   display:grid;
   place-items:center;
-  margin-bottom:clamp(18px,4vh,42px);
+  margin-bottom:clamp(16px,3vh,30px);
 }
 
 .portal-brand-panel__logo{
   width:100%;
   height:auto;
-  filter:drop-shadow(0 28px 48px rgba(45,93,75,.24));
+  filter:drop-shadow(0 22px 40px rgba(45,93,75,.22));
 }
 
 .portal-brand-panel h1{

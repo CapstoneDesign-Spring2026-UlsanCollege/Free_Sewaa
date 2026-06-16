@@ -12,6 +12,15 @@ export default function AuthChoicePage() {
       </header>
       <main className="auth-shell portal-shell">
         <section className="auth-left portal-left">
+          <div className="portal-video-shell" aria-hidden="true">
+            <video className="portal-video" autoPlay muted loop playsInline poster="/assets/free-sewaa-logo.svg">
+              <source src="/assets/free-sewaa-welcome.webm" type="video/webm" />
+              <source src="/assets/free-sewaa-welcome.mp4" type="video/mp4" />
+            </video>
+            <div className="portal-video-fallback">
+              <img src="/assets/free-sewaa-logo.svg" alt="" />
+            </div>
+          </div>
           <div className="portal-brand-panel">
             <div className="portal-brand-panel__image">
               <img className="portal-brand-panel__logo" src="/assets/free-sewaa-logo.svg" alt="Free Sewaa" />
