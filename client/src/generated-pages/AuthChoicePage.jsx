@@ -14,7 +14,6 @@ export default function AuthChoicePage() {
         <section className="auth-left portal-left">
           <div className="portal-video-shell" aria-hidden="true">
             <video className="portal-video" autoPlay muted loop playsInline>
-              <source src="/assets/free-sewaa-welcome.webm" type="video/webm" />
               <source src="/assets/free-sewaa-welcome.mp4" type="video/mp4" />
             </video>
           </div>
