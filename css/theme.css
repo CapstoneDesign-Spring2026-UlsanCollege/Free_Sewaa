@@ -6223,3 +6223,36 @@ body[data-page="browse"] .listing-action--wide:hover{
     grid-template-columns:1fr !important;
   }
 }
+
+/* Messenger-style unread badge: pinned to the icon, not the expanded label. */
+.site-header .header-actions .icon-link.has-nav-icon{
+  overflow:visible !important;
+}
+
+.site-header .header-actions .icon-link.has-nav-icon .message-count-badge{
+  position:absolute !important;
+  top:4px !important;
+  right:auto !important;
+  left:24px !important;
+  z-index:20 !important;
+  min-width:18px !important;
+  height:18px !important;
+  padding:0 5px !important;
+  margin:0 !important;
+  display:inline-grid !important;
+  place-items:center !important;
+  border-radius:999px !important;
+  background:#ff3040 !important;
+  color:#fff !important;
+  border:2px solid #fbf7ef !important;
+  box-shadow:0 2px 8px rgba(255,48,64,.28) !important;
+  font-size:.66rem !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+  pointer-events:none !important;
+}
+
+.site-header .header-actions .icon-link.has-nav-icon .message-count-badge[hidden],
+.site-header .header-actions .icon-link.has-nav-icon .message-count-badge:empty{
+  display:none !important;
+}
