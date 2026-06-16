@@ -2674,8 +2674,8 @@
         link.appendChild(badge);
       }
 
-      badge.textContent = unread;
-      badge.hidden = unread === 0;
+      badge.textContent = unread > 0 ? unread : '';
+      badge.hidden = unread <= 0;
       link.classList.toggle('has-unread-messages', unread > 0);
       link.setAttribute('aria-label', labelText);
       link.setAttribute('title', labelText);
