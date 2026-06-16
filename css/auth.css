@@ -1283,8 +1283,41 @@ body{
   width:min(210px,50vw);
   height:auto;
   object-fit:contain;
-  margin-bottom:28px;
+  margin-bottom:18px;
   filter:drop-shadow(0 18px 30px rgba(39,37,34,.08));
+}
+
+.portal-quote{
+  max-width:390px;
+  margin:0 0 16px;
+  padding:18px 24px;
+  display:grid;
+  gap:10px;
+  color:#272522;
+  border-radius:8px;
+  background:
+    linear-gradient(135deg,rgba(164,203,187,.18),rgba(255,250,244,.88)),
+    #fffdf8;
+  border:1px solid rgba(39,37,34,.08);
+  box-shadow:0 20px 48px rgba(55,45,30,.09);
+}
+
+.portal-quote p{
+  margin:0;
+  color:#34302b;
+  font-family:"Cormorant Garamond",Georgia,serif;
+  font-size:clamp(1.25rem,2vw,1.65rem);
+  font-weight:700;
+  line-height:1.18;
+}
+
+.portal-quote cite{
+  color:#6f8d7e;
+  font-size:.78rem;
+  font-style:normal;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
 }
 
 .portal-signin-head h2{

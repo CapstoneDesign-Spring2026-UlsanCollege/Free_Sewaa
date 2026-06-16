@@ -29,6 +29,10 @@ export default function AuthChoicePage() {
         <section className="auth-card portal-card">
           <div className="portal-signin-head">
             <img src="/assets/free-sewaa-logo.svg" alt="Free Sewaa" />
+            <blockquote className="portal-quote">
+              <p>We make a living by what we get, but we make a life by what we give.</p>
+              <cite>Winston Churchill</cite>
+            </blockquote>
             <h2>Welcome back</h2>
             <p>Continue to your Free Sewaa space.</p>
           </div>
