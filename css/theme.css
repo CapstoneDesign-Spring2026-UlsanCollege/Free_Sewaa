@@ -178,12 +178,12 @@ body.light-mode .icon-link:hover, body.light-mode .active-link{
 }
 .message-count-badge{
   position:absolute;
-  top:2px;
-  right:1px;
+  top:5px;
+  right:5px;
   z-index:3;
-  min-width:19px;
-  height:19px;
-  padding:0 5px;
+  min-width:18px;
+  height:18px;
+  padding:0 4px;
   border-radius:999px;
   display:inline-grid;
   place-items:center;
@@ -195,11 +195,8 @@ body.light-mode .icon-link:hover, body.light-mode .active-link{
   font-weight:800;
   line-height:1;
 }
-.message-count-badge[hidden]{display:none}
-.icon-link.has-nav-icon:hover .message-count-badge,
-.icon-link.has-nav-icon:focus-visible .message-count-badge{
-  right:8px;
-}
+.message-count-badge[hidden],
+.message-count-badge:empty{display:none}
 .icon-link.has-unread-messages{
   border-color:transparent;
 }
