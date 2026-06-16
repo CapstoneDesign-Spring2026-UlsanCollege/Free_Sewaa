@@ -23,10 +23,20 @@
 
 - All repository-relative links in the team portfolio resolve.
 - Public Render and Vercel demo URLs return successful responses.
+- The public repository, portfolio, screenshot evidence, final release, and Render website remain accessible.
 - The portfolio distinguishes current implementation from historical architecture.
 - Known security, validation, test-coverage, and deployment risks are stated honestly.
 - Manual QA checklists are separated from direct test-output evidence.
 - No A+ or guaranteed-grade promise is made.
+
+## Final Repository Closure
+
+- Open issues: **0**
+- Open pull requests: **0**
+- CI status: green on the latest checked `main` run
+- Final release: [v1.0.0-final-capstone](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/releases/tag/v1.0.0-final-capstone)
+- Required evidence set: 16 weekly portfolio pages, 16 MVP progress files, 16 sprint packets, five sprint summaries, final presentation materials, and five individual portfolios are present.
+- Deferred issues: [#95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95), [#96](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/96), and [#101](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/101) are closed as `not planned`, not implemented.
 
 ## Final Review Notes
 

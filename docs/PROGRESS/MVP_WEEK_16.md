@@ -3,6 +3,7 @@
 **Project:** Free Sewaa
 **Course:** Capstone Design - Spring 2026, Ulsan College
 **Closure record prepared:** June 12, 2026
+**Closure record updated:** June 16, 2026
 **Status:** Final academic MVP submitted and project phase closed
 
 ## Final Project Statement
@@ -31,6 +32,8 @@ frontend-maintainability limitations remain documented as future work.
 | Presentation package | Complete | [Final presentation](../../portfolio/07-final-presentation/README.md) |
 | Portfolio audit | Complete | [Final portfolio audit](../../portfolio/FINAL_PORTFOLIO_AUDIT.md) |
 | Public demonstration | Available | [Render deployment](https://free-sewaa-qh05.onrender.com) |
+| Final release | Published | [v1.0.0-final-capstone](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/releases/tag/v1.0.0-final-capstone) |
+| GitHub issues and PRs | Closed | [Issues](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues) and [pull requests](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pulls) report zero open items at closure |
 
 ## Final MVP Capabilities
 
@@ -52,7 +55,7 @@ frontend-maintainability limitations remain documented as future work.
 - Firebase authentication configuration
 - React frontend migration
 - Saved-item and notification behavior
-- Centralized request validation
+- Comprehensive centralized request validation
 - Broad automated regression coverage
 - Repeatable accessibility and cross-browser execution evidence
 
@@ -74,17 +77,28 @@ cd server
 npm test
 ```
 
-The repository currently defines one Jest suite with three focused checks:
+The repository currently defines one Jest suite with focused checks for:
 
 - Health endpoint returns a successful status.
-- Signup rejects a missing first name.
-- Signup rejects a missing password.
+- Firebase configuration and malformed-token handling.
+- Signup and signin validation behavior.
+- Listing report submission and administrator moderation behavior.
 
-The CI workflow runs the server tests with a MongoDB service container. Saved
-historical output is available in
+The CI workflow runs the server tests with a MongoDB service container and was
+green at closure. Saved historical output is available in
 [`docs/evidence/week12/logs/test-output.txt`](../evidence/week12/logs/test-output.txt).
 No broader coverage percentage is claimed because a current coverage report is
 not part of the final evidence set.
+
+## GitHub Closure Record
+
+At final capstone closure:
+
+- Open issues: **0**
+- Open pull requests: **0**
+- Final release: [Free Sewaa Final Capstone MVP](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/releases/tag/v1.0.0-final-capstone)
+- Latest checked CI run: green on `main`
+- Issue [#95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95), Issue [#96](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/96), and Issue [#101](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/101) were closed as `not planned`. They are recorded as deferred post-capstone production hardening, not implemented semester MVP work.
 
 ## Final Demo Path
 

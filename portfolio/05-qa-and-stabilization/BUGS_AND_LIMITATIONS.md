@@ -1,16 +1,18 @@
 # Bugs and Limitations
 
-## Highest-Risk Open Limitations
+## Highest-Risk Deferred Limitations
 
 | Limitation | Severity | Status | Evidence | Next step |
 |---|---|---|---|---|
-| Local passwords are stored/compared directly | P1 security | Open | [`server/server.js`](../../server/server.js), [Security Checklist](../../docs/QA/SECURITY_CHECKLIST.md) | Hash credentials or remove local password auth |
-| Central validation is incomplete | P1 quality/security | Open | [Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95) | Add shared validation for write endpoints |
-| Password recovery is not complete | P1 feature gap | Open | [bug report history](../../docs/ISSUES/BUGS/) | Implement reset flow |
-| End-to-end automation is limited | P2 quality | Open | [QA Report](./QA_REPORT.md) | Add browser and integration tests |
-| Mixed static/React frontend remains | P2 maintainability | Open | [Frontend Guide](../../docs/FRONTEND_GUIDE.md) | Finish or retire migration |
-| Rate limiting/abuse controls are missing | P2 security | Open | [`server/server.js`](../../server/server.js) | Add throttling and monitoring |
-| Email receipts/notifications are not delivered | P2 feature gap | Open | [bug report history](../../docs/ISSUES/BUGS/) | Integrate email provider |
+| Local passwords are stored/compared directly | P1 security | Deferred after capstone | [`server/server.js`](../../server/server.js), [Security Checklist](../../docs/QA/SECURITY_CHECKLIST.md) | Hash credentials or remove local password auth |
+| Central validation is incomplete | P1 quality/security | Deferred after capstone | [Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95) | Add shared validation for write endpoints |
+| Password recovery is not complete | P1 feature gap | Deferred after capstone | [bug report history](../../docs/ISSUES/BUGS/) | Implement reset flow |
+| End-to-end automation is limited | P2 quality | Deferred after capstone | [Issue #96](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/96), [QA Report](./QA_REPORT.md) | Add browser and integration tests |
+| Mixed static/React frontend remains | P2 maintainability | Deferred after capstone | [Frontend Guide](../../docs/FRONTEND_GUIDE.md) | Finish or retire migration |
+| Rate limiting/abuse controls are missing | P2 security | Deferred after capstone | [`server/server.js`](../../server/server.js) | Add throttling and monitoring |
+| Email receipts/notifications are not delivered | P2 feature gap | Deferred after capstone | [Issue #101](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/101), [bug report history](../../docs/ISSUES/BUGS/) | Integrate email provider |
+
+Issues [#95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95), [#96](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/96), and [#101](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/101) were closed as `not planned` for the semester submission. They remain valid post-capstone hardening items, not completed MVP claims.
 
 ## Historical Bug Evidence
 
