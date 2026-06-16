@@ -12,46 +12,26 @@ export default function AuthChoicePage() {
       </header>
       <main className="auth-shell portal-shell">
         <section className="auth-left portal-left">
-          <p className="eyebrow">CONTROL ACCESS</p>
-          <h1>Continue to your Free Sewaa account.</h1>
-          <p className="auth-copy">
-            Everyone starts from the same sign-in flow. Regular members continue to their user dashboard,
-            while the verified super admin is sent directly to the admin command center.
-          </p>
-          <div className="auth-feature-list portal-feature-list">
-            <article className="auth-feature">
-              <div className="auth-feature__dot" />
-              <div>
-                <strong>User Portal</strong>
-                <p>Manage donations, requests, saved items, messages, and personal account settings.</p>
-              </div>
-            </article>
-            <article className="auth-feature">
-              <div className="auth-feature__dot" />
-              <div>
-                <strong>Role-based routing</strong>
-                <p>The app sends each signed-in account to the right dashboard automatically.</p>
-              </div>
-            </article>
-            <article className="auth-feature">
-              <div className="auth-feature__dot" />
-              <div>
-                <strong>Protected admin tools</strong>
-                <p>Admin pages still require a verified super admin session before they load.</p>
-              </div>
-            </article>
+          <div className="portal-brand-panel">
+            <img className="portal-brand-panel__logo" src="/assets/free-sewaa-logo.svg" alt="Free Sewaa" />
+            <h1>Share freely. Help locally.</h1>
+            <p>Give items a second life through your community.</p>
+            <div className="portal-brand-panel__dots" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
           </div>
         </section>
         <section className="auth-card portal-card">
-          <div className="auth-card__top portal-card__top">
-            <p className="eyebrow">WELCOME</p>
-            <h2>Sign in once</h2>
-            <p className="auth-card__text">Use the normal login. Super admin accounts are routed to admin tools automatically.</p>
+          <div className="portal-signin-head">
+            <img src="/assets/free-sewaa-logo.svg" alt="Free Sewaa" />
+            <p>Welcome to Free Sewaa</p>
           </div>
           <div className="portal-grid">
             <a className="portal-option portal-option--user" href="/signin.html">
               <div className="portal-option__badge">For Members</div>
-              <div className="portal-option__icon">👤</div>
               <div className="portal-option__body">
                 <h3>User Login</h3>
                 <p>Access your donations, requests, conversations, saved items, and account profile.</p>
@@ -79,7 +59,8 @@ export default function AuthChoicePage() {
             </div>
           </div>
           <div className="portal-footer-links">
-            <a className="text-link" href="/signup.html">Need an account? Create one</a>
+            <span>New to Free Sewaa?</span>
+            <a className="text-link" href="/signup.html">Create Account</a>
           </div>
         </section>
       </main>

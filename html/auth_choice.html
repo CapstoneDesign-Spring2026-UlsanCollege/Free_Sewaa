@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/auth.css?v=20260418" />
+  <link rel="stylesheet" href="../css/auth.css?v=20260616-ss" />
 </head>
 <body class="auth-page portal-page">
   <div class="auth-overlay"></div>
@@ -23,49 +23,28 @@
 
   <main class="auth-shell portal-shell">
     <section class="auth-left portal-left">
-      <p class="eyebrow">CONTROL ACCESS</p>
-      <h1>Continue to your Free Sewaa account.</h1>
-      <p class="auth-copy">
-        Everyone starts from the same sign-in flow. Regular members continue to their user dashboard,
-        while the verified super admin is sent directly to the admin command center.
-      </p>
-
-      <div class="auth-feature-list portal-feature-list">
-        <article class="auth-feature">
-          <div class="auth-feature__dot"></div>
-          <div>
-            <strong>User Portal</strong>
-            <p>Manage donations, requests, saved items, messages, and personal account settings.</p>
-          </div>
-        </article>
-        <article class="auth-feature">
-          <div class="auth-feature__dot"></div>
-          <div>
-            <strong>Role-based routing</strong>
-            <p>The app sends each signed-in account to the right dashboard automatically.</p>
-          </div>
-        </article>
-        <article class="auth-feature">
-          <div class="auth-feature__dot"></div>
-          <div>
-            <strong>Protected admin tools</strong>
-            <p>Admin pages still require a verified super admin session before they load.</p>
-          </div>
-        </article>
+      <div class="portal-brand-panel">
+        <img class="portal-brand-panel__logo" src="/assets/free-sewaa-logo.svg" alt="Free Sewaa">
+        <h1>Share freely. Help locally.</h1>
+        <p>Give items a second life through your community.</p>
+        <div class="portal-brand-panel__dots" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
     </section>
 
     <section class="auth-card portal-card">
-      <div class="auth-card__top portal-card__top">
-        <p class="eyebrow">WELCOME</p>
-        <h2>Sign in once</h2>
-        <p class="auth-card__text">Use the normal login. Super admin accounts are routed to admin tools automatically.</p>
+      <div class="portal-signin-head">
+        <img src="/assets/free-sewaa-logo.svg" alt="Free Sewaa">
+        <p>Welcome to Free Sewaa</p>
       </div>
 
       <div class="portal-grid">
         <a class="portal-option portal-option--user" href="/signin.html">
           <div class="portal-option__badge">For Members</div>
-          <div class="portal-option__icon">👤</div>
           <div class="portal-option__body">
             <h3>User Login</h3>
             <p>Access your donations, requests, conversations, saved items, and account profile.</p>
@@ -95,7 +74,8 @@
       </div>
 
       <div class="portal-footer-links">
-        <a class="text-link" href="/signup.html">Need an account? Create one</a>
+        <span>New to Free Sewaa?</span>
+        <a class="text-link" href="/signup.html">Create Account</a>
       </div>
     </section>
   </main>
