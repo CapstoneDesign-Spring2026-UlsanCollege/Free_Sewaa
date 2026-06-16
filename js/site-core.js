@@ -9,6 +9,7 @@
     user: 'freesewaa-user',
     reviews: 'freesewaa-about-reviews'
   };
+  const MESSAGE_RETENTION_MS = 2 * 24 * 60 * 60 * 1000;
 
   const defaultState = {
     user: {
@@ -285,6 +286,27 @@
 
   function getCurrentUserId() {
     return localStorage.getItem(STORAGE_KEYS.currentUserId) || '';
+  }
+
+  function pruneExpiredLocalMessages() {
+    const cutoff = Date.now() - MESSAGE_RETENTION_MS;
+    let changed = false;
+
+    const beforeConversationCount = appState.conversations.length;
+    appState.conversations = appState.conversations.filter(conversation => {
+      const beforeCount = Array.isArray(conversation.messages) ? conversation.messages.length : 0;
+      conversation.messages = (conversation.messages || []).filter(message => {
+        const createdTime = new Date(message.createdAt || conversation.updatedAt || Date.now()).getTime();
+        return !Number.isFinite(createdTime) || createdTime >= cutoff;
+      });
+      if (conversation.messages.length !== beforeCount) changed = true;
+
+      const updatedTime = new Date(conversation.updatedAt || Date.now()).getTime();
+      return conversation.messages.length || !Number.isFinite(updatedTime) || updatedTime >= cutoff;
+    });
+
+    if (appState.conversations.length !== beforeConversationCount) changed = true;
+    if (changed) saveState();
   }
 
   function isAuthenticated() {
@@ -2008,6 +2030,7 @@
     let isSendingMessage = false;
     let isRefreshingMessages = false;
     sessionStorage.removeItem('freesewaa-open-conversation');
+    pruneExpiredLocalMessages();
 
     async function refreshRemoteConversations(renderAfter = true) {
       if (isRefreshingMessages) return;
@@ -2051,6 +2074,7 @@
 
     function getFilteredConversations() {
       const term = conversationSearch.value.trim().toLowerCase();
+      pruneExpiredLocalMessages();
       const sorted = [...appState.conversations].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
       return sorted.filter(conversation => {
         const listing = getListingById(conversation.listingId);
@@ -2172,7 +2196,8 @@
             sender: 'You',
             text: trimmed,
             time: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
-            type: 'sent'
+            type: 'sent',
+            createdAt: new Date().toISOString()
           });
           showToast(error.message || 'Message saved locally. Server chat may be unavailable.', 'error');
         }
@@ -2181,7 +2206,8 @@
           sender: conversation.participant,
           text: trimmed,
           time: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
-          type
+          type,
+          createdAt: new Date().toISOString()
         });
       }
       conversation.updatedAt = new Date().toISOString();

@@ -17,6 +17,7 @@ const FIREBASE_CERT_URL = 'https://www.googleapis.com/robot/v1/metadata/x509/sec
 const FALLBACK_LISTING_IMAGE = 'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80';
 const MAX_INLINE_IMAGE_LENGTH = 180000;
 const MAX_REPORT_DETAILS_LENGTH = 500;
+const MESSAGE_RETENTION_MS = 2 * 24 * 60 * 60 * 1000;
 const REPORT_REASONS = new Set([
   'misleading-information',
   'prohibited-item',
@@ -419,6 +420,7 @@ async function ensureIndexes() {
 
   await messagesCollection.createIndex({ conversationId: 1 });
   await messagesCollection.createIndex({ createdAt: 1 });
+  await messagesCollection.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
   await notificationsCollection.createIndex({ id: 1 }, { unique: true });
   await notificationsCollection.createIndex({ userId: 1 });
@@ -441,6 +443,31 @@ async function ensureIndexes() {
     { listingId: 1, reporterId: 1, status: 1 },
     { unique: true, partialFilterExpression: { status: 'open' } }
   );
+}
+
+async function cleanupExpiredMessages() {
+  if (!messagesCollection || !conversationsCollection || !notificationsCollection) return;
+
+  const cutoff = new Date(Date.now() - MESSAGE_RETENTION_MS);
+  const cutoffIso = cutoff.toISOString();
+
+  await messagesCollection.deleteMany({
+    $or: [
+      { createdAt: { $lt: cutoffIso } },
+      { expiresAt: { $lte: new Date() } }
+    ]
+  });
+
+  await notificationsCollection.deleteMany({
+    type: 'message',
+    createdAt: { $lt: cutoffIso }
+  });
+
+  const activeConversationIds = await messagesCollection.distinct('conversationId');
+  await conversationsCollection.deleteMany({
+    updatedAt: { $lt: cutoffIso },
+    id: { $nin: activeConversationIds }
+  });
 }
 
 /**
@@ -2372,6 +2399,7 @@ const server = http.createServer(async (req, res) => {
       if (!userId) {
         return sendJson(res, 400, { error: 'userId is required.' });
       }
+      await cleanupExpiredMessages();
 
       const conversations = await conversationsCollection
         .find({ participantIds: userId })
@@ -2464,6 +2492,7 @@ const server = http.createServer(async (req, res) => {
     if (pathname.match(/^\/api\/messages\/conversations\/[^/]+\/messages$/) && req.method === 'GET') {
       const conversationId = pathname.split('/')[4];
       const userId = getUserId(req, url);
+      await cleanupExpiredMessages();
       const conversation = await conversationsCollection.findOne({ id: conversationId });
       if (!conversation) {
         return sendJson(res, 404, { error: 'Conversation not found.' });
@@ -2531,7 +2560,8 @@ const server = http.createServer(async (req, res) => {
         senderName: user.name || user.firstName || 'You',
         text: messageText,
         type: 'sent',
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + MESSAGE_RETENTION_MS)
       };
 
       await messagesCollection.insertOne(message);
@@ -2631,6 +2661,7 @@ async function startServer() {
     reportsCollection = db.collection('reports');
 
     await ensureIndexes();
+    await cleanupExpiredMessages();
     await ensureSeedData();
 
     console.log('✅ MongoDB connected');

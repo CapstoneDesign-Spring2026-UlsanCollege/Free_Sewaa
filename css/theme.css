@@ -4617,6 +4617,73 @@ body.light-mode select optgroup{
   color:#272522;
 }
 
+/* Keep the live chat as a balanced app surface while each side scrolls independently. */
+body[data-page="messages"] .messages-layout--app{
+  min-height:0;
+  height:calc(100vh - 132px);
+  max-height:760px;
+  align-items:stretch;
+  padding:24px 0 32px;
+  overflow:hidden;
+}
+
+body[data-page="messages"] .chat-list-panel,
+body[data-page="messages"] .conversation-panel{
+  min-height:0;
+  max-height:100%;
+  overflow:hidden;
+}
+
+body[data-page="messages"] .chat-list-panel{
+  display:grid;
+  grid-template-rows:auto auto minmax(0,1fr);
+}
+
+body[data-page="messages"] .chat-list{
+  min-height:0;
+  overflow:auto;
+  padding-right:6px;
+}
+
+body[data-page="messages"] .conversation-panel{
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto auto;
+}
+
+body[data-page="messages"] .message-thread{
+  min-height:0;
+  height:auto;
+  overflow:auto;
+  align-content:start;
+  padding-right:6px;
+}
+
+body[data-page="messages"] .quick-actions{
+  margin-top:0;
+}
+
+@media (max-width:1100px){
+  body[data-page="messages"] .messages-layout--app{
+    height:auto;
+    max-height:none;
+    overflow:visible;
+  }
+
+  body[data-page="messages"] .chat-list-panel,
+  body[data-page="messages"] .conversation-panel{
+    max-height:none;
+  }
+
+  body[data-page="messages"] .chat-list{
+    max-height:420px;
+  }
+
+  body[data-page="messages"] .message-thread{
+    min-height:360px;
+    max-height:60vh;
+  }
+}
+
 body.light-mode{
   --bg:#fbf7ef;
   --bg-2:#f3eadb;
