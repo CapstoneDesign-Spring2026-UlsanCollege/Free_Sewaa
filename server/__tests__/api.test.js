@@ -98,6 +98,38 @@ describe('Auth validation', () => {
     });
     expect([400, 0]).toContain(res.status);
   });
+
+  it('rejects signin without email', async () => {
+    const res = await request('POST', '/api/auth/signin', {
+      password: 'Password1',
+    });
+    expect([400, 0]).toContain(res.status);
+    if (res.status === 400) {
+      expect(res.body.error).toBe('Email address is required.');
+    }
+  });
+
+  it('rejects signin with missing password', async () => {
+    const res = await request('POST', '/api/auth/signin', {
+      email: 'pathakram09555@gmail.com',
+    });
+    expect([401, 0]).toContain(res.status);
+    if (res.status === 401) {
+      expect(res.body.error).toBe('Invalid credentials.');
+    }
+  });
+
+  it('rejects signin with invalid credentials', async () => {
+    const res = await request('POST', '/api/auth/signin', {
+      email: 'pathakram09555@gmail.com',
+      password: 'wrong-password',
+    });
+    expect([401, 0]).toContain(res.status);
+    if (res.status === 401) {
+      expect(res.body.error).toBe('Invalid credentials.');
+      expect(res.body.auth).toBeUndefined();
+    }
+  });
 });
 
 describe('Listing reports and admin moderation', () => {
