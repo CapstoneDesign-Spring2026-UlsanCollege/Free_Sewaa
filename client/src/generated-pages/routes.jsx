@@ -263,7 +263,7 @@ export const pageRoutes = {
         },
         {
           "rel": "stylesheet",
-          "href": "/css/theme.css?v=20260527-browse"
+          "href": "/css/theme.css?v=20260616-browse-card"
         }
       ],
       "scripts": [
