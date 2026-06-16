@@ -31,7 +31,7 @@
 | [Future Enhancements](FUTURE_ENHANCEMENTS.md) | Planned improvements and next steps |
 | [Risk Management](RISK_MANAGEMENT.md) | Project risks and mitigation strategies |
 | [Maintenance Plan](MAINTENANCE_PLAN.md) | Post-release maintenance strategy |
-| [Architecture Decisions](adr/001-technology-stack.md) | ADR log for technology choices |
+| [Architecture Decisions](adr/) | ADR log for technology, auth, and data choices |
 
 ---
 
