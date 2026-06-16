@@ -106,7 +106,7 @@ body.light-mode .nav-link.active{background:rgba(42,32,23,.08); color:var(--text
   justify-content:center;
   border-radius:999px;
   gap:8px;
-  overflow:hidden;
+  overflow:visible;
   white-space:nowrap;
   transition:width .24s ease,background .24s ease,border-color .24s ease,color .24s ease,transform .24s ease;
 }
@@ -177,21 +177,31 @@ body.light-mode .icon-link:hover, body.light-mode .active-link{
   content:""; position:absolute; right:-2px; top:-2px; width:5px; height:5px; border-radius:50%; background:#ff6b6b;
 }
 .message-count-badge{
+  position:absolute;
+  top:2px;
+  right:1px;
+  z-index:3;
   min-width:19px;
   height:19px;
-  padding:0 6px;
+  padding:0 5px;
   border-radius:999px;
   display:inline-grid;
   place-items:center;
-  background:linear-gradient(180deg,var(--bronze),var(--cream));
-  color:#24180f;
-  font-size:.72rem;
+  background:#ff3040;
+  color:#fff;
+  border:2px solid color-mix(in srgb, var(--bg) 96%, transparent);
+  box-shadow:0 2px 8px rgba(255,48,64,.30);
+  font-size:.68rem;
   font-weight:800;
   line-height:1;
 }
 .message-count-badge[hidden]{display:none}
+.icon-link.has-nav-icon:hover .message-count-badge,
+.icon-link.has-nav-icon:focus-visible .message-count-badge{
+  right:8px;
+}
 .icon-link.has-unread-messages{
-  border-color:rgba(185,140,90,.28);
+  border-color:transparent;
 }
 .icon-gear{font-size:14px; line-height:1}
 .settings-dropdown{position:relative}
