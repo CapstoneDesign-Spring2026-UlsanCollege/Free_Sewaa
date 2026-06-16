@@ -236,7 +236,7 @@ export const pageRoutes = {
         },
         {
           "rel": "stylesheet",
-          "href": "/css/auth.css?v=20260616-video"
+          "href": "/css/auth.css?v=20260616-videoonly"
         }
       ],
       "scripts": []
@@ -1043,7 +1043,7 @@ export const pageRoutes = {
         },
         {
           "rel": "stylesheet",
-          "href": "/css/auth.css?v=20260616-video"
+          "href": "/css/auth.css?v=20260616-videoonly"
         }
       ],
       "scripts": []

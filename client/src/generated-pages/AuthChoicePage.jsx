@@ -21,19 +21,6 @@ export default function AuthChoicePage() {
               <img src="/assets/free-sewaa-logo.svg" alt="" />
             </div>
           </div>
-          <div className="portal-brand-panel">
-            <div className="portal-brand-panel__image">
-              <img className="portal-brand-panel__logo" src="/assets/free-sewaa-logo.svg" alt="Free Sewaa" />
-            </div>
-            <h1>Welcome back</h1>
-            <p>Share freely. Help locally. Give what you can, find what you need.</p>
-            <div className="portal-brand-panel__dots" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-              <span />
-            </div>
-          </div>
         </section>
         <section className="auth-card portal-card">
           <div className="portal-signin-head">
