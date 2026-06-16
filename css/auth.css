@@ -1123,8 +1123,9 @@ body{
 .portal-page .auth-overlay{
   z-index:1;
   background:
-    linear-gradient(90deg,rgba(255,255,255,.42),rgba(255,255,255,.24) 45%,rgba(255,250,244,.68)),
-    linear-gradient(180deg,rgba(251,247,239,.16),rgba(251,247,239,.58));
+    linear-gradient(90deg,rgba(5,7,8,.16),rgba(255,255,255,.18) 48%,rgba(255,255,255,.28)),
+    linear-gradient(180deg,rgba(5,7,8,.08),rgba(255,255,255,.30));
+  pointer-events:none;
 }
 
 .portal-page .portal-shell{
@@ -1176,7 +1177,7 @@ body{
   min-width:100vh;
   min-height:100vw;
   object-fit:cover;
-  transform:translate(-50%,-50%) rotate(90deg);
+  transform:translate(-50%,-50%) rotate(-90deg);
   transform-origin:center;
   opacity:1;
   mix-blend-mode:normal;
@@ -1278,21 +1279,21 @@ body{
   gap:28px;
   padding:clamp(42px,6vw,96px);
   border-radius:0;
-  background:rgba(255,255,255,.84);
+  background:transparent;
   border:0;
   box-shadow:none;
-  overflow:hidden;
-  backdrop-filter:blur(12px) saturate(118%);
+  overflow:visible;
+  backdrop-filter:none;
 }
 
 .portal-page .portal-card::before{
   content:"";
   position:absolute;
-  top:0;
-  bottom:0;
-  left:0;
-  width:1px;
-  background:linear-gradient(180deg,transparent,rgba(39,37,34,.08),transparent);
+  inset:0;
+  z-index:-1;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.08),rgba(255,255,255,.62));
+  pointer-events:none;
 }
 
 .portal-signin-head{
@@ -1300,6 +1301,13 @@ body{
   justify-items:center;
   gap:12px;
   text-align:center;
+  width:min(490px,100%);
+  padding:clamp(24px,4vw,42px);
+  border-radius:8px;
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(255,255,255,.48);
+  box-shadow:0 24px 70px rgba(20,28,34,.16);
+  backdrop-filter:blur(16px) saturate(122%);
 }
 
 .portal-signin-head img{
@@ -1318,11 +1326,9 @@ body{
   gap:10px;
   color:#272522;
   border-radius:8px;
-  background:
-    linear-gradient(135deg,rgba(164,203,187,.18),rgba(255,250,244,.88)),
-    #fffdf8;
+  background:rgba(255,255,255,.60);
   border:1px solid rgba(39,37,34,.08);
-  box-shadow:0 20px 48px rgba(55,45,30,.09);
+  box-shadow:0 16px 36px rgba(20,28,34,.08);
 }
 
 .portal-quote p{
@@ -1362,6 +1368,12 @@ body{
   width:min(320px,100%);
   justify-self:center;
   margin-top:6px;
+  padding:18px 22px;
+  border-radius:8px;
+  background:rgba(255,255,255,.70);
+  border:1px solid rgba(255,255,255,.46);
+  box-shadow:0 18px 48px rgba(20,28,34,.13);
+  backdrop-filter:blur(14px) saturate(118%);
 }
 
 .portal-page .portal-option{
@@ -1435,6 +1447,9 @@ body{
 
 .portal-page .portal-footer-links{
   margin:0;
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,.64);
   text-align:center;
   display:flex;
   align-items:center;
