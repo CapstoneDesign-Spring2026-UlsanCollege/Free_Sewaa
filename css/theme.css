@@ -228,6 +228,96 @@ body.light-mode .settings-menu a:hover, body.light-mode .settings-button:hover{
   background:rgba(42,32,23,.08);
   color:var(--text);
 }
+.language-selector{
+  position:relative;
+}
+.language-selector summary{
+  width:82px;
+  height:44px;
+  padding:0 12px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:1px solid transparent;
+  border-radius:999px;
+  color:var(--muted);
+  cursor:pointer;
+  list-style:none;
+  transition:background .22s ease,color .22s ease,border-color .22s ease;
+}
+.language-selector summary::-webkit-details-marker{display:none}
+.language-selector summary:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
+.language-selector[open] summary,
+.language-selector summary:hover{
+  color:var(--text);
+  background:rgba(42,32,23,.06);
+  border-color:rgba(42,32,23,.12);
+}
+.language-selector__icon{
+  width:17px;
+  height:17px;
+  flex:0 0 auto;
+}
+.language-selector__code{
+  font-size:.82rem;
+  font-weight:900;
+  letter-spacing:.02em;
+}
+.language-selector__chevron{
+  width:8px;
+  height:8px;
+  border-right:2px solid currentColor;
+  border-bottom:2px solid currentColor;
+  transform:rotate(45deg) translate(-1px,-1px);
+  transition:transform .18s ease;
+}
+.language-selector[open] .language-selector__chevron{transform:rotate(225deg) translate(-1px,-1px)}
+.language-selector__menu{
+  position:absolute;
+  right:0;
+  top:calc(100% + 10px);
+  z-index:80;
+  min-width:230px;
+  padding:8px;
+  display:grid;
+  gap:2px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:color-mix(in srgb, var(--panel) 96%, transparent);
+  box-shadow:var(--shadow);
+}
+.language-selector__option{
+  width:100%;
+  min-height:42px;
+  padding:8px 10px;
+  display:grid;
+  grid-template-columns:16px 34px minmax(0,1fr);
+  align-items:center;
+  gap:10px;
+  border:0;
+  border-radius:8px;
+  background:transparent;
+  color:var(--muted);
+  cursor:pointer;
+  text-align:left;
+}
+.language-selector__option:hover,
+.language-selector__option.is-active{
+  color:var(--text);
+  background:rgba(42,32,23,.07);
+}
+.language-selector__check{
+  opacity:0;
+  color:#2f7773;
+  font-weight:900;
+}
+.language-selector__option.is-active .language-selector__check{opacity:1}
+.language-selector__flag{
+  font-size:.72rem;
+  font-weight:900;
+  color:var(--soft);
+}
 .btn{
   display:inline-flex; align-items:center; justify-content:center;
   padding:12px 18px; border-radius:16px; font-weight:600;

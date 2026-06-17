@@ -423,6 +423,7 @@
       try {
         appState = normalizeState(JSON.parse(event.newValue));
         enhanceMenus();
+        enhanceLanguageSelectors();
         enhanceNavIcons();
         updateMessageNavStatus();
         initCurrentPage();
@@ -2705,6 +2706,37 @@
     });
   }
 
+  function enhanceLanguageSelectors() {
+    document.querySelectorAll('.header-actions').forEach(actions => {
+      if (actions.querySelector('.language-selector')) return;
+
+      const settings = actions.querySelector('.settings-dropdown');
+      const selector = document.createElement('details');
+      selector.className = 'language-selector';
+      selector.innerHTML = `
+        <summary aria-label="Choose language">
+          <svg class="language-selector__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M3 12h18M12 3c2.3 2.5 3.4 5.5 3.4 9s-1.1 6.5-3.4 9M12 3c-2.3 2.5-3.4 5.5-3.4 9s1.1 6.5 3.4 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+          <span class="language-selector__code">EN</span>
+          <span class="language-selector__chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="language-selector__menu" role="menu">
+          <button class="language-selector__option is-active" type="button" data-lang="en" data-code="EN" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">EN</span><span>English</span></button>
+          <button class="language-selector__option" type="button" data-lang="ko" data-code="KO" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">KO</span><span>Korean</span></button>
+          <button class="language-selector__option" type="button" data-lang="ne" data-code="NE" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">NE</span><span>Nepali</span></button>
+          <button class="language-selector__option" type="button" data-lang="hi" data-code="HI" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">HI</span><span>Hindi</span></button>
+          <button class="language-selector__option" type="button" data-lang="vi" data-code="VI" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">VI</span><span>Vietnamese</span></button>
+          <button class="language-selector__option" type="button" data-lang="fil" data-code="FIL" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">FIL</span><span>Filipino</span></button>
+        </div>
+      `;
+
+      actions.insertBefore(selector, settings || actions.lastElementChild);
+    });
+    window.dispatchEvent(new Event('freesewaa-language-controls-ready'));
+  }
+
   function setFormStatus(element, message, tone = 'default') {
     if (!element) return;
     element.textContent = message;
@@ -3392,6 +3424,7 @@
     if (!isAuthenticated()) {
       if (isPublicPage) {
         enhancePublicActions();
+        enhanceLanguageSelectors();
         enhanceNavIcons();
         initCurrentPage();
         return;
@@ -3415,6 +3448,7 @@
     initChatbotWidget();
     enhanceMenus();
     enhancePublicActions();
+    enhanceLanguageSelectors();
     enhanceNavIcons();
     initCurrentPage();
   }
