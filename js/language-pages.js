@@ -1,6 +1,114 @@
 (function () {
   const LANGUAGE_KEY = 'freesewaa-language';
 
+  const commonText = {
+    ko: {
+      Home: '홈',
+      'About Us': '소개',
+      Donate: '기부',
+      Browse: '찾기',
+      Events: '행사',
+      'Donate Us': '후원',
+      Notifications: '알림',
+      Messages: '메시지',
+      Settings: '설정',
+      'My Posts': '내 게시물',
+      'Track Your Request': '요청 확인',
+      'Free Services': '무료 서비스',
+      'Personal Information': '개인 정보',
+      'Edit Profile': '프로필 수정',
+      'Change Region': '지역 변경',
+      'Saved Items': '저장한 항목',
+      'My Requests': '내 요청',
+      'Toggle Dark Mode': '다크 모드 전환',
+      Logout: '로그아웃'
+    },
+    ne: {
+      Home: 'गृह',
+      'About Us': 'हाम्रो बारेमा',
+      Donate: 'दान',
+      Browse: 'खोज्नुहोस्',
+      Events: 'कार्यक्रम',
+      'Donate Us': 'हामीलाई सहयोग',
+      Notifications: 'सूचना',
+      Messages: 'सन्देश',
+      Settings: 'सेटिङ',
+      'My Posts': 'मेरा पोस्ट',
+      'Track Your Request': 'अनुरोध हेर्नुहोस्',
+      'Free Services': 'निःशुल्क सेवा',
+      'Personal Information': 'व्यक्तिगत जानकारी',
+      'Edit Profile': 'प्रोफाइल सम्पादन',
+      'Change Region': 'क्षेत्र बदल्नुहोस्',
+      'Saved Items': 'सुरक्षित सामान',
+      'My Requests': 'मेरा अनुरोध',
+      'Toggle Dark Mode': 'डार्क मोड बदल्नुहोस्',
+      Logout: 'लगआउट'
+    },
+    hi: {
+      Home: 'होम',
+      'About Us': 'हमारे बारे में',
+      Donate: 'दान करें',
+      Browse: 'ब्राउज़',
+      Events: 'कार्यक्रम',
+      'Donate Us': 'हमें सहयोग दें',
+      Notifications: 'सूचनाएं',
+      Messages: 'संदेश',
+      Settings: 'सेटिंग्स',
+      'My Posts': 'मेरी पोस्ट',
+      'Track Your Request': 'अनुरोध ट्रैक करें',
+      'Free Services': 'निःशुल्क सेवाएं',
+      'Personal Information': 'व्यक्तिगत जानकारी',
+      'Edit Profile': 'प्रोफाइल संपादित करें',
+      'Change Region': 'क्षेत्र बदलें',
+      'Saved Items': 'सेव किए गए आइटम',
+      'My Requests': 'मेरे अनुरोध',
+      'Toggle Dark Mode': 'डार्क मोड बदलें',
+      Logout: 'लॉगआउट'
+    },
+    vi: {
+      Home: 'Trang chủ',
+      'About Us': 'Giới thiệu',
+      Donate: 'Quyên góp',
+      Browse: 'Tìm kiếm',
+      Events: 'Sự kiện',
+      'Donate Us': 'Ủng hộ',
+      Notifications: 'Thông báo',
+      Messages: 'Tin nhắn',
+      Settings: 'Cài đặt',
+      'My Posts': 'Bài đăng của tôi',
+      'Track Your Request': 'Theo dõi yêu cầu',
+      'Free Services': 'Dịch vụ miễn phí',
+      'Personal Information': 'Thông tin cá nhân',
+      'Edit Profile': 'Sửa hồ sơ',
+      'Change Region': 'Đổi khu vực',
+      'Saved Items': 'Mục đã lưu',
+      'My Requests': 'Yêu cầu của tôi',
+      'Toggle Dark Mode': 'Đổi chế độ tối',
+      Logout: 'Đăng xuất'
+    },
+    fil: {
+      Home: 'Home',
+      'About Us': 'Tungkol Sa Amin',
+      Donate: 'Mag-donate',
+      Browse: 'Maghanap',
+      Events: 'Events',
+      'Donate Us': 'Suportahan Kami',
+      Notifications: 'Notifications',
+      Messages: 'Messages',
+      Settings: 'Settings',
+      'My Posts': 'Aking Posts',
+      'Track Your Request': 'I-track ang Request',
+      'Free Services': 'Free Services',
+      'Personal Information': 'Personal na Impormasyon',
+      'Edit Profile': 'I-edit ang Profile',
+      'Change Region': 'Palitan ang Rehiyon',
+      'Saved Items': 'Saved Items',
+      'My Requests': 'Aking Requests',
+      'Toggle Dark Mode': 'Palitan ang Dark Mode',
+      Logout: 'Logout'
+    }
+  };
+
   const pageText = {
     ne: {
       'CREATE A LISTING': 'सूची बनाउनुहोस्',
@@ -115,7 +223,7 @@
   }
 
   function translateTextNodes(lang) {
-    const dictionary = pageText[lang] || {};
+    const dictionary = { ...(commonText[lang] || {}), ...(pageText[lang] || {}) };
     const selector = 'a,button,span,p,h1,h2,h3,strong,label,option,.mini-label,.eyebrow,.stat-label,.section-title,.page-title';
 
     document.querySelectorAll(selector).forEach((element) => {
@@ -139,7 +247,7 @@
   }
 
   function translatePlaceholders(lang) {
-    const dictionary = pageText[lang] || {};
+    const dictionary = { ...(commonText[lang] || {}), ...(pageText[lang] || {}) };
 
     document.querySelectorAll('input[placeholder], textarea[placeholder]').forEach((element) => {
       const key = rememberPlaceholder(element);
@@ -171,31 +279,60 @@
 
   function applyPageLanguage() {
     const lang = selectedLanguage();
-    const hasPageDictionary = Boolean(pageText[lang]);
+    const hasPageDictionary = Boolean(pageText[lang] || commonText[lang]);
     const hasRememberedText = Boolean(document.querySelector('[data-page-i18n-key], [data-page-i18n-placeholder]'));
 
     if (!hasPageDictionary && (lang !== 'en' || !hasRememberedText)) return;
 
+    document.documentElement.lang = lang;
     translateTextNodes(lang);
     translatePlaceholders(lang);
     translateDynamicScore(lang);
   }
 
+  function updateLanguageSelectors(lang = selectedLanguage()) {
+    document.querySelectorAll('.language-selector').forEach((selector) => {
+      const options = Array.from(selector.querySelectorAll('.language-selector__option'));
+      const active = options.find((option) => option.dataset.lang === lang) || options.find((option) => option.dataset.lang === 'en');
+      const code = selector.querySelector('.language-selector__code');
+
+      options.forEach((option) => {
+        option.classList.toggle('is-active', option === active);
+        option.setAttribute('aria-pressed', option === active ? 'true' : 'false');
+      });
+
+      if (code && active) code.textContent = active.dataset.code || 'EN';
+    });
+  }
+
+  function setLanguage(lang) {
+    localStorage.setItem(LANGUAGE_KEY, lang);
+    updateLanguageSelectors(lang);
+    applyPageLanguage();
+    window.dispatchEvent(new CustomEvent('freesewaa-language-change', { detail: { lang } }));
+  }
+
   function scheduleApply() {
     [0, 80, 250, 700, 1400].forEach((delay) => {
-      window.setTimeout(applyPageLanguage, delay);
+      window.setTimeout(() => {
+        updateLanguageSelectors();
+        applyPageLanguage();
+      }, delay);
     });
   }
 
   document.addEventListener('click', (event) => {
-    if (event.target.closest('.language-selector__option')) {
-      scheduleApply();
-    }
+    const option = event.target.closest('.language-selector__option');
+    if (!option) return;
+    setLanguage(option.dataset.lang || 'en');
+    option.closest('.language-selector')?.removeAttribute('open');
   });
 
   document.addEventListener('input', () => {
     if (selectedLanguage() !== 'en') scheduleApply();
   });
+
+  window.addEventListener('freesewaa-language-controls-ready', scheduleApply);
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', scheduleApply);
