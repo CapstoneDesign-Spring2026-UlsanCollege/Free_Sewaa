@@ -1,3 +1,11 @@
+(function loadLanguageSupport() {
+  if (document.querySelector('script[src*="language-pages.js"]')) return;
+  const script = document.createElement('script');
+  script.src = '/js/language-pages.js';
+  script.defer = true;
+  (document.body || document.documentElement).appendChild(script);
+})();
+
 document.querySelectorAll('.auth-toggle').forEach(toggle => {
   const buttons = [...toggle.querySelectorAll('.toggle-btn')];
   const card = toggle.closest('.auth-card');

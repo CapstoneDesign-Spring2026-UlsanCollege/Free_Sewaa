@@ -1,5 +1,13 @@
 const FALLBACK = "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=70";
 
+(function loadLanguageSupport() {
+  if (document.querySelector('script[src*="language-pages.js"]')) return;
+  const script = document.createElement('script');
+  script.src = '/js/language-pages.js';
+  script.defer = true;
+  (document.body || document.documentElement).appendChild(script);
+})();
+
 const loader = document.getElementById('loader');
 window.addEventListener('load', () => {
   setTimeout(() => loader.classList.add('is-hidden'), 850);

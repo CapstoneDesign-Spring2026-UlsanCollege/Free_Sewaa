@@ -1,5 +1,58 @@
 (function () {
   const LANGUAGE_KEY = 'freesewaa-language';
+  const SELECTOR_HTML = `
+    <details class="language-selector">
+      <summary aria-label="Choose language">
+        <svg class="language-selector__icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle>
+          <path d="M3 12h18M12 3c2.3 2.5 3.4 5.5 3.4 9s-1.1 6.5-3.4 9M12 3c-2.3 2.5-3.4 5.5-3.4 9s1.1 6.5 3.4 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        </svg>
+        <span class="language-selector__code">EN</span>
+        <span class="language-selector__chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="language-selector__menu" role="menu">
+        <button class="language-selector__option is-active" type="button" data-lang="en" data-code="EN" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">EN</span><span>English</span></button>
+        <button class="language-selector__option" type="button" data-lang="ko" data-code="KO" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">KO</span><span>Korean</span></button>
+        <button class="language-selector__option" type="button" data-lang="ne" data-code="NE" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">NE</span><span>Nepali</span></button>
+        <button class="language-selector__option" type="button" data-lang="hi" data-code="HI" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">HI</span><span>Hindi</span></button>
+        <button class="language-selector__option" type="button" data-lang="vi" data-code="VI" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">VI</span><span>Vietnamese</span></button>
+        <button class="language-selector__option" type="button" data-lang="fil" data-code="FIL" role="menuitem"><span class="language-selector__check">✓</span><span class="language-selector__flag">FIL</span><span>Filipino</span></button>
+      </div>
+    </details>
+  `;
+
+  function injectLanguageStyle() {
+    if (document.getElementById('freesewaa-language-style')) return;
+    const style = document.createElement('style');
+    style.id = 'freesewaa-language-style';
+    style.textContent = `
+      .language-selector{position:relative;display:inline-flex;align-items:center}
+      .language-selector summary{width:82px;min-height:42px;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid rgba(39,37,34,.12);border-radius:999px;color:inherit;background:rgba(255,255,255,.42);cursor:pointer;list-style:none}
+      .language-selector summary::-webkit-details-marker{display:none}
+      .language-selector__icon{width:17px;height:17px;flex:0 0 auto}
+      .language-selector__code{font-size:.82rem;font-weight:900;letter-spacing:.02em}
+      .language-selector__chevron{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(-1px,-1px)}
+      .language-selector[open] .language-selector__chevron{transform:rotate(225deg) translate(-1px,-1px)}
+      .language-selector__menu{position:absolute;right:0;top:calc(100% + 10px);z-index:999;min-width:230px;padding:8px;display:grid;gap:2px;border:1px solid rgba(39,37,34,.12);border-radius:8px;background:#fffdf8;color:#272522;box-shadow:0 24px 70px rgba(55,45,30,.18)}
+      .language-selector__option{width:100%;min-height:42px;padding:8px 10px;display:grid;grid-template-columns:16px 34px minmax(0,1fr);align-items:center;gap:10px;border:0;border-radius:8px;background:transparent;color:rgba(39,37,34,.70);cursor:pointer;text-align:left}
+      .language-selector__option:hover,.language-selector__option.is-active{color:#272522;background:rgba(42,32,23,.07)}
+      .language-selector__check{opacity:0;color:#2f7773;font-weight:900}.language-selector__option.is-active .language-selector__check{opacity:1}
+      .language-selector__flag{font-size:.72rem;font-weight:900;color:rgba(39,37,34,.48)}
+    `;
+    document.head.appendChild(style);
+  }
+
+  function ensureLanguageSelectors() {
+    injectLanguageStyle();
+    document.querySelectorAll('.header-actions, .header__actions, .auth-header__actions, .admin-v2-topnav__actions').forEach((actions) => {
+      if (actions.querySelector('.language-selector')) return;
+      const wrapper = document.createElement('span');
+      wrapper.innerHTML = SELECTOR_HTML.trim();
+      const selector = wrapper.firstElementChild;
+      const settings = actions.querySelector('.settings-dropdown');
+      actions.insertBefore(selector, settings || actions.lastElementChild);
+    });
+  }
 
   const commonText = {
     ko: {
@@ -307,6 +360,7 @@
 
   function setLanguage(lang) {
     localStorage.setItem(LANGUAGE_KEY, lang);
+    ensureLanguageSelectors();
     updateLanguageSelectors(lang);
     applyPageLanguage();
     window.dispatchEvent(new CustomEvent('freesewaa-language-change', { detail: { lang } }));
@@ -315,6 +369,7 @@
   function scheduleApply() {
     [0, 80, 250, 700, 1400].forEach((delay) => {
       window.setTimeout(() => {
+        ensureLanguageSelectors();
         updateLanguageSelectors();
         applyPageLanguage();
       }, delay);
