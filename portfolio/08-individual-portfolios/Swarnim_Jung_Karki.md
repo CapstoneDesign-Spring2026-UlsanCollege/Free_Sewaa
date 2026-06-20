@@ -19,6 +19,24 @@ and authorization boundaries.
 > team revisions, teammate-authored work, or production readiness beyond what
 > the evidence demonstrates.
 
+## Professor Quick Review
+
+If this page is being graded quickly, my strongest individual evidence is the
+combination of **backend architecture**, **Firebase identity integration**,
+**API wiring**, **tests/CI**, and **final evidence organization**.
+
+| Review area | What to check first |
+| --- | --- |
+| Full-stack role | [Initial backend PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61), [API integration commit `cfc466f`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b) |
+| Main final technical contribution | [Firebase Google/email/phone commit `14d2338`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/14d23389686a056bf8fcbdc72d0fcd46587c6e7f), [authentication documentation](../../docs/AUTHENTICATION.md) |
+| Verification evidence | [Firebase CI run](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions/runs/27520993789), [final screenshot CI run](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions/runs/27533493046) |
+| Final product proof | [Live Render MVP](https://free-sewaa-qh05.onrender.com), [final release](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/releases/tag/v1.0.0-final-capstone), [final screenshots](../../docs/assets/screenshots/README.md) |
+| Presentation readiness | [Final presentation materials](../07-final-presentation/README.md), [technical defense prep](../07-final-presentation/TECHNICAL_DEFENSE_PREP.md) |
+
+My page is strongest when read as a connected technical story: I helped move
+Free Sewaa from early static pages toward a defensible full-stack MVP, then
+documented the evidence needed for another person to verify that work.
+
 ## 1. My Role
 
 **Primary role:** Full-stack architecture and integration
@@ -45,11 +63,12 @@ configuration, and final technical explanation.
 | Contribution | What I delivered | Verifiable evidence |
 | --- | --- | --- |
 | Initial backend architecture | A structured Express/MongoDB baseline with models, controllers, routes, middleware, configuration, and a server entry point | [PR #61](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/pull/61), [`585cc74`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/585cc7409c1de455d87771ccd1efde09bb872a9b) |
-| Frontend/API integration | An API helper and browser-to-server connections for signup, browse, donate, and shared behavior | [`cfc466f`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b), [Issue #65](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/65) |
+| Frontend/API integration | An API helper and browser-to-server connections for signup, browse, donate, and shared behavior | [`cfc466f`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/cfc466fc0496f4f2da16d7eb15a7892ce0253c9b), [Final MVP demo](../04-final-product/FINAL_MVP_DEMO.md) |
 | Firebase identity integration | Google Sign-In, email links, phone OTP, backend ID-token verification, and MongoDB profile synchronization | [`14d2338`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/14d23389686a056bf8fcbdc72d0fcd46587c6e7f), [authentication documentation](../../docs/AUTHENTICATION.md) |
 | Korean phone verification | `010` to `+82` normalization, validation, Firebase test-number support, and useful billing/quota errors | [`badb636`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/badb6369aaee0b2ad53fa7cb61bfda2c2bfec6a7), [`de8fb78`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/de8fb781b5fdf156e5a47ce42438114e49a3a33c) |
 | Testing and CI | Focused API tests, Firebase configuration and malformed-token checks, and successful GitHub Actions runs | [`a8dd0cc`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a8dd0ccf01e37809ae07f5977978bfaba97216d6), [Firebase CI run](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/actions/runs/27520993789) |
 | UML and final evidence | Clearer user-flow diagrams, portfolio audit material, and privacy-conscious final MVP screenshots | [UML documentation](../../docs/Project_UML%20diagram/README.md), [`a80a0c3`](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/commit/a80a0c3451640051f2ce4f3f9d6dd6935b913367) |
+| Final grading package | Public release, presentation links, screenshots, and closure evidence for fast professor review | [final release](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/releases/tag/v1.0.0-final-capstone), [presentation materials](../07-final-presentation/README.md), [final audit](../FINAL_PORTFOLIO_AUDIT.md) |
 
 ### Contribution 1: Backend Foundation
 
@@ -269,11 +288,22 @@ provide direct execution evidence.
    Public visual evidence for authentication, the member workspace, messaging,
    browse, donation, events, and the landing page.
 
-## 8. Honest Limitations and Deferred Work
+## 8. Defense Questions I Can Answer
 
-- [Issue #95](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/issues/95)
-  is closed as **not planned** for the final capstone; centralized validation
-  was deferred, not implemented by closing the issue.
+| Question | My answer should prove |
+| --- | --- |
+| How does Firebase login become a Free Sewaa login? | Firebase verifies identity first; the browser sends an ID token to `/api/auth/firebase`; the backend verifies the token and synchronizes the MongoDB user before returning app session data. |
+| Why is backend token verification necessary? | Browser profile data alone is not trusted; the backend checks issuer, audience, expiry, signing key, signature, and provider claims. |
+| What did I contribute to the backend? | I built the initial Express/MongoDB architecture and later contributed Firebase token exchange and user synchronization evidence. I do not claim sole ownership of the final shared server. |
+| How is Korean phone OTP handled? | Local `010` mobile input is normalized to `+82`, invalid mobile formats are rejected, Firebase test numbers support free demos, and real SMS is documented as quota/billing dependent. |
+| How is admin access separated from public authentication? | Google, email, or phone identity can create a member account, but admin access still depends on configured admin authorization rather than public provider login. |
+| What remains deferred after capstone? | Centralized validation, full local-password retirement or hardening, rate limiting, broader E2E tests, monitoring, and production SMS/email reliability. |
+
+## 9. Honest Limitations and Deferred Work
+
+- Issue #95 is recorded in the [final portfolio audit](../FINAL_PORTFOLIO_AUDIT.md)
+  as closed **not planned** for the final capstone; centralized validation was
+  deferred, not implemented by closing the issue.
 - Firebase test-number OTP is repeatable, but real SMS remains dependent on
   billing, quota, regional policy, and abuse controls.
 - The automated suite covers selected API and Firebase configuration behavior,
@@ -288,7 +318,7 @@ These limitations strengthen the credibility of my portfolio because they show
 that I understand the difference between an academic MVP and a
 production-hardened service.
 
-## 9. Reflection
+## 10. Reflection
 
 My biggest growth was learning to think in complete system paths. A login
 button is not an authentication feature by itself. The real feature includes a
@@ -327,7 +357,7 @@ contributor:
 - Korean localization and validation;
 - testing and CI;
 - UML and technical explanation; and
-- final evidence and honest risk reporting.
+- final release, presentation, evidence, and honest risk reporting.
 
 The strongest part of my submission is not the number of commits. It is the
 connected technical story those commits prove.
@@ -335,8 +365,10 @@ connected technical story those commits prove.
 ## Navigation
 
 - [Live Free Sewaa MVP](https://free-sewaa-qh05.onrender.com)
+- [Final Capstone Release](https://github.com/CapstoneDesign-Spring2026-UlsanCollege/Free_Sewaa/releases/tag/v1.0.0-final-capstone)
 - [Final MVP Demo Guide](../04-final-product/FINAL_MVP_DEMO.md)
 - [Final Architecture](../04-final-product/ARCHITECTURE_FINAL.md)
+- [Final Presentation Materials](../07-final-presentation/README.md)
 - [Representative contribution evidence](../06-ai-and-code-ownership/representative-prs/README.md)
 - [Back to Individual Portfolios](./README.md)
 - [Back to Portfolio Home](../README.md)
